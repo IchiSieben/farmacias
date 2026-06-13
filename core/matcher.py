@@ -20,7 +20,21 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .modelo import Producto
-from .normalizer import extrae_specs, normaliza_texto, nucleo
+from .normalizer import extrae_specs, extrae_tamano, normaliza_texto, nucleo
+
+# Tolerancia relativa para considerar dos tamaños de envase equivalentes
+# (cubre redondeos: "1600 GR" vs "1.6 KG"). Más allá -> envases distintos.
+_TOL_TAMANO = 0.10
+
+
+def _tamano_incompatible(ta, tb) -> bool:
+    """True si ambos tamaños existen, son de la misma clase y diferen > tolerancia."""
+    if not ta or not tb:
+        return False
+    if ta[1] != tb[1]:          # distinta clase (ml vs g): no comparable -> no bloquea
+        return False
+    mayor = max(ta[0], tb[0]) or 1
+    return abs(ta[0] - tb[0]) / mayor > _TOL_TAMANO
 
 # Umbrales (ANEXO §A): >=85 match, 70–85 revisar a mano, <70 descartar.
 UMBRAL_MATCH = 85.0
@@ -111,6 +125,13 @@ def comparar(a: Producto, b: Producto) -> Resultado:
     if _forma_incompatible(sa.forma, sb.forma):
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"forma incompatible ({sa.forma} ≠ {sb.forma})")
+    # Tamaño de envase: el size suele estar en `presentacion` (InRetail) o en el
+    # nombre (Boticas) -> se combinan ambos para extraerlo.
+    ta = extrae_tamano(f"{a.nombre_origen} {a.presentacion or ''}")
+    tb = extrae_tamano(f"{b.nombre_origen} {b.presentacion or ''}")
+    if _tamano_incompatible(ta, tb):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo=f"envase distinto ({ta[0]:g}{ta[1]} ≠ {tb[0]:g}{tb[1]})")
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)

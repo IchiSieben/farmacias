@@ -72,6 +72,37 @@ def _norm_conc(raw: str) -> str:
     return re.sub(r"\s+", "", raw.lower()).replace(",", ".")
 
 
+# Tamaño de envase: volumen, peso o conteo. Clases comparables entre sí: ml, g, un.
+_UNID_TAMANO = {
+    "ml": ("ml", 1), "l": ("ml", 1000),
+    "g": ("g", 1), "gr": ("g", 1), "kg": ("g", 1000),
+    "un": ("un", 1), "und": ("un", 1), "unid": ("un", 1), "unidades": ("un", 1),
+    "tab": ("un", 1), "tabs": ("un", 1), "tabletas": ("un", 1),
+    "caps": ("un", 1), "capsulas": ("un", 1), "sobre": ("un", 1), "sobres": ("un", 1),
+}
+_RE_TAMANO = re.compile(
+    r"(\d+(?:[.,]\d+)?)\s*(ml|l|kg|gr|g|und|unid|unidades|un|tabs|tabletas|tab|"
+    r"capsulas|caps|sobres|sobre)\b",
+    re.IGNORECASE,
+)
+
+
+def extrae_tamano(texto: Optional[str]) -> Optional[tuple]:
+    """Tamaño de envase como (valor_canónico, clase) -> (220.0, 'ml'), (1600.0, 'g').
+
+    Quita primero la concentración (120mg/5ml) para no confundirla con el envase.
+    Devuelve el ÚLTIMO match (el envase suele ir al final: "Frasco 220 ML").
+    """
+    t = _RE_CONC.sub(" ", normaliza_texto(texto))
+    ultimo = None
+    for m in _RE_TAMANO.finditer(t):
+        unidad = m.group(2).lower()
+        clase, factor = _UNID_TAMANO[unidad]
+        valor = float(m.group(1).replace(",", ".")) * factor
+        ultimo = (valor, clase)
+    return ultimo
+
+
 @dataclass
 class Specs:
     texto_norm: str               # nombre completo normalizado

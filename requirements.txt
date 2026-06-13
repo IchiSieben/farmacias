@@ -3,8 +3,8 @@
 
 httpx>=0.27        # cliente HTTP (Nivel A: APIs JSON)
 pyyaml>=6.0        # config farmacias.yaml / productos_objetivo.yaml
+rapidfuzz>=3.0     # matcher de productos (ANEXO §A, Capa 2 — fuzzy)
 
 # --- previstas para fases siguientes (aún no usadas) ---
-# rapidfuzz>=3.0   # matcher de productos (ANEXO §A, Capa 2)
-# pandas>=2.0      # consolidación / tabla comparativa
-# selectolax>=0.3  # parsing HTML (Nivel B)
+# pandas>=2.0      # analítica / consolidación a Parquet
+# selectolax>=0.3  # parsing HTML (Nivel B — Boticas Perú)

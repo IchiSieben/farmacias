@@ -219,6 +219,21 @@ class AlgoliaInRetailAdapter(AdapterBase):
                 self._sleep()
             primera = False
 
+    # --- traer un producto puntual por objectID (match 1:1) ----------------
+    def get_object(self, object_id: str, *, raw: bool = False) -> Optional[Producto]:
+        """Trae un producto por su objectID (getObject). None si no existe.
+
+        El objectID es la llave InRetail compartida entre Inkafarma y Mifarma,
+        así que el mismo id resuelve el mismo producto en ambas cadenas.
+        """
+        import httpx
+        url = f"{self.host}/1/indexes/{self.index}/{urllib.parse.quote(str(object_id))}"
+        resp = self._client.get(url)
+        if resp.status_code == 404:
+            return None
+        resp.raise_for_status()
+        return self._map_hit(resp.json(), raw=raw)
+
     # --- VÍA 1: búsqueda dirigida ------------------------------------------
     def search(
         self,

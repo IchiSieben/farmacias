@@ -1,0 +1,66 @@
+# productos_objetivo.yaml — Canasta ancla (productos a monitorear)
+#
+# ~30 productos de alta rotación, identificados por `sku` = objectID, que es la
+# LLAVE InRetail compartida entre Inkafarma y Mifarma (mismo id = mismo producto).
+# El pipeline (pipeline/build_comparativa.py) trae cada SKU en ambas cadenas con
+# getObject y compara precios → match 1:1 exacto (Capa 1 del ANEXO, score 100).
+#
+# Cuando se sume Boticas Perú (Salesforce, sin objectID InRetail), el matcher
+# resolverá por specs (principio_activo + concentración + forma) vía fuzzy.
+#
+# Editable: cambia/añade entradas y vuelve a correr el pipeline. Para resolver un
+# producto nuevo a su SKU:  py -m core.adapters.inkafarma buscar "<termino>"
+
+defaults:
+  cadenas: [inkafarma, mifarma]
+
+productos:
+  # --- Analgésicos / antiinflamatorios ---
+  - { sku: "017987", categoria: analgesico,  nombre: "Paracetamol 500mg Tableta" }
+  - { sku: "230341", categoria: analgesico,  nombre: "Ibuprofeno 400mg Tableta Recubierta" }
+  - { sku: "230451", categoria: analgesico,  nombre: "Apronax 550mg Tableta Recubierta" }
+  - { sku: "035314", categoria: analgesico,  nombre: "Dolocordralan 50mg Tableta" }
+
+  # --- Antigripales / respiratorio ---
+  - { sku: "025891", categoria: antigripal,  nombre: "Panadol Antigripal NF Tableta" }
+  - { sku: "428277", categoria: antigripal,  nombre: "Nastizol Junior NF Antigripal" }
+  - { sku: "420207", categoria: antigripal,  nombre: "Bisolvon 8mg/5ml Jarabe Adultos" }
+
+  # --- Alergia ---
+  - { sku: "013075", categoria: alergia,     nombre: "Loratadina 10mg Tableta" }
+  - { sku: "134247", categoria: alergia,     nombre: "Clorfenamina Maleato 2mg/5ml Solución" }
+
+  # --- Gastrointestinal ---
+  - { sku: "003407", categoria: gastro,      nombre: "Sal de Andrews Polvo Efervescente" }
+  - { sku: "425383", categoria: gastro,      nombre: "Omeprazol 20mg Cápsula" }
+  - { sku: "011800", categoria: gastro,      nombre: "Enterogermina Plus 4000 millones" }
+
+  # --- Vitaminas / suplementos ---
+  - { sku: "029588", categoria: vitaminas,   nombre: "Redoxon Total Tableta Efervescente" }
+  - { sku: "072372", categoria: vitaminas,   nombre: "Centrum Comprimido Recubierto" }
+  - { sku: "403147", categoria: vitaminas,   nombre: "Supradyn Pronatal Comprimido" }
+
+  # --- Nutrición ---
+  - { sku: "036849", categoria: nutricion,   nombre: "Ensure Advance Vainilla" }
+  - { sku: "074032", categoria: nutricion,   nombre: "Pediasure Sabor Vainilla" }
+  - { sku: "009570", categoria: nutricion,   nombre: "Magnesol Polvo Efervescente Naranja" }
+
+  # --- Cuidado personal ---
+  - { sku: "030279", categoria: cuidado_personal, nombre: "Crema Dental Colgate Total Anti-sarro" }
+  - { sku: "033742", categoria: cuidado_personal, nombre: "Shampoo Head & Shoulders Control Caspa" }
+  - { sku: "008594", categoria: cuidado_personal, nombre: "Jabón Antibacterial Protex Omega 3" }
+  - { sku: "424773", categoria: cuidado_personal, nombre: "Jabón Dove Cremoso Original" }
+
+  # --- Dermocosmética ---
+  - { sku: "023736", categoria: dermo,       nombre: "Gel Limpiador Espumoso CeraVe" }
+  - { sku: "027434", categoria: dermo,       nombre: "Protector Solar Facial Eucerin Pigment" }
+  - { sku: "002952", categoria: dermo,       nombre: "Fotoprotector Isdin Fusion Fluid" }
+
+  # --- Bebé ---
+  - { sku: "011390", categoria: bebe,        nombre: "Pañales Huggies Natural Care" }
+  - { sku: "033048", categoria: bebe,        nombre: "Toalla Húmeda Babysec Super Premium" }
+  - { sku: "024969", categoria: bebe,        nombre: "Shampoo Johnson's Gotas de Brillo" }
+
+  # --- Cuidado femenino ---
+  - { sku: "029653", categoria: femenino,    nombre: "Toallas Higiénicas Kotex Normal" }
+  - { sku: "025739", categoria: femenino,    nombre: "Toallas Higiénicas Nosotras Invisible" }

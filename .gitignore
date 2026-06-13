@@ -1,0 +1,25 @@
+# Datos crudos cacheados por corrida (no versionar — pueden ser pesados)
+data/raw/
+data/
+
+# Credenciales (Service Account de Google Sheets, etc.)
+*.json.key
+credentials*.json
+service_account*.json
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Playwright
+.playwright/
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

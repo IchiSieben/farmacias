@@ -72,8 +72,9 @@ def diff_snapshots(previo: Optional[dict], actual: dict) -> List[dict]:
         promo_cambio: Dict[str, str] = {}
 
         # SKU nuevo: presente hoy, ausente en el snapshot previo (evento a nivel
-        # producto, una sola fila).
+        # producto, una sola fila). Flag a nivel producto para el badge del web.
         if prev is None:
+            prod["nuevo"] = True
             eventos.append({
                 "tipo_evento": "nuevo", "cadena": "", "producto": prod.get("nombre", ""),
                 "valor_anterior": "", "valor_nuevo": "", "delta_pct": "",

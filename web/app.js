@@ -17,7 +17,11 @@ const state = {
 };
 
 // --- carga ----------------------------------------------------------------
-fetch("data.json")
+// ?demo=1 carga web/data.demo.json (cambios simulados para mostrar ▲▼/badges).
+const params = new URLSearchParams(location.search);
+const DATA_FILE = params.has("demo") ? "data.demo.json" : "data.json";
+
+fetch(DATA_FILE)
   .then((r) => {
     if (!r.ok) throw new Error("HTTP " + r.status);
     return r.json();
@@ -25,13 +29,17 @@ fetch("data.json")
   .then(init)
   .catch((err) => {
     document.getElementById("meta").textContent =
-      "No se pudo cargar data.json (" + err.message +
+      "No se pudo cargar " + DATA_FILE + " (" + err.message +
       "). Si abriste el archivo localmente, sírvelo con un servidor: py -m http.server";
   });
 
 function init(data) {
   state.data = data;
   state.cadenas = data.cadenas; // [{id, nombre}]
+
+  // Banner de demo (cuando el JSON está marcado como tal).
+  const banner = document.getElementById("demo-banner");
+  if (banner && data.demo) banner.hidden = false;
 
   // meta
   const fecha = (data.generado || "").slice(0, 10);
@@ -107,8 +115,10 @@ function filaProducto(p) {
   const tr = document.createElement("tr");
 
   const marca = p.marca ? `<span class="marca">${esc(p.marca)}</span>` : "";
+  // Badge "nuevo": SKU presente hoy y ausente en el snapshot previo.
+  const nuevo = p.nuevo ? ` <span class="nuevo-badge" title="Nuevo en esta captura">nuevo</span>` : "";
 
-  let html = `<td class="prod">${esc(p.nombre)}${marca}</td>` +
+  let html = `<td class="prod">${esc(p.nombre)}${nuevo}${marca}</td>` +
              `<td><span class="cat">${titulo(p.categoria)}</span></td>`;
 
   // Cada celda de precio enlaza a la ficha de ESA cadena (si hay precio y URL).

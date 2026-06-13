@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radar de Precios — Farmacias Perú</title>
+  <meta name="description" content="Comparador de precios de medicamentos entre cadenas de farmacias en Perú.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <h1>📡 Radar de Precios <span>· Farmacias Perú</span></h1>
+      <p class="sub" id="meta">Cargando snapshot…</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="controls">
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar medicamento o producto…  (ej. paracetamol, cerave)"
+               autocomplete="off" spellcheck="false">
+      </div>
+      <div class="filters">
+        <select id="categoria" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+        </select>
+        <label class="toggle">
+          <input type="checkbox" id="solo3"> Solo con las 3 cadenas
+        </label>
+        <button id="descargar" class="btn" type="button">⤓ Descargar JSON</button>
+      </div>
+      <p class="count" id="count"></p>
+    </section>
+
+    <section class="tabla-wrap">
+      <table class="tabla" id="tabla">
+        <thead><tr id="cabecera"></tr></thead>
+        <tbody id="filas"></tbody>
+      </table>
+      <p class="vacio" id="vacio" hidden>Sin resultados. Prueba otro término.</p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="wrap">
+      <p>Verde = precio más bajo · Brecha = diferencia % sobre el más barato · “—” = sin equivalente comparable en esa cadena.</p>
+      <p class="fino">Datos públicos de catálogo, monitoreo de precios. Inkafarma↔Mifarma se emparejan por SKU del grupo InRetail; Boticas Perú por nombre + principio activo + presentación. Proyecto de portafolio.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

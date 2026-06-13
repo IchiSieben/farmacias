@@ -113,14 +113,15 @@ function filaProducto(p) {
 
   // Cada celda de precio enlaza a la ficha de ESA cadena (si hay precio y URL).
   // Sin equivalente ("—") o sin URL conocida -> no es clickeable.
+  // Junto al precio: ▲▼ vs. el snapshot previo + marca de promo (inicia/fin).
   for (const c of state.cadenas) {
     const v = p.precios[c.id];
     const url = p.urls && p.urls[c.id];
     const clases = "precio" + (v == null ? " na" : (p.mas_barato === c.id ? " barato" : ""));
-    const contenido = (v != null && url)
+    const precioTxt = (v != null && url)
       ? `<a class="precio-lnk" href="${esc(url)}" target="_blank" rel="noopener" title="Ver en ${esc(c.nombre)}">${SOLES(v)}</a>`
       : SOLES(v);
-    html += `<td class="${clases}">${contenido}</td>`;
+    html += `<td class="${clases}">${precioTxt}${tendencia(p, c.id)}${promoMarca(p, c.id)}</td>`;
   }
 
   const b = p.brecha_pct;
@@ -130,6 +131,25 @@ function filaProducto(p) {
 
   tr.innerHTML = html;
   return tr;
+}
+
+// Flecha ▲ (subió) / ▼ (bajó) vs. el snapshot previo, con el precio anterior y % en el tooltip.
+function tendencia(p, cadena) {
+  const t = p.tendencia && p.tendencia[cadena];
+  if (!t || (t.dir !== "sube" && t.dir !== "baja")) return "";
+  const flecha = t.dir === "sube" ? "▲" : "▼";
+  const d = t.delta_pct;
+  const pct = d == null ? "" : ` · ${d > 0 ? "+" : ""}${d.toFixed(1)}%`;
+  const titulo = `Antes ${SOLES(t.antes)}${pct}`;
+  return ` <span class="tend tend-${t.dir}" title="${esc(titulo)}">${flecha}</span>`;
+}
+
+// Marca de promo cuando inicia/termina una promoción en esa cadena vs. el snapshot previo.
+function promoMarca(p, cadena) {
+  const pc = p.promo_cambio && p.promo_cambio[cadena];
+  if (pc === "inicia") return ` <span class="promo promo-inicia" title="Nueva promoción">promo</span>`;
+  if (pc === "fin") return ` <span class="promo promo-fin" title="Terminó la promoción">fin promo</span>`;
+  return "";
 }
 
 function esc(s) {

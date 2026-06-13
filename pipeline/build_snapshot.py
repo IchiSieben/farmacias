@@ -33,9 +33,12 @@ from core.adapters.mifarma import MifarmaAdapter
 from core.matcher import comparar
 from core.modelo import Producto
 from core.normalizer import extrae_specs, nucleo
+from pipeline import cambios
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DEFAULT = ROOT / "web" / "data.json"
+SNAP_DIR = ROOT / "data" / "snapshots"          # histórico append-only (ANEXO §C)
+EVENTOS_DIR = ROOT / "data" / "processed"
 
 # Términos de alta rotación por categoría (Inkafarma como catálogo base).
 TERMINOS: Dict[str, List[str]] = {
@@ -123,12 +126,14 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
         for i, (sku, rec) in enumerate(base.items()):
             ip: Producto = rec["inka"]
             precios = {"inkafarma": ip.precio}
+            promos = {"inkafarma": bool(ip.en_promocion)}
             urls = {"inkafarma": ip.url}
 
             try:
                 mp = mif.get_object(sku)
                 if mp and mp.precio is not None:
                     precios["mifarma"] = mp.precio
+                    promos["mifarma"] = bool(mp.en_promocion)
                     urls["mifarma"] = mp.url
             except Exception:
                 pass
@@ -144,6 +149,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                         best, best_r = c, r
                 if best:
                     precios["boticasperu"] = best.precio
+                    promos["boticasperu"] = bool(best.en_promocion)
                     urls["boticasperu"] = best.url
                     n_bot += 1
             except Exception:
@@ -156,6 +162,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 "categoria": rec["categoria"],
                 "marca": ip.marca,
                 "precios": {k: round(v, 2) for k, v in precios.items()},
+                "promos": {k: promos[k] for k in precios},
                 "mas_barato": mb,
                 "brecha_pct": brecha,
                 "urls": {k: v for k, v in urls.items() if v},
@@ -185,15 +192,34 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--salida", default=str(OUT_DEFAULT))
     args = parser.parse_args(argv)
 
+    # Histórico (ANEXO §C): comparar contra el snapshot anterior ANTES de guardar
+    # el de hoy, para no diff-earse contra sí mismo.
+    previo = cambios.cargar_snapshot_previo(SNAP_DIR)
     data = construir(args.objetivo)
+    eventos = cambios.diff_snapshots(previo, data)   # anota tendencia/promo_cambio in-place
+
     out = Path(args.salida)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    snap_path = cambios.persistir_snapshot(data, SNAP_DIR)
+    fecha = data["generado"][:10]
+    ev_path = cambios.escribir_eventos_csv(eventos, fecha, EVENTOS_DIR)
 
     con_bot = data["con_boticas"]
     tot = data["total"]
     print(f"\nListo: {tot} productos -> {out}")
     print(f"  Cobertura Boticas Perú: {con_bot}/{tot} ({100*con_bot//max(tot,1)}%)")
+    print(f"  Snapshot histórico -> {snap_path}")
+    if previo is None:
+        print("  (primera corrida: sin snapshot previo, sin eventos ni flechas)")
+    else:
+        res = cambios.resumen_eventos(eventos)
+        comp = previo["generado"][:10]
+        print(f"  Cambios vs {comp}: {sum(res.values())} eventos -> {ev_path}")
+        for tipo in ("nuevo", "baja_precio", "sube_precio", "inicia_promo", "fin_promo"):
+            if res.get(tipo):
+                print(f"    {tipo:13} {res[tipo]}")
     return 0
 
 

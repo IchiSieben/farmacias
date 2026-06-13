@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-13T13:53:14+00:00",
+ "generado": "2026-06-13T20:25:13+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -24,8 +24,8 @@
   "nutricion",
   "vitaminas"
  ],
- "total": 152,
- "con_boticas": 51,
+ "total": 151,
+ "con_boticas": 50,
  "productos": [
   {
    "id": "038608",
@@ -35,6 +35,10 @@
    "precios": {
     "inkafarma": 69.0,
     "mifarma": 71.1
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
@@ -52,6 +56,10 @@
     "inkafarma": 3.0,
     "mifarma": 3.1
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.3,
    "urls": {
@@ -67,6 +75,10 @@
    "precios": {
     "inkafarma": 118.0,
     "mifarma": 116.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "mifarma",
    "brecha_pct": 1.7,
@@ -84,6 +96,10 @@
     "inkafarma": 2.2,
     "mifarma": 2.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 4.5,
    "urls": {
@@ -99,6 +115,10 @@
    "precios": {
     "inkafarma": 20.1,
     "mifarma": 20.7
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
@@ -117,6 +137,11 @@
     "mifarma": 28.0,
     "boticasperu": 27.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.7,
    "urls": {
@@ -134,6 +159,10 @@
     "inkafarma": 8.5,
     "mifarma": 8.8
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.5,
    "urls": {
@@ -150,6 +179,10 @@
     "inkafarma": 25.52,
     "mifarma": 26.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 1.9,
    "urls": {
@@ -163,12 +196,17 @@
    "categoria": "alergia",
    "marca": "PORTUGAL",
    "precios": {
-    "inkafarma": 4.8,
+    "inkafarma": 6.0,
     "mifarma": 4.9,
     "boticasperu": 6.0
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 25.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 22.4,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/loratadina-10mg/013075",
     "mifarma": "https://www.mifarma.com.pe/producto/loratadina-10mg/013075",
@@ -183,6 +221,10 @@
    "precios": {
     "inkafarma": 3.3,
     "mifarma": 3.4
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
@@ -200,6 +242,10 @@
     "inkafarma": 17.0,
     "mifarma": 18.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.9,
    "urls": {
@@ -215,6 +261,10 @@
    "precios": {
     "inkafarma": 4.2,
     "mifarma": 4.3
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.4,
@@ -232,6 +282,10 @@
     "inkafarma": 10.6,
     "mifarma": 10.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.8,
    "urls": {
@@ -248,6 +302,11 @@
     "inkafarma": 7.2,
     "mifarma": 7.6,
     "boticasperu": 7.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.6,
@@ -267,6 +326,11 @@
     "mifarma": 8.8,
     "boticasperu": 8.4
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 4.8,
    "urls": {
@@ -285,6 +349,11 @@
     "mifarma": 16.9,
     "boticasperu": 16.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -302,6 +371,10 @@
     "inkafarma": 34.9,
     "mifarma": 34.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -315,12 +388,17 @@
    "categoria": "analgesico",
    "marca": "BAYER",
    "precios": {
-    "inkafarma": 6.4,
+    "inkafarma": 6.7,
     "mifarma": 6.6,
     "boticasperu": 7.0
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 9.4,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 6.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/aspirina-100mg-tabletas/109005",
     "mifarma": "https://www.mifarma.com.pe/producto/aspirina-100mg-tabletas/109005",
@@ -333,11 +411,15 @@
    "categoria": "analgesico",
    "marca": "SANOFI",
    "precios": {
-    "inkafarma": 47.9,
+    "inkafarma": 49.0,
     "mifarma": 49.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "inkafarma",
-   "brecha_pct": 2.9,
+   "brecha_pct": 0.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bi-profenid-150-mg-comprimidos/421666",
     "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666"
@@ -352,6 +434,11 @@
     "inkafarma": 3.2,
     "mifarma": 3.3,
     "boticasperu": 3.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 21.9,
@@ -371,6 +458,11 @@
     "mifarma": 5.5,
     "boticasperu": 5.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 3.8,
    "urls": {
@@ -388,6 +480,11 @@
     "inkafarma": 22.0,
     "mifarma": 23.0,
     "boticasperu": 22.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "empate",
    "brecha_pct": 4.5,
@@ -407,6 +504,11 @@
     "mifarma": 18.0,
     "boticasperu": 13.6
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "boticasperu",
    "brecha_pct": 32.4,
    "urls": {
@@ -424,6 +526,11 @@
     "inkafarma": 113.4,
     "mifarma": 118.8,
     "boticasperu": 118.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 4.8,
@@ -443,6 +550,11 @@
     "mifarma": 29.6,
     "boticasperu": 29.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
    "urls": {
@@ -460,6 +572,11 @@
     "inkafarma": 21.8,
     "mifarma": 22.5,
     "boticasperu": 22.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.2,
@@ -479,6 +596,11 @@
     "mifarma": 4.3,
     "boticasperu": 4.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.4,
    "urls": {
@@ -497,6 +619,11 @@
     "mifarma": 10.0,
     "boticasperu": 10.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -511,12 +638,17 @@
    "categoria": "analgesico",
    "marca": "PORTUGAL",
    "precios": {
-    "inkafarma": 18.4,
+    "inkafarma": 19.0,
     "mifarma": 19.0,
     "boticasperu": 19.0
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 3.3,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/ibuprofeno-800-mg/015814",
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-800-mg/015814",
@@ -532,6 +664,11 @@
     "inkafarma": 15.6,
     "mifarma": 16.2,
     "boticasperu": 16.2
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.8,
@@ -550,6 +687,10 @@
     "inkafarma": 1.8,
     "mifarma": 1.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.6,
    "urls": {
@@ -563,12 +704,17 @@
    "categoria": "analgesico",
    "marca": "FARMINDUSTRIA",
    "precios": {
-    "inkafarma": 3.4,
+    "inkafarma": 3.6,
     "mifarma": 3.5,
     "boticasperu": 3.6
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 5.9,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 2.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
@@ -585,6 +731,11 @@
     "mifarma": 40.0,
     "boticasperu": 36.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "boticasperu",
    "brecha_pct": 11.1,
    "urls": {
@@ -599,12 +750,17 @@
    "categoria": "analgesico",
    "marca": "PORTUGAL",
    "precios": {
-    "inkafarma": 1.9,
+    "inkafarma": 2.0,
     "mifarma": 2.0,
     "boticasperu": 2.1
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 10.5,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 5.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-120mg-5ml-jarabe-portugal/108010",
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-120mg-5ml-jarabe-portugal/108010",
@@ -620,6 +776,11 @@
     "inkafarma": 3.0,
     "mifarma": 3.1,
     "boticasperu": 2.1
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "boticasperu",
    "brecha_pct": 47.6,
@@ -638,6 +799,10 @@
     "inkafarma": 3.91,
     "mifarma": 4.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.3,
    "urls": {
@@ -653,6 +818,10 @@
    "precios": {
     "inkafarma": 49.3,
     "mifarma": 51.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.4,
@@ -670,6 +839,10 @@
     "inkafarma": 11.8,
     "mifarma": 12.2
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.4,
    "urls": {
@@ -685,6 +858,10 @@
    "precios": {
     "inkafarma": 36.5,
     "mifarma": 37.5
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.7,
@@ -703,6 +880,11 @@
     "mifarma": 2.9,
     "boticasperu": 2.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.6,
    "urls": {
@@ -720,6 +902,10 @@
     "inkafarma": 2.9,
     "mifarma": 3.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.4,
    "urls": {
@@ -735,6 +921,10 @@
    "precios": {
     "inkafarma": 119.9,
     "mifarma": 123.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.6,
@@ -753,6 +943,11 @@
     "mifarma": 21.7,
     "boticasperu": 21.5
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.8,
    "urls": {
@@ -770,6 +965,10 @@
     "inkafarma": 21.7,
     "mifarma": 22.4
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.2,
    "urls": {
@@ -785,6 +984,10 @@
    "precios": {
     "inkafarma": 23.6,
     "mifarma": 24.48
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.7,
@@ -802,6 +1005,10 @@
     "inkafarma": 24.9,
     "mifarma": 25.1
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 0.8,
    "urls": {
@@ -817,6 +1024,10 @@
    "precios": {
     "inkafarma": 24.9,
     "mifarma": 25.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.8,
@@ -834,6 +1045,10 @@
     "inkafarma": 31.5,
     "mifarma": 31.8
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 1.0,
    "urls": {
@@ -849,6 +1064,10 @@
    "precios": {
     "inkafarma": 10.0,
     "mifarma": 10.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -866,6 +1085,10 @@
     "inkafarma": 1.87,
     "mifarma": 1.92
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.7,
    "urls": {
@@ -881,6 +1104,10 @@
    "precios": {
     "inkafarma": 6.0,
     "mifarma": 6.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -898,6 +1125,10 @@
     "inkafarma": 24.6,
     "mifarma": 25.8
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 4.9,
    "urls": {
@@ -913,6 +1144,10 @@
    "precios": {
     "inkafarma": 2.1,
     "mifarma": 2.2
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 4.8,
@@ -930,6 +1165,10 @@
     "inkafarma": 32.6,
     "mifarma": 33.6
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
    "urls": {
@@ -945,6 +1184,10 @@
    "precios": {
     "inkafarma": 23.4,
     "mifarma": 24.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 6.4,
@@ -963,6 +1206,11 @@
     "mifarma": 2.6,
     "boticasperu": 2.7
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 8.0,
    "urls": {
@@ -972,19 +1220,23 @@
    }
   },
   {
-   "id": "023740",
-   "nombre": "Tapsin Migraña Comprimido Recubierto",
+   "id": "070071",
+   "nombre": "Tapsin Instaflu Noche Comprimido Recubierto",
    "categoria": "antigripal",
    "marca": "MAVER",
    "precios": {
-    "inkafarma": 1.5,
-    "mifarma": 1.5
+    "inkafarma": 1.7,
+    "mifarma": 1.8
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.9,
    "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/tapsin-migrana-comprimido-recubierto/023740",
-    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-migrana-comprimido-recubierto/023740"
+    "inkafarma": "https://inkafarma.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
+    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071"
    }
   },
   {
@@ -995,6 +1247,10 @@
    "precios": {
     "inkafarma": 1.7,
     "mifarma": 1.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.9,
@@ -1009,34 +1265,21 @@
    "categoria": "antigripal",
    "marca": "MAVER",
    "precios": {
-    "inkafarma": 2.1,
+    "inkafarma": 2.2,
     "mifarma": 2.1,
     "boticasperu": 2.2
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 4.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_caliente_dia_-__sobre_1_un/45625-SOBRE.html"
-   }
-  },
-  {
-   "id": "021093",
-   "nombre": "Tapsin Plus Caliente Noche Polvo para solución oral",
-   "categoria": "antigripal",
-   "marca": "MAVER",
-   "precios": {
-    "inkafarma": 2.1,
-    "mifarma": 2.1,
-    "boticasperu": 2.2
-   },
-   "mas_barato": "empate",
-   "brecha_pct": 4.8,
-   "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-caliente-noche-polvo-para-solucion/021093",
-    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-noche-polvo-para-solucion/021093",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_caliente_noche_-_sobre_1_un/44476-SOBRE.html"
    }
   },
   {
@@ -1047,6 +1290,10 @@
    "precios": {
     "inkafarma": 15.1,
     "mifarma": 15.1
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1064,6 +1311,10 @@
     "inkafarma": 18.4,
     "mifarma": 18.4
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1077,11 +1328,16 @@
    "categoria": "cuidado_personal",
    "marca": "REXONA",
    "precios": {
-    "inkafarma": 11.9,
+    "inkafarma": 12.5,
     "mifarma": 11.9,
     "boticasperu": 13.9
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 16.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/desodorante-rexona-women-72h-active-emotion-150ml/034431",
@@ -1095,11 +1351,15 @@
    "categoria": "cuidado_personal",
    "marca": "DOVE",
    "precios": {
-    "inkafarma": 10.9,
+    "inkafarma": 12.5,
     "mifarma": 10.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 14.7,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-cremoso-dove-original/424773",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-cremoso-dove-original/424773"
@@ -1111,11 +1371,15 @@
    "categoria": "cuidado_personal",
    "marca": "DOVE",
    "precios": {
-    "inkafarma": 10.9,
+    "inkafarma": 12.5,
     "mifarma": 10.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 14.7,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805"
@@ -1127,11 +1391,15 @@
    "categoria": "cuidado_personal",
    "marca": "DOVE",
    "precios": {
-    "inkafarma": 10.9,
+    "inkafarma": 12.5,
     "mifarma": 10.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 14.7,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-dove-karite-delicious-care/008866",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-karite-delicious-care/008866"
@@ -1143,11 +1411,16 @@
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
    "precios": {
-    "inkafarma": 10.5,
+    "inkafarma": 10.9,
     "mifarma": 10.5,
     "boticasperu": 13.0
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 23.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-avena-protex/431637",
@@ -1161,11 +1434,15 @@
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
    "precios": {
-    "inkafarma": 10.5,
+    "inkafarma": 10.9,
     "mifarma": 10.5
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 3.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-antibacterial-protex-fresh/431634",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-antibacterial-protex-fresh/431634"
@@ -1177,11 +1454,16 @@
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
    "precios": {
-    "inkafarma": 10.5,
+    "inkafarma": 10.9,
     "mifarma": 10.5,
     "boticasperu": 13.1
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 24.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-limpieza-profunda-protex/431639",
@@ -1197,6 +1479,10 @@
    "precios": {
     "inkafarma": 17.9,
     "mifarma": 17.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1214,6 +1500,10 @@
     "inkafarma": 16.9,
     "mifarma": 16.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1229,6 +1519,10 @@
    "precios": {
     "inkafarma": 66.9,
     "mifarma": 66.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1246,6 +1540,10 @@
     "inkafarma": 38.0,
     "mifarma": 38.0
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1262,6 +1560,10 @@
     "inkafarma": 66.9,
     "mifarma": 66.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1275,11 +1577,15 @@
    "categoria": "cuidado_personal",
    "marca": "COLGATE",
    "precios": {
-    "inkafarma": 16.5,
+    "inkafarma": 17.9,
     "mifarma": 16.5
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 8.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-pack-luminous-white/014358",
     "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-pack-luminous-white/014358"
@@ -1293,6 +1599,10 @@
    "precios": {
     "inkafarma": 17.9,
     "mifarma": 17.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1311,6 +1621,11 @@
     "mifarma": 10.9,
     "boticasperu": 11.5
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 5.5,
    "urls": {
@@ -1325,11 +1640,16 @@
    "categoria": "cuidado_personal",
    "marca": "HEAD & SHOULDERS",
    "precios": {
-    "inkafarma": 16.6,
+    "inkafarma": 16.5,
     "mifarma": 16.5,
     "boticasperu": 16.6
    },
-   "mas_barato": "mifarma",
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "empate",
    "brecha_pct": 0.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
@@ -1347,6 +1667,11 @@
     "mifarma": 10.9,
     "boticasperu": 11.5
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 5.5,
    "urls": {
@@ -1361,11 +1686,16 @@
    "categoria": "cuidado_personal",
    "marca": "SEDAL",
    "precios": {
-    "inkafarma": 9.9,
+    "inkafarma": 10.9,
     "mifarma": 9.9,
     "boticasperu": 11.5
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 16.2,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
@@ -1381,6 +1711,10 @@
    "precios": {
     "inkafarma": 59.9,
     "mifarma": 59.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1398,6 +1732,10 @@
     "inkafarma": 120.9,
     "mifarma": 120.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1413,6 +1751,10 @@
    "precios": {
     "inkafarma": 68.5,
     "mifarma": 56.5
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
    },
    "mas_barato": "mifarma",
    "brecha_pct": 21.2,
@@ -1430,6 +1772,10 @@
     "inkafarma": 141.0,
     "mifarma": 109.6
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "mifarma",
    "brecha_pct": 28.6,
    "urls": {
@@ -1446,6 +1792,11 @@
     "inkafarma": 115.0,
     "mifarma": 92.0,
     "boticasperu": 76.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
    },
    "mas_barato": "boticasperu",
    "brecha_pct": 49.5,
@@ -1465,6 +1816,11 @@
     "mifarma": 134.3,
     "boticasperu": 134.3
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1482,6 +1838,11 @@
     "inkafarma": 104.6,
     "mifarma": 99.9,
     "boticasperu": 104.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
    },
    "mas_barato": "mifarma",
    "brecha_pct": 5.0,
@@ -1501,6 +1862,11 @@
     "mifarma": 73.2,
     "boticasperu": 94.4
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 29.0,
    "urls": {
@@ -1519,6 +1885,11 @@
     "mifarma": 50.6,
     "boticasperu": 69.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 38.1,
    "urls": {
@@ -1536,6 +1907,10 @@
     "inkafarma": 113.6,
     "mifarma": 93.6
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "mifarma",
    "brecha_pct": 21.4,
    "urls": {
@@ -1552,6 +1927,11 @@
     "inkafarma": 199.8,
     "mifarma": 199.8,
     "boticasperu": 284.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
    },
    "mas_barato": "empate",
    "brecha_pct": 42.6,
@@ -1571,6 +1951,11 @@
     "mifarma": 284.9,
     "boticasperu": 284.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1588,6 +1973,10 @@
     "inkafarma": 56.5,
     "mifarma": 49.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "mifarma",
    "brecha_pct": 13.2,
    "urls": {
@@ -1603,6 +1992,10 @@
    "precios": {
     "inkafarma": 119.9,
     "mifarma": 119.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1620,6 +2013,10 @@
     "inkafarma": 76.5,
     "mifarma": 74.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "mifarma",
    "brecha_pct": 2.1,
    "urls": {
@@ -1635,6 +2032,10 @@
    "precios": {
     "inkafarma": 14.0,
     "mifarma": 14.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1653,6 +2054,11 @@
     "mifarma": 27.2,
     "boticasperu": 27.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
    "urls": {
@@ -1670,6 +2076,10 @@
     "inkafarma": 8.62,
     "mifarma": 8.88
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
    "urls": {
@@ -1683,11 +2093,15 @@
    "categoria": "gastro",
    "marca": "SANOFI",
    "precios": {
-    "inkafarma": 3.5,
+    "inkafarma": 3.7,
     "mifarma": 3.6
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 2.9,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 2.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/enterogermina-suspension-oral/421011",
     "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-suspension-oral/421011"
@@ -1701,6 +2115,10 @@
    "precios": {
     "inkafarma": 65.0,
     "mifarma": 67.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
@@ -1718,6 +2136,10 @@
     "inkafarma": 6.6,
     "mifarma": 7.2
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 9.1,
    "urls": {
@@ -1731,11 +2153,15 @@
    "categoria": "gastro",
    "marca": "FARMINDUSTRIA",
    "precios": {
-    "inkafarma": 9.6,
+    "inkafarma": 9.7,
     "mifarma": 9.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "inkafarma",
-   "brecha_pct": 3.1,
+   "brecha_pct": 2.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/lactulosa-3-33-g-5-ml-solucion-oral/203065",
     "mifarma": "https://www.mifarma.com.pe/producto/lactulosa-3-33-g-5-ml-solucion-oral/203065"
@@ -1749,6 +2175,10 @@
    "precios": {
     "inkafarma": 13.6,
     "mifarma": 14.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.9,
@@ -1766,6 +2196,10 @@
     "inkafarma": 14.6,
     "mifarma": 15.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.7,
    "urls": {
@@ -1781,6 +2215,10 @@
    "precios": {
     "inkafarma": 9.5,
     "mifarma": 10.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.3,
@@ -1798,6 +2236,10 @@
     "inkafarma": 12.0,
     "mifarma": 12.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1813,6 +2255,10 @@
    "precios": {
     "inkafarma": 8.0,
     "mifarma": 8.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1830,6 +2276,10 @@
     "inkafarma": 48.0,
     "mifarma": 49.5
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
    "urls": {
@@ -1846,6 +2296,10 @@
     "inkafarma": 16.0,
     "mifarma": 16.5
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
    "urls": {
@@ -1859,12 +2313,17 @@
    "categoria": "gastro",
    "marca": "PORTUGAL",
    "precios": {
-    "inkafarma": 11.2,
+    "inkafarma": 12.0,
     "mifarma": 11.5,
     "boticasperu": 13.0
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 16.1,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 13.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/omeprazol-ptg-20mg-capsula/425383",
     "mifarma": "https://www.mifarma.com.pe/producto/omeprazol-ptg-20mg-capsula/425383",
@@ -1879,6 +2338,10 @@
    "precios": {
     "inkafarma": 8.75,
     "mifarma": 9.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 2.9,
@@ -1897,6 +2360,11 @@
     "mifarma": 1.0,
     "boticasperu": 1.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1911,11 +2379,15 @@
    "categoria": "gastro",
    "marca": "MEDIFARMA",
    "precios": {
-    "inkafarma": 1.1,
+    "inkafarma": 1.2,
     "mifarma": 1.1
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 9.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407",
     "mifarma": "https://www.mifarma.com.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407"
@@ -1929,6 +2401,10 @@
    "precios": {
     "inkafarma": 32.52,
     "mifarma": 33.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.3,
@@ -1947,6 +2423,11 @@
     "mifarma": 9.0,
     "boticasperu": 8.1
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 11.1,
    "urls": {
@@ -1963,6 +2444,10 @@
    "precios": {
     "inkafarma": 2.7,
     "mifarma": 2.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.7,
@@ -1981,6 +2466,11 @@
     "mifarma": 103.9,
     "boticasperu": 103.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -1995,12 +2485,17 @@
    "categoria": "nutricion",
    "marca": "ABBOTT",
    "precios": {
-    "inkafarma": 135.9,
+    "inkafarma": 139.9,
     "mifarma": 135.9,
     "boticasperu": 137.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 1.5,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 2.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/glucerna-sabor-vainilla/068478",
     "mifarma": "https://www.mifarma.com.pe/producto/glucerna-sabor-vainilla/068478",
@@ -2017,6 +2512,11 @@
     "mifarma": 12.9,
     "boticasperu": 12.9
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2031,12 +2531,17 @@
    "categoria": "nutricion",
    "marca": "MAGNESOL",
    "precios": {
-    "inkafarma": 32.9,
+    "inkafarma": 33.9,
     "mifarma": 32.9,
     "boticasperu": 32.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/magnesol-kids-polvo-para-solucion-oral/072767",
     "mifarma": "https://www.mifarma.com.pe/producto/magnesol-kids-polvo-para-solucion-oral/072767",
@@ -2051,6 +2556,10 @@
    "precios": {
     "inkafarma": 194.9,
     "mifarma": 194.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2068,6 +2577,10 @@
     "inkafarma": 279.8,
     "mifarma": 279.8
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2083,6 +2596,10 @@
    "precios": {
     "inkafarma": 74.9,
     "mifarma": 74.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2100,6 +2617,10 @@
     "inkafarma": 55.8,
     "mifarma": 55.8
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2115,6 +2636,10 @@
    "precios": {
     "inkafarma": 194.9,
     "mifarma": 194.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2132,6 +2657,10 @@
     "inkafarma": 96.0,
     "mifarma": 96.0
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2145,11 +2674,15 @@
    "categoria": "nutricion",
    "marca": "PEDIASURE",
    "precios": {
-    "inkafarma": 176.9,
+    "inkafarma": 179.0,
     "mifarma": 176.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 1.2,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032",
     "mifarma": "https://www.mifarma.com.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032"
@@ -2161,11 +2694,15 @@
    "categoria": "nutricion",
    "marca": "PEDIASURE",
    "precios": {
-    "inkafarma": 101.9,
+    "inkafarma": 102.9,
     "mifarma": 101.9
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 1.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-sabor-vainilla-lata850-gr/074030",
     "mifarma": "https://www.mifarma.com.pe/producto/pediasure-sabor-vainilla-lata850-gr/074030"
@@ -2177,11 +2714,16 @@
    "categoria": "vitaminas",
    "marca": "Calcibone",
    "precios": {
-    "inkafarma": 129.6,
+    "inkafarma": 140.3,
     "mifarma": 129.6,
     "boticasperu": 140.3
    },
-   "mas_barato": "empate",
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
    "brecha_pct": 8.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/calcibone-d-1500-mg-800-ui/012036",
@@ -2197,6 +2739,10 @@
    "precios": {
     "inkafarma": 15.9,
     "mifarma": 16.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 6.3,
@@ -2214,6 +2760,10 @@
     "inkafarma": 41.4,
     "mifarma": 41.4
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2229,6 +2779,10 @@
    "precios": {
     "inkafarma": 47.6,
     "mifarma": 47.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2246,6 +2800,10 @@
     "inkafarma": 79.0,
     "mifarma": 79.8
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 1.0,
    "urls": {
@@ -2261,6 +2819,10 @@
    "precios": {
     "inkafarma": 15.9,
     "mifarma": 16.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 6.3,
@@ -2278,6 +2840,10 @@
     "inkafarma": 16.0,
     "mifarma": 16.5
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.1,
    "urls": {
@@ -2294,6 +2860,10 @@
     "inkafarma": 13.9,
     "mifarma": 14.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "inkafarma",
    "brecha_pct": 7.2,
    "urls": {
@@ -2307,11 +2877,15 @@
    "categoria": "vitaminas",
    "marca": "FARMAKONSUMA",
    "precios": {
-    "inkafarma": 9.0,
+    "inkafarma": 9.22,
     "mifarma": 9.3
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
    "mas_barato": "inkafarma",
-   "brecha_pct": 3.3,
+   "brecha_pct": 0.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
     "mifarma": "https://www.mifarma.com.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104"
@@ -2325,6 +2899,10 @@
    "precios": {
     "inkafarma": 74.8,
     "mifarma": 74.8
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2342,6 +2920,10 @@
     "inkafarma": 22.9,
     "mifarma": 22.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2358,6 +2940,10 @@
     "inkafarma": 32.5,
     "mifarma": 32.5
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2371,11 +2957,15 @@
    "categoria": "vitaminas",
    "marca": "REXONA",
    "precios": {
-    "inkafarma": 22.6,
+    "inkafarma": 24.5,
     "mifarma": 22.6
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 8.4,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173",
     "mifarma": "https://www.mifarma.com.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173"
@@ -2387,11 +2977,15 @@
    "categoria": "vitaminas",
    "marca": "REDOXON",
    "precios": {
-    "inkafarma": 43.8,
+    "inkafarma": 43.92,
     "mifarma": 43.8
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 0.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/redoxon-total-comprimido-efervescente/029588",
     "mifarma": "https://www.mifarma.com.pe/producto/redoxon-total-comprimido-efervescente/029588"
@@ -2405,6 +2999,10 @@
    "precios": {
     "inkafarma": 45.9,
     "mifarma": 45.9
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -2422,6 +3020,10 @@
     "inkafarma": 49.5,
     "mifarma": 49.5
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2437,6 +3039,10 @@
    "precios": {
     "inkafarma": 50.9,
     "mifarma": 51.1
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 0.4,
@@ -2454,6 +3060,10 @@
     "inkafarma": 49.5,
     "mifarma": 39.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "mifarma",
    "brecha_pct": 24.1,
    "urls": {
@@ -2470,6 +3080,10 @@
     "inkafarma": 59.9,
     "mifarma": 59.9
    },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2483,12 +3097,17 @@
    "categoria": "vitaminas",
    "marca": "BAYER",
    "precios": {
-    "inkafarma": 40.8,
+    "inkafarma": 48.0,
     "mifarma": 40.8,
     "boticasperu": 47.5
    },
-   "mas_barato": "empate",
-   "brecha_pct": 16.4,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 17.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/supradyn-energy-comprimido-recubierto/065303",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-energy-comprimido-recubierto/065303",
@@ -2501,11 +3120,15 @@
    "categoria": "vitaminas",
    "marca": "SUPRADYN",
    "precios": {
-    "inkafarma": 40.8,
+    "inkafarma": 47.7,
     "mifarma": 40.8
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 16.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/supradyn-grageas/403172",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-grageas/403172"
@@ -2521,6 +3144,11 @@
     "mifarma": 55.5,
     "boticasperu": 55.5
    },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
@@ -2535,11 +3163,15 @@
    "categoria": "vitaminas",
    "marca": "REXONA",
    "precios": {
-    "inkafarma": 7.5,
+    "inkafarma": 7.9,
     "mifarma": 7.5
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 5.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247",
     "mifarma": "https://www.mifarma.com.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247"
@@ -2553,6 +3185,10 @@
    "precios": {
     "inkafarma": 42.9,
     "mifarma": 43.1
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 0.5,

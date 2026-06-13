@@ -76,11 +76,43 @@ farmacias:
   - id: mifarma
     nombre: "Mifarma"
     dominio: "https://www.mifarma.com.pe"
-    plataforma: "spa"
-    nivel: "A"
-    grupo: "inretail"                          # probablemente comparte backend con Inkafarma
-    api_busqueda: "TODO: verificar si reutiliza API de Inkafarma"
-    campos_json: { id: TODO, nombre: TODO, precio: TODO, precio_regular: TODO, stock: TODO, ean: TODO, imagen: TODO }
+    plataforma: "algolia"                      # SPA Angular; búsqueda en Algolia (mismo esquema que Inkafarma)
+    nivel: "A"                                 # adapter: core/adapters/mifarma.py (hereda de algolia_inretail)
+    grupo: "inretail"                          # CONFIRMADO: comparte backend/esquema con Inkafarma
+    # App Algolia PROPIA de Mifarma (distinta de Inkafarma). Descubierta en Fase 0
+    # leyendo el bundle JS del frontend (main.*.js). Misma nota de rotación que Inkafarma.
+    # OJO: las keys públicas de Mifarma NO permiten browse -> volcado por facetas.
+    algolia:
+      app_id: "O74E6QKJ1F"
+      api_key: "f14e7e2c350bd2c9bf3b5ff078ccd82f"   # alterna válida: b65e33077a0664869c7f2544d5f1e332
+      host: "https://o74e6qkj1f-dsn.algolia.net"
+      index: "products"
+      filtro_canal: "channels:WEB"             # ~12.7k productos (Inkafarma tiene ~46k)
+      producto_url: "https://www.mifarma.com.pe/producto/{uri}"   # patrón análogo, sin verificar (SPA)
+    # Vías:
+    #   search        -> POST /1/indexes/*/queries           (dirigido) -> canasta ancla
+    #   sync_facetas  -> /queries particionado por subCategory (browse bloqueado) -> catálogo
+    # Cruce con Inkafarma: el objectID es el MISMO en ambas cadenas (llave InRetail) -> match 1:1.
+    campos_json:                               # idéntico a Inkafarma (mismo esquema InRetail)
+      id: "objectID"
+      nombre: "name"
+      precio: "pricePromo si >0, si no priceList"
+      precio_regular: "priceList"
+      precio_tarjeta: "priceWithCard"
+      en_promocion: "withPromotion"
+      marca: "brand"
+      laboratorio: "laboratory (fallback: lab)"
+      principio_activo: "activePrinciples"
+      presentacion: "presentation"
+      categoria: "category[0]"
+      subcategoria: "subCategory[0]"
+      prescripcion: "prescription"
+      imagen: "image"
+      ean: "gtin"
+      stock: "no en índice de búsqueda"
+      uri: "uri"
+      sku_mifarma: "skuMifarma"
+      sku_sap: "skuSap"
 
   - id: farmaciauniversal
     nombre: "Farmacia Universal"

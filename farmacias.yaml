@@ -61,7 +61,7 @@ farmacias:
       host: "https://15w622laq4-dsn.algolia.net"
       index: "products"
       filtro_canal: "channels:WEB"             # solo productos de venta web (~46.4k)
-      producto_url: "https://inkafarma.pe/producto/{uri}"
+      producto_url: "https://inkafarma.pe/producto/{uri}/{sku}"   # slug + objectID (la ficha exige ambos; solo el slug -> /404)
     # Dos vías (estrategia híbrida):
     #   search -> POST /1/indexes/*/queries            (dirigido, tope 1000 hits/query) -> canasta ancla
     #   browse -> POST /1/indexes/products/browse      (cursor, catálogo completo)      -> volcado periódico
@@ -101,7 +101,7 @@ farmacias:
       host: "https://o74e6qkj1f-dsn.algolia.net"
       index: "products"
       filtro_canal: "channels:WEB"             # ~12.7k productos (Inkafarma tiene ~46k)
-      producto_url: "https://www.mifarma.com.pe/producto/{uri}"   # patrón análogo, sin verificar (SPA)
+      producto_url: "https://www.mifarma.com.pe/producto/{uri}/{sku}"   # slug + objectID (verificado en fichas reales)
     # Vías:
     #   search        -> POST /1/indexes/*/queries           (dirigido) -> canasta ancla
     #   sync_facetas  -> /queries particionado por subCategory (browse bloqueado) -> catálogo

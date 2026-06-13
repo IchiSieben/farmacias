@@ -27,7 +27,7 @@ class InkafarmaAdapter(AlgoliaInRetailAdapter):
         "host": "https://15w622laq4-dsn.algolia.net",
         "index": "products",
         "filtro_canal": "channels:WEB",
-        "producto_url": "https://inkafarma.pe/producto/{uri}",
+        "producto_url": "https://inkafarma.pe/producto/{uri}/{sku}",  # slug + objectID (verificado)
         "origin": "https://inkafarma.pe",
     }
 

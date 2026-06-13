@@ -150,10 +150,13 @@ class AlgoliaInRetailAdapter(AdapterBase):
         en_promo = bool(hit.get("withPromotion")) or tiene_promo
         precio = price_promo if tiene_promo else price_list
 
+        # La ficha vive en /producto/{slug}/{objectID}: con el slug solo (o el id
+        # solo) la SPA redirige a /404. Ambos segmentos son obligatorios.
         uri = _clean(hit.get("uri"))
+        object_id = _clean(hit.get("objectID"))
         url = (
-            self.producto_url.format(uri=uri)
-            if uri and self.producto_url
+            self.producto_url.format(uri=uri, sku=object_id)
+            if uri and object_id and self.producto_url
             else None
         )
 

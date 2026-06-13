@@ -35,9 +35,9 @@ class MifarmaAdapter(AlgoliaInRetailAdapter):
         "host": "https://o74e6qkj1f-dsn.algolia.net",
         "index": "products",
         "filtro_canal": "channels:WEB",
-        # Patrón análogo a Inkafarma (mismo grupo/estructura de slug). No verificable
-        # vía SSR (la web es SPA sin meta por producto); ajustar si se confirma otro.
-        "producto_url": "https://www.mifarma.com.pe/producto/{uri}",
+        # Mismo patrón que Inkafarma: /producto/{slug}/{objectID} (verificado con
+        # navegador headless sobre fichas reales). El slug+id es compartido InRetail.
+        "producto_url": "https://www.mifarma.com.pe/producto/{uri}/{sku}",
         "origin": "https://www.mifarma.com.pe",
     }
 

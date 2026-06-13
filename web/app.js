@@ -106,18 +106,21 @@ function render() {
 function filaProducto(p) {
   const tr = document.createElement("tr");
 
-  const nombre = p.urls && p.urls.inkafarma
-    ? `<a class="lnk" href="${p.urls.inkafarma}" target="_blank" rel="noopener">${esc(p.nombre)}</a>`
-    : esc(p.nombre);
   const marca = p.marca ? `<span class="marca">${esc(p.marca)}</span>` : "";
 
-  let html = `<td class="prod">${nombre}${marca}</td>` +
+  let html = `<td class="prod">${esc(p.nombre)}${marca}</td>` +
              `<td><span class="cat">${titulo(p.categoria)}</span></td>`;
 
+  // Cada celda de precio enlaza a la ficha de ESA cadena (si hay precio y URL).
+  // Sin equivalente ("—") o sin URL conocida -> no es clickeable.
   for (const c of state.cadenas) {
     const v = p.precios[c.id];
+    const url = p.urls && p.urls[c.id];
     const clases = "precio" + (v == null ? " na" : (p.mas_barato === c.id ? " barato" : ""));
-    html += `<td class="${clases}">${SOLES(v)}</td>`;
+    const contenido = (v != null && url)
+      ? `<a class="precio-lnk" href="${esc(url)}" target="_blank" rel="noopener" title="Ver en ${esc(c.nombre)}">${SOLES(v)}</a>`
+      : SOLES(v);
+    html += `<td class="${clases}">${contenido}</td>`;
   }
 
   const b = p.brecha_pct;

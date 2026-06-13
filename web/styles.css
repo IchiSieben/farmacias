@@ -122,6 +122,11 @@ td.precio.na { color: #c2c8d0; }
 a.lnk { color: inherit; text-decoration: none; }
 a.lnk:hover { text-decoration: underline; }
 
+/* Precio clickeable: lleva a la ficha de esa cadena */
+a.precio-lnk { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; cursor: pointer; }
+a.precio-lnk:hover { text-decoration: none; border-bottom-style: solid; }
+td.precio.barato a.precio-lnk { color: var(--verde); }
+
 .vacio { text-align: center; color: var(--suave); padding: 40px 0; }
 
 /* Footer */

@@ -55,6 +55,7 @@ productos:
   - { sku: "023736", categoria: dermo,       nombre: "Gel Limpiador Espumoso CeraVe" }
   - { sku: "027434", categoria: dermo,       nombre: "Protector Solar Facial Eucerin Pigment" }
   - { sku: "002952", categoria: dermo,       nombre: "Fotoprotector Isdin Fusion Fluid" }
+  - { sku: "139064", categoria: dermo,       nombre: "Barra Limpiadora Cetaphil Piel Sensible" }
 
   # --- Bebé ---
   - { sku: "011390", categoria: bebe,        nombre: "Pañales Huggies Natural Care" }
@@ -64,3 +65,8 @@ productos:
   # --- Cuidado femenino ---
   - { sku: "029653", categoria: femenino,    nombre: "Toallas Higiénicas Kotex Normal" }
   - { sku: "025739", categoria: femenino,    nombre: "Toallas Higiénicas Nosotras Invisible" }
+
+  # --- Cuidado básico / botiquín (alta rotación en botica) ---
+  - { sku: "030473", categoria: primeros_auxilios, nombre: "Alcohol 70% 100X" }
+  - { sku: "012563", categoria: primeros_auxilios, nombre: "Agua Oxigenada Vol. 10" }
+  - { sku: "960950", categoria: primeros_auxilios, nombre: "Curitas de Tela Elástica" }

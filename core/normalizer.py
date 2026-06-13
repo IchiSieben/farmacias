@@ -38,6 +38,15 @@ _RE_CONC = re.compile(
     r"\d+(?:[.,]\d+)?\s*(?:mg|g|mcg|ui|ml|%)(?:\s*/\s*\d+(?:[.,]\d+)?\s*ml)?",
     re.IGNORECASE,
 )
+# Solo "fuerza de fármaco" (strength), para quitarla SIN comerse el tamaño del
+# envase. A diferencia de _RE_CONC, NO matchea g/ml/l/kg sueltos ("850 G",
+# "60 ML" son envase, no concentración). El ratio (Xmg/Yml) va PRIMERO en la
+# alternancia para consumir el "/Yml" entero y no dejar "Yml" suelto.
+_RE_STRENGTH = re.compile(
+    r"\d+(?:[.,]\d+)?\s*(?:mg|mcg|g|ui)\s*/\s*\d+(?:[.,]\d+)?\s*ml"  # ratio: 2.5mg/5ml
+    r"|\d+(?:[.,]\d+)?\s*(?:mg|mcg|ui|%)",                            # strength suelta: 500mg, 4%
+    re.IGNORECASE,
+)
 # Cantidad por envase: "x 100", "caja 100", "100 un", "frasco 120 ml".
 _RE_CANT = re.compile(
     r"(?:x\s*(\d+)|caja\s*(?:de\s*)?(\d+)|(\d+)\s*(?:un|und|unidades|tabletas|capsulas|comprimidos))",
@@ -93,7 +102,9 @@ def extrae_tamano(texto: Optional[str]) -> Optional[tuple]:
     Quita primero la concentración (120mg/5ml) para no confundirla con el envase.
     Devuelve el ÚLTIMO match (el envase suele ir al final: "Frasco 220 ML").
     """
-    t = _RE_CONC.sub(" ", normaliza_texto(texto))
+    # OJO: se quita solo la STRENGTH (mg/mcg/ui/% y ratios), no g/ml/l/kg sueltos,
+    # porque "Frasco 60 ML" / "Lata 850 G" SON el tamaño del envase y deben quedar.
+    t = _RE_STRENGTH.sub(" ", normaliza_texto(texto))
     ultimo = None
     for m in _RE_TAMANO.finditer(t):
         unidad = m.group(2).lower()

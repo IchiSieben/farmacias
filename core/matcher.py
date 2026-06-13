@@ -16,6 +16,7 @@ Fuzzy: usa rapidfuzz si está instalado; si no, cae a difflib (stdlib). Python 3
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Optional
 
@@ -25,6 +26,48 @@ from .normalizer import extrae_specs, extrae_tamano, normaliza_texto, nucleo
 # Tolerancia relativa para considerar dos tamaños de envase equivalentes
 # (cubre redondeos: "1600 GR" vs "1.6 KG"). Más allá -> envases distintos.
 _TOL_TAMANO = 0.10
+
+
+# Comparación SEMÁNTICA de concentración. Las cadenas escriben la misma fuerza de
+# distinta forma: Inkafarma como ratio "2.5mg/5ml" (mg por dosis), Boticas como
+# numerador suelto "2.5mg" (omite el "/5ml"). Comparar strings crudos da falsos
+# negativos. Reglas:
+#   - mismas unidades (mg/mcg/g se unifican a mg; % y ui aparte).
+#   - mismo numerador (strength): 2.5 == 2.5 ; 250 ≠ 500 -> distinto.
+#   - dos ratios -> además mismo denominador: 2.5mg/5ml ≠ 2.5mg/10ml (concentración real distinta).
+#   - ratio vs suelto con mismo numerador -> compatible (convención de Boticas).
+_RE_CONC_PARSE = re.compile(r"(\d+(?:\.\d+)?)(mg|mcg|g|ui|%)(?:/(\d+(?:\.\d+)?)ml)?")
+_FACTOR_MG = {"mg": 1.0, "g": 1000.0, "mcg": 0.001}
+
+
+def _parse_conc(c: str):
+    """'2.5mg/5ml' -> (2.5,'mg',5.0) ; '2.5mg' -> (2.5,'mg',None). None si no parsea."""
+    m = _RE_CONC_PARSE.fullmatch(c)
+    if not m:
+        return None
+    val = float(m.group(1))
+    unit = m.group(2)
+    denom = float(m.group(3)) if m.group(3) else None
+    if unit in _FACTOR_MG:                 # unifica masa a mg (1g == 1000mg)
+        val *= _FACTOR_MG[unit]
+        unit = "mg"
+    return (val, unit, denom)
+
+
+def _concentracion_compatible(ca: str, cb: str) -> bool:
+    if ca == cb:
+        return True
+    pa, pb = _parse_conc(ca), _parse_conc(cb)
+    if not pa or not pb:
+        return ca == cb                    # no parseable -> exige igualdad literal (conservador)
+    (va, ua, da), (vb, ub, db) = pa, pb
+    if ua != ub:
+        return False                       # unidades distintas (mg vs mcg vs %)
+    if abs(va - vb) > 1e-6:
+        return False                       # strength distinto (250 ≠ 500)
+    if da is not None and db is not None:
+        return abs(da - db) <= 1e-6        # dos ratios -> mismo denominador (5ml vs 10ml)
+    return True                            # ratio vs suelto, mismo numerador -> compatible
 
 
 def _tamano_incompatible(ta, tb) -> bool:
@@ -116,7 +159,8 @@ def comparar(a: Producto, b: Producto) -> Resultado:
 
     # Capa 2: specs + nombre, con reglas duras. (250mg ≠ 500mg, tableta ≠ jarabe.)
     sa, sb = extrae_specs(a.nombre_origen), extrae_specs(b.nombre_origen)
-    if sa.concentracion and sb.concentracion and sa.concentracion != sb.concentracion:
+    if (sa.concentracion and sb.concentracion
+            and not _concentracion_compatible(sa.concentracion, sb.concentracion)):
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"concentración distinta ({sa.concentracion} ≠ {sb.concentracion})")
     if sa.cantidad and sb.cantidad and sa.cantidad != sb.cantidad:

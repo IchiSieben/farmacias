@@ -1,0 +1,10 @@
+# FarmaComparador Perú — dependencias
+# Instalar con:  py -m pip install -r requirements.txt
+
+httpx>=0.27        # cliente HTTP (Nivel A: APIs JSON)
+pyyaml>=6.0        # config farmacias.yaml / productos_objetivo.yaml
+
+# --- previstas para fases siguientes (aún no usadas) ---
+# rapidfuzz>=3.0   # matcher de productos (ANEXO §A, Capa 2)
+# pandas>=2.0      # consolidación / tabla comparativa
+# selectolax>=0.3  # parsing HTML (Nivel B)

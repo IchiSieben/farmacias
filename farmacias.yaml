@@ -36,11 +36,42 @@ farmacias:
   - id: inkafarma
     nombre: "Inkafarma"
     dominio: "https://inkafarma.pe"
-    plataforma: "spa_contentful"
-    nivel: "A"                                 # SPA con API JSON interna (preferido)
-    api_busqueda: "TODO: capturar endpoint JSON de búsqueda en Network"
-    grupo: "inretail"                          # mismo holding que Mifarma
-    campos_json: { id: TODO, nombre: TODO, precio: TODO, precio_regular: TODO, stock: TODO, ean: TODO, imagen: TODO }
+    plataforma: "algolia"                      # search hospedado en Algolia (no Contentful como se creía)
+    nivel: "A"                                 # API JSON limpia (preferido) — adapter: core/adapters/inkafarma.py
+    grupo: "inretail"                          # mismo holding que Mifarma (el hit trae skuMifarma -> cruce directo)
+    # Credenciales públicas search-only embebidas en el frontend. Capturadas en Fase 0
+    # (DevTools -> Network -> request a *.algolia.net). Pueden ROTAR: si search/browse
+    # empiezan a dar 403, re-capturar la X-Algolia-API-Key y actualizar aquí.
+    algolia:
+      app_id: "15W622LAQ4"
+      api_key: "ccd8cbda203928003f7fe6f44ddbfc3a"
+      host: "https://15w622laq4-dsn.algolia.net"
+      index: "products"
+      filtro_canal: "channels:WEB"             # solo productos de venta web (~46.4k)
+      producto_url: "https://inkafarma.pe/producto/{uri}"
+    # Dos vías (estrategia híbrida):
+    #   search -> POST /1/indexes/*/queries            (dirigido, tope 1000 hits/query) -> canasta ancla
+    #   browse -> POST /1/indexes/products/browse      (cursor, catálogo completo)      -> volcado periódico
+    campos_json:                               # mapeo hit Algolia -> core.modelo.Producto
+      id: "objectID"
+      nombre: "name"
+      precio: "pricePromo si >0, si no priceList"
+      precio_regular: "priceList"
+      precio_tarjeta: "priceWithCard"          # 0 si no aplica
+      en_promocion: "withPromotion"
+      marca: "brand"
+      laboratorio: "laboratory (fallback: lab)"
+      principio_activo: "activePrinciples"
+      presentacion: "presentation"
+      categoria: "category[0]"
+      subcategoria: "subCategory[0]"
+      prescripcion: "prescription"             # "Venta Libre" / con receta
+      imagen: "image"
+      ean: "gtin"
+      stock: "no en índice de búsqueda (vive en el detalle de producto)"
+      uri: "uri"                               # para construir producto_url
+      sku_mifarma: "skuMifarma"                # llave de cruce con Mifarma
+      sku_sap: "skuSap"
 
   - id: mifarma
     nombre: "Mifarma"

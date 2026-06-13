@@ -17,21 +17,34 @@ farmacias:
   - id: boticasperu
     nombre: "Boticas Perú"
     dominio: "https://www.boticasperu.pe"
-    plataforma: "salesforce_commerce_cloud"   # Demandware / SFRA
-    nivel: "B"                                 # HTML; subir a A si se halla JSON limpio
-    # Estructura SFCC conocida (CONFIRMAR endpoints exactos en DevTools):
-    busqueda_url: "TODO: capturar Search-Show / Search-ShowAjax con ?q="
-    producto_url: "TODO: capturar Product-Show / Product-ShowQuickView con ?pid="
-    categoria_url: "TODO: capturar Search-Show?cgid=<categoria>"
-    campos_json:                               # mapear cuando se vea la respuesta real
-      id: "TODO"
-      nombre: "TODO"
-      precio: "TODO"
-      precio_regular: "TODO"
-      promo_badge: "TODO"
-      stock: "TODO"
-      ean: "TODO"
-      imagen: "TODO"
+    plataforma: "salesforce_commerce_cloud"   # Demandware / SFRA (CONFIRMADO en recon)
+    nivel: "B+A"                               # listado HTML (Nivel B) + detalle JSON (Nivel A)
+    # adapter: core/adapters/boticasperu.py. Endpoints capturados con recon/inspect_site.py
+    # + sondeo de controladores SFRA (sin DevTools). Tras Cloudflare pero accesible (sin challenge).
+    sfra:
+      site_id: "Sites-BoticasPeru-Site"
+      locale: "es_PE"
+      controller_base: "https://www.boticasperu.pe/on/demandware.store/Sites-BoticasPeru-Site/es_PE"
+      # LISTADO (HTML, pagina con start/sz):
+      buscar_grid: "Search-UpdateGrid?q={q}&start={start}&sz={sz}"
+      # DETALLE (JSON limpio):
+      detalle_json: "Product-ShowQuickView?pid={pid}"
+      detalle_variation: "Product-Variation?pid={pid}"   # alterna JSON
+    # No expone EAN ni el objectID InRetail -> match con la canasta por nombre+specs
+    # (core.matcher, Capa 2 fuzzy). Sí trae R.S. (registro sanitario) como id secundario.
+    campos_json:                               # mapeo QuickView JSON -> core.modelo.Producto
+      id: "product.id"
+      nombre: "product.productName"
+      precio: "product.price.sales.value"
+      precio_regular: "product.price.list.value | pricebookPrices.listPrice.value"
+      en_promocion: "list>sales | promotions | custom.ribbon"
+      etiqueta_promo: "custom.ribbon"
+      marca: "product.brand"
+      stock: "product.available (+ availability.messages)"
+      prescripcion: "custom.medicalPrescription"
+      registro_sanitario: "product.healthRegistrationNumber"   # -> campo ean (id secundario)
+      url: "product.selectedProductUrl"
+      imagen: "product.images.large[0].url"
 
   - id: inkafarma
     nombre: "Inkafarma"

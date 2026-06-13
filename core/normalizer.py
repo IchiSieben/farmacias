@@ -88,6 +88,27 @@ class Specs:
         ])
 
 
+# Palabras de empaque/forma que NO discriminan el producto (se quitan del núcleo).
+_STOP_NUCLEO = set(
+    "caja cajas frasco frascos blister blisters tableta capsula un und unid unidades "
+    "x sobre sobres polvo solucion jarabe suspension gotas crema gel locion jabon "
+    "shampoo barra efervescente ampolla supositorio spray ml mg mcg ui kg "
+    "de del para con sin y o el la las los".split()
+)
+_RE_NUM_TODO = re.compile(r"\d+(?:[.,]\d+)?(?:mg|g|mcg|ui|ml|kg|%)?(?:/\d+(?:[.,]\d+)?\s*ml)?")
+
+
+def nucleo(nombre: Optional[str]) -> str:
+    """Núcleo discriminante: principio activo / marca, sin números ni empaque.
+
+    "Paracetamol 500mg Tableta - Caja 100 UN" -> "paracetamol".
+    Es la señal fuerte para emparejar entre cadenas con nomenclaturas distintas.
+    """
+    t = _RE_NUM_TODO.sub(" ", normaliza_texto(nombre))
+    toks = [w for w in t.split() if w not in _STOP_NUCLEO and len(w) > 2]
+    return " ".join(toks)
+
+
 def extrae_specs(nombre: Optional[str]) -> Specs:
     texto = normaliza_texto(nombre)
 

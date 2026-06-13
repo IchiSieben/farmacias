@@ -20,35 +20,40 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .modelo import Producto
-from .normalizer import extrae_specs, normaliza_texto
+from .normalizer import extrae_specs, normaliza_texto, nucleo
 
 # Umbrales (ANEXO §A): >=85 match, 70–85 revisar a mano, <70 descartar.
 UMBRAL_MATCH = 85.0
 UMBRAL_REVISION = 70.0
 
-# Ponderación del score compuesto (sin imagen aún -> se reparte nombre/marca).
-_W_NOMBRE = 0.80
-_W_MARCA = 0.20
+# El núcleo (principio activo/marca) pesa más que el nombre completo, porque las
+# cadenas nombran el empaque de forma muy distinta ("Tableta" vs "Caja 100 UN").
+_W_NOMBRE = 0.35
+_W_NUCLEO = 0.65
 
 
 # --- fuzzy: rapidfuzz si existe, si no difflib ------------------------------
+# token_set_ratio: tolera que un nombre sea superconjunto del otro (empaque extra).
 try:
-    from rapidfuzz.fuzz import token_sort_ratio as _ratio  # type: ignore
+    from rapidfuzz.fuzz import token_set_ratio as _ratio  # type: ignore
 
     def _sim(a: str, b: str) -> float:
         if not a or not b:
             return 0.0
         return float(_ratio(a, b))
-except ImportError:  # fallback stdlib
+except ImportError:  # fallback stdlib (aprox: intersección de tokens)
     from difflib import SequenceMatcher
 
     def _sim(a: str, b: str) -> float:
         if not a or not b:
             return 0.0
-        # token_sort: ordenar palabras para tolerar reordenamientos
-        a2 = " ".join(sorted(a.split()))
-        b2 = " ".join(sorted(b.split()))
-        return SequenceMatcher(None, a2, b2).ratio() * 100.0
+        ta, tb = set(a.split()), set(b.split())
+        inter = " ".join(sorted(ta & tb))
+        resto_a = " ".join(sorted(ta - tb))
+        resto_b = " ".join(sorted(tb - ta))
+        s1 = SequenceMatcher(None, inter, (inter + " " + resto_a).strip()).ratio()
+        s2 = SequenceMatcher(None, inter, (inter + " " + resto_b).strip()).ratio()
+        return max(s1, s2) * 100.0
 
 
 @dataclass
@@ -82,7 +87,7 @@ def comparar(a: Producto, b: Producto) -> Resultado:
     if metodo:
         return Resultado(True, 100.0, metodo)
 
-    # Capa 2: specs + nombre, con reglas duras.
+    # Capa 2: specs + nombre, con reglas duras. (250mg ≠ 500mg, tableta ≠ jarabe.)
     sa, sb = extrae_specs(a.nombre_origen), extrae_specs(b.nombre_origen)
     if sa.concentracion and sb.concentracion and sa.concentracion != sb.concentracion:
         return Resultado(False, 0.0, "regla_dura",
@@ -90,10 +95,14 @@ def comparar(a: Producto, b: Producto) -> Resultado:
     if sa.cantidad and sb.cantidad and sa.cantidad != sb.cantidad:
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"cantidad distinta ({sa.cantidad} ≠ {sb.cantidad})")
+    if sa.forma and sb.forma and sa.forma != sb.forma:
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo=f"forma distinta ({sa.forma} ≠ {sb.forma})")
 
+    # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)
-    sim_marca = _sim(normaliza_texto(a.marca), normaliza_texto(b.marca))
-    score = _W_NOMBRE * sim_nombre + _W_MARCA * sim_marca
+    sim_nucleo = _sim(nucleo(a.nombre_origen), nucleo(b.nombre_origen))
+    score = _W_NOMBRE * sim_nombre + _W_NUCLEO * sim_nucleo
 
     if score >= UMBRAL_MATCH:
         return Resultado(True, score, "fuzzy")

@@ -27,9 +27,9 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
-from core.matcher import comparar
 from core.modelo import Producto
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -40,8 +40,13 @@ OUT_DIR = ROOT / "data" / "processed"
 ADAPTERS = {
     "inkafarma": InkafarmaAdapter,
     "mifarma": MifarmaAdapter,
+    "boticasperu": BoticasPeruAdapter,
 }
-NOMBRE_CADENA = {"inkafarma": "Inkafarma", "mifarma": "Mifarma"}
+NOMBRE_CADENA = {
+    "inkafarma": "Inkafarma", "mifarma": "Mifarma", "boticasperu": "Boticas Perú",
+}
+# Cadenas que comparten el objectID InRetail (un solo sku sirve para ambas).
+_INRETAIL = ("inkafarma", "mifarma")
 
 
 def cargar_canasta() -> List[dict]:
@@ -53,11 +58,13 @@ def cargar_canasta() -> List[dict]:
 class Fila:
     """Una fila de la tabla: un producto ancla con su oferta en cada cadena."""
 
-    def __init__(self, sku: str, categoria: str, nombre: str, cadenas: List[str]):
-        self.sku = sku
+    def __init__(self, match_id: str, categoria: str, nombre: str,
+                 cadenas: List[str], skus: Dict[str, str]):
+        self.sku = match_id          # id del producto canónico (para outputs)
         self.categoria = categoria
         self.nombre = nombre
         self.cadenas = cadenas
+        self.skus = skus             # sku por cadena
         self.ofertas: Dict[str, Optional[Producto]] = {c: None for c in cadenas}
 
     def precio(self, cadena: str) -> Optional[float]:
@@ -92,26 +99,34 @@ class Fila:
         return round(100 * (max(d.values()) - min(d.values())) / min(d.values()), 1)
 
 
+def _skus_de(item: dict) -> Dict[str, str]:
+    """Extrae el mapa sku-por-cadena, aceptando el atajo `sku` (InRetail)."""
+    skus = dict(item.get("skus") or {})
+    if "sku" in item:  # compat: un solo objectID InRetail
+        for c in _INRETAIL:
+            skus.setdefault(c, str(item["sku"]))
+    return {c: str(v) for c, v in skus.items() if v}
+
+
 def construir(cadenas: List[str], pausa: float = 0.12) -> List[Fila]:
     canasta = cargar_canasta()
     adapters = {c: ADAPTERS[c].from_yaml(delay_range=(0, 0)) for c in cadenas}
     filas: List[Fila] = []
     try:
         for item in canasta:
-            sku = str(item["sku"])
-            fila = Fila(sku, item.get("categoria", ""), item.get("nombre", ""), cadenas)
+            skus = _skus_de(item)
+            match_id = skus.get("inkafarma") or next(iter(skus.values()), "")
+            fila = Fila(match_id, item.get("categoria", ""), item.get("nombre", ""),
+                        cadenas, skus)
             for c in cadenas:
+                sku = skus.get(c)
+                if not sku:
+                    continue  # sin equivalente en esta cadena -> "—"
                 try:
                     fila.ofertas[c] = adapters[c].get_object(sku)
                 except Exception as exc:
                     print(f"  ! {c} sku={sku}: {type(exc).__name__}: {exc}", file=sys.stderr)
                 time.sleep(pausa)
-            # Sanity-check del match con el matcher (debe ser Capa 1, score 100).
-            presentes = [p for p in fila.ofertas.values() if p]
-            if len(presentes) >= 2:
-                r = comparar(presentes[0], presentes[1])
-                if not r.es_match:
-                    print(f"  ⚠ sku={sku} no casó ({r.metodo}: {r.motivo})", file=sys.stderr)
             filas.append(fila)
     finally:
         for a in adapters.values():
@@ -150,24 +165,24 @@ def _fmt(v: Optional[float]) -> str:
 
 
 def imprimir_tabla(filas: List[Fila], cadenas: List[str], k: dict) -> None:
-    cab = ["categoria", "producto"] + [NOMBRE_CADENA[c] for c in cadenas] + ["+ barato", "brecha%"]
-    print("\n%-14s %-40s %s %s %-10s %s" % (
-        "categoria", "producto",
-        " ".join("%8s" % NOMBRE_CADENA[c] for c in cadenas).strip().ljust(8 * len(cadenas) + len(cadenas) - 1),
-        "", "+ barato", "brecha%"))
-    print("-" * 100)
+    col_prod = 38
+    cabecera = "%-13s %-*s" % ("categoria", col_prod, "producto")
+    cabecera += "".join("%9s" % NOMBRE_CADENA[c][:9] for c in cadenas)
+    cabecera += "  %-11s %7s" % ("+ barato", "brecha%")
+    print("\n" + cabecera)
+    print("-" * len(cabecera))
     cat_prev = None
     for f in filas:
         cat = f.categoria if f.categoria != cat_prev else ""
         cat_prev = f.categoria
-        precios = " ".join("%8s" % _fmt(f.precio(c)) for c in cadenas)
+        fila = "%-13s %-*s" % (cat[:13], col_prod, (f.nombre or "")[:col_prod])
+        fila += "".join("%9s" % (_fmt(f.precio(c)) or "—") for c in cadenas)
         mb = f.mas_barato or ""
-        mb_lbl = "empate" if mb == "empate" else (NOMBRE_CADENA.get(mb, "") if mb else "—")
+        mb_lbl = "empate" if mb == "empate" else (NOMBRE_CADENA.get(mb, "—"))
         bp = f.brecha_pct
-        print("%-14s %-40s %s  %-10s %s" % (
-            cat, (f.nombre or "")[:40], precios, mb_lbl,
-            "" if bp is None else f"{bp:+.1f}"))
-    print("-" * 100)
+        fila += "  %-11s %7s" % (mb_lbl, "" if bp is None else f"{bp:+.1f}")
+        print(fila)
+    print("-" * len(cabecera))
     print("\n=== KPIs ===")
     print(f"Canasta: {k['total_canasta']} productos | comparables en ambas: {k['comparables']}")
     for c in cadenas:
@@ -311,8 +326,8 @@ def escribir_html(filas: List[Fila], cadenas: List[str], k: dict, ts: str, fecha
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Arma la tabla comparativa de la canasta ancla.")
-    parser.add_argument("--cadenas", default="inkafarma,mifarma",
-                        help="Cadenas a comparar (coma). Default: inkafarma,mifarma")
+    parser.add_argument("--cadenas", default="inkafarma,mifarma,boticasperu",
+                        help="Cadenas a comparar (coma). Default: las 3")
     args = parser.parse_args(argv)
     cadenas = [c.strip() for c in args.cadenas.split(",") if c.strip()]
     desconocidas = [c for c in cadenas if c not in ADAPTERS]

@@ -1,0 +1,77 @@
+# config/farmacias.yaml — Configuración de fuentes
+# Llenar los campos "TODO" en la Fase 0 (reconocimiento con DevTools en tu máquina).
+
+defaults:
+  request_delay_seg: [2, 6]        # rango aleatorio entre requests
+  max_concurrentes: 2
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  headers:
+    Accept-Language: "es-PE,es;q=0.9"
+  region_default: "Lima"
+  cache_raw: true                  # guardar HTML/JSON crudo por corrida
+
+farmacias:
+
+  - id: boticasperu
+    nombre: "Boticas Perú"
+    dominio: "https://www.boticasperu.pe"
+    plataforma: "salesforce_commerce_cloud"   # Demandware / SFRA
+    nivel: "B"                                 # HTML; subir a A si se halla JSON limpio
+    # Estructura SFCC conocida (CONFIRMAR endpoints exactos en DevTools):
+    busqueda_url: "TODO: capturar Search-Show / Search-ShowAjax con ?q="
+    producto_url: "TODO: capturar Product-Show / Product-ShowQuickView con ?pid="
+    categoria_url: "TODO: capturar Search-Show?cgid=<categoria>"
+    campos_json:                               # mapear cuando se vea la respuesta real
+      id: "TODO"
+      nombre: "TODO"
+      precio: "TODO"
+      precio_regular: "TODO"
+      promo_badge: "TODO"
+      stock: "TODO"
+      ean: "TODO"
+      imagen: "TODO"
+
+  - id: inkafarma
+    nombre: "Inkafarma"
+    dominio: "https://inkafarma.pe"
+    plataforma: "spa_contentful"
+    nivel: "A"                                 # SPA con API JSON interna (preferido)
+    api_busqueda: "TODO: capturar endpoint JSON de búsqueda en Network"
+    grupo: "inretail"                          # mismo holding que Mifarma
+    campos_json: { id: TODO, nombre: TODO, precio: TODO, precio_regular: TODO, stock: TODO, ean: TODO, imagen: TODO }
+
+  - id: mifarma
+    nombre: "Mifarma"
+    dominio: "https://www.mifarma.com.pe"
+    plataforma: "spa"
+    nivel: "A"
+    grupo: "inretail"                          # probablemente comparte backend con Inkafarma
+    api_busqueda: "TODO: verificar si reutiliza API de Inkafarma"
+    campos_json: { id: TODO, nombre: TODO, precio: TODO, precio_regular: TODO, stock: TODO, ean: TODO, imagen: TODO }
+
+  - id: farmaciauniversal
+    nombre: "Farmacia Universal"
+    dominio: "https://www.farmaciauniversal.com"
+    plataforma: "TODO (probable VTEX)"
+    nivel: "TODO"
+    api_busqueda: "TODO"
+
+  - id: hogarysalud
+    nombre: "Boticas y Salud / Hogar y Salud"
+    dominio: "https://www.hogarysalud.com.pe"
+    plataforma: "TODO"
+    nivel: "TODO"
+
+  - id: arcangel
+    nombre: "Boticas Arcángel"
+    dominio: "https://www.boticasarcangel.com"
+    plataforma: "TODO"
+    nivel: "TODO"
+
+  - id: fasa
+    nombre: "Fasa"
+    dominio: "https://www.fasa.com.pe"
+    plataforma: "TODO"
+    nivel: "TODO"

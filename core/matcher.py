@@ -31,6 +31,19 @@ UMBRAL_REVISION = 70.0
 _W_NOMBRE = 0.35
 _W_NUCLEO = 0.65
 
+# Solo se bloquea por forma cuando es galénicamente incompatible (sólido vs
+# líquido). NO entre polvo/efervescente/crema, que suelen coexistir ("polvo
+# efervescente") y harían falsos negativos.
+_FORMAS_SOLIDAS = {"tableta", "capsula"}
+_FORMAS_LIQUIDAS = {"jarabe", "suspension", "solucion", "gotas"}
+
+
+def _forma_incompatible(fa: Optional[str], fb: Optional[str]) -> bool:
+    if not fa or not fb:
+        return False
+    return ((fa in _FORMAS_SOLIDAS and fb in _FORMAS_LIQUIDAS) or
+            (fa in _FORMAS_LIQUIDAS and fb in _FORMAS_SOLIDAS))
+
 
 # --- fuzzy: rapidfuzz si existe, si no difflib ------------------------------
 # token_set_ratio: tolera que un nombre sea superconjunto del otro (empaque extra).
@@ -95,9 +108,9 @@ def comparar(a: Producto, b: Producto) -> Resultado:
     if sa.cantidad and sb.cantidad and sa.cantidad != sb.cantidad:
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"cantidad distinta ({sa.cantidad} ≠ {sb.cantidad})")
-    if sa.forma and sb.forma and sa.forma != sb.forma:
+    if _forma_incompatible(sa.forma, sb.forma):
         return Resultado(False, 0.0, "regla_dura",
-                         motivo=f"forma distinta ({sa.forma} ≠ {sb.forma})")
+                         motivo=f"forma incompatible ({sa.forma} ≠ {sb.forma})")
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)

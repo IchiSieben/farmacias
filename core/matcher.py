@@ -130,9 +130,23 @@ except ImportError:  # fallback stdlib (aprox: intersección de tokens)
 class Resultado:
     es_match: bool
     score: float
-    metodo: str                # "id" | "ean" | "fuzzy" | "regla_dura"
+    metodo: str                # "id" | "ean" | "fuzzy" | "regla_dura" | "imagen"
     revisar: bool = False      # zona gris 70–85
     motivo: Optional[str] = None
+
+
+# Distancia de Hamming máxima entre pHash para aceptar "misma foto" (Capa 3).
+_UMBRAL_HAMMING = 10
+
+
+def _imagenes_coinciden(url_a, url_b, phash_fn) -> Optional[bool]:
+    """True/False según pHash; None si falta alguna imagen o hash (no decide)."""
+    if not url_a or not url_b:
+        return None
+    ha, hb = phash_fn(url_a), phash_fn(url_b)
+    if ha is None or hb is None:
+        return None
+    return (ha - hb) <= _UMBRAL_HAMMING      # imagehash: '-' = distancia de Hamming
 
 
 def _clave_ean(p: Producto) -> Optional[str]:
@@ -150,8 +164,14 @@ def match_por_id(a: Producto, b: Producto) -> Optional[str]:
     return None
 
 
-def comparar(a: Producto, b: Producto) -> Resultado:
-    """Decide si `a` y `b` son el mismo producto (ANEXO §A)."""
+def comparar(a: Producto, b: Producto, *, phash_fn=None) -> Resultado:
+    """Decide si `a` y `b` son el mismo producto (ANEXO §A).
+
+    `phash_fn` (opcional): callable(url)->hash perceptual (ver core.imagen.phash).
+    Si se inyecta, activa la Capa 3 SOLO en la zona gris (score 70–85): se compara
+    la foto de cada producto y, si coinciden, se confirma el match. Sin inyectar,
+    el matcher no toca la red (comportamiento por defecto).
+    """
     # Capa 1: identificador duro.
     metodo = match_por_id(a, b)
     if metodo:
@@ -185,6 +205,16 @@ def comparar(a: Producto, b: Producto) -> Resultado:
     if score >= UMBRAL_MATCH:
         return Resultado(True, score, "fuzzy")
     if score >= UMBRAL_REVISION:
+        # Capa 3 (solo zona gris): si las fotos coinciden, confirma el match.
+        if phash_fn is not None:
+            coincide = _imagenes_coinciden(a.imagen, b.imagen, phash_fn)
+            if coincide is True:
+                return Resultado(True, max(score, UMBRAL_MATCH), "imagen",
+                                 motivo=f"zona gris confirmada por imagen (fuzzy {score:.0f})")
+            if coincide is False:
+                return Resultado(False, score, "imagen",
+                                 motivo=f"zona gris descartada por imagen (fuzzy {score:.0f})")
+            # coincide is None (sin imágenes/deps) -> cae a revisión manual.
         return Resultado(False, score, "fuzzy", revisar=True,
                          motivo="zona gris: revisar a mano")
     return Resultado(False, score, "fuzzy", motivo="bajo umbral")

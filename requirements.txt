@@ -5,6 +5,8 @@ httpx>=0.27        # cliente HTTP (Nivel A: APIs JSON)
 pyyaml>=6.0        # config farmacias.yaml / productos_objetivo.yaml
 rapidfuzz>=3.0     # matcher de productos (ANEXO §A, Capa 2 — fuzzy)
 selectolax>=0.3    # parsing HTML rápido (Nivel B — grilla SFRA de Boticas Perú)
+imagehash>=4.3     # matcher Capa 3 (ANEXO §A) — pHash, solo zona gris 70–85
+Pillow>=10.0       # backend de imagen para imagehash (Capa 3)
 
 # --- previstas para fases siguientes (aún no usadas) ---
 # pandas>=2.0      # analítica / consolidación a Parquet

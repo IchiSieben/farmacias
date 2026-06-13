@@ -32,6 +32,7 @@ from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
 from core.matcher import comparar
 from core.modelo import Producto
+from core import imagen
 from core.normalizer import extrae_specs, nucleo
 from pipeline import cambios
 
@@ -142,7 +143,9 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 cands = bot.search(_query_boticas(ip.nombre_origen), limit=10)
                 best, best_r = None, None
                 for c in cands:
-                    r = comparar(ip, c)
+                    # phash_fn activa la Capa 3 SOLO en la zona gris (70–85):
+                    # confirma/descarta por foto los matches dudosos.
+                    r = comparar(ip, c, phash_fn=imagen.phash)
                     if (r.es_match and c.precio is not None
                             and _precio_plausible(c.precio, ip.precio)
                             and (not best_r or r.score > best_r.score)):

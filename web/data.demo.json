@@ -3,15 +3,36 @@
  "cadenas": [
   {
    "id": "inkafarma",
-   "nombre": "Inkafarma"
+   "nombre": "Inkafarma",
+   "grupo": "inretail"
   },
   {
    "id": "mifarma",
-   "nombre": "Mifarma"
+   "nombre": "Mifarma",
+   "grupo": "inretail"
   },
   {
    "id": "boticasperu",
-   "nombre": "Boticas Perú"
+   "nombre": "Boticas Perú",
+   "grupo": "boticasperu"
+  }
+ ],
+ "grupos": [
+  {
+   "id": "inretail",
+   "nombre": "InRetail",
+   "cadenas": [
+    "inkafarma",
+    "mifarma"
+   ]
+  },
+  {
+   "id": "boticasperu",
+   "nombre": "Boticas Perú",
+   "cadenas": [
+    "boticasperu"
+   ],
+   "independiente": true
   }
  ],
  "categorias": [

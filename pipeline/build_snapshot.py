@@ -41,6 +41,17 @@ OUT_DEFAULT = ROOT / "web" / "data.json"
 SNAP_DIR = ROOT / "data" / "snapshots"          # histórico append-only (ANEXO §C)
 EVENTOS_DIR = ROOT / "data" / "processed"
 
+# Conglomerados (grupos económicos): cadenas del mismo grupo comparten política
+# de precios -> para el usuario, comparar Inkafarma vs Mifarma es comparar contra
+# UN solo competidor. Fuente única del mapeo cadena->grupo (se hornea en data.json).
+# Extensible: al sumar Fasa/Arcángel/BTL -> grupo "quicorp"; Farmacia Universal -> independiente.
+GRUPOS: List[dict] = [
+    {"id": "inretail", "nombre": "InRetail", "cadenas": ["inkafarma", "mifarma"]},
+    {"id": "boticasperu", "nombre": "Boticas Perú", "cadenas": ["boticasperu"],
+     "independiente": True},
+]
+_GRUPO_DE = {cad: g["id"] for g in GRUPOS for cad in g["cadenas"]}
+
 # Términos de alta rotación por categoría (Inkafarma como catálogo base).
 TERMINOS: Dict[str, List[str]] = {
     "analgesico": ["paracetamol", "ibuprofeno", "naproxeno", "aspirina", "apronax",
@@ -289,10 +300,11 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
     return {
         "generado": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "cadenas": [
-            {"id": "inkafarma", "nombre": "Inkafarma"},
-            {"id": "mifarma", "nombre": "Mifarma"},
-            {"id": "boticasperu", "nombre": "Boticas Perú"},
+            {"id": "inkafarma", "nombre": "Inkafarma", "grupo": _GRUPO_DE.get("inkafarma")},
+            {"id": "mifarma", "nombre": "Mifarma", "grupo": _GRUPO_DE.get("mifarma")},
+            {"id": "boticasperu", "nombre": "Boticas Perú", "grupo": _GRUPO_DE.get("boticasperu")},
         ],
+        "grupos": GRUPOS,
         "categorias": sorted({p["categoria"] for p in productos}),
         "total": len(productos),
         "con_boticas": n_bot,

@@ -78,11 +78,35 @@ def _precio_plausible(precio_bot: float, precio_ref: float) -> bool:
 
 
 def _query_boticas(nombre: str) -> str:
-    sp = extrae_specs(nombre)
-    q = " ".join(nucleo(nombre).split()[:3])
-    if sp.concentracion:
-        q += " " + sp.concentracion
-    return q.strip() or nombre
+    """Query PRECISA: núcleo (principio activo + marca), SIN la concentración.
+
+    Antes se anexaba la concentración ("2mg/5ml"), que Boticas suele omitir, y
+    dejaba la búsqueda tan estrecha que no traía variantes nombradas distinto.
+    """
+    return " ".join(nucleo(nombre).split()[:3]) or nombre
+
+
+def _query_boticas_amplia(nombre: str) -> str:
+    """Query AMPLIA: solo el primer token del núcleo (principio activo / marca).
+
+    Recupera variantes que Boticas nombra distinto (p.ej. "Clorfenamina Maleato
+    ... oral" ↔ "Clorfenamina Maleto Jarabe C/C"). Trae más ruido, pero el matcher
+    endurecido (cantidad exacta + principio activo) descarta los irrelevantes."""
+    toks = nucleo(nombre).split()
+    return toks[0] if toks else nombre
+
+
+def _buscar_boticas(bot, nombre: str):
+    """Candidatos Boticas combinando la query precisa y la amplia (dedup por sku)."""
+    cands = bot.search(_query_boticas(nombre), limit=10)
+    vistos = {c.sku for c in cands}
+    qa = _query_boticas_amplia(nombre)
+    if qa != _query_boticas(nombre):
+        for c in bot.search(qa, limit=12):
+            if c.sku not in vistos:
+                vistos.add(c.sku)
+                cands.append(c)
+    return cands
 
 
 def _comparacion(precios: Dict[str, float]):
@@ -211,9 +235,10 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
             except Exception:
                 mif_pres = {}
 
-            # Boticas: una sola búsqueda por producto; cada presentación elige su match.
+            # Boticas: búsqueda combinada (precisa + amplia) por producto; cada
+            # presentación elige su match (el matcher filtra los irrelevantes).
             try:
-                cands = bot.search(_query_boticas(ip.nombre_origen), limit=10)
+                cands = _buscar_boticas(bot, ip.nombre_origen)
             except Exception:
                 cands = []
 

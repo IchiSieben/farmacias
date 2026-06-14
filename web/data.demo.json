@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-13T20:25:13+00:00",
+ "generado": "2026-06-14T00:31:33+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -24,17 +24,24 @@
   "nutricion",
   "vitaminas"
  ],
- "total": 151,
- "con_boticas": 50,
+ "total": 196,
+ "con_boticas": 85,
  "productos": [
   {
-   "id": "038608",
+   "id": "038608:fraccion",
    "nombre": "Aeridin 5mg Tableta Recubierta",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 69.0,
-    "mifarma": 71.1
+    "inkafarma": 23.0,
+    "mifarma": 23.7
+   },
+   "precio_unidad": {
+    "inkafarma": 2.3,
+    "mifarma": 2.37
    },
    "promos": {
     "inkafarma": false,
@@ -46,7 +53,6 @@
     "inkafarma": "https://inkafarma.pe/producto/aeridin-5mg-tableta-recubierta/038608",
     "mifarma": "https://www.mifarma.com.pe/producto/aeridin-5mg-tableta-recubierta/038608"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
      "dir": "nuevo",
@@ -58,26 +64,86 @@
      "antes": null,
      "delta_pct": null
     }
-   }
+   },
+   "nuevo": true
   },
   {
-   "id": "420338",
-   "nombre": "Cetirizina 5mg/5ml Jarabe Portugal - Frasco 60 ML",
+   "id": "038608:pack",
+   "nombre": "Aeridin 5mg Tableta Recubierta",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 3.0,
-    "mifarma": 3.1
+    "inkafarma": 69.0,
+    "mifarma": 71.1,
+    "boticasperu": 19.0
+   },
+   "precio_unidad": {
+    "inkafarma": 2.3,
+    "mifarma": 2.37,
+    "boticasperu": 0.6333
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 274.2,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/aeridin-5mg-tableta-recubierta/038608",
+    "mifarma": "https://www.mifarma.com.pe/producto/aeridin-5mg-tableta-recubierta/038608",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antifungicos/aeridin_5mg_-_caja_30_tabletas_recubiertas/46625.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 69.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 71.1,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "420338:pack",
+   "nombre": "Cetirizina 5mg/5ml Jarabe Portugal - Frasco 60 ML",
+   "categoria": "alergia",
+   "marca": "PORTUGAL",
+   "presentacion": "FRASCO 60 ML",
+   "cantidad": 60.0,
+   "unidad": "ml",
+   "precios": {
+    "inkafarma": 3.0,
+    "mifarma": 3.1,
+    "boticasperu": 5.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.05,
+    "mifarma": 0.0517,
+    "boticasperu": 0.0867
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 3.3,
+   "brecha_pct": 73.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/cetirizina-5mg-5ml-jarabe-portugal/420338",
-    "mifarma": "https://www.mifarma.com.pe/producto/cetirizina-5mg-5ml-jarabe-portugal/420338"
+    "mifarma": "https://www.mifarma.com.pe/producto/cetirizina-5mg-5ml-jarabe-portugal/420338",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/cetirizina_5mg%2F5ml_jarabe_-_frasco_60_ml/14565.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -89,17 +155,29 @@
      "dir": "igual",
      "antes": 3.1,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 5.2,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "035992",
+   "id": "035992:pack",
    "nombre": "Clorfenamina 10Mg/1Ml Solucion Inyectable",
    "categoria": "alergia",
    "marca": "CLORFENAMINA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 118.0,
     "mifarma": 116.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.18,
+    "mifarma": 1.16
    },
    "promos": {
     "inkafarma": false,
@@ -125,13 +203,59 @@
    }
   },
   {
-   "id": "134247",
+   "id": "035992:fraccion",
+   "nombre": "Clorfenamina 10Mg/1Ml Solucion Inyectable",
+   "categoria": "alergia",
+   "marca": "CLORFENAMINA",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 1.18,
+    "mifarma": 1.16
+   },
+   "precio_unidad": {
+    "inkafarma": 1.18,
+    "mifarma": 1.16
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 1.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992",
+    "mifarma": "https://www.mifarma.com.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 1.18,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 1.16,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "134247:pack",
    "nombre": "Clorfenamina Maleato 2mg/5 mL Solución oral",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 2.2,
     "mifarma": 2.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0183,
+    "mifarma": 0.0192
    },
    "promos": {
     "inkafarma": false,
@@ -157,23 +281,34 @@
    }
   },
   {
-   "id": "428332",
+   "id": "428332:pack",
    "nombre": "Desloratadina 2.5mg/5ml Jarabe Genfar - Frasco 60 ML",
    "categoria": "alergia",
    "marca": "GENFAR",
+   "presentacion": "FRASCO 60 ML",
+   "cantidad": 60.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 20.1,
-    "mifarma": 20.7
+    "mifarma": 20.7,
+    "boticasperu": 20.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.335,
+    "mifarma": 0.345,
+    "boticasperu": 0.3417
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/desloratadina-2-5mg-5ml-jarabe-genfar/428332",
-    "mifarma": "https://www.mifarma.com.pe/producto/desloratadina-2-5mg-5ml-jarabe-genfar/428332"
+    "mifarma": "https://www.mifarma.com.pe/producto/desloratadina-2-5mg-5ml-jarabe-genfar/428332",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/desloratadina_2.5_mg_jarabe_-_frasco_60_ml/16770.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -185,18 +320,70 @@
      "dir": "igual",
      "antes": 20.7,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 20.5,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "067846",
+   "id": "067846:fraccion",
    "nombre": "Desloratadina 5mg Tableta Recubierta",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 2.7,
+    "mifarma": 2.8
+   },
+   "precio_unidad": {
+    "inkafarma": 0.27,
+    "mifarma": 0.28
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/desloratadina-5mg-tableta-recubierta/067846",
+    "mifarma": "https://www.mifarma.com.pe/producto/desloratadina-5mg-tableta-recubierta/067846"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 2.7,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "067846:pack",
+   "nombre": "Desloratadina 5mg Tableta Recubierta",
+   "categoria": "alergia",
+   "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 27.0,
     "mifarma": 28.0,
     "boticasperu": 27.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.27,
+    "mifarma": 0.28,
+    "boticasperu": 0.279
    },
    "promos": {
     "inkafarma": false,
@@ -229,13 +416,20 @@
    }
   },
   {
-   "id": "025849",
+   "id": "025849:fraccion",
    "nombre": "Findaler 10mg Comprimidos recubiertos",
    "categoria": "alergia",
    "marca": "MKT PHARMA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 8.5,
     "mifarma": 8.8
+   },
+   "precio_unidad": {
+    "inkafarma": 0.85,
+    "mifarma": 0.88
    },
    "promos": {
     "inkafarma": false,
@@ -261,13 +455,107 @@
    }
   },
   {
-   "id": "026919",
+   "id": "025849:pack",
+   "nombre": "Findaler 10mg Comprimidos recubiertos",
+   "categoria": "alergia",
+   "marca": "MKT PHARMA",
+   "presentacion": "CAJA 50 UN",
+   "cantidad": 50.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 42.5,
+    "mifarma": 44.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.85,
+    "mifarma": 0.88
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.5,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/findaler-10mg-comprimidos-recubiertos/025849",
+    "mifarma": "https://www.mifarma.com.pe/producto/findaler-10mg-comprimidos-recubiertos/025849"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 44.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "026919:fraccion",
    "nombre": "Findaler CB 10mg Cápsulas blandas",
    "categoria": "alergia",
    "marca": "MKT PHARMA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 25.52,
-    "mifarma": 26.0
+    "mifarma": 26.0,
+    "boticasperu": 31.5
+   },
+   "precio_unidad": {
+    "inkafarma": 2.552,
+    "mifarma": 2.6,
+    "boticasperu": 3.15
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 23.4,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/findaler-cb-10mg-capsulas-blandas-/026919",
+    "mifarma": "https://www.mifarma.com.pe/producto/findaler-cb-10mg-capsulas-blandas-/026919",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/alercet_10_mg_capsulas_blandas_-_blister_10_un/14451-BLISTER.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 25.52,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 26.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 31.5,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "026919:pack",
+   "nombre": "Findaler CB 10mg Cápsulas blandas",
+   "categoria": "alergia",
+   "marca": "MKT PHARMA",
+   "presentacion": "CAJA 50 UN",
+   "cantidad": 50.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 127.6,
+    "mifarma": 130.0
+   },
+   "precio_unidad": {
+    "inkafarma": 2.552,
+    "mifarma": 2.6
    },
    "promos": {
     "inkafarma": false,
@@ -282,33 +570,41 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 25.52,
+     "antes": 127.6,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 26.0,
+     "antes": 130.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "013075",
+   "id": "013075:pack",
    "nombre": "Loratadina 10mg",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 6.0,
-    "mifarma": 4.9,
+    "mifarma": 6.0,
     "boticasperu": 6.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.06,
+    "mifarma": 0.06,
+    "boticasperu": 0.06
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 22.4,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/loratadina-10mg/013075",
     "mifarma": "https://www.mifarma.com.pe/producto/loratadina-10mg/013075",
@@ -322,7 +618,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 4.9,
+     "antes": 6.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -333,23 +629,34 @@
    }
   },
   {
-   "id": "420618",
+   "id": "420618:pack",
    "nombre": "Loratadina 5Mg/5Ml Jarabe",
    "categoria": "alergia",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 60 ML",
+   "cantidad": 60.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 3.3,
-    "mifarma": 3.4
+    "mifarma": 3.4,
+    "boticasperu": 3.4
+   },
+   "precio_unidad": {
+    "inkafarma": 0.055,
+    "mifarma": 0.0567,
+    "boticasperu": 0.0567
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/loratadina-5mg-5ml-jarabe/420618",
-    "mifarma": "https://www.mifarma.com.pe/producto/loratadina-5mg-5ml-jarabe/420618"
+    "mifarma": "https://www.mifarma.com.pe/producto/loratadina-5mg-5ml-jarabe/420618",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/loratadina_5_mg_jarabe_-_frasco_60_ml/01110.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -361,17 +668,29 @@
      "dir": "igual",
      "antes": 3.4,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 3.4,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "012475",
+   "id": "012475:fraccion",
    "nombre": "Loreze 10 Mg Cápsulas Blandas - Caja 60 UN",
    "categoria": "alergia",
    "marca": "MEGA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 17.0,
     "mifarma": 18.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8
    },
    "promos": {
     "inkafarma": false,
@@ -397,13 +716,59 @@
    }
   },
   {
-   "id": "134294",
+   "id": "012475:pack",
+   "nombre": "Loreze 10 Mg Cápsulas Blandas - Caja 60 UN",
+   "categoria": "alergia",
+   "marca": "MEGA",
+   "presentacion": "CAJA 60 UN",
+   "cantidad": 60.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 102.0,
+    "mifarma": 108.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/loreze-10-mg-capsulas-blandas/012475",
+    "mifarma": "https://www.mifarma.com.pe/producto/loreze-10-mg-capsulas-blandas/012475"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 102.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 108.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "134294:fraccion",
    "nombre": "Scadan 4mg Tableta",
    "categoria": "alergia",
    "marca": "MKT PHARMA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 4.2,
     "mifarma": 4.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.42,
+    "mifarma": 0.43
    },
    "promos": {
     "inkafarma": false,
@@ -429,13 +794,59 @@
    }
   },
   {
-   "id": "025764",
+   "id": "134294:pack",
+   "nombre": "Scadan 4mg Tableta",
+   "categoria": "alergia",
+   "marca": "MKT PHARMA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 42.0,
+    "mifarma": 43.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.42,
+    "mifarma": 0.43
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.4,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/scadan-4mg-tableta/134294",
+    "mifarma": "https://www.mifarma.com.pe/producto/scadan-4mg-tableta/134294"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 42.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 43.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "025764:pack",
    "nombre": "Apronax 275mg Tableta Recubierta",
    "categoria": "analgesico",
    "marca": "BAYER",
+   "presentacion": "CAJA 8 UN",
+   "cantidad": 8.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 10.6,
     "mifarma": 10.9
+   },
+   "precio_unidad": {
+    "inkafarma": 1.325,
+    "mifarma": 1.3625
    },
    "promos": {
     "inkafarma": false,
@@ -461,14 +872,22 @@
    }
   },
   {
-   "id": "230451",
+   "id": "230451:fraccion",
    "nombre": "Apronax 550mg Tableta Recubierta",
    "categoria": "analgesico",
    "marca": "BAYER",
+   "presentacion": "BLÍSTER 4 UN",
+   "cantidad": 4.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 7.2,
     "mifarma": 7.6,
     "boticasperu": 7.6
+   },
+   "precio_unidad": {
+    "inkafarma": 1.8,
+    "mifarma": 1.9,
+    "boticasperu": 1.9
    },
    "promos": {
     "inkafarma": false,
@@ -501,14 +920,70 @@
    }
   },
   {
-   "id": "074238",
+   "id": "230451:pack",
+   "nombre": "Apronax 550mg Tableta Recubierta",
+   "categoria": "analgesico",
+   "marca": "BAYER",
+   "presentacion": "CAJA 120 UN",
+   "cantidad": 120.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 216.0,
+    "mifarma": 228.0,
+    "boticasperu": 228.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.8,
+    "mifarma": 1.9,
+    "boticasperu": 1.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.6,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/apronax-550mg-tabletas-recubiertas/230451",
+    "mifarma": "https://www.mifarma.com.pe/producto/apronax-550mg-tabletas-recubiertas/230451",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/apronax_550mg_tableta_recubierta_-_caja_120_un/12313-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 216.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 228.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 228.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "074238:fraccion",
    "nombre": "Apronax Pro 660Mg Comprimido de Liberación Modificada",
    "categoria": "analgesico",
    "marca": "BAYER",
+   "presentacion": "BLISTER 4 UN",
+   "cantidad": 4.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 8.4,
     "mifarma": 8.8,
     "boticasperu": 8.4
+   },
+   "precio_unidad": {
+    "inkafarma": 2.1,
+    "mifarma": 2.2,
+    "boticasperu": 2.1
    },
    "promos": {
     "inkafarma": false,
@@ -541,11 +1016,58 @@
    }
   },
   {
-   "id": "973232",
+   "id": "074238:pack",
+   "nombre": "Apronax Pro 660Mg Comprimido de Liberación Modificada",
+   "categoria": "analgesico",
+   "marca": "BAYER",
+   "presentacion": "CAJA 24 UN",
+   "cantidad": 24.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 50.4,
+    "mifarma": 52.8
+   },
+   "precio_unidad": {
+    "inkafarma": 2.1,
+    "mifarma": 2.2
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 4.8,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/apronax-pro-660mg-comprimido-de-liberacion-modificada/074238",
+    "mifarma": "https://www.mifarma.com.pe/producto/apronax-pro-660mg-comprimido-de-liberacion-modificada/074238"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 50.4,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 52.8,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "973232:pack",
    "nombre": "Aspirador Nasal Nuby",
    "categoria": "analgesico",
    "marca": "NUBY",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 16.9,
+    "mifarma": 16.9,
+    "boticasperu": 16.9
+   },
+   "precio_unidad": {
     "inkafarma": 16.9,
     "mifarma": 16.9,
     "boticasperu": 16.9
@@ -581,23 +1103,34 @@
    }
   },
   {
-   "id": "006333",
+   "id": "006333:pack",
    "nombre": "Aspirador Nasal Owawa",
    "categoria": "analgesico",
    "marca": "OWAWA",
+   "presentacion": "BLÍSTER 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 34.9,
-    "mifarma": 34.9
+    "mifarma": 34.9,
+    "boticasperu": 16.9
+   },
+   "precio_unidad": {
+    "inkafarma": 34.9,
+    "mifarma": 34.9,
+    "boticasperu": 16.9
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 106.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/aspirador-nasal-owawa-1un/006333",
-    "mifarma": "https://www.mifarma.com.pe/producto/aspirador-nasal-owawa-1un/006333"
+    "mifarma": "https://www.mifarma.com.pe/producto/aspirador-nasal-owawa-1un/006333",
+    "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/aseo_infantil/hisopos_y_aspiradores_nasales/nuby_aspirador_nasal__-_unidad_1_un/22774.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -609,26 +1142,39 @@
      "dir": "igual",
      "antes": 34.9,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 16.9,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "109005",
+   "id": "109005:fraccion",
    "nombre": "Aspirina 100mg Tableta",
    "categoria": "analgesico",
    "marca": "BAYER",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 6.7,
-    "mifarma": 6.6,
+    "mifarma": 6.9,
     "boticasperu": 7.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.67,
+    "mifarma": 0.69,
+    "boticasperu": 0.7
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 6.1,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 4.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/aspirina-100mg-tabletas/109005",
     "mifarma": "https://www.mifarma.com.pe/producto/aspirina-100mg-tabletas/109005",
@@ -642,7 +1188,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 6.6,
+     "antes": 6.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -653,23 +1199,82 @@
    }
   },
   {
-   "id": "421666",
-   "nombre": "Bi Profenid 150mg Comprimido de liberación Prolongada",
+   "id": "109005:pack",
+   "nombre": "Aspirina 100mg Tableta",
    "categoria": "analgesico",
-   "marca": "SANOFI",
+   "marca": "BAYER",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 49.0,
-    "mifarma": 49.3
+    "inkafarma": 67.0,
+    "mifarma": 69.0,
+    "boticasperu": 70.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.67,
+    "mifarma": 0.69,
+    "boticasperu": 0.7
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 0.6,
+   "brecha_pct": 4.5,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/aspirina-100mg-tabletas/109005",
+    "mifarma": "https://www.mifarma.com.pe/producto/aspirina-100mg-tabletas/109005",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/cardiovascular/aspirina_100_prevencion_cardiovascular_100_mg_-_caja_100_un/34608-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 67.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 69.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 70.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "421666:pack",
+   "nombre": "Bi Profenid 150mg Comprimido de liberación Prolongada",
+   "categoria": "analgesico",
+   "marca": "SANOFI",
+   "presentacion": "CAJA 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 49.0,
+    "mifarma": 50.0,
+    "boticasperu": 20.3
+   },
+   "precio_unidad": {
+    "inkafarma": 4.9,
+    "mifarma": 5.0,
+    "boticasperu": 2.03
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 146.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bi-profenid-150-mg-comprimidos/421666",
-    "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666"
+    "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/dolocordralan_100_liberacion_prolongada_tableta_-_blister_10_un/37304.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -679,20 +1284,33 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 49.3,
+     "antes": 50.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 20.3,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "009540",
+   "id": "009540:pack",
    "nombre": "Diclofenaco 1% Gel",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "TUBO 50 GR",
+   "cantidad": 50.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 3.2,
     "mifarma": 3.3,
-    "boticasperu": 3.9
+    "boticasperu": 5.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.064,
+    "mifarma": 0.066,
+    "boticasperu": 0.106
    },
    "promos": {
     "inkafarma": false,
@@ -700,11 +1318,11 @@
     "boticasperu": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 21.9,
+   "brecha_pct": 65.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/diclofenaco-1-gel-topica/009540",
     "mifarma": "https://www.mifarma.com.pe/producto/diclofenaco-1-gel-topica/009540",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/diclofenaco_1%25_gel_-_tubo_20_g/37596.html"
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/dolor_muscular/pomada_o_gel/diclofenaco_1%25_gel_topico_-_tubo_50_g/12755.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -719,20 +1337,28 @@
     },
     "boticasperu": {
      "dir": "igual",
-     "antes": 3.9,
+     "antes": 5.3,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "268175",
+   "id": "268175:pack",
    "nombre": "Diclofenaco 1% Gel",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "TUBO 50 GR",
+   "cantidad": 50.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 5.3,
     "mifarma": 5.5,
     "boticasperu": 5.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.106,
+    "mifarma": 0.11,
+    "boticasperu": 0.106
    },
    "promos": {
     "inkafarma": false,
@@ -765,14 +1391,61 @@
    }
   },
   {
-   "id": "037713",
+   "id": "037713:fraccion",
    "nombre": "Diclofenaco 100 mg Tabletas de Liberación Retardada",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 2.2,
+    "mifarma": 2.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.22,
+    "mifarma": 0.23
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 4.5,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/diclofenaco-ptg-100mg-tableta-recubierta/037713",
+    "mifarma": "https://www.mifarma.com.pe/producto/diclofenaco-ptg-100mg-tableta-recubierta/037713"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 2.3,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "037713:pack",
+   "nombre": "Diclofenaco 100 mg Tabletas de Liberación Retardada",
+   "categoria": "analgesico",
+   "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 22.0,
     "mifarma": 23.0,
     "boticasperu": 22.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.22,
+    "mifarma": 0.23,
+    "boticasperu": 0.22
    },
    "promos": {
     "inkafarma": false,
@@ -805,14 +1478,22 @@
    }
   },
   {
-   "id": "035314",
+   "id": "035314:fraccion",
    "nombre": "Dolocordralan 50mg Tableta de Liberación retardada",
    "categoria": "analgesico",
    "marca": "ANSOLAT",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 17.0,
     "mifarma": 18.0,
     "boticasperu": 13.6
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8,
+    "boticasperu": 1.36
    },
    "promos": {
     "inkafarma": false,
@@ -845,14 +1526,100 @@
    }
   },
   {
-   "id": "071403",
+   "id": "035314:pack",
+   "nombre": "Dolocordralan 50mg Tableta de Liberación retardada",
+   "categoria": "analgesico",
+   "marca": "ANSOLAT",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 170.0,
+    "mifarma": 180.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/dolocordralan-tableta-de-liberacion-retardada/035314",
+    "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-tableta-de-liberacion-retardada/035314"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 170.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 180.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "071403:fraccion",
    "nombre": "Dolocordralan Extra Forte NF 50mg + 50mg + 50mg + 0.25mg Cápsula",
    "categoria": "analgesico",
    "marca": "ANSOLAT",
+   "presentacion": "BLISTER 6 UN",
+   "cantidad": 6.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 12.6,
+    "mifarma": 13.2
+   },
+   "precio_unidad": {
+    "inkafarma": 2.1,
+    "mifarma": 2.2
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 4.8,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/dolocordralan-extra-forte-nf-50mg-025mg-capsula/071403",
+    "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-extra-forte-nf-50mg-025mg-capsula/071403"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 12.6,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 13.2,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "071403:pack",
+   "nombre": "Dolocordralan Extra Forte NF 50mg + 50mg + 50mg + 0.25mg Cápsula",
+   "categoria": "analgesico",
+   "marca": "ANSOLAT",
+   "presentacion": "CAJA 54 UN",
+   "cantidad": 54.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 113.4,
     "mifarma": 118.8,
     "boticasperu": 118.8
+   },
+   "precio_unidad": {
+    "inkafarma": 2.1,
+    "mifarma": 2.2,
+    "boticasperu": 2.2
    },
    "promos": {
     "inkafarma": false,
@@ -885,14 +1652,22 @@
    }
   },
   {
-   "id": "035315",
+   "id": "035315:pack",
    "nombre": "Dolocordralan Forte 2% Gel",
    "categoria": "analgesico",
    "marca": "ANSOLAT",
+   "presentacion": "TUBO 50 GR",
+   "cantidad": 50.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 28.7,
     "mifarma": 29.6,
     "boticasperu": 29.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.574,
+    "mifarma": 0.592,
+    "boticasperu": 0.586
    },
    "promos": {
     "inkafarma": false,
@@ -925,14 +1700,22 @@
    }
   },
   {
-   "id": "084341",
+   "id": "084341:pack",
    "nombre": "Dolosciens 100mg Tableta de Liberación Prolongada",
    "categoria": "analgesico",
    "marca": "DOLOSCIENS",
+   "presentacion": "CAJA 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 21.8,
     "mifarma": 22.5,
     "boticasperu": 22.0
+   },
+   "precio_unidad": {
+    "inkafarma": 2.18,
+    "mifarma": 2.25,
+    "boticasperu": 2.2
    },
    "promos": {
     "inkafarma": false,
@@ -965,14 +1748,22 @@
    }
   },
   {
-   "id": "230300",
+   "id": "230300:pack",
    "nombre": "Ibuprofeno 100mg/5mL Suspensión Oral",
    "categoria": "analgesico",
    "marca": "SANOFI",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 4.2,
     "mifarma": 4.3,
     "boticasperu": 4.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.035,
+    "mifarma": 0.0358,
+    "boticasperu": 0.0358
    },
    "promos": {
     "inkafarma": false,
@@ -1005,14 +1796,22 @@
    }
   },
   {
-   "id": "230447",
+   "id": "230447:pack",
    "nombre": "Ibuprofeno 400mg Tableta Recubierta",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 10.0,
     "mifarma": 10.0,
     "boticasperu": 10.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1,
+    "mifarma": 0.1,
+    "boticasperu": 0.1
    },
    "promos": {
     "inkafarma": false,
@@ -1045,22 +1844,69 @@
    }
   },
   {
-   "id": "015814",
+   "id": "015814:fraccion",
    "nombre": "Ibuprofeno 800 mg",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 19.0,
-    "mifarma": 19.0,
-    "boticasperu": 19.0
+    "inkafarma": 1.9,
+    "mifarma": 2.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.19,
+    "mifarma": 0.2
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.3,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/ibuprofeno-800-mg/015814",
+    "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-800-mg/015814"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 1.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 2.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "015814:pack",
+   "nombre": "Ibuprofeno 800 mg",
+   "categoria": "analgesico",
+   "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 19.0,
+    "mifarma": 20.0,
+    "boticasperu": 19.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.19,
+    "mifarma": 0.2,
+    "boticasperu": 0.19
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
     "boticasperu": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "brecha_pct": 5.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/ibuprofeno-800-mg/015814",
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-800-mg/015814",
@@ -1074,7 +1920,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 19.0,
+     "antes": 20.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -1085,14 +1931,22 @@
    }
   },
   {
-   "id": "230196",
+   "id": "230196:pack",
    "nombre": "Ketoprofeno 100 mg/2ml Solución Inyectable",
    "categoria": "analgesico",
    "marca": "GENFAR",
+   "presentacion": "CAJA 6 UN",
+   "cantidad": 6.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 15.6,
     "mifarma": 16.2,
     "boticasperu": 16.2
+   },
+   "precio_unidad": {
+    "inkafarma": 2.6,
+    "mifarma": 2.7,
+    "boticasperu": 2.7
    },
    "promos": {
     "inkafarma": false,
@@ -1118,20 +1972,27 @@
      "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "baja",
-     "antes": 19.06,
-     "delta_pct": -15.0
+     "dir": "igual",
+     "antes": 16.2,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "268146",
+   "id": "268146:fraccion",
    "nombre": "Naproxeno 275mg Tableta",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 1.8,
     "mifarma": 1.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.18,
+    "mifarma": 0.19
    },
    "promos": {
     "inkafarma": false,
@@ -1157,22 +2018,69 @@
    }
   },
   {
-   "id": "203068",
-   "nombre": "Naproxeno Sódico 550 Mg Tableta Recubierta",
+   "id": "268146:pack",
+   "nombre": "Naproxeno 275mg Tableta",
    "categoria": "analgesico",
-   "marca": "FARMINDUSTRIA",
+   "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 3.6,
-    "mifarma": 3.5,
-    "boticasperu": 3.6
+    "inkafarma": 18.0,
+    "mifarma": 19.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.18,
+    "mifarma": 0.19
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.6,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/naproxeno-275mg-portugaltableta-/268146",
+    "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-275mg-portugaltableta-/268146"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 18.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "203068:fraccion",
+   "nombre": "Naproxeno Sódico 550 Mg Tableta Recubierta",
+   "categoria": "analgesico",
+   "marca": "FARMINDUSTRIA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 3.6,
+    "mifarma": 3.7,
+    "boticasperu": 3.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.36,
+    "mifarma": 0.37,
+    "boticasperu": 0.36
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 2.9,
+   "mas_barato": "empate",
+   "brecha_pct": 2.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
@@ -1186,7 +2094,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 3.5,
+     "antes": 3.7,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -1197,14 +2105,118 @@
    }
   },
   {
-   "id": "017988",
+   "id": "203068:pack",
+   "nombre": "Naproxeno Sódico 550 Mg Tableta Recubierta",
+   "categoria": "analgesico",
+   "marca": "FARMINDUSTRIA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 36.0,
+    "mifarma": 37.0,
+    "boticasperu": 36.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.36,
+    "mifarma": 0.37,
+    "boticasperu": 0.36
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 2.8,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
+    "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_caja_100_un/12318-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 36.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "baja",
+     "antes": 42.35,
+     "delta_pct": -15.0
+    }
+   }
+  },
+  {
+   "id": "017988:fraccion",
    "nombre": "Naproxeno Sódico 550mg Comprimido Recubierto",
    "categoria": "analgesico",
    "marca": "QUILAB",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 3.9,
+    "mifarma": 4.0,
+    "boticasperu": 3.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.39,
+    "mifarma": 0.4,
+    "boticasperu": 0.36
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 11.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/naproxeno-sodico-550mg-comprimido-recubierto/017988",
+    "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-comprimido-recubierto/017988",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_blister_10_un/12318-BLISTER.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 3.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 4.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 3.6,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "017988:pack",
+   "nombre": "Naproxeno Sódico 550mg Comprimido Recubierto",
+   "categoria": "analgesico",
+   "marca": "QUILAB",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 39.0,
     "mifarma": 40.0,
     "boticasperu": 36.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.39,
+    "mifarma": 0.4,
+    "boticasperu": 0.36
    },
    "promos": {
     "inkafarma": false,
@@ -1237,21 +2249,29 @@
    }
   },
   {
-   "id": "108010",
+   "id": "108010:pack",
    "nombre": "Paracetamol 120mg/5ml Jarabe",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 60 ML",
+   "cantidad": 60.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 2.0,
-    "mifarma": 2.0,
+    "mifarma": 2.1,
     "boticasperu": 2.1
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0333,
+    "mifarma": 0.035,
+    "boticasperu": 0.035
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "empate",
+   "mas_barato": "inkafarma",
    "brecha_pct": 5.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-120mg-5ml-jarabe-portugal/108010",
@@ -1266,7 +2286,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 2.0,
+     "antes": 2.1,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -1277,26 +2297,30 @@
    }
   },
   {
-   "id": "015496",
+   "id": "015496:pack",
    "nombre": "Paracetamol 120mg/5ml Solución Oral",
    "categoria": "analgesico",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 125 GR",
+   "cantidad": 125.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 3.0,
-    "mifarma": 3.1,
-    "boticasperu": 2.1
+    "mifarma": 3.1
+   },
+   "precio_unidad": {
+    "inkafarma": 0.024,
+    "mifarma": 0.0248
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 47.6,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-120mg-5ml-solucion-oral/015496",
-    "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-120mg-5ml-solucion-oral/015496",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/paracetamol_jarabe_120_mg%2F5ml-_frasco_60_ml/12975.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-120mg-5ml-solucion-oral/015496"
    },
    "tendencia": {
     "inkafarma": {
@@ -1308,22 +2332,24 @@
      "dir": "igual",
      "antes": 3.1,
      "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 2.1,
-     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "071160",
+   "id": "071160:fraccion",
    "nombre": "Pharamol 500mg Comprimido",
    "categoria": "analgesico",
    "marca": "MKT PHARMA",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 3.91,
     "mifarma": 4.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.391,
+    "mifarma": 0.4
    },
    "promos": {
     "inkafarma": false,
@@ -1349,13 +2375,98 @@
    }
   },
   {
-   "id": "036402",
+   "id": "071160:pack",
+   "nombre": "Pharamol 500mg Comprimido",
+   "categoria": "analgesico",
+   "marca": "MKT PHARMA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 39.1,
+    "mifarma": 40.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.391,
+    "mifarma": 0.4
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.3,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/pharamol-500mg-comprimido/071160",
+    "mifarma": "https://www.mifarma.com.pe/producto/pharamol-500mg-comprimido/071160"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 39.1,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 40.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "036402:fraccion",
    "nombre": "TIROMIZOL-E 20MG TABLETA",
    "categoria": "analgesico",
    "marca": "TIROMIZOL",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 9.86,
+    "mifarma": 10.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.986,
+    "mifarma": 1.02
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.4,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/tiromizol-e-20mg-cja-50-tab/036402",
+    "mifarma": "https://www.mifarma.com.pe/producto/tiromizol-e-20mg-cja-50-tab/036402"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 9.86,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 10.2,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "036402:pack",
+   "nombre": "TIROMIZOL-E 20MG TABLETA",
+   "categoria": "analgesico",
+   "marca": "TIROMIZOL",
+   "presentacion": "CAJA 50 UN",
+   "cantidad": 50.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 49.3,
     "mifarma": 51.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.986,
+    "mifarma": 1.02
    },
    "promos": {
     "inkafarma": false,
@@ -1381,13 +2492,20 @@
    }
   },
   {
-   "id": "107040",
+   "id": "107040:pack",
    "nombre": "TRAMADOL 50MG CAPSULA",
    "categoria": "analgesico",
    "marca": "TRAMADOL",
+   "presentacion": "CAJA 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 11.8,
     "mifarma": 12.2
+   },
+   "precio_unidad": {
+    "inkafarma": 1.18,
+    "mifarma": 1.22
    },
    "promos": {
     "inkafarma": false,
@@ -1413,13 +2531,59 @@
    }
   },
   {
-   "id": "421370",
+   "id": "421370:fraccion",
    "nombre": "Tapazol 5Mg Tabletas - Caja 50 UN",
    "categoria": "analgesico",
    "marca": "CIPA LABORATORIOS",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 7.3,
+    "mifarma": 7.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.73,
+    "mifarma": 0.75
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/tapazol-5mg-tabletas/421370",
+    "mifarma": "https://www.mifarma.com.pe/producto/tapazol-5mg-tabletas/421370"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 7.3,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 7.5,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "421370:pack",
+   "nombre": "Tapazol 5Mg Tabletas - Caja 50 UN",
+   "categoria": "analgesico",
+   "marca": "CIPA LABORATORIOS",
+   "presentacion": "CAJA 50 UN",
+   "cantidad": 50.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 36.5,
     "mifarma": 37.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.73,
+    "mifarma": 0.75
    },
    "promos": {
     "inkafarma": false,
@@ -1445,14 +2609,22 @@
    }
   },
   {
-   "id": "300092",
+   "id": "300092:pack",
    "nombre": "Ambroxol 15mg/5ml Jarabe",
    "categoria": "antigripal",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 2.8,
     "mifarma": 2.9,
     "boticasperu": 2.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0233,
+    "mifarma": 0.0242,
+    "boticasperu": 0.0242
    },
    "promos": {
     "inkafarma": false,
@@ -1485,23 +2657,34 @@
    }
   },
   {
-   "id": "300091",
+   "id": "300091:pack",
    "nombre": "Ambroxol 30mg|5ml Jarabe",
    "categoria": "antigripal",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 2.9,
-    "mifarma": 3.0
+    "mifarma": 3.0,
+    "boticasperu": 3.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0242,
+    "mifarma": 0.025,
+    "boticasperu": 0.025
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.4,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/ambroxol-30-mg-5-ml-jarabe/300091",
-    "mifarma": "https://www.mifarma.com.pe/producto/ambroxol-30-mg-5-ml-jarabe/300091"
+    "mifarma": "https://www.mifarma.com.pe/producto/ambroxol-30-mg-5-ml-jarabe/300091",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/respiratorios/ambroxol_30mg%2F5ml_c%2Fc_-_frasco_120_ml/14764.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -1513,27 +2696,43 @@
      "dir": "igual",
      "antes": 3.0,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "079480",
+   "id": "079480:pack",
    "nombre": "Bisolol 5mg Tableta Recubierta",
    "categoria": "antigripal",
    "marca": "BISOLOL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 119.9,
-    "mifarma": 123.0
+    "mifarma": 123.0,
+    "boticasperu": 27.9
+   },
+   "precio_unidad": {
+    "inkafarma": 1.199,
+    "mifarma": 1.23,
+    "boticasperu": 0.279
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 2.6,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 340.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bisolol-5mg-tableta-recubierta/079480",
-    "mifarma": "https://www.mifarma.com.pe/producto/bisolol-5mg-tableta-recubierta/079480"
+    "mifarma": "https://www.mifarma.com.pe/producto/bisolol-5mg-tableta-recubierta/079480",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antihistaminicos/desloratadina_5mg_tableta_recubierta_-_caja_100_un/42683.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -1545,18 +2744,31 @@
      "dir": "igual",
      "antes": 123.0,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 27.9,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "420207",
+   "id": "420207:pack",
    "nombre": "Bisolvon 8mg/5ml Jarabe Adultos - Frasco 120 ML",
    "categoria": "antigripal",
    "marca": "SANOFI",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 21.1,
     "mifarma": 21.7,
     "boticasperu": 21.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1758,
+    "mifarma": 0.1808,
+    "boticasperu": 0.1792
    },
    "promos": {
     "inkafarma": false,
@@ -1589,23 +2801,34 @@
    }
   },
   {
-   "id": "420110",
+   "id": "420110:pack",
    "nombre": "Bisolvon® Para Niños 4mg/5ml Jarabe",
    "categoria": "antigripal",
    "marca": "SANOFI",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 21.7,
-    "mifarma": 22.4
+    "mifarma": 22.4,
+    "boticasperu": 21.7
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1808,
+    "mifarma": 0.1867,
+    "boticasperu": 0.1808
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": true,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
+   "mas_barato": "empate",
    "brecha_pct": 3.2,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bisolvon-para-ninos-4-mg-5-ml-jarabe-sabor-fresa/420110",
-    "mifarma": "https://www.mifarma.com.pe/producto/bisolvon-para-ninos-4-mg-5-ml-jarabe-sabor-fresa/420110"
+    "mifarma": "https://www.mifarma.com.pe/producto/bisolvon-para-ninos-4-mg-5-ml-jarabe-sabor-fresa/420110",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/bisolvon-linctus_ninos_-_frasco_120_ml/11203.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -1617,17 +2840,80 @@
      "dir": "igual",
      "antes": 22.4,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 21.7,
+     "delta_pct": 0.0
+    }
+   },
+   "promo_cambio": {
+    "mifarma": "inicia"
+   }
+  },
+  {
+   "id": "066564:fraccion",
+   "nombre": "Desenfriol Comprimido recubierto",
+   "categoria": "antigripal",
+   "marca": "BAYER",
+   "presentacion": "BLISTER 6 UN",
+   "cantidad": 6.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 5.9,
+    "mifarma": 6.12,
+    "boticasperu": 6.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.9833,
+    "mifarma": 1.02,
+    "boticasperu": 1.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/desenfriol-comprimido-recubierto/066564",
+    "mifarma": "https://www.mifarma.com.pe/producto/desenfriol-comprimido-recubierto/066564",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/desenfriol_comprimidos_recubiertos_-_blister_6_un/41918.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 5.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "baja",
+     "antes": 6.65,
+     "delta_pct": -8.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "066564",
+   "id": "066564:pack",
    "nombre": "Desenfriol Comprimido recubierto",
    "categoria": "antigripal",
    "marca": "BAYER",
+   "presentacion": "CAJA 24 UN",
+   "cantidad": 24.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 23.6,
     "mifarma": 24.48
+   },
+   "precio_unidad": {
+    "inkafarma": 0.9833,
+    "mifarma": 1.02
    },
    "promos": {
     "inkafarma": false,
@@ -1641,9 +2927,9 @@
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "igual",
-     "antes": 23.6,
-     "delta_pct": 0.0
+     "dir": "baja",
+     "antes": 26.82,
+     "delta_pct": -12.0
     },
     "mifarma": {
      "dir": "igual",
@@ -1653,113 +2939,168 @@
    }
   },
   {
-   "id": "423691",
+   "id": "423691:pack",
    "nombre": "Mucosolvan 30mg/5ml Jarabe Adulto - Frasco 120 ML",
    "categoria": "antigripal",
    "marca": "SANOFI",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 24.9,
-    "mifarma": 25.1
+    "mifarma": 25.1,
+    "boticasperu": 24.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2075,
+    "mifarma": 0.2092,
+    "boticasperu": 0.2075
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
+   "mas_barato": "empate",
    "brecha_pct": 0.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691",
-    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691"
+    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_adulto_-_frasco_120_ml/00464.html"
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "igual",
-     "antes": 24.9,
-     "delta_pct": 0.0
+     "dir": "baja",
+     "antes": 31.92,
+     "delta_pct": -22.0
     },
     "mifarma": {
      "dir": "igual",
      "antes": 25.1,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "426469",
+   "id": "426469:pack",
    "nombre": "Mucosolvan Compositum 15mg - 0.01 mg/5ml Jarabe",
    "categoria": "antigripal",
    "marca": "BOEHRINGER INGELHEIM",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 24.9,
-    "mifarma": 25.6
+    "mifarma": 25.6,
+    "boticasperu": 31.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2075,
+    "mifarma": 0.2133,
+    "boticasperu": 0.26
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 2.8,
+   "brecha_pct": 25.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/mucosolvan-compositum-adultos-jarabe/426469",
-    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-compositum-adultos-jarabe/426469"
+    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-compositum-adultos-jarabe/426469",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_jarabe_pediatrico_-_frasco_120_ml/07920.html"
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "igual",
-     "antes": 24.9,
-     "delta_pct": 0.0
+     "dir": "sube",
+     "antes": 21.1,
+     "delta_pct": 18.0
     },
     "mifarma": {
      "dir": "igual",
      "antes": 25.6,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 31.2,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "425501",
+   "id": "425501:pack",
    "nombre": "Mucosolvan Compositum Pediátrico 7.5mg-0.005 mg /5ml Jarabe",
    "categoria": "antigripal",
    "marca": "BOEHRINGER INGELHEIM",
+   "presentacion": "FRASCO 120 ML",
+   "cantidad": 120.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 31.5,
-    "mifarma": 31.8
+    "mifarma": 31.8,
+    "boticasperu": 31.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2625,
+    "mifarma": 0.265,
+    "boticasperu": 0.26
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 1.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 1.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/mucosolvan-compositum-pediatrico-jarabe/425501",
-    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-compositum-pediatrico-jarabe/425501"
+    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-compositum-pediatrico-jarabe/425501",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_jarabe_pediatrico_-_frasco_120_ml/07920.html"
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "igual",
-     "antes": 31.5,
-     "delta_pct": 0.0
+     "dir": "sube",
+     "antes": 28.9,
+     "delta_pct": 9.0
     },
     "mifarma": {
      "dir": "igual",
      "antes": 31.8,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 31.2,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "007068",
+   "id": "007068:fraccion",
    "nombre": "Nastizol Antigripal Forte Comprimido",
    "categoria": "antigripal",
    "marca": "BAGÓ",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 10.0,
     "mifarma": 10.0
    },
+   "precio_unidad": {
+    "inkafarma": 1.0,
+    "mifarma": 1.0
+   },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
@@ -1774,23 +3115,108 @@
      "delta_pct": 0.0
     },
     "mifarma": {
+     "dir": "sube",
+     "antes": 9.43,
+     "delta_pct": 6.0
+    }
+   }
+  },
+  {
+   "id": "007068:pack",
+   "nombre": "Nastizol Antigripal Forte Comprimido",
+   "categoria": "antigripal",
+   "marca": "BAGÓ",
+   "presentacion": "CAJA 150 UN",
+   "cantidad": 150.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 150.0,
+    "mifarma": 150.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.0,
+    "mifarma": 1.0
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/nastizol-compositum-forte-comprimidos/007068",
+    "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-forte-comprimidos/007068"
+   },
+   "tendencia": {
+    "inkafarma": {
      "dir": "igual",
-     "antes": 10.0,
+     "antes": 150.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 150.0,
      "delta_pct": 0.0
     }
    },
    "promo_cambio": {
-    "mifarma": "inicia"
+    "inkafarma": "inicia"
    }
   },
   {
-   "id": "078808",
+   "id": "078808:pack",
    "nombre": "Nastizol Antigripal Multisíntomas Tableta Recubierta",
    "categoria": "antigripal",
    "marca": "NASTIZOL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 93.5,
+    "mifarma": 96.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.935,
+    "mifarma": 0.96
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808",
+    "mifarma": "https://www.mifarma.com.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 93.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 96.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "078808:fraccion",
+   "nombre": "Nastizol Antigripal Multisíntomas Tableta Recubierta",
+   "categoria": "antigripal",
+   "marca": "NASTIZOL",
+   "presentacion": "SOBRE 2 UN",
+   "cantidad": 2.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 1.87,
     "mifarma": 1.92
+   },
+   "precio_unidad": {
+    "inkafarma": 0.935,
+    "mifarma": 0.96
    },
    "promos": {
     "inkafarma": false,
@@ -1809,20 +3235,27 @@
      "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "baja",
-     "antes": 2.09,
-     "delta_pct": -8.1
+     "dir": "igual",
+     "antes": 1.92,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "428277",
+   "id": "428277:fraccion",
    "nombre": "Nastizol junior NF Antigripal Comprimidos masticables",
    "categoria": "antigripal",
    "marca": "BAGÓ",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 6.0,
     "mifarma": 6.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.6,
+    "mifarma": 0.6
    },
    "promos": {
     "inkafarma": false,
@@ -1836,9 +3269,9 @@
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "baja",
-     "antes": 6.82,
-     "delta_pct": -12.0
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
@@ -1848,14 +3281,57 @@
    }
   },
   {
-   "id": "PACKFC143",
+   "id": "428277:pack",
+   "nombre": "Nastizol junior NF Antigripal Comprimidos masticables",
+   "categoria": "antigripal",
+   "marca": "BAGÓ",
+   "presentacion": "CAJA 150 UN",
+   "cantidad": 150.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 90.0,
+    "mifarma": 90.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.6,
+    "mifarma": 0.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/nastizol-compositum-junior-antigripal-comprimidos-/428277",
+    "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-junior-antigripal-comprimidos-/428277"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 90.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 90.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "PACKFC143:pack",
    "nombre": "Pack 02 Blísters Grip-10 + 06 Sobres Vick Vitapyrena Forte",
    "categoria": "antigripal",
    "marca": "VICK",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
     "inkafarma": 24.6,
     "mifarma": 25.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
     "mifarma": false
@@ -1868,9 +3344,9 @@
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "baja",
-     "antes": 31.54,
-     "delta_pct": -22.0
+     "dir": "igual",
+     "antes": 24.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
@@ -1880,46 +3356,54 @@
    }
   },
   {
-   "id": "PACKFC180",
+   "id": "PACKFC180:pack",
    "nombre": "Pack Chao NF Tableta + Chao Té Antigripal",
    "categoria": "antigripal",
    "marca": "CHAO",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 2.1,
-    "mifarma": 2.2
+    "inkafarma": 4.4,
+    "mifarma": 4.7
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 4.8,
+   "brecha_pct": 6.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-chao-nf-tableta-chao-te-antigripal/PACKFC180",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-chao-nf-tableta-chao-te-antigripal/PACKFC180"
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "sube",
-     "antes": 1.78,
-     "delta_pct": 18.0
+     "dir": "igual",
+     "antes": 4.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 2.2,
+     "antes": 4.7,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKFC6",
+   "id": "PACKFC6:pack",
    "nombre": "Pack Vick VapoRub Ungüento 100 Gr",
    "categoria": "antigripal",
    "marca": "VICK",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
     "inkafarma": 32.6,
     "mifarma": 33.6
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
     "mifarma": false
@@ -1932,9 +3416,9 @@
    },
    "tendencia": {
     "inkafarma": {
-     "dir": "sube",
-     "antes": 29.91,
-     "delta_pct": 9.0
+     "dir": "igual",
+     "antes": 32.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
@@ -1944,14 +3428,18 @@
    }
   },
   {
-   "id": "PACKFC142",
+   "id": "PACKFC142:pack",
    "nombre": "Pack Vick Vaporub 50g + 06 Sobres Vitapyrena Forte",
    "categoria": "antigripal",
    "marca": "VICK",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
     "inkafarma": 23.4,
     "mifarma": 24.9
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
     "mifarma": false
@@ -1969,33 +3457,76 @@
      "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "sube",
-     "antes": 23.49,
-     "delta_pct": 6.0
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "025891",
+   "id": "025891:pack",
    "nombre": "Panadol Antigripal NF Tableta",
    "categoria": "antigripal",
    "marca": "GSK",
+   "presentacion": "CAJA 104 UN",
+   "cantidad": 104.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 2.5,
-    "mifarma": 2.6,
-    "boticasperu": 2.7
+    "inkafarma": 130.0,
+    "mifarma": 135.2
+   },
+   "precio_unidad": {
+    "inkafarma": 1.25,
+    "mifarma": 1.3
    },
    "promos": {
-    "inkafarma": true,
-    "mifarma": false,
-    "boticasperu": false
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 8.0,
+   "brecha_pct": 4.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/panadol-antigripal-nf-tableta/025891",
-    "mifarma": "https://www.mifarma.com.pe/producto/panadol-antigripal-nf-tableta/025891",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/panadol_antigripal_tabletas_-_sobre_2_tab/35136-SOBRE.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/panadol-antigripal-nf-tableta/025891"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 130.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 135.2,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "025891:fraccion",
+   "nombre": "Panadol Antigripal NF Tableta",
+   "categoria": "antigripal",
+   "marca": "GSK",
+   "presentacion": "SOBRE X2 TABS 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 2.5,
+    "mifarma": 2.6
+   },
+   "precio_unidad": {
+    "inkafarma": 2.5,
+    "mifarma": 2.6
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 4.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/panadol-antigripal-nf-tableta/025891",
+    "mifarma": "https://www.mifarma.com.pe/producto/panadol-antigripal-nf-tableta/025891"
    },
    "tendencia": {
     "inkafarma": {
@@ -2007,23 +3538,70 @@
      "dir": "igual",
      "antes": 2.6,
      "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 2.7,
-     "delta_pct": 0.0
     }
-   },
-   "promo_cambio": {
-    "inkafarma": "inicia"
    }
   },
   {
-   "id": "070071",
+   "id": "070071:pack",
    "nombre": "Tapsin Instaflu Noche Comprimido Recubierto",
    "categoria": "antigripal",
    "marca": "MAVER",
+   "presentacion": "CAJA 25 SOBRE",
+   "cantidad": 25.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 42.5,
+    "mifarma": 45.0,
+    "boticasperu": 45.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8,
+    "boticasperu": 1.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
+    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_antigripal_noche_comprimido_recubierto_-_caja_25_un/45620-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "070071:fraccion",
+   "nombre": "Tapsin Instaflu Noche Comprimido Recubierto",
+   "categoria": "antigripal",
+   "marca": "MAVER",
+   "presentacion": "SOBRE 1 SOBRE",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8
+   },
+   "precio_unidad": {
     "inkafarma": 1.7,
     "mifarma": 1.8
    },
@@ -2051,11 +3629,66 @@
    }
   },
   {
-   "id": "070072",
+   "id": "070072:pack",
    "nombre": "Tapsin Plus Antigripal Día Comprimido Recubierto",
    "categoria": "antigripal",
    "marca": "MAVER",
+   "presentacion": "CAJA 25 SOBRE",
+   "cantidad": 25.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 42.5,
+    "mifarma": 45.0,
+    "boticasperu": 45.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8,
+    "boticasperu": 1.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-antigripal-dia-comprimido-recubierto/070072",
+    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-antigripal-dia-comprimido-recubierto/070072",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_antigripal_dia_comprimido_recubierto_-_caja_25_un/45619-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "070072:fraccion",
+   "nombre": "Tapsin Plus Antigripal Día Comprimido Recubierto",
+   "categoria": "antigripal",
+   "marca": "MAVER",
+   "presentacion": "SOBRE 1 SOBRE",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 1.7,
+    "mifarma": 1.8
+   },
+   "precio_unidad": {
     "inkafarma": 1.7,
     "mifarma": 1.8
    },
@@ -2083,22 +3716,69 @@
    }
   },
   {
-   "id": "023900",
+   "id": "023900:pack",
    "nombre": "Tapsin Plus Caliente Día Sabor Limón",
    "categoria": "antigripal",
    "marca": "MAVER",
+   "presentacion": "CAJA 20 UN",
+   "cantidad": 20.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 44.0,
+    "mifarma": 45.2
+   },
+   "precio_unidad": {
+    "inkafarma": 2.2,
+    "mifarma": 2.26
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900",
+    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 44.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 45.2,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "023900:fraccion",
+   "nombre": "Tapsin Plus Caliente Día Sabor Limón",
+   "categoria": "antigripal",
+   "marca": "MAVER",
+   "presentacion": "SOBRE 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 2.2,
-    "mifarma": 2.1,
+    "mifarma": 2.26,
+    "boticasperu": 2.2
+   },
+   "precio_unidad": {
+    "inkafarma": 2.2,
+    "mifarma": 2.26,
     "boticasperu": 2.2
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 4.8,
+   "mas_barato": "empate",
+   "brecha_pct": 2.7,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-dia-sabor-limon/023900",
@@ -2112,7 +3792,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 2.1,
+     "antes": 2.26,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2123,13 +3803,20 @@
    }
   },
   {
-   "id": "010928",
+   "id": "010928:pack",
    "nombre": "Antitranspirante en Barra Rexona Clinical Clean para Hombre",
    "categoria": "cuidado_personal",
    "marca": "REXONA",
+   "presentacion": "FRASCO 48 GR",
+   "cantidad": 48.0,
+   "unidad": "g",
    "precios": {
-    "inkafarma": 15.1,
-    "mifarma": 15.1
+    "inkafarma": 18.9,
+    "mifarma": 18.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.3937,
+    "mifarma": 0.3937
    },
    "promos": {
     "inkafarma": true,
@@ -2144,65 +3831,89 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 15.1,
+     "antes": 18.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 15.1,
+     "antes": 18.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "030279",
+   "id": "030279:pack",
    "nombre": "Crema Dental Colgate Total Anti-sarro Prevención Activa",
    "categoria": "cuidado_personal",
    "marca": "COLGATE",
+   "presentacion": "TUBO 150 ML",
+   "cantidad": 150.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 18.4,
-    "mifarma": 18.4
+    "inkafarma": 22.3,
+    "mifarma": 22.3,
+    "boticasperu": 18.9
    },
-   "promos": {
-    "inkafarma": true,
-    "mifarma": true
-   },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
-   "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279",
-    "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279"
-   },
-   "tendencia": {
-    "inkafarma": {
-     "dir": "igual",
-     "antes": 18.4,
-     "delta_pct": 0.0
-    },
-    "mifarma": {
-     "dir": "igual",
-     "antes": 18.4,
-     "delta_pct": 0.0
-    }
-   }
-  },
-  {
-   "id": "034431",
-   "nombre": "Desodorante en Spray Rexona Women 72 Horas Active Emotion",
-   "categoria": "cuidado_personal",
-   "marca": "REXONA",
-   "precios": {
-    "inkafarma": 12.5,
-    "mifarma": 11.9,
-    "boticasperu": 13.9
+   "precio_unidad": {
+    "inkafarma": 0.1487,
+    "mifarma": 0.1487,
+    "boticasperu": 0.126
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 16.8,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 18.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279",
+    "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279",
+    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/bucal/cremas_dentales/crema_dental_colgate_total_12_antisarro_-_tubo_150_ml/36209.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 22.3,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 22.3,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 18.9,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "034431:pack",
+   "nombre": "Desodorante en Spray Rexona Women 72 Horas Active Emotion",
+   "categoria": "cuidado_personal",
+   "marca": "REXONA",
+   "presentacion": "FRASCO 150 ML",
+   "cantidad": 150.0,
+   "unidad": "ml",
+   "precios": {
+    "inkafarma": 15.5,
+    "mifarma": 15.5,
+    "boticasperu": 13.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1033,
+    "mifarma": 0.1033,
+    "boticasperu": 0.0927
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 11.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/desodorante-rexona-women-72h-active-emotion-150ml/034431",
     "mifarma": "https://www.mifarma.com.pe/producto/desodorante-rexona-women-72h-active-emotion-150ml/034431",
@@ -2211,12 +3922,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 12.5,
+     "antes": 15.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 11.9,
+     "antes": 15.5,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2227,52 +3938,75 @@
    }
   },
   {
-   "id": "424773",
+   "id": "424773:pack",
    "nombre": "Jabón Dove Cremoso Original",
    "categoria": "cuidado_personal",
    "marca": "DOVE",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 12.5,
-    "mifarma": 10.9
+    "inkafarma": 15.5,
+    "mifarma": 15.5,
+    "boticasperu": 11.9
+   },
+   "precio_unidad": {
+    "inkafarma": 5.1667,
+    "mifarma": 5.1667,
+    "boticasperu": 3.9667
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true
+    "mifarma": true,
+    "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 14.7,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 30.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-cremoso-dove-original/424773",
-    "mifarma": "https://www.mifarma.com.pe/producto/jabon-cremoso-dove-original/424773"
+    "mifarma": "https://www.mifarma.com.pe/producto/jabon-cremoso-dove-original/424773",
+    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/jabones_de_tocador/jabon_en_barra/dove/jabon_dove_original_-_pack_3_un/33165.html"
    },
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 12.5,
+     "antes": 15.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 15.5,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 11.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "011805",
+   "id": "011805:pack",
    "nombre": "Jabón Dove Delicious care con Leche de Coco",
    "categoria": "cuidado_personal",
    "marca": "DOVE",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 12.5,
-    "mifarma": 10.9
+    "inkafarma": 15.5,
+    "mifarma": 15.5
+   },
+   "precio_unidad": {
+    "inkafarma": 5.1667,
+    "mifarma": 5.1667
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 14.7,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805"
@@ -2280,31 +4014,38 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 12.5,
+     "antes": 15.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 15.5,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "008866",
+   "id": "008866:pack",
    "nombre": "Jabón Dove Karité Delicious Care",
    "categoria": "cuidado_personal",
    "marca": "DOVE",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 12.5,
-    "mifarma": 10.9
+    "inkafarma": 15.5,
+    "mifarma": 15.5
+   },
+   "precio_unidad": {
+    "inkafarma": 5.1667,
+    "mifarma": 5.1667
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 14.7,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-dove-karite-delicious-care/008866",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-karite-delicious-care/008866"
@@ -2312,33 +4053,41 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 12.5,
+     "antes": 15.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 15.5,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "431637",
+   "id": "431637:pack",
    "nombre": "Jabón en Barra Protex Avena",
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 10.5,
+    "inkafarma": 13.1,
+    "mifarma": 13.1,
     "boticasperu": 13.0
+   },
+   "precio_unidad": {
+    "inkafarma": 4.3667,
+    "mifarma": 4.3667,
+    "boticasperu": 4.3333
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 23.8,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 0.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-avena-protex/431637",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-avena-protex/431637",
@@ -2347,12 +4096,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 13.1,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.5,
+     "antes": 13.1,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2363,20 +4112,27 @@
    }
   },
   {
-   "id": "431634",
+   "id": "431634:pack",
    "nombre": "Jabón en Barra Protex Fresh",
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 10.5
+    "inkafarma": 13.1,
+    "mifarma": 13.1
+   },
+   "precio_unidad": {
+    "inkafarma": 4.3667,
+    "mifarma": 4.3667
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 3.8,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-antibacterial-protex-fresh/431634",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-antibacterial-protex-fresh/431634"
@@ -2384,33 +4140,41 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 13.1,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.5,
+     "antes": 13.1,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "431639",
+   "id": "431639:pack",
    "nombre": "Jabón en Barra Protex Limpieza Profunda",
    "categoria": "cuidado_personal",
    "marca": "PROTEX",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 10.5,
+    "inkafarma": 13.1,
+    "mifarma": 13.1,
     "boticasperu": 13.1
+   },
+   "precio_unidad": {
+    "inkafarma": 4.3667,
+    "mifarma": 4.3667,
+    "boticasperu": 4.3667
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 24.8,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-limpieza-profunda-protex/431639",
     "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-limpieza-profunda-protex/431639",
@@ -2419,12 +4183,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 13.1,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.5,
+     "antes": 13.1,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2435,11 +4199,18 @@
    }
   },
   {
-   "id": "072672",
+   "id": "072672:pack",
    "nombre": "Máquina de Afeitar Gillette Sensor3",
    "categoria": "cuidado_personal",
    "marca": "GILLETTE",
+   "presentacion": "BLÍSTER 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 17.9,
+    "mifarma": 17.9
+   },
+   "precio_unidad": {
     "inkafarma": 17.9,
     "mifarma": 17.9
    },
@@ -2467,13 +4238,20 @@
    }
   },
   {
-   "id": "424157",
+   "id": "424157:pack",
    "nombre": "Máquinas de Afeitar Gillette Prestobarba3",
    "categoria": "cuidado_personal",
    "marca": "GILLETTE",
+   "presentacion": "BLÍSTER 2 UN",
+   "cantidad": 2.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 16.9,
     "mifarma": 16.9
+   },
+   "precio_unidad": {
+    "inkafarma": 8.45,
+    "mifarma": 8.45
    },
    "promos": {
     "inkafarma": false,
@@ -2499,14 +4277,18 @@
    }
   },
   {
-   "id": "PACKCP145",
+   "id": "PACKCP145:pack",
    "nombre": "Pack 02 Shampoo Head & Shoulders Protección Caída",
    "categoria": "cuidado_personal",
    "marca": "HEAD & SHOULDERS",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 66.9,
-    "mifarma": 66.9
+    "inkafarma": 83.8,
+    "mifarma": 83.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -2520,25 +4302,29 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 66.9,
+     "antes": 83.8,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 66.9,
+     "antes": 83.8,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKCP340",
+   "id": "PACKCP340:pack",
    "nombre": "Pack 2 Gel Antitranspirante Gillette Cool Wave Clear",
    "categoria": "cuidado_personal",
    "marca": "GILLETTE",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 38.0,
-    "mifarma": 38.0
+    "inkafarma": 50.0,
+    "mifarma": 50.0
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -2552,25 +4338,29 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 38.0,
+     "antes": 50.0,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 38.0,
+     "antes": 50.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKCP51",
+   "id": "PACKCP51:pack",
    "nombre": "Pack Shampoo Head & Shoulders Limpieza Renovadora",
    "categoria": "cuidado_personal",
    "marca": "HEAD & SHOULDERS",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 66.9,
-    "mifarma": 66.9
+    "inkafarma": 83.8,
+    "mifarma": 83.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -2584,31 +4374,38 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 66.9,
+     "antes": 83.8,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 66.9,
+     "antes": 83.8,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "014358",
+   "id": "014358:pack",
    "nombre": "Pasta Dental Colgate Luminous White",
    "categoria": "cuidado_personal",
    "marca": "COLGATE",
+   "presentacion": "PACK 2 UN",
+   "cantidad": 2.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 17.9,
-    "mifarma": 16.5
+    "inkafarma": 21.9,
+    "mifarma": 21.9
+   },
+   "precio_unidad": {
+    "inkafarma": 10.95,
+    "mifarma": 10.95
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 8.5,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-pack-luminous-white/014358",
     "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-pack-luminous-white/014358"
@@ -2616,24 +4413,31 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 17.9,
+     "antes": 21.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 16.5,
+     "antes": 21.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "033706",
+   "id": "033706:pack",
    "nombre": "Pasta Dental Colgate Triple Acción",
    "categoria": "cuidado_personal",
    "marca": "COLGATE",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 17.9,
-    "mifarma": 17.9
+    "inkafarma": 21.9,
+    "mifarma": 21.9
+   },
+   "precio_unidad": {
+    "inkafarma": 7.3,
+    "mifarma": 7.3
    },
    "promos": {
     "inkafarma": true,
@@ -2648,33 +4452,41 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 17.9,
+     "antes": 21.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 17.9,
+     "antes": 21.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "010870",
+   "id": "010870:pack",
    "nombre": "Shampoo 2en1 Dúo Sedal",
    "categoria": "cuidado_personal",
    "marca": "SEDAL",
+   "presentacion": "FRASCO 340 ML",
+   "cantidad": 340.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 10.9,
+    "inkafarma": 14.5,
+    "mifarma": 14.5,
     "boticasperu": 11.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0426,
+    "mifarma": 0.0426,
+    "boticasperu": 0.0338
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 5.5,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 26.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-2en1-duo-sedal-co-creations/010870",
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-2en1-duo-sedal-co-creations/010870",
@@ -2683,12 +4495,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 14.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 14.5,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2699,22 +4511,30 @@
    }
   },
   {
-   "id": "071474",
+   "id": "071474:pack",
    "nombre": "Shampoo Anti-Comezón Head & Shoulders Menta Extra Refrescante",
    "categoria": "cuidado_personal",
    "marca": "HEAD & SHOULDERS",
+   "presentacion": "BOTELLA 375 ML",
+   "cantidad": 375.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 16.5,
-    "mifarma": 16.5,
+    "inkafarma": 20.9,
+    "mifarma": 20.9,
     "boticasperu": 16.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0557,
+    "mifarma": 0.0557,
+    "boticasperu": 0.0443
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.6,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 25.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
@@ -2723,12 +4543,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 16.5,
+     "antes": 20.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 16.5,
+     "antes": 20.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2739,22 +4559,30 @@
    }
   },
   {
-   "id": "010862",
+   "id": "010862:pack",
    "nombre": "Shampoo Ceramidas Sedal",
    "categoria": "cuidado_personal",
    "marca": "SEDAL",
+   "presentacion": "FRASCO 340 ML",
+   "cantidad": 340.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 10.9,
+    "inkafarma": 14.5,
+    "mifarma": 14.5,
     "boticasperu": 11.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0426,
+    "mifarma": 0.0426,
+    "boticasperu": 0.0338
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 5.5,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 26.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-ceramida-sedal-co-creations/010862",
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-ceramida-sedal-co-creations/010862",
@@ -2763,12 +4591,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 14.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 14.5,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2779,22 +4607,30 @@
    }
   },
   {
-   "id": "038392",
+   "id": "038392:pack",
    "nombre": "Shampoo Sedal Zero Caspa 2 en 1",
    "categoria": "cuidado_personal",
    "marca": "SEDAL",
+   "presentacion": "FRASCO 340 ML",
+   "cantidad": 340.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 10.9,
-    "mifarma": 9.9,
+    "inkafarma": 14.9,
+    "mifarma": 14.9,
     "boticasperu": 11.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0438,
+    "mifarma": 0.0438,
+    "boticasperu": 0.0338
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 16.2,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 29.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
@@ -2803,12 +4639,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 10.9,
+     "antes": 14.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 9.9,
+     "antes": 14.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -2819,13 +4655,20 @@
    }
   },
   {
-   "id": "066634",
+   "id": "066634:pack",
    "nombre": "Babylac Pro 3 HMO +DHA",
    "categoria": "dermo",
    "marca": "BABYLAC",
+   "presentacion": "LATA 850 GR",
+   "cantidad": 850.0,
+   "unidad": "g",
    "precios": {
-    "inkafarma": 59.9,
-    "mifarma": 59.9
+    "inkafarma": 69.9,
+    "mifarma": 69.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0822,
+    "mifarma": 0.0822
    },
    "promos": {
     "inkafarma": true,
@@ -2840,24 +4683,31 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 59.9,
+     "antes": 69.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 59.9,
+     "antes": 69.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "066632",
+   "id": "066632:pack",
    "nombre": "Babylac Pro 3 HMO NF",
    "categoria": "dermo",
    "marca": "BABYLAC",
+   "presentacion": "LATA 1800 GR",
+   "cantidad": 1800.0,
+   "unidad": "g",
    "precios": {
-    "inkafarma": 120.9,
-    "mifarma": 120.9
+    "inkafarma": 139.9,
+    "mifarma": 139.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0777,
+    "mifarma": 0.0777
    },
    "promos": {
     "inkafarma": true,
@@ -2872,31 +4722,38 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 120.9,
+     "antes": 139.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 120.9,
+     "antes": 139.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "139064",
+   "id": "139064:pack",
    "nombre": "Barra Limpiadora Cetaphil Piel Sensible",
    "categoria": "dermo",
    "marca": "CETAPHIL",
+   "presentacion": "BARRA 127 GR",
+   "cantidad": 127.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 68.5,
-    "mifarma": 56.5
+    "mifarma": 70.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.5394,
+    "mifarma": 0.5559
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 21.2,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/barra-limpiadora-cetaphil-piel-sensible-127g/139064",
     "mifarma": "https://www.mifarma.com.pe/producto/barra-limpiadora-cetaphil-piel-sensible-127g/139064"
@@ -2909,26 +4766,33 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 56.5,
+     "antes": 70.6,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "010767",
+   "id": "010767:pack",
    "nombre": "Baño y Shampoo Eucerin Baby",
    "categoria": "dermo",
    "marca": "EUCERIN",
+   "presentacion": "FRASCO 400 ML",
+   "cantidad": 400.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 141.0,
-    "mifarma": 109.6
+    "mifarma": 141.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.3525,
+    "mifarma": 0.3525
    },
    "promos": {
-    "inkafarma": true,
+    "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 28.6,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bano-y-shampoo-eucerin-baby-para-piel-sensible/010767",
     "mifarma": "https://www.mifarma.com.pe/producto/bano-y-shampoo-eucerin-baby-para-piel-sensible/010767"
@@ -2941,32 +4805,40 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 109.6,
+     "antes": 141.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "085056",
+   "id": "085056:pack",
    "nombre": "Cetaphil Limpiador Facial Diario para Piel Grasa",
    "categoria": "dermo",
    "marca": "CETAPHIL",
+   "presentacion": "FRASCO 473 ML",
+   "cantidad": 473.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 115.0,
-    "mifarma": 92.0,
-    "boticasperu": 76.9
+    "mifarma": 115.0,
+    "boticasperu": 115.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2431,
+    "mifarma": 0.2431,
+    "boticasperu": 0.245
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 49.5,
+   "mas_barato": "empate",
+   "brecha_pct": 0.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/cetaphil-limpiador-facial-diario-para-piel-grasa/085056",
     "mifarma": "https://www.mifarma.com.pe/producto/cetaphil-limpiador-facial-diario-para-piel-grasa/085056",
-    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_seca_/_limpiadores_faciales/cetaphil/cetaphil_locion_facial_-_frasco_237_ml/02591.html"
+    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/limpiadores_faciales_y_exfoliantes/cetaphil/cetaphil_limpiador_piel_graso_-_frasco_473_ml/49692.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -2976,33 +4848,41 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 92.0,
+     "antes": 115.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
      "dir": "igual",
-     "antes": 76.9,
+     "antes": 115.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "071957",
+   "id": "071957:pack",
    "nombre": "Crema Corporal Eucerin Anti-Pigment para Áreas Específicas",
    "categoria": "dermo",
    "marca": "EUCERIN",
+   "presentacion": "TUBO 200 ML",
+   "cantidad": 200.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 134.3,
-    "mifarma": 134.3,
+    "inkafarma": 158.0,
+    "mifarma": 158.0,
     "boticasperu": 134.3
+   },
+   "precio_unidad": {
+    "inkafarma": 0.79,
+    "mifarma": 0.79,
+    "boticasperu": 0.6715
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 17.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/crema-corporal-eucerin-anti-pigment-especificas/071957",
     "mifarma": "https://www.mifarma.com.pe/producto/crema-corporal-eucerin-anti-pigment-especificas/071957",
@@ -3011,12 +4891,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 134.3,
+     "antes": 158.0,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 134.3,
+     "antes": 158.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3027,22 +4907,30 @@
    }
   },
   {
-   "id": "069106",
+   "id": "069106:pack",
    "nombre": "Fotoprotector ISDIN Fusion Water Magic SPF50",
    "categoria": "dermo",
    "marca": "ISDIN",
+   "presentacion": "FRASCO 50 ML",
+   "cantidad": 50.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 104.6,
-    "mifarma": 99.9,
+    "inkafarma": 114.9,
+    "mifarma": 114.9,
     "boticasperu": 104.9
+   },
+   "precio_unidad": {
+    "inkafarma": 2.298,
+    "mifarma": 2.298,
+    "boticasperu": 2.098
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 5.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 9.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/fotoprotector-isdin-fusion-water-magic-spf50/069106",
     "mifarma": "https://www.mifarma.com.pe/producto/fotoprotector-isdin-fusion-water-magic-spf50/069106",
@@ -3051,12 +4939,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 104.6,
+     "antes": 114.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 99.9,
+     "antes": 114.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3067,62 +4955,30 @@
    }
   },
   {
-   "id": "036051",
+   "id": "023736:pack",
    "nombre": "Gel Limpiador Espumoso CeraVe Foaming Cleanser",
    "categoria": "dermo",
    "marca": "CERAVE",
+   "presentacion": "FRASCO 236 ML",
+   "cantidad": 236.0,
+   "unidad": "ml",
    "precios": {
-    "inkafarma": 73.2,
-    "mifarma": 73.2,
-    "boticasperu": 94.4
-   },
-   "promos": {
-    "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
-   },
-   "mas_barato": "empate",
-   "brecha_pct": 29.0,
-   "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/gel-limpiador-espumoso-cerave/036051",
-    "mifarma": "https://www.mifarma.com.pe/producto/gel-limpiador-espumoso-cerave/036051",
-    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/limpiadores_faciales_y_exfoliantes/cerave/cerave_gel_limpiador_espumoso_-_frasco__473_ml/38901.html"
-   },
-   "tendencia": {
-    "inkafarma": {
-     "dir": "igual",
-     "antes": 73.2,
-     "delta_pct": 0.0
-    },
-    "mifarma": {
-     "dir": "igual",
-     "antes": 73.2,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 94.4,
-     "delta_pct": 0.0
-    }
-   }
-  },
-  {
-   "id": "023736",
-   "nombre": "Gel Limpiador Espumoso CeraVe Foaming Cleanser",
-   "categoria": "dermo",
-   "marca": "CERAVE",
-   "precios": {
-    "inkafarma": 50.6,
-    "mifarma": 50.6,
+    "inkafarma": 69.9,
+    "mifarma": 69.9,
     "boticasperu": 69.9
    },
+   "precio_unidad": {
+    "inkafarma": 0.2962,
+    "mifarma": 0.2962,
+    "boticasperu": 0.2962
+   },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 38.1,
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/gel-limpiador-espumoso-236ml-cerave/023736",
     "mifarma": "https://www.mifarma.com.pe/producto/gel-limpiador-espumoso-236ml-cerave/023736",
@@ -3131,12 +4987,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 50.6,
+     "antes": 69.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 50.6,
+     "antes": 69.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3147,20 +5003,75 @@
    }
   },
   {
-   "id": "425309",
+   "id": "036051:pack",
+   "nombre": "Gel Limpiador Espumoso CeraVe Foaming Cleanser",
+   "categoria": "dermo",
+   "marca": "CERAVE",
+   "presentacion": "FRASCO 473 ML",
+   "cantidad": 473.0,
+   "unidad": "ml",
+   "precios": {
+    "inkafarma": 104.9,
+    "mifarma": 104.9,
+    "boticasperu": 94.4
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2218,
+    "mifarma": 0.2218,
+    "boticasperu": 0.1996
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 11.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/gel-limpiador-espumoso-cerave/036051",
+    "mifarma": "https://www.mifarma.com.pe/producto/gel-limpiador-espumoso-cerave/036051",
+    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/limpiadores_faciales_y_exfoliantes/cerave/cerave_gel_limpiador_espumoso_-_frasco__473_ml/38901.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 94.4,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "425309:pack",
    "nombre": "Loción de Limpieza Cetaphil Piel Sensible y Seca",
    "categoria": "dermo",
    "marca": "CETAPHIL",
+   "presentacion": "FRASCO 473 ML",
+   "cantidad": 473.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 113.6,
-    "mifarma": 93.6
+    "mifarma": 117.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2402,
+    "mifarma": 0.2474
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 21.4,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/locion-de-limpieza-cetaphil-piel-sensible-473ml/425309",
     "mifarma": "https://www.mifarma.com.pe/producto/locion-de-limpieza-cetaphil-piel-sensible-473ml/425309"
@@ -3173,20 +5084,26 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 93.6,
+     "antes": 117.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKDB269",
+   "id": "PACKDB269:pack",
    "nombre": "Pack 02 Fotoprotector Isdin Fusion Water Magic SPF50",
    "categoria": "dermo",
    "marca": "ISDIN",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 199.8,
-    "mifarma": 199.8,
+    "inkafarma": 229.8,
+    "mifarma": 229.8,
     "boticasperu": 284.9
+   },
+   "precio_unidad": {
+    "boticasperu": 5.698
    },
    "promos": {
     "inkafarma": true,
@@ -3194,7 +5111,7 @@
     "boticasperu": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 42.6,
+   "brecha_pct": 24.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-02-fotoprotector-isdin-fusion-water-magic/PACKDB269",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-02-fotoprotector-isdin-fusion-water-magic/PACKDB269",
@@ -3203,12 +5120,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 199.8,
+     "antes": 229.8,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 199.8,
+     "antes": 229.8,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3219,22 +5136,28 @@
    }
   },
   {
-   "id": "PACKDB270",
+   "id": "PACKDB270:pack",
    "nombre": "Pack 03 Fotoprotector Isdin Fusion Water Magic SPF50",
    "categoria": "dermo",
    "marca": "ISDIN",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 284.9,
-    "mifarma": 284.9,
+    "inkafarma": 344.7,
+    "mifarma": 344.7,
     "boticasperu": 284.9
+   },
+   "precio_unidad": {
+    "boticasperu": 5.698
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 21.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-03-fotoprotector-isdin-fusion-water-magic/PACKDB270",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-03-fotoprotector-isdin-fusion-water-magic/PACKDB270",
@@ -3243,12 +5166,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 284.9,
+     "antes": 344.7,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 284.9,
+     "antes": 344.7,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3259,20 +5182,27 @@
    }
   },
   {
-   "id": "085261",
+   "id": "085261:pack",
    "nombre": "Parches CeraVe Control Imperfecciones",
    "categoria": "dermo",
    "marca": "CERAVE",
+   "presentacion": "CAJA 22 UN",
+   "cantidad": 22.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 56.5,
-    "mifarma": 49.9
+    "mifarma": 56.5
+   },
+   "precio_unidad": {
+    "inkafarma": 2.5682,
+    "mifarma": 2.5682
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 13.2,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/parches-cerave-control-antiimperfecciones/085261",
     "mifarma": "https://www.mifarma.com.pe/producto/parches-cerave-control-antiimperfecciones/085261"
@@ -3285,29 +5215,40 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 49.9,
+     "antes": 56.5,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "009064",
+   "id": "009064:pack",
    "nombre": "Protector Solar Facial en Gel Crema Eucerin Oil Control FPS50+",
    "categoria": "dermo",
    "marca": "EUCERIN",
+   "presentacion": "FRASCO 50 ML",
+   "cantidad": 50.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 119.9,
-    "mifarma": 119.9
+    "mifarma": 119.9,
+    "boticasperu": 125.9
+   },
+   "precio_unidad": {
+    "inkafarma": 2.398,
+    "mifarma": 2.398,
+    "boticasperu": 2.518
    },
    "promos": {
-    "inkafarma": true,
-    "mifarma": true
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "brecha_pct": 5.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/protector-solar-eucerin-oil-control-toque-seco-fps/009064",
-    "mifarma": "https://www.mifarma.com.pe/producto/protector-solar-eucerin-oil-control-toque-seco-fps/009064"
+    "mifarma": "https://www.mifarma.com.pe/producto/protector-solar-eucerin-oil-control-toque-seco-fps/009064",
+    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/fotoprotector/protector_solar_anthelios_uv_mune_400_oil_control_fluido_fps_50_-_frasco_50_ml/45615.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -3319,24 +5260,36 @@
      "dir": "igual",
      "antes": 119.9,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 125.9,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "067225",
+   "id": "067225:pack",
    "nombre": "Similac 3 con Mezcla de 5HMOs",
    "categoria": "dermo",
    "marca": "SIMILAC",
+   "presentacion": "LATA 800 GR",
+   "cantidad": 800.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 76.5,
-    "mifarma": 74.9
+    "mifarma": 76.5
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0956,
+    "mifarma": 0.0956
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 2.1,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/similac-3-con-mezcla-de-5hmos-lt-de-800g/067225",
     "mifarma": "https://www.mifarma.com.pe/producto/similac-3-con-mezcla-de-5hmos-lt-de-800g/067225"
@@ -3349,19 +5302,26 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 74.9,
+     "antes": 76.5,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "077101",
+   "id": "077101:pack",
    "nombre": "Barra Proteica Quest Mini Sabor Cookies & Cream",
    "categoria": "gastro",
    "marca": "QUEST",
+   "presentacion": "BARRA 60 GR",
+   "cantidad": 60.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 14.0,
     "mifarma": 14.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2333,
+    "mifarma": 0.2333
    },
    "promos": {
     "inkafarma": false,
@@ -3387,14 +5347,61 @@
    }
   },
   {
-   "id": "226046",
+   "id": "226046:fraccion",
    "nombre": "Buscapina 10 mg Gragea",
    "categoria": "gastro",
    "marca": "SANOFI",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 13.2,
+    "mifarma": 13.6
+   },
+   "precio_unidad": {
+    "inkafarma": 1.32,
+    "mifarma": 1.36
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/buscapina-10-mg-gragea/226046",
+    "mifarma": "https://www.mifarma.com.pe/producto/buscapina-10-mg-gragea/226046"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 13.2,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 13.6,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "226046:pack",
+   "nombre": "Buscapina 10 mg Gragea",
+   "categoria": "gastro",
+   "marca": "SANOFI",
+   "presentacion": "CAJA 20 UN",
+   "cantidad": 20.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 26.4,
     "mifarma": 27.2,
     "boticasperu": 27.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.32,
+    "mifarma": 1.36,
+    "boticasperu": 1.35
    },
    "promos": {
     "inkafarma": false,
@@ -3427,23 +5434,82 @@
    }
   },
   {
-   "id": "011800",
+   "id": "011800:pack",
    "nombre": "Enterogermina Plus 4000 millones (4 millardos)/5mL Suspensión Oral",
    "categoria": "gastro",
    "marca": "SANOFI",
+   "presentacion": "CAJA 5 UN",
+   "cantidad": 5.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 43.1,
+    "mifarma": 44.4,
+    "boticasperu": 44.0
+   },
+   "precio_unidad": {
     "inkafarma": 8.62,
-    "mifarma": 8.88
+    "mifarma": 8.88,
+    "boticasperu": 8.8
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/enterogermina-plus-suspension-oral/011800",
-    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-plus-suspension-oral/011800"
+    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-plus-suspension-oral/011800",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/diarreas/enterogermina_plus_ampolla_bebible_-_caja_5_un/32982-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 43.1,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 44.4,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 44.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "011800:fraccion",
+   "nombre": "Enterogermina Plus 4000 millones (4 millardos)/5mL Suspensión Oral",
+   "categoria": "gastro",
+   "marca": "SANOFI",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 8.62,
+    "mifarma": 8.88,
+    "boticasperu": 8.8
+   },
+   "precio_unidad": {
+    "inkafarma": 8.62,
+    "mifarma": 8.88,
+    "boticasperu": 8.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/enterogermina-plus-suspension-oral/011800",
+    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-plus-suspension-oral/011800",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/diarreas/enterogermina_plus_ampolla_bebible_-_frasco_1_un/32982-FRASCO.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -3455,27 +5521,91 @@
      "dir": "igual",
      "antes": 8.88,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 8.8,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "421011",
+   "id": "421011:pack",
    "nombre": "Enterogermina Suspensión Oral",
    "categoria": "gastro",
    "marca": "SANOFI",
+   "presentacion": "CAJA 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 37.0,
+    "mifarma": 38.0,
+    "boticasperu": 37.0
+   },
+   "precio_unidad": {
     "inkafarma": 3.7,
-    "mifarma": 3.6
+    "mifarma": 3.8,
+    "boticasperu": 3.7
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false,
+    "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 2.8,
+   "mas_barato": "empate",
+   "brecha_pct": 2.7,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/enterogermina-suspension-oral/421011",
-    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-suspension-oral/421011"
+    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-suspension-oral/421011",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/diarreas/enterogermina_ampolla_bebible_-_caja_10_frascos/15349-CAJA.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 38.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "421011:fraccion",
+   "nombre": "Enterogermina Suspensión Oral",
+   "categoria": "gastro",
+   "marca": "SANOFI",
+   "presentacion": "FRASCO BEBIBLE 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 3.7,
+    "mifarma": 3.8,
+    "boticasperu": 3.8
+   },
+   "precio_unidad": {
+    "inkafarma": 3.7,
+    "mifarma": 3.8,
+    "boticasperu": 3.8
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/enterogermina-suspension-oral/421011",
+    "mifarma": "https://www.mifarma.com.pe/producto/enterogermina-suspension-oral/421011",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/diarreas/enterogermina_ampolla_bebible_-_frasco_1_un/15349-FRASCO.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -3485,19 +5615,70 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 3.6,
+     "antes": 3.8,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 3.8,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "079900",
+   "id": "079900:fraccion",
    "nombre": "Hioscina Butilbromuro acf 10mg Tableta Recubierta",
    "categoria": "gastro",
    "marca": "HIOSCINA BUTILBROMURO",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 6.5,
+    "mifarma": 6.7
+   },
+   "precio_unidad": {
+    "inkafarma": 0.65,
+    "mifarma": 0.67
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/hioscina-butilbromuro-acf-10mg-tableta-recubierta/079900",
+    "mifarma": "https://www.mifarma.com.pe/producto/hioscina-butilbromuro-acf-10mg-tableta-recubierta/079900"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 6.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 6.7,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "079900:pack",
+   "nombre": "Hioscina Butilbromuro acf 10mg Tableta Recubierta",
+   "categoria": "gastro",
+   "marca": "HIOSCINA BUTILBROMURO",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 65.0,
     "mifarma": 67.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.65,
+    "mifarma": 0.67
    },
    "promos": {
     "inkafarma": false,
@@ -3523,13 +5704,20 @@
    }
   },
   {
-   "id": "002901",
+   "id": "002901:fraccion",
    "nombre": "Hiosimol Compuesto Tableta recubierta",
    "categoria": "gastro",
    "marca": "KEYFARM",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 6.6,
     "mifarma": 7.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.66,
+    "mifarma": 0.72
    },
    "promos": {
     "inkafarma": false,
@@ -3555,20 +5743,75 @@
    }
   },
   {
-   "id": "203065",
-   "nombre": "Lactulosa 3.33 g/5 Ml Solución Oral",
+   "id": "002901:pack",
+   "nombre": "Hiosimol Compuesto Tableta recubierta",
    "categoria": "gastro",
-   "marca": "FARMINDUSTRIA",
+   "marca": "KEYFARM",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 9.7,
-    "mifarma": 9.9
+    "inkafarma": 66.0,
+    "mifarma": 72.0,
+    "boticasperu": 66.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.66,
+    "mifarma": 0.72,
+    "boticasperu": 0.66
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 9.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/hiosimol-compuesto-500-mg-10-mg-tableta-recubier/002901",
+    "mifarma": "https://www.mifarma.com.pe/producto/hiosimol-compuesto-500-mg-10-mg-tableta-recubier/002901",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/hiosimol_compuesto_tableta_recubierta_-_caja_100_un/21779.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 66.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 72.0,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 66.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "203065:pack",
+   "nombre": "Lactulosa 3.33 g/5 Ml Solución Oral",
+   "categoria": "gastro",
+   "marca": "FARMINDUSTRIA",
+   "presentacion": "FRASCO 100 ML",
+   "cantidad": 100.0,
+   "unidad": "ml",
+   "precios": {
+    "inkafarma": 9.7,
+    "mifarma": 10.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.097,
+    "mifarma": 0.1
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 2.1,
+   "brecha_pct": 3.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/lactulosa-3-33-g-5-ml-solucion-oral/203065",
     "mifarma": "https://www.mifarma.com.pe/producto/lactulosa-3-33-g-5-ml-solucion-oral/203065"
@@ -3581,19 +5824,26 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 9.9,
+     "antes": 10.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "073961",
+   "id": "073961:pack",
    "nombre": "Lactulosa 3.33G/5Ml Solucion Oral",
    "categoria": "gastro",
    "marca": "LACTULOSA",
+   "presentacion": "FRASCO 180 ML",
+   "cantidad": 180.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 13.6,
     "mifarma": 14.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0756,
+    "mifarma": 0.0778
    },
    "promos": {
     "inkafarma": false,
@@ -3619,13 +5869,20 @@
    }
   },
   {
-   "id": "033080",
+   "id": "033080:pack",
    "nombre": "Lactulosa 3.3g/5mL Solución Oral",
    "categoria": "gastro",
    "marca": "LACTULOSA",
+   "presentacion": "FRASCO 180 ML",
+   "cantidad": 180.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 14.6,
     "mifarma": 15.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0811,
+    "mifarma": 0.0833
    },
    "promos": {
     "inkafarma": false,
@@ -3651,13 +5908,20 @@
    }
   },
   {
-   "id": "074427",
+   "id": "074427:pack",
    "nombre": "Metoclopramida 10mg Tableta",
    "categoria": "gastro",
    "marca": "METOCLOPRAMIDA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 9.5,
     "mifarma": 10.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.095,
+    "mifarma": 0.1
    },
    "promos": {
     "inkafarma": false,
@@ -3683,13 +5947,20 @@
    }
   },
   {
-   "id": "007307",
+   "id": "007307:pack",
    "nombre": "Metoclopramida 10mg Tableta",
    "categoria": "gastro",
    "marca": "FARMINDUSTRIA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 12.0,
     "mifarma": 12.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.12,
+    "mifarma": 0.12
    },
    "promos": {
     "inkafarma": false,
@@ -3715,13 +5986,20 @@
    }
   },
   {
-   "id": "422219",
+   "id": "422219:pack",
    "nombre": "Metoclopramida 10mg Tabletas",
    "categoria": "gastro",
    "marca": "INSTITUTO QUIMIOTERAPICO",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 8.0,
     "mifarma": 8.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.08,
+    "mifarma": 0.08
    },
    "promos": {
     "inkafarma": false,
@@ -3747,13 +6025,20 @@
    }
   },
   {
-   "id": "008247",
+   "id": "008247:fraccion",
    "nombre": "Norprazole 20mg Cápsula De Liberación retardada",
    "categoria": "gastro",
    "marca": "BONAPHARM",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 48.0,
-    "mifarma": 49.5
+    "inkafarma": 16.0,
+    "mifarma": 16.5
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.65
    },
    "promos": {
     "inkafarma": false,
@@ -3768,6 +6053,49 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 16.5,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "008247:pack",
+   "nombre": "Norprazole 20mg Cápsula De Liberación retardada",
+   "categoria": "gastro",
+   "marca": "BONAPHARM",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 48.0,
+    "mifarma": 49.5,
+    "boticasperu": 71.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.65,
+    "boticasperu": 2.3667
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 47.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/norprazole-20mg-capsulas-de-liberacion-retardada/008247",
+    "mifarma": "https://www.mifarma.com.pe/producto/norprazole-20mg-capsulas-de-liberacion-retardada/008247",
+    "boticasperu": "https://www.boticasperu.pe/tratamiento/gastrointestinal/esomezil_20_mg_capsula_de_liberacion_retardada_-_caja_28_un/36978.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
      "antes": 48.0,
      "delta_pct": 0.0
     },
@@ -3775,17 +6103,29 @@
      "dir": "igual",
      "antes": 49.5,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 71.0,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "017749",
+   "id": "017749:fraccion",
    "nombre": "Ome -Frenacid 20 mg Cápsulas Gastrointestinales",
    "categoria": "gastro",
    "marca": "BIOTECH",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 16.0,
     "mifarma": 16.5
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.65
    },
    "promos": {
     "inkafarma": false,
@@ -3811,22 +6151,69 @@
    }
   },
   {
-   "id": "425383",
-   "nombre": "Omeprazol  20mg Cápsula de Liberación Retardada",
+   "id": "017749:pack",
+   "nombre": "Ome -Frenacid 20 mg Cápsulas Gastrointestinales",
    "categoria": "gastro",
-   "marca": "PORTUGAL",
+   "marca": "BIOTECH",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 12.0,
-    "mifarma": 11.5,
-    "boticasperu": 13.0
+    "inkafarma": 160.0,
+    "mifarma": 165.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.65
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749",
+    "mifarma": "https://www.mifarma.com.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 160.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 165.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "425383:pack",
+   "nombre": "Omeprazol  20mg Cápsula de Liberación Retardada",
+   "categoria": "gastro",
+   "marca": "PORTUGAL",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 12.0,
+    "mifarma": 12.0,
+    "boticasperu": 13.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.12,
+    "mifarma": 0.12,
+    "boticasperu": 0.13
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 13.0,
+   "mas_barato": "empate",
+   "brecha_pct": 8.3,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/omeprazol-ptg-20mg-capsula/425383",
     "mifarma": "https://www.mifarma.com.pe/producto/omeprazol-ptg-20mg-capsula/425383",
@@ -3840,7 +6227,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 11.5,
+     "antes": 12.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -3851,13 +6238,20 @@
    }
   },
   {
-   "id": "425614",
+   "id": "425614:fraccion",
    "nombre": "Ranicoll 300mg Tableta Recubierta - Caja 100 UN",
    "categoria": "gastro",
    "marca": "MKT PHARMA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 8.75,
     "mifarma": 9.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.875,
+    "mifarma": 0.9
    },
    "promos": {
     "inkafarma": false,
@@ -3883,11 +6277,97 @@
    }
   },
   {
-   "id": "074158",
+   "id": "425614:pack",
+   "nombre": "Ranicoll 300mg Tableta Recubierta - Caja 100 UN",
+   "categoria": "gastro",
+   "marca": "MKT PHARMA",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 87.5,
+    "mifarma": 90.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.875,
+    "mifarma": 0.9
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.9,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/ranicoll-300mg-tableta-recubierta/425614",
+    "mifarma": "https://www.mifarma.com.pe/producto/ranicoll-300mg-tableta-recubierta/425614"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 87.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 90.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "074158:pack",
    "nombre": "Sal De Andrews Clasica Polvo Efervescente Para Solucion Oral",
    "categoria": "gastro",
    "marca": "SAL DE ANDREWS",
+   "presentacion": "CAJA 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 100.0,
+    "mifarma": 100.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.0,
+    "mifarma": 1.0
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/sal-de-andrews-polvo-efervescente-solucion-oral/074158",
+    "mifarma": "https://www.mifarma.com.pe/producto/sal-de-andrews-polvo-efervescente-solucion-oral/074158"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "074158:fraccion",
+   "nombre": "Sal De Andrews Clasica Polvo Efervescente Para Solucion Oral",
+   "categoria": "gastro",
+   "marca": "SAL DE ANDREWS",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 1.0,
+    "mifarma": 1.0,
+    "boticasperu": 1.0
+   },
+   "precio_unidad": {
     "inkafarma": 1.0,
     "mifarma": 1.0,
     "boticasperu": 1.0
@@ -3923,20 +6403,66 @@
    }
   },
   {
-   "id": "003407",
+   "id": "003407:pack",
    "nombre": "Sal De Andrews Polvo Efervescente Triple",
    "categoria": "gastro",
    "marca": "MEDIFARMA",
+   "presentacion": "CAJA 90 UN",
+   "cantidad": 90.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 108.0,
+    "mifarma": 108.0
+   },
+   "precio_unidad": {
     "inkafarma": 1.2,
-    "mifarma": 1.1
+    "mifarma": 1.2
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 9.1,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407",
+    "mifarma": "https://www.mifarma.com.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 108.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 108.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "003407:fraccion",
+   "nombre": "Sal De Andrews Polvo Efervescente Triple",
+   "categoria": "gastro",
+   "marca": "MEDIFARMA",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 1.2,
+    "mifarma": 1.2
+   },
+   "precio_unidad": {
+    "inkafarma": 1.2,
+    "mifarma": 1.2
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407",
     "mifarma": "https://www.mifarma.com.pe/producto/sal-de-andrews-polvo-efervescente-triple-accion/003407"
@@ -3949,19 +6475,65 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 1.1,
+     "antes": 1.2,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "085375",
+   "id": "085375:fraccion",
    "nombre": "Simeticona 80 mg Tableta Masticable",
    "categoria": "gastro",
    "marca": "SIMETICONA",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 2.71,
+    "mifarma": 2.8
+   },
+   "precio_unidad": {
+    "inkafarma": 0.271,
+    "mifarma": 0.28
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.3,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/simeticona-80-mg-tableta-masticable/085375",
+    "mifarma": "https://www.mifarma.com.pe/producto/simeticona-80-mg-tableta-masticable/085375"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 2.71,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "085375:pack",
+   "nombre": "Simeticona 80 mg Tableta Masticable",
+   "categoria": "gastro",
+   "marca": "SIMETICONA",
+   "presentacion": "CAJA 120 UN",
+   "cantidad": 120.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 32.52,
     "mifarma": 33.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.271,
+    "mifarma": 0.28
    },
    "promos": {
     "inkafarma": false,
@@ -3987,14 +6559,22 @@
    }
   },
   {
-   "id": "228094",
+   "id": "228094:pack",
    "nombre": "Simeticona 80mg Tableta Masticable",
    "categoria": "gastro",
    "marca": "FARMINDUSTRIA",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 8.1,
     "mifarma": 9.0,
     "boticasperu": 8.1
+   },
+   "precio_unidad": {
+    "inkafarma": 0.27,
+    "mifarma": 0.3,
+    "boticasperu": 0.27
    },
    "promos": {
     "inkafarma": false,
@@ -4027,23 +6607,34 @@
    }
   },
   {
-   "id": "071502",
+   "id": "071502:pack",
    "nombre": "Simeticona 80mg/ml Suspensión Oral",
    "categoria": "gastro",
    "marca": "PORTUGAL",
+   "presentacion": "FRASCO 15 ML",
+   "cantidad": 15.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 2.7,
-    "mifarma": 2.8
+    "mifarma": 2.8,
+    "boticasperu": 6.6
+   },
+   "precio_unidad": {
+    "inkafarma": 0.18,
+    "mifarma": 0.1867,
+    "boticasperu": 0.44
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 3.7,
+   "brecha_pct": 144.4,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/simeticona-80mgml-suspension-oral/071502",
-    "mifarma": "https://www.mifarma.com.pe/producto/simeticona-80mgml-suspension-oral/071502"
+    "mifarma": "https://www.mifarma.com.pe/producto/simeticona-80mgml-suspension-oral/071502",
+    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/gases_intestinales/simeticona_80mg%2Fml_suspension_oral_-_frasco_15_ml/01927.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -4055,18 +6646,31 @@
      "dir": "igual",
      "antes": 2.8,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 6.6,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "010808",
+   "id": "010808:pack",
    "nombre": "Ensure Advance Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "ENSURE",
+   "presentacion": "LATA 850 GR",
+   "cantidad": 850.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 103.9,
     "mifarma": 103.9,
     "boticasperu": 103.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1222,
+    "mifarma": 0.1222,
+    "boticasperu": 0.1222
    },
    "promos": {
     "inkafarma": false,
@@ -4099,22 +6703,30 @@
    }
   },
   {
-   "id": "068478",
+   "id": "068478:pack",
    "nombre": "Glucerna Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "ABBOTT",
+   "presentacion": "LATA 850 GR",
+   "cantidad": 850.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 139.9,
-    "mifarma": 135.9,
+    "mifarma": 139.9,
     "boticasperu": 137.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1646,
+    "mifarma": 0.1646,
+    "boticasperu": 0.1622
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 2.9,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 1.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/glucerna-sabor-vainilla/068478",
     "mifarma": "https://www.mifarma.com.pe/producto/glucerna-sabor-vainilla/068478",
@@ -4128,7 +6740,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 135.9,
+     "antes": 139.9,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -4139,14 +6751,22 @@
    }
   },
   {
-   "id": "085152",
+   "id": "085152:pack",
    "nombre": "Glucerna Triple Care Líquido Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "GLUCERNA",
+   "presentacion": "FRASCO 220 ML",
+   "cantidad": 220.0,
+   "unidad": "ml",
    "precios": {
     "inkafarma": 12.9,
     "mifarma": 12.9,
     "boticasperu": 12.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.0586,
+    "mifarma": 0.0586,
+    "boticasperu": 0.0586
    },
    "promos": {
     "inkafarma": false,
@@ -4179,22 +6799,30 @@
    }
   },
   {
-   "id": "072767",
+   "id": "072767:pack",
    "nombre": "Magnesol Kids Polvo para Solución Oral Sabor Fresa",
    "categoria": "nutricion",
    "marca": "MAGNESOL",
+   "presentacion": "FRASCO 150 GR",
+   "cantidad": 150.0,
+   "unidad": "g",
    "precios": {
-    "inkafarma": 33.9,
-    "mifarma": 32.9,
+    "inkafarma": 39.5,
+    "mifarma": 39.5,
     "boticasperu": 32.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.2633,
+    "mifarma": 0.2633,
+    "boticasperu": 0.2193
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "empate",
-   "brecha_pct": 3.0,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 20.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/magnesol-kids-polvo-para-solucion-oral/072767",
     "mifarma": "https://www.mifarma.com.pe/producto/magnesol-kids-polvo-para-solucion-oral/072767",
@@ -4203,12 +6831,12 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 33.9,
+     "antes": 39.5,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 32.9,
+     "antes": 39.5,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -4219,13 +6847,20 @@
    }
   },
   {
-   "id": "071134",
+   "id": "071134:pack",
    "nombre": "Pack 02 Ensure Advance Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "ENSURE",
+   "presentacion": "PACK 2 UN",
+   "cantidad": 2.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 194.9,
     "mifarma": 194.9
+   },
+   "precio_unidad": {
+    "inkafarma": 97.45,
+    "mifarma": 97.45
    },
    "promos": {
     "inkafarma": false,
@@ -4251,14 +6886,18 @@
    }
   },
   {
-   "id": "PACKNT524",
+   "id": "PACKNT524:pack",
    "nombre": "Pack 02 Glucerna Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "ABBOTT",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
     "inkafarma": 279.8,
     "mifarma": 279.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
     "mifarma": false
@@ -4283,20 +6922,24 @@
    }
   },
   {
-   "id": "PACKNT89",
+   "id": "PACKNT89:pack",
    "nombre": "Pack 03 Magnesol Polvo Clasico",
    "categoria": "nutricion",
    "marca": "MAGNESOL",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 74.9,
-    "mifarma": 74.9
+    "inkafarma": 83.16,
+    "mifarma": 82.17
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "mifarma",
+   "brecha_pct": 1.2,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-03-magnesol-polvo-clasico/PACKNT89",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-03-magnesol-polvo-clasico/PACKNT89"
@@ -4304,31 +6947,35 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 74.9,
+     "antes": 83.16,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 74.9,
+     "antes": 82.17,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKNT466",
+   "id": "PACKNT466:pack",
    "nombre": "Pack 1 Caja Magnesol Polvo + 1 Caja Magnesol Polvo Sabor Naranja",
    "categoria": "nutricion",
    "marca": "MAGNESOL",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 55.8,
-    "mifarma": 55.8
+    "inkafarma": 62.04,
+    "mifarma": 61.71
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "mifarma",
+   "brecha_pct": 0.5,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-1-magnesol-polvo-1-magnesol-polvo-naranja/PACKNT466",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-1-magnesol-polvo-1-magnesol-polvo-naranja/PACKNT466"
@@ -4336,25 +6983,29 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 55.8,
+     "antes": 62.04,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 55.8,
+     "antes": 61.71,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKNT559",
+   "id": "PACKNT559:pack",
    "nombre": "Pack Ensure Advance 1.7 Kg + Ensure Advance Vainilla 220ml",
    "categoria": "nutricion",
    "marca": "ENSURE",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 194.9,
-    "mifarma": 194.9
+    "inkafarma": 207.8,
+    "mifarma": 207.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -4368,34 +7019,45 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 194.9,
+     "antes": 207.8,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 194.9,
+     "antes": 207.8,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "079431",
+   "id": "079431:pack",
    "nombre": "Pediasure 10+ Polvo 10 A 15 Avain",
    "categoria": "nutricion",
    "marca": "PEDIASURE",
+   "presentacion": "LATA 850 GR",
+   "cantidad": 850.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 96.0,
-    "mifarma": 96.0
+    "mifarma": 96.0,
+    "boticasperu": 98.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1129,
+    "mifarma": 0.1129,
+    "boticasperu": 0.1153
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false
+    "mifarma": false,
+    "boticasperu": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "brecha_pct": 2.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-10-polvo-10-a-15-avain-10-15a-lta-850g/079431",
-    "mifarma": "https://www.mifarma.com.pe/producto/pediasure-10-polvo-10-a-15-avain-10-15a-lta-850g/079431"
+    "mifarma": "https://www.mifarma.com.pe/producto/pediasure-10-polvo-10-a-15-avain-10-15a-lta-850g/079431",
+    "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/formula_infantil/pediasure/pediasure_10%2B_vainilla-_lata_850_gr/49001.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -4407,24 +7069,36 @@
      "dir": "igual",
      "antes": 96.0,
      "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 98.0,
+     "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "074032",
+   "id": "074032:pack",
    "nombre": "Pediasure Sabor Vainilla",
    "categoria": "nutricion",
    "marca": "PEDIASURE",
+   "presentacion": "LATA 1600 GR",
+   "cantidad": 1600.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 179.0,
-    "mifarma": 176.9
+    "mifarma": 179.0
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1119,
+    "mifarma": 0.1119
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 1.2,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032",
     "mifarma": "https://www.mifarma.com.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032"
@@ -4437,26 +7111,33 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 176.9,
+     "antes": 179.0,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "074030",
+   "id": "074030:pack",
    "nombre": "Pediasure Sabor Vainilla Polvo",
    "categoria": "nutricion",
    "marca": "PEDIASURE",
+   "presentacion": "LATA 850 GR",
+   "cantidad": 850.0,
+   "unidad": "g",
    "precios": {
     "inkafarma": 102.9,
-    "mifarma": 101.9
+    "mifarma": 102.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.1211,
+    "mifarma": 0.1211
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 1.0,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-sabor-vainilla-lata850-gr/074030",
     "mifarma": "https://www.mifarma.com.pe/producto/pediasure-sabor-vainilla-lata850-gr/074030"
@@ -4469,28 +7150,36 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 101.9,
+     "antes": 102.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "012036",
+   "id": "012036:pack",
    "nombre": "Calcibone D3 1500mg-800UI  Tabletas Recubiertas",
    "categoria": "vitaminas",
    "marca": "Calcibone",
+   "presentacion": "FRASCO 60 UN",
+   "cantidad": 60.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 140.3,
-    "mifarma": 129.6,
+    "mifarma": 140.3,
     "boticasperu": 140.3
+   },
+   "precio_unidad": {
+    "inkafarma": 2.3383,
+    "mifarma": 2.3383,
+    "boticasperu": 2.3383
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 8.3,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/calcibone-d-1500-mg-800-ui/012036",
     "mifarma": "https://www.mifarma.com.pe/producto/calcibone-d-1500-mg-800-ui/012036",
@@ -4504,7 +7193,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 129.6,
+     "antes": 140.3,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -4515,45 +7204,68 @@
    }
   },
   {
-   "id": "024297",
+   "id": "024297:pack",
    "nombre": "Calcio + Vitamina D3 Tableta Efervescente Sabor Naranja / Toronja",
    "categoria": "vitaminas",
    "marca": "VITAMINS FOR LIFE",
+   "presentacion": "TUBO 20 UN",
+   "cantidad": 20.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 15.9,
-    "mifarma": 16.9
+    "inkafarma": 19.9,
+    "mifarma": 19.9,
+    "boticasperu": 15.2
+   },
+   "precio_unidad": {
+    "inkafarma": 0.995,
+    "mifarma": 0.995,
+    "boticasperu": 0.76
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true
+    "mifarma": true,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 6.3,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 30.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/calcio-vitamina-d3-tabletas-efervescentes/024297",
-    "mifarma": "https://www.mifarma.com.pe/producto/calcio-vitamina-d3-tabletas-efervescentes/024297"
+    "mifarma": "https://www.mifarma.com.pe/producto/calcio-vitamina-d3-tabletas-efervescentes/024297",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/calcio/calcio_%2B_vitamina_d3_german_energy_sabor_mandarina_-_tubo_20_un/47983.html"
    },
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 15.9,
+     "antes": 19.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 16.9,
+     "antes": 19.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 15.2,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "072372",
+   "id": "072372:pack",
    "nombre": "Centrum Comprimido Recubierto",
    "categoria": "vitaminas",
    "marca": "GLAXO SMITHKLINE PERÚ",
+   "presentacion": "FRASCO 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 41.4,
     "mifarma": 41.4
+   },
+   "precio_unidad": {
+    "inkafarma": 1.38,
+    "mifarma": 1.38
    },
    "promos": {
     "inkafarma": false,
@@ -4579,13 +7291,20 @@
    }
   },
   {
-   "id": "072373",
+   "id": "072373:pack",
    "nombre": "Centrum Silver Comprimido Recubierto",
    "categoria": "vitaminas",
    "marca": "GLAXO SMITHKLINE PERÚ",
+   "presentacion": "FRASCO 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 47.6,
     "mifarma": 47.6
+   },
+   "precio_unidad": {
+    "inkafarma": 1.5867,
+    "mifarma": 1.5867
    },
    "promos": {
     "inkafarma": false,
@@ -4611,20 +7330,27 @@
    }
   },
   {
-   "id": "031199",
+   "id": "031199:pack",
    "nombre": "Farma D 5000UI Cápsula Blanda",
    "categoria": "vitaminas",
    "marca": "FARMAKONSUMA",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 79.0,
-    "mifarma": 79.8
+    "mifarma": 81.4
+   },
+   "precio_unidad": {
+    "inkafarma": 2.6333,
+    "mifarma": 2.7133
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 1.0,
+   "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/farma-d-5000ui-capsula-blanda/031199",
     "mifarma": "https://www.mifarma.com.pe/producto/farma-d-5000ui-capsula-blanda/031199"
@@ -4637,26 +7363,33 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 79.8,
+     "antes": 81.4,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "011029",
+   "id": "011029:pack",
    "nombre": "Hierro + Vitamina C Vitamins For Life Tableta Efervescente Sabor Cereza",
    "categoria": "vitaminas",
    "marca": "VITAMINS FOR LIFE",
+   "presentacion": "TUBO 20 UN",
+   "cantidad": 20.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 15.9,
-    "mifarma": 16.9
+    "inkafarma": 19.9,
+    "mifarma": 19.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.995,
+    "mifarma": 0.995
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 6.3,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/iron-vitamina-c-tableta-efervescente/011029",
     "mifarma": "https://www.mifarma.com.pe/producto/iron-vitamina-c-tableta-efervescente/011029"
@@ -4664,22 +7397,68 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 15.9,
+     "antes": 19.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 16.9,
+     "antes": 19.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "073769",
+   "id": "073769:pack",
    "nombre": "Hierro Sacarosa Svp.100Mg/5Ml Concentrado Para Solución Para Perfusión",
    "categoria": "vitaminas",
    "marca": "HIERRO SACAROSA",
+   "presentacion": "CAJA 5 UN",
+   "cantidad": 5.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 80.0,
+    "mifarma": 82.5
+   },
+   "precio_unidad": {
+    "inkafarma": 16.0,
+    "mifarma": 16.5
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769",
+    "mifarma": "https://www.mifarma.com.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 80.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 82.5,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "073769:fraccion",
+   "nombre": "Hierro Sacarosa Svp.100Mg/5Ml Concentrado Para Solución Para Perfusión",
+   "categoria": "vitaminas",
+   "marca": "HIERRO SACAROSA",
+   "presentacion": "INYECTABLE 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 16.0,
+    "mifarma": 16.5
+   },
+   "precio_unidad": {
     "inkafarma": 16.0,
     "mifarma": 16.5
    },
@@ -4707,55 +7486,121 @@
    }
   },
   {
-   "id": "028971",
+   "id": "028971:pack",
    "nombre": "Magnesio + Complejo B Vivactiv Tableta Efervescente",
    "categoria": "vitaminas",
    "marca": "VIVACTIV",
+   "presentacion": "TUBO 20 UN",
+   "cantidad": 20.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 13.9,
-    "mifarma": 14.9
+    "inkafarma": 17.9,
+    "mifarma": 17.9,
+    "boticasperu": 16.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.895,
+    "mifarma": 0.895,
+    "boticasperu": 0.845
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true
+    "mifarma": true,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 7.2,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 5.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/vivactiv-complejob-efervescente/028971",
-    "mifarma": "https://www.mifarma.com.pe/producto/vivactiv-complejob-efervescente/028971"
+    "mifarma": "https://www.mifarma.com.pe/producto/vivactiv-complejob-efervescente/028971",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/magnesio/magnesio_%2B_zinc_%2B_complejo_b_german_energy_sabor_naranja_-_tubo_20_un/47216.html"
    },
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 13.9,
+     "antes": 17.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 14.9,
+     "antes": 17.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 16.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "009104",
+   "id": "009104:pack",
    "nombre": "Maltofer 100mg/5ml Solución Bebible",
    "categoria": "vitaminas",
    "marca": "FARMAKONSUMA",
+   "presentacion": "CAJA 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
+    "inkafarma": 92.2,
+    "mifarma": 95.0
+   },
+   "precio_unidad": {
     "inkafarma": 9.22,
-    "mifarma": 9.3
+    "mifarma": 9.5
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 0.9,
+   "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
     "mifarma": "https://www.mifarma.com.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 92.2,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 95.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "009104:fraccion",
+   "nombre": "Maltofer 100mg/5ml Solución Bebible",
+   "categoria": "vitaminas",
+   "marca": "FARMAKONSUMA",
+   "presentacion": "UNIDAD 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 9.22,
+    "mifarma": 9.5,
+    "boticasperu": 9.7
+   },
+   "precio_unidad": {
+    "inkafarma": 9.22,
+    "mifarma": 9.5,
+    "boticasperu": 9.7
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
+    "boticasperu": false
+   },
+   "mas_barato": "inkafarma",
+   "brecha_pct": 5.2,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
+    "mifarma": "https://www.mifarma.com.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/hierro/maltofer_bebible_5ml_-_ampolla_1un/27459.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -4765,26 +7610,35 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 9.3,
+     "antes": 9.5,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 9.7,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKNT441",
+   "id": "PACKNT441:pack",
    "nombre": "Pack 02 Ultra Complejo B Sunvit Cápsula Blanda",
    "categoria": "vitaminas",
    "marca": "SUNVIT",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 74.8,
-    "mifarma": 74.8
+    "inkafarma": 99.84,
+    "mifarma": 99.6
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
    },
-   "mas_barato": "empate",
-   "brecha_pct": 0.0,
+   "mas_barato": "mifarma",
+   "brecha_pct": 0.2,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-02-ultra-complejo-b-sunvit-capsula-blanda/PACKNT441",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-02-ultra-complejo-b-sunvit-capsula-blanda/PACKNT441"
@@ -4792,25 +7646,29 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 74.8,
+     "antes": 99.84,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 74.8,
+     "antes": 99.6,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKNT32",
+   "id": "PACKNT32:pack",
    "nombre": "Pack 02 Vitaminas C Efervescentes con Zinc",
    "categoria": "vitaminas",
    "marca": "VITAMINS FOR LIFE",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 22.9,
-    "mifarma": 22.9
+    "inkafarma": 29.8,
+    "mifarma": 29.8
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -4824,25 +7682,29 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 22.9,
+     "antes": 29.8,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 22.9,
+     "antes": 29.8,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "PACKNT33",
+   "id": "PACKNT33:pack",
    "nombre": "Pack 03 Vitaminas C Efervescentes con Zinc",
    "categoria": "vitaminas",
    "marca": "VITAMINS FOR LIFE",
+   "presentacion": "SUPER PACK",
+   "cantidad": null,
+   "unidad": null,
    "precios": {
-    "inkafarma": 32.5,
-    "mifarma": 32.5
+    "inkafarma": 44.7,
+    "mifarma": 44.7
    },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
     "mifarma": true
@@ -4856,31 +7718,38 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 32.5,
+     "antes": 44.7,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 32.5,
+     "antes": 44.7,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "026173",
+   "id": "026173:pack",
    "nombre": "Pack Rexona Antitranspirante Spray Motion Sense V8",
    "categoria": "vitaminas",
    "marca": "REXONA",
+   "presentacion": "PACK 2 UN",
+   "cantidad": 2.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 24.5,
-    "mifarma": 22.6
+    "mifarma": 24.5
+   },
+   "precio_unidad": {
+    "inkafarma": 12.25,
+    "mifarma": 12.25
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 8.4,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173",
     "mifarma": "https://www.mifarma.com.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173"
@@ -4893,26 +7762,33 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 22.6,
+     "antes": 24.5,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "029588",
+   "id": "029588:pack",
    "nombre": "Redoxon Total Tableta Efervescente Sabor Naranja",
    "categoria": "vitaminas",
    "marca": "REDOXON",
+   "presentacion": "CAJA 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 43.92,
-    "mifarma": 43.8
+    "mifarma": 43.89
+   },
+   "precio_unidad": {
+    "inkafarma": 14.64,
+    "mifarma": 14.63
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
    "mas_barato": "mifarma",
-   "brecha_pct": 0.3,
+   "brecha_pct": 0.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/redoxon-total-comprimido-efervescente/029588",
     "mifarma": "https://www.mifarma.com.pe/producto/redoxon-total-comprimido-efervescente/029588"
@@ -4925,19 +7801,65 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 43.8,
+     "antes": 43.89,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "073974",
+   "id": "029588:fraccion",
+   "nombre": "Redoxon Total Tableta Efervescente Sabor Naranja",
+   "categoria": "vitaminas",
+   "marca": "REDOXON",
+   "presentacion": "TUBO X10 TABS 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 14.64,
+    "mifarma": 14.63
+   },
+   "precio_unidad": {
+    "inkafarma": 14.64,
+    "mifarma": 14.63
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "mifarma",
+   "brecha_pct": 0.1,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/redoxon-total-comprimido-efervescente/029588",
+    "mifarma": "https://www.mifarma.com.pe/producto/redoxon-total-comprimido-efervescente/029588"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 14.64,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 14.63,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "073974:pack",
    "nombre": "Selectum Adultos 18+ Tableta Recubierta",
    "categoria": "vitaminas",
    "marca": "SELECTUM",
+   "presentacion": "FRASCO 1 UN",
+   "cantidad": 1.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 45.9,
-    "mifarma": 45.9
+    "inkafarma": 49.9,
+    "mifarma": 49.9
+   },
+   "precio_unidad": {
+    "inkafarma": 49.9,
+    "mifarma": 49.9
    },
    "promos": {
     "inkafarma": true,
@@ -4952,24 +7874,127 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 45.9,
+     "antes": 49.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 45.9,
+     "antes": 49.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "037794",
+   "id": "037794:pack",
    "nombre": "Sunvit  Calcium Mag Zinc+D Tableta",
    "categoria": "vitaminas",
    "marca": "SUNVIT",
+   "presentacion": "FRASCO 90 UN",
+   "cantidad": 90.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 49.5,
-    "mifarma": 49.5
+    "inkafarma": 61.9,
+    "mifarma": 61.9,
+    "boticasperu": 47.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.6878,
+    "mifarma": 0.6878,
+    "boticasperu": 0.5322
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 29.2,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/sunvit-calcium-mag-zinc-d-tableta/037794",
+    "mifarma": "https://www.mifarma.com.pe/producto/sunvit-calcium-mag-zinc-d-tableta/037794",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/calcio/calcium_magnesium_zinc_-_frasco_100_un/43147.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 47.9,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "037829:pack",
+   "nombre": "Sunvit B Complex 100 Tableta",
+   "categoria": "vitaminas",
+   "marca": "SUNVIT",
+   "presentacion": "FRASCO 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 63.9,
+    "mifarma": 63.9,
+    "boticasperu": 59.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.639,
+    "mifarma": 0.639,
+    "boticasperu": 0.599
+   },
+   "promos": {
+    "inkafarma": true,
+    "mifarma": true,
+    "boticasperu": false
+   },
+   "mas_barato": "boticasperu",
+   "brecha_pct": 6.7,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/sunvit-b-complex-100-tableta/037829",
+    "mifarma": "https://www.mifarma.com.pe/producto/sunvit-b-complex-100-tableta/037829",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/vitamina_c/b-complex_%2B_vitamin_c_-_frasco_100_un/47833.html"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 63.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 63.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 59.9,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "037801:pack",
+   "nombre": "Sunvit Vit C 1000mg Tableta",
+   "categoria": "vitaminas",
+   "marca": "SUNVIT",
+   "presentacion": "FRASCO 100 UN",
+   "cantidad": 100.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 61.9,
+    "mifarma": 61.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.619,
+    "mifarma": 0.619
    },
    "promos": {
     "inkafarma": true,
@@ -4978,94 +8003,37 @@
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/sunvit-calcium-mag-zinc-d-tableta/037794",
-    "mifarma": "https://www.mifarma.com.pe/producto/sunvit-calcium-mag-zinc-d-tableta/037794"
-   },
-   "tendencia": {
-    "inkafarma": {
-     "dir": "igual",
-     "antes": 49.5,
-     "delta_pct": 0.0
-    },
-    "mifarma": {
-     "dir": "igual",
-     "antes": 49.5,
-     "delta_pct": 0.0
-    }
-   }
-  },
-  {
-   "id": "037829",
-   "nombre": "Sunvit B Complex 100 Tableta",
-   "categoria": "vitaminas",
-   "marca": "SUNVIT",
-   "precios": {
-    "inkafarma": 50.9,
-    "mifarma": 51.1
-   },
-   "promos": {
-    "inkafarma": true,
-    "mifarma": true
-   },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 0.4,
-   "urls": {
-    "inkafarma": "https://inkafarma.pe/producto/sunvit-b-complex-100-tableta/037829",
-    "mifarma": "https://www.mifarma.com.pe/producto/sunvit-b-complex-100-tableta/037829"
-   },
-   "tendencia": {
-    "inkafarma": {
-     "dir": "igual",
-     "antes": 50.9,
-     "delta_pct": 0.0
-    },
-    "mifarma": {
-     "dir": "igual",
-     "antes": 51.1,
-     "delta_pct": 0.0
-    }
-   }
-  },
-  {
-   "id": "037801",
-   "nombre": "Sunvit Vit C 1000mg Tableta",
-   "categoria": "vitaminas",
-   "marca": "SUNVIT",
-   "precios": {
-    "inkafarma": 49.5,
-    "mifarma": 39.9
-   },
-   "promos": {
-    "inkafarma": true,
-    "mifarma": true
-   },
-   "mas_barato": "mifarma",
-   "brecha_pct": 24.1,
-   "urls": {
     "inkafarma": "https://inkafarma.pe/producto/sunvit-vit-c-1000mg-tableta/037801",
     "mifarma": "https://www.mifarma.com.pe/producto/sunvit-vit-c-1000mg-tableta/037801"
    },
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 49.5,
+     "antes": 61.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 39.9,
+     "antes": 61.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "005570",
+   "id": "005570:pack",
    "nombre": "Sunvit Vitamin D 2000 IU Tableta",
    "categoria": "vitaminas",
    "marca": "SUNVIT",
+   "presentacion": "FRASCO 60 UN",
+   "cantidad": 60.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 59.9,
-    "mifarma": 59.9
+    "inkafarma": 74.9,
+    "mifarma": 74.9
+   },
+   "precio_unidad": {
+    "inkafarma": 1.2483,
+    "mifarma": 1.2483
    },
    "promos": {
     "inkafarma": true,
@@ -5080,33 +8048,80 @@
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 59.9,
+     "antes": 74.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 59.9,
+     "antes": 74.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "065303",
+   "id": "065303:fraccion",
    "nombre": "Supradyn Energy Comprimido recubierto",
    "categoria": "vitaminas",
    "marca": "BAYER",
+   "presentacion": "BLISTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 48.0,
-    "mifarma": 40.8,
-    "boticasperu": 47.5
+    "inkafarma": 16.0,
+    "mifarma": 16.0
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.6
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/supradyn-energy-comprimido-recubierto/065303",
+    "mifarma": "https://www.mifarma.com.pe/producto/supradyn-energy-comprimido-recubierto/065303"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "065303:pack",
+   "nombre": "Supradyn Energy Comprimido recubierto",
+   "categoria": "vitaminas",
+   "marca": "BAYER",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 48.0,
+    "mifarma": 48.0,
+    "boticasperu": 47.5
+   },
+   "precio_unidad": {
+    "inkafarma": 1.6,
+    "mifarma": 1.6,
+    "boticasperu": 1.5833
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false,
     "boticasperu": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 17.6,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 1.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/supradyn-energy-comprimido-recubierto/065303",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-energy-comprimido-recubierto/065303",
@@ -5120,7 +8135,7 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 40.8,
+     "antes": 48.0,
      "delta_pct": 0.0
     },
     "boticasperu": {
@@ -5131,20 +8146,66 @@
    }
   },
   {
-   "id": "403172",
+   "id": "403172:fraccion",
    "nombre": "Supradyn Gragea",
    "categoria": "vitaminas",
    "marca": "SUPRADYN",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 47.7,
-    "mifarma": 40.8
+    "inkafarma": 15.9,
+    "mifarma": 15.9
+   },
+   "precio_unidad": {
+    "inkafarma": 1.59,
+    "mifarma": 1.59
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 16.9,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/supradyn-grageas/403172",
+    "mifarma": "https://www.mifarma.com.pe/producto/supradyn-grageas/403172"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 15.9,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 15.9,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "403172:pack",
+   "nombre": "Supradyn Gragea",
+   "categoria": "vitaminas",
+   "marca": "SUPRADYN",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 47.7,
+    "mifarma": 47.7
+   },
+   "precio_unidad": {
+    "inkafarma": 1.59,
+    "mifarma": 1.59
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": true
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/supradyn-grageas/403172",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-grageas/403172"
@@ -5157,20 +8218,67 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 40.8,
+     "antes": 47.7,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "403147",
+   "id": "403147:fraccion",
    "nombre": "Supradyn Pronatal Comprimido",
    "categoria": "vitaminas",
    "marca": "Bayer",
+   "presentacion": "BLÍSTER 10 UN",
+   "cantidad": 10.0,
+   "unidad": "un",
+   "precios": {
+    "inkafarma": 18.5,
+    "mifarma": 18.5
+   },
+   "precio_unidad": {
+    "inkafarma": 1.85,
+    "mifarma": 1.85
+   },
+   "promos": {
+    "inkafarma": false,
+    "mifarma": false
+   },
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
+   "urls": {
+    "inkafarma": "https://inkafarma.pe/producto/supradyn-pronatal-comprimidos-recubiertos/403147",
+    "mifarma": "https://www.mifarma.com.pe/producto/supradyn-pronatal-comprimidos-recubiertos/403147"
+   },
+   "tendencia": {
+    "inkafarma": {
+     "dir": "igual",
+     "antes": 18.5,
+     "delta_pct": 0.0
+    },
+    "mifarma": {
+     "dir": "igual",
+     "antes": 18.5,
+     "delta_pct": 0.0
+    }
+   }
+  },
+  {
+   "id": "403147:pack",
+   "nombre": "Supradyn Pronatal Comprimido",
+   "categoria": "vitaminas",
+   "marca": "Bayer",
+   "presentacion": "CAJA 30 UN",
+   "cantidad": 30.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 55.5,
     "mifarma": 55.5,
     "boticasperu": 55.5
+   },
+   "precio_unidad": {
+    "inkafarma": 1.85,
+    "mifarma": 1.85,
+    "boticasperu": 1.85
    },
    "promos": {
     "inkafarma": false,
@@ -5203,20 +8311,27 @@
    }
   },
   {
-   "id": "072247",
+   "id": "072247:pack",
    "nombre": "Tripack Jabón Rexona Antibacterial Avena",
    "categoria": "vitaminas",
    "marca": "REXONA",
+   "presentacion": "PACK 3 UN",
+   "cantidad": 3.0,
+   "unidad": "un",
    "precios": {
     "inkafarma": 7.9,
-    "mifarma": 7.5
+    "mifarma": 7.9
+   },
+   "precio_unidad": {
+    "inkafarma": 2.6333,
+    "mifarma": 2.6333
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": true
+    "mifarma": false
    },
-   "mas_barato": "mifarma",
-   "brecha_pct": 5.3,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247",
     "mifarma": "https://www.mifarma.com.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247"
@@ -5229,39 +8344,55 @@
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 7.5,
+     "antes": 7.9,
      "delta_pct": 0.0
     }
    }
   },
   {
-   "id": "005569",
+   "id": "005569:pack",
    "nombre": "Vitamin D 1000 IU Tableta",
    "categoria": "vitaminas",
    "marca": "SUNVIT",
+   "presentacion": "FRASCO 60 UN",
+   "cantidad": 60.0,
+   "unidad": "un",
    "precios": {
-    "inkafarma": 42.9,
-    "mifarma": 43.1
+    "inkafarma": 53.9,
+    "mifarma": 53.9,
+    "boticasperu": 51.9
+   },
+   "precio_unidad": {
+    "inkafarma": 0.8983,
+    "mifarma": 0.8983,
+    "boticasperu": 0.865
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true
+    "mifarma": true,
+    "boticasperu": false
    },
-   "mas_barato": "inkafarma",
-   "brecha_pct": 0.5,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 3.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/vitamin-d-1000-iu-tableta/005569",
-    "mifarma": "https://www.mifarma.com.pe/producto/vitamin-d-1000-iu-tableta/005569"
+    "mifarma": "https://www.mifarma.com.pe/producto/vitamin-d-1000-iu-tableta/005569",
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/vitamina_d/vitamina_d3_50_mcg_-_frasco_60_und/38765.html"
    },
    "tendencia": {
     "inkafarma": {
      "dir": "igual",
-     "antes": 42.9,
+     "antes": 53.9,
      "delta_pct": 0.0
     },
     "mifarma": {
      "dir": "igual",
-     "antes": 43.1,
+     "antes": 53.9,
+     "delta_pct": 0.0
+    },
+    "boticasperu": {
+     "dir": "igual",
+     "antes": 51.9,
      "delta_pct": 0.0
     }
    }
@@ -5277,47 +8408,47 @@
  },
  "_demo_cambios": [
   {
-   "producto": "Nastizol junior NF Antigripal Comprimidos masticables",
+   "producto": "Desenfriol Comprimido recubierto",
    "cadena": "inkafarma",
    "cambio": "baja -12%"
   },
   {
-   "producto": "Pack 02 Blísters Grip-10 + 06 Sobres Vick Vitapyrena Forte",
+   "producto": "Mucosolvan 30mg/5ml Jarabe Adulto - Frasco 120 ML",
    "cadena": "inkafarma",
    "cambio": "baja -22%"
   },
   {
-   "producto": "Nastizol Antigripal Multisíntomas Tableta Recubierta",
+   "producto": "Desenfriol Comprimido recubierto",
    "cadena": "mifarma",
    "cambio": "baja -8%"
   },
   {
-   "producto": "Ketoprofeno 100 mg/2ml Solución Inyectable",
+   "producto": "Naproxeno Sódico 550 Mg Tableta Recubierta",
    "cadena": "boticasperu",
    "cambio": "baja -15%"
   },
   {
-   "producto": "Pack Vick VapoRub Ungüento 100 Gr",
+   "producto": "Mucosolvan Compositum Pediátrico 7.5mg-0.005 mg /5ml Jarabe",
    "cadena": "inkafarma",
    "cambio": "sube +9%"
   },
   {
-   "producto": "Pack Chao NF Tableta + Chao Té Antigripal",
+   "producto": "Mucosolvan Compositum 15mg - 0.01 mg/5ml Jarabe",
    "cadena": "inkafarma",
    "cambio": "sube +18%"
   },
   {
-   "producto": "Pack Vick Vaporub 50g + 06 Sobres Vitapyrena Forte",
+   "producto": "Nastizol Antigripal Forte Comprimido",
    "cadena": "mifarma",
    "cambio": "sube +6%"
   },
   {
-   "producto": "Panadol Antigripal NF Tableta",
+   "producto": "Nastizol Antigripal Forte Comprimido",
    "cadena": "inkafarma",
    "cambio": "inicia promo"
   },
   {
-   "producto": "Nastizol Antigripal Forte Comprimido",
+   "producto": "Bisolvon® Para Niños 4mg/5ml Jarabe",
    "cadena": "mifarma",
    "cambio": "inicia promo"
   },

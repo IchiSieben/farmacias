@@ -33,9 +33,14 @@ _FORMAS = {
     "spray": "spray",
 }
 
-# Concentraciones: "500 mg", "120mg/5ml", "1 g", "50 mcg", "4%".
+# Concentración = fuerza del fármaco: ratio "120mg/5ml" o strength suelta
+# "500mg"/"50mcg"/"4%". OJO: un volumen/peso SUELTO del envase ("Frasco 120 ML",
+# "Lata 850 G") NO es concentración -> se excluyen ml/l/g sueltos para no
+# confundir el tamaño con la dosis (si no, "120ml" se leía como concentración y
+# bloqueaba matches legítimos de jarabes). El ratio (…/Yml) sí se conserva.
 _RE_CONC = re.compile(
-    r"\d+(?:[.,]\d+)?\s*(?:mg|g|mcg|ui|ml|%)(?:\s*/\s*\d+(?:[.,]\d+)?\s*ml)?",
+    r"\d+(?:[.,]\d+)?\s*(?:mg|mcg|g|ui)\s*/\s*\d+(?:[.,]\d+)?\s*ml"   # ratio: 120mg/5ml
+    r"|\d+(?:[.,]\d+)?\s*(?:mg|mcg|ui|%)",                            # strength: 500mg, 50mcg, 4%
     re.IGNORECASE,
 )
 # Solo "fuerza de fármaco" (strength), para quitarla SIN comerse el tamaño del
@@ -86,12 +91,19 @@ _UNID_TAMANO = {
     "ml": ("ml", 1), "l": ("ml", 1000),
     "g": ("g", 1), "gr": ("g", 1), "kg": ("g", 1000),
     "un": ("un", 1), "und": ("un", 1), "unid": ("un", 1), "unidades": ("un", 1),
-    "tab": ("un", 1), "tabs": ("un", 1), "tabletas": ("un", 1),
-    "caps": ("un", 1), "capsulas": ("un", 1), "sobre": ("un", 1), "sobres": ("un", 1),
+    "tab": ("un", 1), "tabs": ("un", 1), "tabletas": ("un", 1), "tableta": ("un", 1),
+    "comprimido": ("un", 1), "comprimidos": ("un", 1), "comp": ("un", 1),
+    "caps": ("un", 1), "capsulas": ("un", 1), "capsula": ("un", 1),
+    "ampolla": ("un", 1), "ampollas": ("un", 1), "amp": ("un", 1),
+    "sobre": ("un", 1), "sobres": ("un", 1),
 }
+# Incluye las formas SINGULARES canónicas (normaliza_texto pasa "tabletas"->"tableta",
+# "comprimidos"->"tableta", "capsulas"->"capsula"): si solo se aceptaran los plurales,
+# "Caja 30 tabletas" -> "30 tableta" no matchearía y la cantidad se perdería.
 _RE_TAMANO = re.compile(
-    r"(\d+(?:[.,]\d+)?)\s*(ml|l|kg|gr|g|und|unid|unidades|un|tabs|tabletas|tab|"
-    r"capsulas|caps|sobres|sobre)\b",
+    r"(\d+(?:[.,]\d+)?)\s*(ml|l|kg|gr|g|und|unidades|unid|un|"
+    r"tabletas|tableta|tabs|tab|comprimidos|comprimido|comp|"
+    r"capsulas|capsula|caps|ampollas|ampolla|amp|sobres|sobre)\b",
     re.IGNORECASE,
 )
 

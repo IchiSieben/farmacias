@@ -30,7 +30,7 @@ from typing import Dict, List, Optional
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
-from core.matcher import comparar
+from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
 from core import imagen
 from core.normalizer import extrae_specs, extrae_tamano, nucleo
@@ -96,24 +96,74 @@ def _comparacion(precios: Dict[str, float]):
     return mb, brecha
 
 
-def _ppu_boticas(precio, nombre, presentacion=None):
-    """Precio por unidad de un candidato Boticas: precio / tamaño del envase."""
-    tam = extrae_tamano(f"{nombre} {presentacion or ''}")
-    if precio and tam and tam[0]:
-        return round(precio / tam[0], 4)
+def _qty_boticas(cand: Producto):
+    """Cantidad del envase de un candidato Boticas como (valor, clase).
+
+    Primero por tamaño ("Frasco 120 ML" -> 120 ml, "Caja 30 tabletas" -> 30 un);
+    si no, por la cantidad de specs ("Caja 30" -> 30 un). None si no es legible.
+    """
+    tam = extrae_tamano(cand.nombre_origen)
+    if tam:
+        return tam
+    sp = extrae_specs(cand.nombre_origen)
+    if sp.cantidad:
+        return (float(sp.cantidad), "un")
     return None
 
 
+def _ppu_boticas(precio, cand: Producto):
+    """Precio por unidad de un candidato Boticas: precio / cantidad del envase."""
+    q = _qty_boticas(cand)
+    if precio and q and q[0]:
+        return round(precio / q[0], 4)
+    return None
+
+
+def _cantidad_coincide(ref: Producto, cand: Producto, tol: float = 0.10):
+    """¿La cantidad del candidato Boticas coincide con la de ESTA presentación?
+
+    Cada fila Inka/Mifarma trae cantidad_envase exacta (API de detalle): se exige
+    que Boticas tenga la MISMA cantidad y clase (blíster 10 solo casa con x10,
+    caja 30 solo con x30). Si Boticas no expone cantidad legible -> no se confirma.
+    """
+    q = _qty_boticas(cand)
+    if not q or q[1] != ref.unidad_envase:
+        return False
+    mayor = max(q[0], ref.cantidad_envase) or 1
+    return abs(q[0] - ref.cantidad_envase) / mayor <= tol
+
+
 def _match_boticas(ref: Producto, cands):
-    """Mejor candidato Boticas para ESA presentación (el guard de tamaño del
-    matcher hace que caja case con caja y blíster con blíster)."""
+    """Mejor candidato Boticas para ESA presentación.
+
+    Si la presentación Inka tiene cantidad exacta (caso normal, del API de
+    detalle), se EXIGE que la cantidad de Boticas coincida — esto, no el precio,
+    decide la presentación. Así blíster 10 nunca casa con caja 30, y una brecha de
+    precio grande entre presentaciones idénticas es señal válida (no se descarta).
+    Solo en el fallback sin cantidad conocida se usa el viejo guard de plausibilidad.
+    """
+    exige_qty = ref.cantidad_envase is not None and ref.unidad_envase is not None
     best, best_r = None, None
     for c in cands:
-        r = comparar(ref, c, phash_fn=imagen.phash)   # Capa 3 solo en zona gris
-        if (r.es_match and c.precio is not None
-                and _precio_plausible(c.precio, ref.precio)
-                and (not best_r or r.score > best_r.score)):
-            best, best_r = c, r
+        if c.precio is None:
+            continue
+        if exige_qty:
+            # La cantidad exacta confirma la presentación: si coincide, basta con
+            # que pase las reglas duras y la similitud de nombre llegue a la zona
+            # gris (>=70). No se usa imagen aquí (las fotos difieren entre vendors)
+            # ni plausibilidad de precio (una brecha grande es señal válida).
+            if not _cantidad_coincide(ref, c):
+                continue
+            r = comparar(ref, c)
+            if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
+                best, best_r = c, r
+        else:
+            # Fallback (presentación sin cantidad conocida): match estricto + plausibilidad.
+            if not _precio_plausible(c.precio, ref.precio):
+                continue
+            r = comparar(ref, c, phash_fn=imagen.phash)   # Capa 3 solo en zona gris
+            if r.es_match and (not best_r or r.score > best_r.score):
+                best, best_r = c, r
     return best
 
 
@@ -184,7 +234,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 best = _match_boticas(ipres, cands)
                 if best:
                     precios["boticasperu"] = best.precio
-                    precio_unidad["boticasperu"] = _ppu_boticas(best.precio, best.nombre_origen)
+                    precio_unidad["boticasperu"] = _ppu_boticas(best.precio, best)
                     promos["boticasperu"] = bool(best.en_promocion)
                     urls["boticasperu"] = best.url
                     n_bot += 1

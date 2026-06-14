@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-14T00:31:33+00:00",
+ "generado": "2026-06-14T01:05:53+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -25,7 +25,7 @@
   "vitaminas"
  ],
  "total": 196,
- "con_boticas": 85,
+ "con_boticas": 80,
  "productos": [
   {
    "id": "038608:fraccion",
@@ -1256,25 +1256,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 49.0,
-    "mifarma": 50.0,
-    "boticasperu": 20.3
+    "mifarma": 50.0
    },
    "precio_unidad": {
     "inkafarma": 4.9,
-    "mifarma": 5.0,
-    "boticasperu": 2.03
+    "mifarma": 5.0
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 146.3,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bi-profenid-150-mg-comprimidos/421666",
-    "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/dolocordralan_100_liberacion_prolongada_tableta_-_blister_10_un/37304.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666"
    },
    "tendencia": {
     "inkafarma": {
@@ -1285,11 +1281,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 50.0,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 20.3,
      "delta_pct": 0.0
     }
    }
@@ -2714,25 +2705,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 119.9,
-    "mifarma": 123.0,
-    "boticasperu": 27.9
+    "mifarma": 123.0
    },
    "precio_unidad": {
     "inkafarma": 1.199,
-    "mifarma": 1.23,
-    "boticasperu": 0.279
+    "mifarma": 1.23
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 340.9,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 2.6,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/bisolol-5mg-tableta-recubierta/079480",
-    "mifarma": "https://www.mifarma.com.pe/producto/bisolol-5mg-tableta-recubierta/079480",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antihistaminicos/desloratadina_5mg_tableta_recubierta_-_caja_100_un/42683.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/bisolol-5mg-tableta-recubierta/079480"
    },
    "tendencia": {
     "inkafarma": {
@@ -2743,11 +2730,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 123.0,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 27.9,
      "delta_pct": 0.0
     }
    }
@@ -2948,25 +2930,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 24.9,
-    "mifarma": 25.1,
-    "boticasperu": 24.9
+    "mifarma": 25.1
    },
    "precio_unidad": {
     "inkafarma": 0.2075,
-    "mifarma": 0.2092,
-    "boticasperu": 0.2075
+    "mifarma": 0.2092
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
-   "mas_barato": "empate",
+   "mas_barato": "inkafarma",
    "brecha_pct": 0.8,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691",
-    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_adulto_-_frasco_120_ml/00464.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691"
    },
    "tendencia": {
     "inkafarma": {
@@ -2977,11 +2955,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 25.1,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 24.9,
      "delta_pct": 0.0
     }
    }
@@ -3551,25 +3524,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 42.5,
-    "mifarma": 45.0,
-    "boticasperu": 45.0
+    "mifarma": 45.0
    },
    "precio_unidad": {
     "inkafarma": 1.7,
-    "mifarma": 1.8,
-    "boticasperu": 1.8
+    "mifarma": 1.8
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
    "brecha_pct": 5.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
-    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
-    "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_antigripal_noche_comprimido_recubierto_-_caja_25_un/45620-CAJA.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071"
    },
    "tendencia": {
     "inkafarma": {
@@ -3578,11 +3547,6 @@
      "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "igual",
-     "antes": 45.0,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
      "dir": "igual",
      "antes": 45.0,
      "delta_pct": 0.0
@@ -6073,25 +6037,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 48.0,
-    "mifarma": 49.5,
-    "boticasperu": 71.0
+    "mifarma": 49.5
    },
    "precio_unidad": {
     "inkafarma": 1.6,
-    "mifarma": 1.65,
-    "boticasperu": 2.3667
+    "mifarma": 1.65
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
    "mas_barato": "inkafarma",
-   "brecha_pct": 47.9,
+   "brecha_pct": 3.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/norprazole-20mg-capsulas-de-liberacion-retardada/008247",
-    "mifarma": "https://www.mifarma.com.pe/producto/norprazole-20mg-capsulas-de-liberacion-retardada/008247",
-    "boticasperu": "https://www.boticasperu.pe/tratamiento/gastrointestinal/esomezil_20_mg_capsula_de_liberacion_retardada_-_caja_28_un/36978.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/norprazole-20mg-capsulas-de-liberacion-retardada/008247"
    },
    "tendencia": {
     "inkafarma": {
@@ -6102,11 +6062,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 49.5,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 71.0,
      "delta_pct": 0.0
     }
    }

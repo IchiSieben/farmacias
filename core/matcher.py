@@ -79,6 +79,55 @@ def _tamano_incompatible(ta, tb) -> bool:
     mayor = max(ta[0], tb[0]) or 1
     return abs(ta[0] - tb[0]) / mayor > _TOL_TAMANO
 
+
+# Principio activo / token discriminante: el fuzzy de núcleo se infla cuando dos
+# productos comparten palabras GENÉRICAS (galénicas/sal/forma) aunque el activo
+# difiera ("Norprazole ... liberación retardada" vs "Dolocordralan ... liberación
+# retardada" -> set=80). Estas palabras NO identifican el producto y se excluyen
+# del "token clave".
+_GENERICO_NUCLEO = set(
+    "liberacion retardada retard prolongada modificada lenta rapida controlada "
+    "recubierta recubiertas recubierto recubiertos gragea grageas "
+    "oral sublingual masticable bucal dispersable bebible "
+    "sodico sodica potasico potasica calcico calcica magnesico "
+    "maleato sulfato fosfato nitrato bromuro clorhidrato dihidrato monohidrato "
+    "besilato base micronizado anhidro trihidrato "
+    "acido vitamina complejo sales sal".split()
+)
+# Modificadores de COMPOSICIÓN: indican un producto DISTINTO porque cambian la
+# fórmula (Panadol Antigripal ≠ Panadol; Dolocordralan Forte ≠ Dolocordralan;
+# X Compuesto/Plus ≠ X simple). Si uno los tiene y el otro no -> productos
+# distintos. NO se incluyen calificadores de AUDIENCIA/MARKETING (adulto,
+# pediátrico, noche, extra, max…) porque un catálogo los omite y romperían
+# matches legítimos (la concentración/forma ya discrimina adulto vs pediátrico).
+_MODIFICADOR_NUCLEO = set(
+    "antigripal compuesto compositum plus duo forte fuerte "
+    "expectorante descongestionante gripa".split()
+)
+
+
+def _tokens_clave(nombre: Optional[str]) -> set:
+    """Tokens del núcleo que identifican el producto (principio activo / marca):
+    sin palabras genéricas ni modificadores de variante."""
+    return {t for t in nucleo(nombre).split()
+            if t not in _GENERICO_NUCLEO and t not in _MODIFICADOR_NUCLEO}
+
+
+def _activo_compatible(a: Producto, b: Producto) -> bool:
+    """¿Comparten principio activo/marca y la MISMA variante?
+
+    Bloquea matches donde el núcleo se parece solo por palabras genéricas: exige
+    (1) compartir al menos un token clave y (2) los mismos modificadores de
+    variante (antigripal/forte/plus…). Si algún lado no tiene token clave, no se
+    bloquea (no hay con qué discriminar)."""
+    ka = _tokens_clave(a.nombre_origen)
+    kb = _tokens_clave(b.nombre_origen)
+    if ka and kb and not (ka & kb):
+        return False
+    ma = {t for t in nucleo(a.nombre_origen).split() if t in _MODIFICADOR_NUCLEO}
+    mb = {t for t in nucleo(b.nombre_origen).split() if t in _MODIFICADOR_NUCLEO}
+    return ma == mb
+
 # Umbrales (ANEXO §A): >=85 match, 70–85 revisar a mano, <70 descartar.
 UMBRAL_MATCH = 85.0
 UMBRAL_REVISION = 70.0
@@ -196,6 +245,10 @@ def comparar(a: Producto, b: Producto, *, phash_fn=None) -> Resultado:
     if _tamano_incompatible(ta, tb):
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"envase distinto ({ta[0]:g}{ta[1]} ≠ {tb[0]:g}{tb[1]})")
+    # Principio activo / variante: no basta con parecerse por palabras genéricas.
+    if not _activo_compatible(a, b):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo="principio activo o variante distinta")
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)

@@ -80,7 +80,28 @@ body {
 .btn:hover { background: var(--azul); }
 .btn:active { transform: translateY(1px); }
 
-.count { font-size: 13px; color: var(--suave); margin: 12px 2px 0; }
+.count { font-size: 13px; color: var(--suave); margin: 12px 2px 0; display: flex; align-items: center; gap: 12px; }
+
+/* --- Filtros nuevos --- */
+.filters-2 { margin-top: 10px; }
+/* Brecha mínima (slider + número) */
+.rango { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--suave); }
+.rango input[type="range"] { width: 120px; accent-color: var(--azul-2); cursor: pointer; }
+.rango input[type="number"] {
+  width: 56px; font-size: 14px; padding: 8px 8px; border: 1px solid var(--linea);
+  border-radius: 9px; background: #fff; color: var(--texto);
+}
+/* "Quién es más barato/caro" */
+.pos { display: inline-flex; gap: 6px; }
+/* Cadenas a comparar */
+.cadenas-sel { display: inline-flex; flex-wrap: wrap; gap: 12px; }
+.cad-chk { font-size: 14px; color: var(--suave); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+/* Botón-enlace "Limpiar" */
+.link-btn {
+  font-size: 13px; color: var(--azul-2); background: none; border: none;
+  cursor: pointer; padding: 0; text-decoration: underline;
+}
+.link-btn:hover { color: var(--azul); }
 
 /* Tabla */
 .tabla-wrap { margin: 8px 0 40px; overflow-x: auto; }
@@ -106,6 +127,35 @@ body {
 }
 .tabla th.precio, .tabla td.precio { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .tabla tbody tr:hover { background: #fcfdff; }
+
+/* --- Conglomerados (grupos de cadenas) --- */
+/* Paleta por índice de grupo (automática: un grupo nuevo recibe color solo). */
+.g-0 { --gc: #2b6cb0; }   /* azul   (InRetail) */
+.g-1 { --gc: #2f855a; }   /* verde  (Boticas Perú) */
+.g-2 { --gc: #b7791f; }   /* ámbar  (Quicorp, futuro) */
+.g-3 { --gc: #6b46c1; }   /* púrpura */
+.g-4 { --gc: #c53030; }   /* rojo */
+.g-5 { --gc: #2c7a7b; }   /* teal */
+
+/* Fila superior del header: nombre del grupo con banda de color. */
+.tabla thead th.grupo {
+  text-align: center;
+  color: var(--gc);
+  background: #fff;
+  box-shadow: inset 0 -3px 0 var(--gc);   /* banda de color bajo el nombre del grupo */
+}
+/* Separador entre grupos (primera columna de cada grupo). */
+.tabla th.grupo-inicio, .tabla td.grupo-inicio { border-left: 1px solid #dfe4ea; }
+
+/* Leyenda de grupos: chips de color sobre la tabla. */
+.grupos-leyenda { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 12px; }
+.grupo-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; color: #44505f;
+  background: #fff; border: 1px solid var(--linea);
+  padding: 4px 11px; border-radius: 20px;
+}
+.grupo-chip .pt { width: 10px; height: 10px; border-radius: 50%; background: var(--gc); flex: none; }
 .tabla tbody tr:last-child td { border-bottom: none; }
 
 .prod { font-weight: 600; }
@@ -123,7 +173,15 @@ td.precio.barato .ppu { color: #2e8b57; }
   background: #eef1f5; color: #4a5566; white-space: nowrap;
 }
 td.precio.barato { background: var(--verde-bg); color: var(--verde); font-weight: 700; }
+td.precio.caro { background: #fdecec; color: var(--rojo); font-weight: 600; }
+td.precio.caro .ppu { color: var(--rojo); }
 td.precio.na { color: #c2c8d0; }
+
+/* Encabezados ordenables (#2): clic para ordenar, con indicador ▲▼. */
+.tabla thead th.sortable { cursor: pointer; user-select: none; }
+.tabla thead th.sortable:hover { color: var(--azul-2); }
+.tabla thead th .ord { font-size: 9px; opacity: .35; margin-left: 2px; }
+.tabla thead th .ord.act { opacity: 1; color: var(--azul-2); }
 .brecha { display: inline-block; font-weight: 600; font-size: 12.5px; color: var(--rojo); font-variant-numeric: tabular-nums; }
 .brecha.cero { color: var(--suave); }
 

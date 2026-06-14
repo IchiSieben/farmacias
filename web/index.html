@@ -30,17 +30,43 @@
         <select id="categoria" aria-label="Filtrar por categoría">
           <option value="">Todas las categorías</option>
         </select>
-        <label class="toggle">
-          <input type="checkbox" id="solo3"> Solo con las 3 cadenas
+
+        <label class="rango" title="Mostrar solo productos con brecha de precio ≥ X%">
+          Brecha mín
+          <input type="range" id="brechaRange" min="0" max="100" step="5" value="0">
+          <input type="number" id="brechaNum" min="0" max="100" step="5" value="0" aria-label="Brecha mínima %">%
         </label>
-        <button id="descargar" class="btn" type="button">⤓ Descargar JSON</button>
+
+        <span class="pos" title="Filtrar por posición de precio de una cadena">
+          <select id="posCadena" aria-label="Cadena"><option value="">— cadena —</option></select>
+          <select id="posRol" aria-label="Posición de precio">
+            <option value="">posición…</option>
+            <option value="cara">es la más cara</option>
+            <option value="barata">es la más barata</option>
+          </select>
+        </span>
+
+        <button id="descargar" class="btn" type="button">⤓ JSON</button>
       </div>
-      <p class="count" id="count"></p>
+
+      <div class="filters filters-2">
+        <span class="cadenas-sel" id="cadenasSel" aria-label="Cadenas a comparar"></span>
+        <label class="toggle">
+          <input type="checkbox" id="soloN"> Solo con todas las cadenas activas
+        </label>
+      </div>
+
+      <p class="count">
+        <span id="count"></span>
+        <button id="limpiar" class="link-btn" type="button" hidden>Limpiar filtros</button>
+      </p>
     </section>
+
+    <div id="grupos-leyenda" class="grupos-leyenda" hidden></div>
 
     <section class="tabla-wrap">
       <table class="tabla" id="tabla">
-        <thead><tr id="cabecera"></tr></thead>
+        <thead id="cabecera"></thead>
         <tbody id="filas"></tbody>
       </table>
       <p class="vacio" id="vacio" hidden>Sin resultados. Prueba otro término.</p>

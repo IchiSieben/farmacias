@@ -88,6 +88,14 @@ SUBCATS_SEED: Dict[str, List[str]] = {
     "antigripal": ["Antigripales"],
 }
 
+# Categorías EXCLUIDAS del match cross-cadena (Boticas/Universal). El matcher
+# empareja por PRINCIPIO ACTIVO; en cosmética/cuidado personal no existe (marca
+# compartida + modelo distinto + sin concentración que discrimine: Gillette
+# Sensor3 ↔ Mach3, Rexona Clinical ↔ Men V8), así que produciría falsos. En estas
+# categorías solo se comparan las cadenas InRetail (Inka/Mifarma). Decisión de
+# diseño: el comparador cubre medicamentos/suplementos/dermo, no cosmética.
+SIN_CROSS_MATCH = {"cuidado_personal"}
+
 
 def _seed_subcats(adapter, subcats: List[str]) -> Dict[str, Producto]:
     """ObjectIDs de una cadena InRetail en las subcategorías dadas (dedup)."""
@@ -296,14 +304,18 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
 
             # Boticas y Universal: búsqueda combinada (precisa + amplia) por
             # producto; cada presentación elige su match (el matcher filtra).
-            try:
-                cands = _buscar_boticas(bot, ip.nombre_origen)
-            except Exception:
-                cands = []
-            try:
-                cands_uni = _buscar_universal(uni, ip.nombre_origen)
-            except Exception:
-                cands_uni = []
+            # Las categorías sin principio activo (cosmética) no se cruzan.
+            if rec["categoria"] in SIN_CROSS_MATCH:
+                cands, cands_uni = [], []
+            else:
+                try:
+                    cands = _buscar_boticas(bot, ip.nombre_origen)
+                except Exception:
+                    cands = []
+                try:
+                    cands_uni = _buscar_universal(uni, ip.nombre_origen)
+                except Exception:
+                    cands_uni = []
 
             for ipres in inka_pres:
                 kind = ipres.presentacion_kind or "pack"

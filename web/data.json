@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-14T19:53:25+00:00",
+ "generado": "2026-06-14T20:35:01+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -59,8 +59,8 @@
   "vitaminas"
  ],
  "total": 296,
- "con_boticas": 110,
- "con_universal": 71,
+ "con_boticas": 100,
+ "con_universal": 64,
  "productos": [
   {
    "id": "038608:fraccion",
@@ -8241,25 +8241,21 @@
    "unidad": "g",
    "precios": {
     "inkafarma": 18.9,
-    "mifarma": 18.9,
-    "universal": 12.87
+    "mifarma": 18.9
    },
    "precio_unidad": {
     "inkafarma": 0.3937,
-    "mifarma": 0.3937,
-    "universal": 0.2574
+    "mifarma": 0.3937
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "universal": false
+    "mifarma": true
    },
-   "mas_barato": "universal",
-   "brecha_pct": 46.9,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/antitranspirante-barra-rexona-clinical-clean-48g/010928",
-    "mifarma": "https://www.mifarma.com.pe/producto/antitranspirante-barra-rexona-clinical-clean-48g/010928",
-    "universal": "https://www.farmaciauniversal.com/rexona-men-v8-antitranspirante-en-barra-frasco-50-g/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/antitranspirante-barra-rexona-clinical-clean-48g/010928"
    },
    "tendencia": {
     "inkafarma": {
@@ -8270,11 +8266,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 18.9,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 12.87,
      "delta_pct": 0.0
     }
    }
@@ -8289,29 +8280,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 22.3,
-    "mifarma": 22.3,
-    "boticasperu": 18.9,
-    "universal": 26.1
+    "mifarma": 22.3
    },
    "precio_unidad": {
     "inkafarma": 0.1487,
-    "mifarma": 0.1487,
-    "boticasperu": 0.126,
-    "universal": 0.174
+    "mifarma": 0.1487
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false,
-    "universal": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 38.1,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279",
-    "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/bucal/cremas_dentales/crema_dental_colgate_total_12_antisarro_-_tubo_150_ml/36209.html",
-    "universal": "https://www.farmaciauniversal.com/colgate-total-12-anti-sarro-crema-dental-tubo-150-ml/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-total-antisarro-prevencion-activa/030279"
    },
    "tendencia": {
     "inkafarma": {
@@ -8322,16 +8305,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 22.3,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 18.9,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 26.1,
      "delta_pct": 0.0
     }
    }
@@ -8346,25 +8319,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 24.5,
-    "mifarma": 24.5,
-    "universal": 26.9
+    "mifarma": 24.5
    },
    "precio_unidad": {
     "inkafarma": 12.25,
-    "mifarma": 12.25,
-    "universal": 13.45
+    "mifarma": 12.25
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "universal": false
+    "mifarma": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 9.8,
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/desodorante-rexona-men-antibacterial-invisible/032534",
-    "mifarma": "https://www.mifarma.com.pe/producto/desodorante-rexona-men-antibacterial-invisible/032534",
-    "universal": "https://www.farmaciauniversal.com/pack-rexona-men-antibacterial-invisible-aerosol-150-ml-pack-2-und/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/desodorante-rexona-men-antibacterial-invisible/032534"
    },
    "tendencia": {
     "inkafarma": {
@@ -8375,11 +8344,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 24.5,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 26.9,
      "delta_pct": 0.0
     }
    }
@@ -8394,25 +8358,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 15.5,
-    "mifarma": 15.5,
-    "boticasperu": 11.9
+    "mifarma": 15.5
    },
    "precio_unidad": {
     "inkafarma": 5.1667,
-    "mifarma": 5.1667,
-    "boticasperu": 3.9667
+    "mifarma": 5.1667
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 30.3,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-cremoso-dove-original/424773",
-    "mifarma": "https://www.mifarma.com.pe/producto/jabon-cremoso-dove-original/424773",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/jabones_de_tocador/jabon_en_barra/dove/jabon_dove_original_-_pack_3_un/33165.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/jabon-cremoso-dove-original/424773"
    },
    "tendencia": {
     "inkafarma": {
@@ -8423,11 +8383,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 15.5,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 11.9,
      "delta_pct": 0.0
     }
    }
@@ -8442,25 +8397,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 15.5,
-    "mifarma": 15.5,
-    "boticasperu": 11.9
+    "mifarma": 15.5
    },
    "precio_unidad": {
     "inkafarma": 5.1667,
-    "mifarma": 5.1667,
-    "boticasperu": 3.9667
+    "mifarma": 5.1667
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 30.3,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805",
-    "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/jabones_de_tocador/jabon_en_barra/dove/jabon_dove_leche_de_coco_-_pack_3_un/33166.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/jabon-dove-delicious-care-con-leche-de-coco/011805"
    },
    "tendencia": {
     "inkafarma": {
@@ -8471,11 +8422,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 15.5,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 11.9,
      "delta_pct": 0.0
     }
    }
@@ -8529,25 +8475,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 13.1,
-    "mifarma": 13.1,
-    "boticasperu": 13.0
+    "mifarma": 13.1
    },
    "precio_unidad": {
     "inkafarma": 4.3667,
-    "mifarma": 4.3667,
-    "boticasperu": 4.3333
+    "mifarma": 4.3667
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 0.8,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-avena-protex/431637",
-    "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-avena-protex/431637",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/jabones_de_tocador/jabon_en_barra/jabon_protex_avena_110g_-_pack_3_un/32785.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-avena-protex/431637"
    },
    "tendencia": {
     "inkafarma": {
@@ -8558,11 +8500,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 13.1,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 13.0,
      "delta_pct": 0.0
     }
    }
@@ -8616,25 +8553,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 13.1,
-    "mifarma": 13.1,
-    "boticasperu": 13.1
+    "mifarma": 13.1
    },
    "precio_unidad": {
     "inkafarma": 4.3667,
-    "mifarma": 4.3667,
-    "boticasperu": 4.3667
+    "mifarma": 4.3667
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
    "mas_barato": "empate",
    "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/jabon-corporal-limpieza-profunda-protex/431639",
-    "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-limpieza-profunda-protex/431639",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/jabones_de_tocador/jabon_en_barra/jabon_protex_limpieza_profunda_110g_-_pack_3_un/23149.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/jabon-corporal-limpieza-profunda-protex/431639"
    },
    "tendencia": {
     "inkafarma": {
@@ -8643,11 +8576,6 @@
      "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "igual",
-     "antes": 13.1,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
      "dir": "igual",
      "antes": 13.1,
      "delta_pct": 0.0
@@ -8664,25 +8592,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 17.9,
-    "mifarma": 17.9,
-    "universal": 22.4
+    "mifarma": 17.9
    },
    "precio_unidad": {
     "inkafarma": 17.9,
-    "mifarma": 17.9,
-    "universal": 22.4
+    "mifarma": 17.9
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "universal": false
+    "mifarma": false
    },
    "mas_barato": "empate",
-   "brecha_pct": 25.1,
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/maquina-de-afeitar-gillette-sensor3/072672",
-    "mifarma": "https://www.mifarma.com.pe/producto/maquina-de-afeitar-gillette-sensor3/072672",
-    "universal": "https://www.farmaciauniversal.com/gillete-mach-3-maquina-de-afeitar-blister-1-und/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/maquina-de-afeitar-gillette-sensor3/072672"
    },
    "tendencia": {
     "inkafarma": {
@@ -8693,11 +8617,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 17.9,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 22.4,
      "delta_pct": 0.0
     }
    }
@@ -8712,25 +8631,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 16.9,
-    "mifarma": 16.9,
-    "universal": 16.1
+    "mifarma": 16.9
    },
    "precio_unidad": {
     "inkafarma": 8.45,
-    "mifarma": 8.45,
-    "universal": 8.05
+    "mifarma": 8.45
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "universal": false
+    "mifarma": false
    },
-   "mas_barato": "universal",
-   "brecha_pct": 5.0,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/maquina-gillette-prestobarba-3/424157",
-    "mifarma": "https://www.mifarma.com.pe/producto/maquina-gillette-prestobarba-3/424157",
-    "universal": "https://www.farmaciauniversal.com/gillette-venus-suave-maquina-de-afeitar-blister-2-und/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/maquina-gillette-prestobarba-3/424157"
    },
    "tendencia": {
     "inkafarma": {
@@ -8741,11 +8656,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 16.9,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 16.1,
      "delta_pct": 0.0
     }
    }
@@ -8910,25 +8820,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 20.9,
-    "mifarma": 20.9,
-    "boticasperu": 16.6
+    "mifarma": 20.9
    },
    "precio_unidad": {
     "inkafarma": 0.0557,
-    "mifarma": 0.0557,
-    "boticasperu": 0.0443
+    "mifarma": 0.0557
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 25.9,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
-    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/head_%26_shoulder/shampoo_head_%26_shoulders_anti-comezon_-_frasco_375_ml/46996.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-anti-comezon-head-shoulders/071474"
    },
    "tendencia": {
     "inkafarma": {
@@ -8939,11 +8845,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 20.9,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 16.6,
      "delta_pct": 0.0
     }
    }
@@ -8958,29 +8859,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 14.5,
-    "mifarma": 14.5,
-    "boticasperu": 11.5,
-    "universal": 13.9
+    "mifarma": 14.5
    },
    "precio_unidad": {
     "inkafarma": 0.0426,
-    "mifarma": 0.0426,
-    "boticasperu": 0.0338,
-    "universal": 0.0409
+    "mifarma": 0.0426
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false,
-    "universal": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 26.1,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-ceramida-sedal-co-creations/010862",
-    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-ceramida-sedal-co-creations/010862",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/sedal/shampoo_sedal_ceramidas_-_frasco_340_ml/09427.html",
-    "universal": "https://www.farmaciauniversal.com/sedal-ceramidas-shampoo-frasco-340-ml/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-ceramida-sedal-co-creations/010862"
    },
    "tendencia": {
     "inkafarma": {
@@ -8991,16 +8884,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 14.5,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 11.5,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 13.9,
      "delta_pct": 0.0
     }
    }
@@ -9015,29 +8898,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 20.9,
-    "mifarma": 20.9,
-    "boticasperu": 17.8,
-    "universal": 21.9
+    "mifarma": 20.9
    },
    "precio_unidad": {
     "inkafarma": 0.0557,
-    "mifarma": 0.0557,
-    "boticasperu": 0.0475,
-    "universal": 0.0584
+    "mifarma": 0.0557
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false,
-    "universal": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 23.0,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-head-shoulders-old-spice-para-hombres/010945",
-    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-head-shoulders-old-spice-para-hombres/010945",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/head_%26_shoulder/shampoo_head_%26_shoulders_men_old_spice_-_frasco_375_ml/27535.html",
-    "universal": "https://www.farmaciauniversal.com/head-y-shoulders-men-old-spice-shampoo-frasco-375-ml/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-head-shoulders-old-spice-para-hombres/010945"
    },
    "tendencia": {
     "inkafarma": {
@@ -9048,16 +8923,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 20.9,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 17.8,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 21.9,
      "delta_pct": 0.0
     }
    }
@@ -9072,25 +8937,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 14.5,
-    "mifarma": 14.5,
-    "boticasperu": 11.5
+    "mifarma": 14.5
    },
    "precio_unidad": {
     "inkafarma": 0.0426,
-    "mifarma": 0.0426,
-    "boticasperu": 0.0338
+    "mifarma": 0.0426
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 26.1,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-sedal-luminous-uv/078576",
-    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-luminous-uv/078576",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/sedal/shampoo_sedal_luminous_uv_-_frasco_340_ml/48780.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-luminous-uv/078576"
    },
    "tendencia": {
     "inkafarma": {
@@ -9101,11 +8962,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 14.5,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 11.5,
      "delta_pct": 0.0
     }
    }
@@ -9120,25 +8976,21 @@
    "unidad": "ml",
    "precios": {
     "inkafarma": 14.9,
-    "mifarma": 14.9,
-    "boticasperu": 11.5
+    "mifarma": 14.9
    },
    "precio_unidad": {
     "inkafarma": 0.0438,
-    "mifarma": 0.0438,
-    "boticasperu": 0.0338
+    "mifarma": 0.0438
    },
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 29.6,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
-    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
-    "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/sedal/shampoo_sedal_zero_caspa_2en1_-_frasco_340_ml/38849.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392"
    },
    "tendencia": {
     "inkafarma": {
@@ -9149,11 +9001,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 14.9,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 11.5,
      "delta_pct": 0.0
     }
    }

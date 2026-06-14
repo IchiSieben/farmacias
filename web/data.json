@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-14T18:05:46+00:00",
+ "generado": "2026-06-14T18:23:34+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -46,7 +46,7 @@
   "vitaminas"
  ],
  "total": 296,
- "con_boticas": 113,
+ "con_boticas": 112,
  "productos": [
   {
    "id": "038608:fraccion",
@@ -11682,25 +11682,21 @@
    "unidad": "un",
    "precios": {
     "inkafarma": 92.2,
-    "mifarma": 95.0,
-    "boticasperu": 23.2
+    "mifarma": 95.0
    },
    "precio_unidad": {
     "inkafarma": 9.22,
-    "mifarma": 9.5,
-    "boticasperu": 2.32
+    "mifarma": 9.5
    },
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "boticasperu": false
+    "mifarma": false
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 309.5,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
-    "mifarma": "https://www.mifarma.com.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104",
-    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/hierro/maltofer_fol_100mg_-_blister_10un/12131-BLISTER.html"
+    "mifarma": "https://www.mifarma.com.pe/producto/maltofer-100mg-5ml-solucion-bebible/009104"
    },
    "tendencia": {
     "inkafarma": {
@@ -11711,11 +11707,6 @@
     "mifarma": {
      "dir": "igual",
      "antes": 95.0,
-     "delta_pct": 0.0
-    },
-    "boticasperu": {
-     "dir": "igual",
-     "antes": 23.2,
      "delta_pct": 0.0
     }
    }

@@ -102,7 +102,8 @@ _GENERICO_NUCLEO = set(
 # matches legítimos (la concentración/forma ya discrimina adulto vs pediátrico).
 _MODIFICADOR_NUCLEO = set(
     "antigripal compuesto compositum plus duo forte fuerte "
-    "expectorante descongestionante gripa".split()
+    "expectorante descongestionante gripa "
+    "fol".split()   # "Maltofer Fol" (hierro + ácido fólico) ≠ "Maltofer" (hierro solo)
 )
 
 

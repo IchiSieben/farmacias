@@ -68,6 +68,8 @@ DEBEN_BLOQUEAR = [
      "Panadol 500mg Tableta", "Panadol Infantil 2+ años - Caja 100 UN"),
     ("Tableta normal ≠ Tableta Efervescente (presentación)",
      "Panadol 500mg Tableta", "Panadol 500 Mg Tableta Efervescente - Sobre 1 UN"),
+    ("Maltofer ≠ Maltofer Fol (modificador composición: + ácido fólico)",
+     "Maltofer 100mg/5ml Solución Bebible", "Maltofer Fol 100MG - Blister 10 UN"),
 ]
 
 DEBEN_CASAR = [
@@ -96,6 +98,8 @@ DEBEN_CASAR = [
      "Efetamol 1G Gránulos Efervescentes", "Efetamol - Caja 20 UN"),
     ("Bonadol Cápsulas Blandas ↔ Bonadol Capsulas Blandas",
      "Bonadol Cápsulas Blandas", "Bonadol Capsulas Blandas 500 G - Caja 100 UN"),
+    ("Maltofer bebible ↔ Maltofer Bebible Ampolla (la fracción sí casa)",
+     "Maltofer 100mg/5ml Solución Bebible", "Maltofer Bebible 5ML - Ampolla 1UN"),
 ]
 
 

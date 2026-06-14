@@ -70,6 +70,15 @@ DEBEN_BLOQUEAR = [
      "Panadol 500mg Tableta", "Panadol 500 Mg Tableta Efervescente - Sobre 1 UN"),
     ("Maltofer ≠ Maltofer Fol (modificador composición: + ácido fólico)",
      "Maltofer 100mg/5ml Solución Bebible", "Maltofer Fol 100MG - Blister 10 UN"),
+    # --- sesión validación Universal dermo/vitaminas ---
+    ("Vitamina D ≠ Vitamina C (letra)",
+     "Vitamina D Tableta - Frasco 60 UN", "Vitamina C Zinc Gomitas - Frasco 60 UN"),
+    ("Supradyn ≠ Supradyn Pronatal (variante)",
+     "Supradyn Gragea - Caja 30 UN", "Supradyn Pronatal Comprimidos - Caja 30 UN"),
+    ("Pediasure ≠ Pediasure Peptigro (variante)",
+     "Pediasure Vainilla Polvo - Lata 850 G", "Pediasure Peptigro Polvo Vainilla - Lata 850 G"),
+    ("Forma gomita ≠ tableta (misma vitamina)",
+     "Vitamina C Tabletas - Frasco 30 UN", "Vitamina C Gomitas - Frasco 30 UN"),
 ]
 
 DEBEN_CASAR = [
@@ -100,6 +109,13 @@ DEBEN_CASAR = [
      "Bonadol Cápsulas Blandas", "Bonadol Capsulas Blandas 500 G - Caja 100 UN"),
     ("Maltofer bebible ↔ Maltofer Bebible Ampolla (la fracción sí casa)",
      "Maltofer 100mg/5ml Solución Bebible", "Maltofer Bebible 5ML - Ampolla 1UN"),
+    # --- sesión validación Universal dermo/vitaminas (no romper correctos) ---
+    ("Farma D 5000UI ↔ Farma D (sin token 'vitamin' -> regla letra no aplica)",
+     "Farma D 5000UI Cápsula Blanda - Caja 30 UN", "Farma D 5000 UI Capsulas - Caja 30 UN"),
+    ("Vitamina C ↔ Vitamina C (misma letra y forma)",
+     "Vitamina C 1000mg Tableta - Frasco 30 UN", "Vitamina C 1000 mg Tabletas - Frasco 30 UN"),
+    ("Pediasure ↔ Pediasure (misma variante, distinta caja - solo tamaño)",
+     "Pediasure Vainilla Polvo - Lata 850 G", "Pediasure Vainilla en Polvo - Lata 850 G"),
 ]
 
 

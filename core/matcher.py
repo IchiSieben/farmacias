@@ -103,7 +103,8 @@ _GENERICO_NUCLEO = set(
 _MODIFICADOR_NUCLEO = set(
     "antigripal compuesto compositum plus duo forte fuerte "
     "expectorante descongestionante gripa "
-    "fol".split()   # "Maltofer Fol" (hierro + ácido fólico) ≠ "Maltofer" (hierro solo)
+    "fol "          # "Maltofer Fol" (hierro + ácido fólico) ≠ "Maltofer" (hierro solo)
+    "pronatal prenatal peptigro".split()   # Supradyn Pronatal ≠ Supradyn; Pediasure Peptigro ≠ Pediasure
 )
 
 
@@ -191,6 +192,36 @@ def _es_tableta_plana(nombre: Optional[str]) -> bool:
 def _presentacion_incompatible(a: Producto, b: Producto) -> bool:
     return ((_es_efervescente(a.nombre_origen) and _es_tableta_plana(b.nombre_origen)) or
             (_es_efervescente(b.nombre_origen) and _es_tableta_plana(a.nombre_origen)))
+
+
+# Vitaminas: la LETRA identifica el producto (Vitamina D ≠ Vitamina C), pero es de
+# 1 carácter y el núcleo la descarta -> "vitamin"/"vitamina" como token rescataba
+# falsos (Vitamin D ↔ Vitamin C+Zinc). Se extrae la letra que sigue a "vitamin[a]"
+# y, si ambos lados la declaran y no comparten ninguna, se bloquea.
+_RE_VITAMINA = re.compile(r"\bvitamin[a]?\s+([a-k])(?=\b|\d)")
+
+
+def _vitamina_letras(nombre: Optional[str]) -> set:
+    return set(_RE_VITAMINA.findall(normaliza_texto(nombre)))
+
+
+def _vitamina_incompatible(a: Producto, b: Producto) -> bool:
+    la, lb = _vitamina_letras(a.nombre_origen), _vitamina_letras(b.nombre_origen)
+    return bool(la and lb and not (la & lb))
+
+
+# Forma gomita (masticable/gummy) ≠ tableta/cápsula seca: presentaciones distintas
+# (común en vitaminas). Bloquea solo el conflicto explícito gomita vs pastilla.
+def _es_gomita(nombre: Optional[str]) -> bool:
+    return "gomita" in normaliza_texto(nombre)
+
+
+def _gomita_incompatible(a: Producto, b: Producto) -> bool:
+    ga, gb = _es_gomita(a.nombre_origen), _es_gomita(b.nombre_origen)
+    if ga == gb:
+        return False
+    otro = b if ga else a               # el que NO es gomita
+    return extrae_specs(otro.nombre_origen).forma in {"tableta", "capsula"}
 
 
 # --- fuzzy: rapidfuzz si existe, si no difflib ------------------------------
@@ -298,6 +329,14 @@ def comparar(a: Producto, b: Producto, *, phash_fn=None) -> Resultado:
     if _es_pediatrico(a) != _es_pediatrico(b):
         return Resultado(False, 0.0, "regla_dura",
                          motivo="audiencia distinta (pediátrico vs adulto)")
+    # Vitaminas: letra distinta (D ≠ C) -> producto distinto.
+    if _vitamina_incompatible(a, b):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo="vitamina distinta (letra)")
+    # Forma gomita vs tableta/cápsula -> presentación distinta.
+    if _gomita_incompatible(a, b):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo="forma distinta (gomita vs tableta)")
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)

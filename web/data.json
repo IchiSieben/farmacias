@@ -1,5 +1,5 @@
 {
- "generado": "2026-06-14T19:22:30+00:00",
+ "generado": "2026-06-14T19:53:25+00:00",
  "cadenas": [
   {
    "id": "inkafarma",
@@ -59,8 +59,8 @@
   "vitaminas"
  ],
  "total": 296,
- "con_boticas": 112,
- "con_universal": 79,
+ "con_boticas": 110,
+ "con_universal": 71,
  "productos": [
   {
    "id": "038608:fraccion",
@@ -88,17 +88,16 @@
     "inkafarma": "https://inkafarma.pe/producto/aeridin-5mg-tableta-recubierta/038608",
     "mifarma": "https://www.mifarma.com.pe/producto/aeridin-5mg-tableta-recubierta/038608"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -132,22 +131,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/aeridin-5mg-tableta-recubierta/038608",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antifungicos/aeridin_5mg_-_caja_30_tabletas_recubiertas/46625.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 69.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 71.1,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -185,27 +183,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/cetirizina_5mg%2F5ml_jarabe_-_frasco_60_ml/14565.html",
     "universal": "https://www.farmaciauniversal.com/cetirizina-5-mg5-ml-fi-jarabe-frasco-60-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.1,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.2,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.66,
+     "delta_pct": 0.0
     }
    }
   },
@@ -235,17 +232,16 @@
     "inkafarma": "https://inkafarma.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992",
     "mifarma": "https://www.mifarma.com.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 118.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 116.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -275,17 +271,16 @@
     "inkafarma": "https://inkafarma.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992",
     "mifarma": "https://www.mifarma.com.pe/producto/clorfenamina-10mg-1ml-solucion-inyectable/035992"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.18,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.16,
+     "delta_pct": 0.0
     }
    }
   },
@@ -319,22 +314,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/clorfenamina-2-mg-5-ml-jarabe/134247",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/clorfenamina_maleto_jarabe_c%2Fc_-_frasco_120_ml/14767.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.3,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -372,27 +366,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/desloratadina_2.5_mg_jarabe_-_frasco_60_ml/16770.html",
     "universal": "https://www.farmaciauniversal.com/desloratadina-25-mg-5-ml-gf-jarabe-frasco-60-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.1,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.7,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.5,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -426,22 +419,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/desloratadina-5mg-tableta-recubierta/067846",
     "universal": "https://www.farmaciauniversal.com/desloratadina-5-mg-gf-tabletas-caja-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -475,22 +467,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/desloratadina-5mg-tableta-recubierta/067846",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antihistaminicos/desloratadina_5mg_tableta_recubierta_-_caja_100_un/42683.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 27.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 28.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 27.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -520,17 +511,16 @@
     "inkafarma": "https://inkafarma.pe/producto/findaler-10mg-comprimidos-recubiertos/025849",
     "mifarma": "https://www.mifarma.com.pe/producto/findaler-10mg-comprimidos-recubiertos/025849"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -560,17 +550,16 @@
     "inkafarma": "https://inkafarma.pe/producto/findaler-10mg-comprimidos-recubiertos/025849",
     "mifarma": "https://www.mifarma.com.pe/producto/findaler-10mg-comprimidos-recubiertos/025849"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 44.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -608,27 +597,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/hisaler_10_mg__-_blister_10_un/01734.html",
     "universal": "https://www.farmaciauniversal.com/hisaler-10-mg-comprimidos-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.8,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -658,17 +646,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hisaler-10-mg-comprimido/424659",
     "mifarma": "https://www.mifarma.com.pe/producto/hisaler-10-mg-comprimido/424659"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 120.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 120.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -702,22 +689,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/loratadina-10mg/013075",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/loratadina_10_mg_tableta_-_caja_100_un/12800.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -755,27 +741,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/alergias/loratadina_5_mg_jarabe_-_frasco_60_ml/01110.html",
     "universal": "https://www.farmaciauniversal.com/loratadina-5-mg-5-ml-pt-solucion-oral-frasco-60-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.4,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.4,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.01,
+     "delta_pct": 0.0
     }
    }
   },
@@ -805,17 +790,16 @@
     "inkafarma": "https://inkafarma.pe/producto/loreze-10-mg-capsulas-blandas/012475",
     "mifarma": "https://www.mifarma.com.pe/producto/loreze-10-mg-capsulas-blandas/012475"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 18.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -845,17 +829,16 @@
     "inkafarma": "https://inkafarma.pe/producto/loreze-10-mg-capsulas-blandas/012475",
     "mifarma": "https://www.mifarma.com.pe/producto/loreze-10-mg-capsulas-blandas/012475"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 102.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 108.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -885,17 +868,16 @@
     "inkafarma": "https://inkafarma.pe/producto/scadan-4mg-tableta/134294",
     "mifarma": "https://www.mifarma.com.pe/producto/scadan-4mg-tableta/134294"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -925,17 +907,16 @@
     "inkafarma": "https://inkafarma.pe/producto/scadan-4mg-tableta/134294",
     "mifarma": "https://www.mifarma.com.pe/producto/scadan-4mg-tableta/134294"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 42.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 43.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -969,22 +950,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/antalgina-500mg-comprimido/079893",
     "universal": "https://www.farmaciauniversal.com/antalgina-500-mg-comprimidos-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.55,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.7,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1014,17 +994,16 @@
     "inkafarma": "https://inkafarma.pe/producto/antalgina-500mg-comprimido/079893",
     "mifarma": "https://www.mifarma.com.pe/producto/antalgina-500mg-comprimido/079893"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 35.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1110,27 +1089,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/apronax_275_mg_tabletas_-_caja_8_un/43745.html",
     "universal": "https://www.farmaciauniversal.com/apronax-275-mg-tabletas-caja-8-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.8,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1168,27 +1146,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/apronax_550mg_tableta_recubierta_-_blister_4_un/12313-BLISTER.html",
     "universal": "https://www.farmaciauniversal.com/apronax-550-mg-tabletas-blister-4-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.6,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1222,22 +1199,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/apronax-550mg-tabletas-recubiertas/230451",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/apronax_550mg_tableta_recubierta_-_caja_120_un/12313-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 216.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 228.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 228.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1271,22 +1247,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/apronax-pro-660mg-comprimido-de-liberacion-modificada/074238",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/dolor_de_cabeza_y_migranas/apronax_pro_660mg_comprimido_de_liberacion_modificada_-_blister_4_un/48688.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.8,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1316,17 +1291,16 @@
     "inkafarma": "https://inkafarma.pe/producto/apronax-pro-660mg-comprimido-de-liberacion-modificada/074238",
     "mifarma": "https://www.mifarma.com.pe/producto/apronax-pro-660mg-comprimido-de-liberacion-modificada/074238"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 50.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 52.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1442,27 +1416,26 @@
     "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/aseo_infantil/hisopos_y_aspiradores_nasales/nuby_aspirador_nasal__-_unidad_1_un/22774.html",
     "universal": "https://www.farmaciauniversal.com/owawa-aspirador-nasal-blister-1-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 34.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1500,27 +1473,26 @@
     "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/aseo_infantil/hisopos_y_aspiradores_nasales/nuby_aspirador_nasal__-_unidad_1_un/22774.html",
     "universal": "https://www.farmaciauniversal.com/owawa-aspirador-nasal-blister-1-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 34.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 34.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 34.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1558,27 +1530,26 @@
     "boticasperu": "https://www.boticasperu.pe/tratamiento/cardiovascular/aspirina_100_prevencion_cardiovascular_100_mg_-_blister_10_un/34608-BLISTER.html",
     "universal": "https://www.farmaciauniversal.com/aspirina-100-mg-tabletas-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1612,22 +1583,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/aspirina-100mg-tabletas/109005",
     "boticasperu": "https://www.boticasperu.pe/tratamiento/cardiovascular/aspirina_100_prevencion_cardiovascular_100_mg_-_caja_100_un/34608-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 67.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 69.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 70.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1661,22 +1631,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/bi-profenid-150-mg-comprimidos/421666",
     "universal": "https://www.farmaciauniversal.com/bi-profenid-150-mg-comprimidos-de-liberacion-prolongada-caja-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 49.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 50.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 49.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1710,22 +1679,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/bonadol-capsulas-blandas/068522",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/dolor/bonadol_capsulas_blandas_500_g_-_blister_4_un/46770-BLISTER.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.81,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1759,22 +1727,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/bonadol-capsulas-blandas/068522",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/dolor/bonadol_capsulas_blandas_500_g_-_caja_100_un/46770-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 95.25,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 98.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1804,17 +1771,16 @@
     "inkafarma": "https://inkafarma.pe/producto/busdol-compositum-10mg-500mg-tab-i3/038585",
     "mifarma": "https://www.mifarma.com.pe/producto/busdol-compositum-10mg-500mg-tab-i3/038585"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1844,17 +1810,16 @@
     "inkafarma": "https://inkafarma.pe/producto/busdol-compositum-10mg-500mg-tab-i3/038585",
     "mifarma": "https://www.mifarma.com.pe/producto/busdol-compositum-10mg-500mg-tab-i3/038585"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 72.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 79.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1884,17 +1849,16 @@
     "inkafarma": "https://inkafarma.pe/producto/chao-nf-500mg-5mg-2mg-tableta-recubierta/067555",
     "mifarma": "https://www.mifarma.com.pe/producto/chao-nf-500mg-5mg-2mg-tableta-recubierta/067555"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 105.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1924,17 +1888,16 @@
     "inkafarma": "https://inkafarma.pe/producto/chao-nf-500mg-5mg-2mg-tableta-recubierta/067555",
     "mifarma": "https://www.mifarma.com.pe/producto/chao-nf-500mg-5mg-2mg-tableta-recubierta/067555"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -1964,17 +1927,16 @@
     "inkafarma": "https://inkafarma.pe/producto/chaote-antigripal-500mg-200mg-10mg-polvo/072871",
     "mifarma": "https://www.mifarma.com.pe/producto/chaote-antigripal-500mg-200mg-10mg-polvo/072871"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 120.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 130.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2004,17 +1966,16 @@
     "inkafarma": "https://inkafarma.pe/producto/chaote-antigripal-500mg-200mg-10mg-polvo/072871",
     "mifarma": "https://www.mifarma.com.pe/producto/chaote-antigripal-500mg-200mg-10mg-polvo/072871"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2052,27 +2013,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/dolor_muscular/pomada_o_gel/diclofenaco_1%25_gel_topico_-_tubo_50_g/12755.html",
     "universal": "https://www.farmaciauniversal.com/diclofenaco-1-porciento-gf-gel-tubo-50-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.3,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.3,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2102,17 +2062,16 @@
     "inkafarma": "https://inkafarma.pe/producto/diclofenaco-75mg-3ml-solucion-inyectable/073694",
     "mifarma": "https://www.mifarma.com.pe/producto/diclofenaco-75mg-3ml-solucion-inyectable/073694"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2142,17 +2101,16 @@
     "inkafarma": "https://inkafarma.pe/producto/dolo-quimagesico-c-50-nf-tableta-recubierta/067928",
     "mifarma": "https://www.mifarma.com.pe/producto/dolo-quimagesico-c-50-nf-tableta-recubierta/067928"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2182,17 +2140,16 @@
     "inkafarma": "https://inkafarma.pe/producto/dolo-quimagesico-c-50-nf-tableta-recubierta/067928",
     "mifarma": "https://www.mifarma.com.pe/producto/dolo-quimagesico-c-50-nf-tableta-recubierta/067928"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 120.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 120.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2226,22 +2183,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-tableta-de-liberacion-retardada/035314",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/dolocordralan_50_liberacion_retardada_tableta_-_blister_10_un/37305.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 18.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2271,17 +2227,16 @@
     "inkafarma": "https://inkafarma.pe/producto/dolocordralan-tableta-de-liberacion-retardada/035314",
     "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-tableta-de-liberacion-retardada/035314"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 170.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 180.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2315,22 +2270,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-extra-forte-nf-50mg-025mg-capsula/071403",
     "universal": "https://www.farmaciauniversal.com/dolocordralan-extra-forte-nf-capsulas-blister-6-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.2,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2364,22 +2318,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-extra-forte-nf-50mg-025mg-capsula/071403",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/dolocordralan_extra_forte_nf_-_caja_54_un/45570-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 113.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 118.8,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 118.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2413,22 +2366,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/dolocordralan-forte-gel/035315",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/ung%C3%BCentos/dolocordralan_forte_2%25_gel__-_tubo_50_g/37158.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 28.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 29.6,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 29.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2462,22 +2414,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/dolosciens-100mg-tableta-liberacion-prolongada/084341",
     "boticasperu": "https://www.boticasperu.pe/tratamiento/osteoarticulares/dolosciens_100_mg_tableta_-_caja_10_un/32994.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.5,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2642,17 +2593,16 @@
     "inkafarma": "https://inkafarma.pe/producto/flectadol-250mg-300mg-tableta/065693",
     "mifarma": "https://www.mifarma.com.pe/producto/flectadol-250mg-300mg-tableta/065693"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2682,17 +2632,16 @@
     "inkafarma": "https://inkafarma.pe/producto/flectadol-250mg-300mg-tableta/065693",
     "mifarma": "https://www.mifarma.com.pe/producto/flectadol-250mg-300mg-tableta/065693"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 148.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 153.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2726,22 +2675,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-100mg-5ml-suspension-oral/230300",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/ibuprofeno_100mg%2F5ml_suspension_oral_-_frasco_120_ml/37424.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.3,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2775,22 +2723,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-400mg-tableta-recubierta/230447",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/antiinflamatorios/ibuprofeno_400_mg_tabletas-_caja_100_un/03114.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2824,22 +2771,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-800-mg/015814",
     "universal": "https://www.farmaciauniversal.com/ibuprofeno-800-mg-gf-tabletas-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2873,22 +2819,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ibuprofeno-800-mg/015814",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/ibuprofeno_800_mg_tabletas_-_caja_100_un/20235.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2922,22 +2867,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ketoprofeno-100-mg-2-ml-solucion-inyectable-intra/230196",
     "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/ketoprofeno_100_mg%2F2_ml_solucion_inyectable_-_caja_6_un/03101.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 15.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.2,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -2971,22 +2915,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/keval-40mg-coprimidos-recubiertos/029050",
     "universal": "https://www.farmaciauniversal.com/keval-40-mg-comprimidos-recubiertos-caja-2-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 31.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 32.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 44.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3016,17 +2959,16 @@
     "inkafarma": "https://inkafarma.pe/producto/kitadol-forte-tableta-recubierta/085017",
     "mifarma": "https://www.mifarma.com.pe/producto/kitadol-forte-tableta-recubierta/085017"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 74.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 76.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3056,17 +2998,16 @@
     "inkafarma": "https://inkafarma.pe/producto/kitadol-forte-tableta-recubierta/085017",
     "mifarma": "https://www.mifarma.com.pe/producto/kitadol-forte-tableta-recubierta/085017"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.85,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3096,17 +3037,16 @@
     "inkafarma": "https://inkafarma.pe/producto/mejoralito-infantil-160mg-5ml-jarabe/034038",
     "mifarma": "https://www.mifarma.com.pe/producto/mejoralito-infantil-160mg-5ml-jarabe/034038"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3136,17 +3076,16 @@
     "inkafarma": "https://inkafarma.pe/producto/metamizol-ptg-solucion-oral-gotas/013455",
     "mifarma": "https://www.mifarma.com.pe/producto/metamizol-ptg-solucion-oral-gotas/013455"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3176,17 +3115,16 @@
     "inkafarma": "https://inkafarma.pe/producto/metamizol-sodico-1-g-2-ml-solucion-inyectable/073639",
     "mifarma": "https://www.mifarma.com.pe/producto/metamizol-sodico-1-g-2-ml-solucion-inyectable/073639"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 18.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3303,17 +3241,16 @@
     "inkafarma": "https://inkafarma.pe/producto/migra-del-250mg-250mg-65mg-tableta-recubierta/074275",
     "mifarma": "https://www.mifarma.com.pe/producto/migra-del-250mg-250mg-65mg-tableta-recubierta/074275"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 115.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 126.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3343,17 +3280,16 @@
     "inkafarma": "https://inkafarma.pe/producto/migra-del-250mg-250mg-65mg-tableta-recubierta/074275",
     "mifarma": "https://www.mifarma.com.pe/producto/migra-del-250mg-250mg-65mg-tableta-recubierta/074275"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.31,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.52,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3387,22 +3323,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/miodel-relax-500mg-50mg-75mg-tab/038169",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/miodel_relax_nf_tabletas_-_caja_30_un/38481-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 48.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 48.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3432,17 +3367,16 @@
     "inkafarma": "https://inkafarma.pe/producto/naproxeno-275mg-portugaltableta-/268146",
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-275mg-portugaltableta-/268146"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3472,17 +3406,16 @@
     "inkafarma": "https://inkafarma.pe/producto/naproxeno-275mg-portugaltableta-/268146",
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-275mg-portugaltableta-/268146"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 18.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3520,27 +3453,26 @@
     "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_blister_10_un/12318-BLISTER.html",
     "universal": "https://www.farmaciauniversal.com/naproxeno-sodico-550-mg-pt-tabletas-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.7,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3574,22 +3506,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-tableta-recubierta/203068",
     "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_caja_100_un/12318-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 36.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 36.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3627,27 +3558,26 @@
     "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_blister_10_un/12318-BLISTER.html",
     "universal": "https://www.farmaciauniversal.com/naproxeno-sodico-550-mg-pt-tabletas-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3681,22 +3611,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/naproxeno-sodico-550mg-comprimido-recubierto/017988",
     "boticasperu": "https://www.boticasperu.pe/tratamiento/analgesicos_y_antiflamatorios/naproxeno_550_mg_tabletas_-_caja_100_un/12318-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 39.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 40.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 36.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3765,17 +3694,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panadol-500mg-tableta/036723",
     "mifarma": "https://www.mifarma.com.pe/producto/panadol-500mg-tableta/036723"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 67.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 67.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3805,17 +3733,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panadol-500mg-tableta/036723",
     "mifarma": "https://www.mifarma.com.pe/producto/panadol-500mg-tableta/036723"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -3988,27 +3915,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/panadol_para_ninos_2%2B_160mg_infantil_jarabe_-_frasco_60_ml/00907.html",
     "universal": "https://www.farmaciauniversal.com/panadol-ninos-160mgml-jarabe-frasco-60-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 15.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.2,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.5,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.65,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4095,17 +4021,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panafebril-1g-tableta/033054",
     "mifarma": "https://www.mifarma.com.pe/producto/panafebril-1g-tableta/033054"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.05,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4135,17 +4060,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panafebril-1g-tableta/033054",
     "mifarma": "https://www.mifarma.com.pe/producto/panafebril-1g-tableta/033054"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 110.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 114.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4175,17 +4099,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panafebril-relax-450mg-35mg-tableta/036837",
     "mifarma": "https://www.mifarma.com.pe/producto/panafebril-relax-450mg-35mg-tableta/036837"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 19.67,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4215,17 +4138,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panafebril-relax-450mg-35mg-tableta/036837",
     "mifarma": "https://www.mifarma.com.pe/producto/panafebril-relax-450mg-35mg-tableta/036837"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 59.01,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 60.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4359,27 +4281,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/paracetamol_120_mg__-_frasco_120_ml/05546.html",
     "universal": "https://www.farmaciauniversal.com/-paracetamol-120-mg-5-ml-pt-solucion-oral-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.6,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4409,17 +4330,16 @@
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-120mg-5ml-solucion-oral/015496",
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-120mg-5ml-solucion-oral/015496"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4453,22 +4373,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-160mg-5ml-jarabe/035461",
     "universal": "https://www.farmaciauniversal.com/paracetamol-160-mg-5-ml-gf-jarabe-sabor-fresa-frasco-90-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4498,17 +4417,16 @@
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-1g-tableta/067848",
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-1g-tableta/067848"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4542,22 +4460,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-1g-tableta/067848",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/paracetamol_1g_tableta_-_caja_100_un/48501.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 34.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 35.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 32.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4587,17 +4504,16 @@
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-1g-tableta-recubierta/036666",
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-1g-tableta-recubierta/036666"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 9.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4631,22 +4547,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-500mg-tableta/017987",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/paracetamol_500_mg_-_caja_100_un/05596.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4724,17 +4639,16 @@
     "inkafarma": "https://inkafarma.pe/producto/paracetamol-kids-100mg-ml-solucion-oral/037934",
     "mifarma": "https://www.mifarma.com.pe/producto/paracetamol-kids-100mg-ml-solucion-oral/037934"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4764,17 +4678,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-100mg-ml-pediatrico-solucion-oral/071370",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-100mg-ml-pediatrico-solucion-oral/071370"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4804,17 +4717,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-120mg-5ml-solucion-oral/073233",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-120mg-5ml-solucion-oral/073233"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4844,17 +4756,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-160-mg-5-ml-pediatrico-solucion-oral/071369",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-160-mg-5-ml-pediatrico-solucion-oral/071369"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4884,17 +4795,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-500mg-comprimido/071160",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-500mg-comprimido/071160"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.91,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4924,17 +4834,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-500mg-comprimido/071160",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-500mg-comprimido/071160"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 39.1,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 40.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -4964,17 +4873,16 @@
     "inkafarma": "https://inkafarma.pe/producto/piralgina-250mg-5ml-jarabe/036355",
     "mifarma": "https://www.mifarma.com.pe/producto/piralgina-250mg-5ml-jarabe/036355"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 9.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5004,17 +4912,16 @@
     "inkafarma": "https://inkafarma.pe/producto/repriman-1-g-2-ml-solucion-inyectable/092240",
     "mifarma": "https://www.mifarma.com.pe/producto/repriman-1-g-2-ml-solucion-inyectable/092240"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5044,17 +4951,16 @@
     "inkafarma": "https://inkafarma.pe/producto/repriman-1g-2m-solucion-inyectable/073561",
     "mifarma": "https://www.mifarma.com.pe/producto/repriman-1g-2m-solucion-inyectable/073561"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5149,27 +5055,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/analgesicos/medicamentos/repriman_gotas_-_frasco_10_ml/00512.html",
     "universal": "https://www.farmaciauniversal.com/repriman-500-mg-ml-solucion-oral-gotas-frasco-10-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 9.67,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5347,22 +5252,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/supracalm-flex-300mg-250mg-comprimido/037469",
     "universal": "https://www.farmaciauniversal.com/supracalm-flex-300-mg-250-mg-comprimidos-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5392,17 +5296,16 @@
     "inkafarma": "https://inkafarma.pe/producto/supracalm-flex-300mg-250mg-comprimido/037469",
     "mifarma": "https://www.mifarma.com.pe/producto/supracalm-flex-300mg-250mg-comprimido/037469"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 63.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 64.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5432,17 +5335,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tiromizol-e-20mg-cja-50-tab/036402",
     "mifarma": "https://www.mifarma.com.pe/producto/tiromizol-e-20mg-cja-50-tab/036402"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 9.86,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5472,17 +5374,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tiromizol-e-20mg-cja-50-tab/036402",
     "mifarma": "https://www.mifarma.com.pe/producto/tiromizol-e-20mg-cja-50-tab/036402"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 49.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 51.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5512,17 +5413,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tramadol-50mg-capsula/107040",
     "mifarma": "https://www.mifarma.com.pe/producto/tramadol-50mg-capsula/107040"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5552,17 +5452,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tafirol-gotas/018477",
     "mifarma": "https://www.mifarma.com.pe/producto/tafirol-gotas/018477"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5592,17 +5491,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapazol-5mg-tabletas/421370",
     "mifarma": "https://www.mifarma.com.pe/producto/tapazol-5mg-tabletas/421370"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5632,17 +5530,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapazol-5mg-tabletas/421370",
     "mifarma": "https://www.mifarma.com.pe/producto/tapazol-5mg-tabletas/421370"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 36.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 37.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5672,17 +5569,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tonopan-ninos-160-mg-5ml-solucion-oral/038606",
     "mifarma": "https://www.mifarma.com.pe/producto/tonopan-ninos-160-mg-5ml-solucion-oral/038606"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5712,17 +5608,16 @@
     "inkafarma": "https://inkafarma.pe/producto/zcal-1000-2-gel-topico/005216",
     "mifarma": "https://www.mifarma.com.pe/producto/zcal-1000-2-gel-topico/005216"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5756,22 +5651,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/ambroxol-15mg-5ml-jarabe/300092",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/expectorantes/ambroxol_15mg%2F5ml_jarabe_-_frasco_120_ml/14763.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5809,27 +5703,26 @@
     "boticasperu": "https://www.boticasperu.pe/tratamiento/respiratorios/ambroxol_30mg%2F5ml_c%2Fc_-_frasco_120_ml/14764.html",
     "universal": "https://www.farmaciauniversal.com/ambroxol-30-mg-5-ml-fi-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 3.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5859,17 +5752,16 @@
     "inkafarma": "https://inkafarma.pe/producto/benexam-500mg-8mg-capsula-dura/038028",
     "mifarma": "https://www.mifarma.com.pe/producto/benexam-500mg-8mg-capsula-dura/038028"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.92,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5899,17 +5791,16 @@
     "inkafarma": "https://inkafarma.pe/producto/benexam-500mg-8mg-capsula-dura/038028",
     "mifarma": "https://www.mifarma.com.pe/producto/benexam-500mg-8mg-capsula-dura/038028"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 59.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5939,17 +5830,16 @@
     "inkafarma": "https://inkafarma.pe/producto/bisolol-5mg-tableta-recubierta/079480",
     "mifarma": "https://www.mifarma.com.pe/producto/bisolol-5mg-tableta-recubierta/079480"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 119.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 123.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -5987,27 +5877,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/bisolvon_adultos_8mg%2F5ml_jarabe_-_frasco_120_ml/00796.html",
     "universal": "https://www.farmaciauniversal.com/bisolvon-adultos-8-mg5-ml-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.1,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.7,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.5,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.27,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6045,27 +5934,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/bisolvon-linctus_ninos_-_frasco_120_ml/11203.html",
     "universal": "https://www.farmaciauniversal.com/bisolvon-ninos-4mg5ml-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.4,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.7,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6099,22 +5987,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/desenfriol-comprimido-recubierto/066564",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/desenfriol_comprimidos_recubiertos_-_blister_6_un/41918.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 5.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.12,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6144,17 +6031,16 @@
     "inkafarma": "https://inkafarma.pe/producto/desenfriol-comprimido-recubierto/066564",
     "mifarma": "https://www.mifarma.com.pe/producto/desenfriol-comprimido-recubierto/066564"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.48,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6184,17 +6070,16 @@
     "inkafarma": "https://inkafarma.pe/producto/fulgrip-noche-granulos-para-solucion-oral/036573",
     "mifarma": "https://www.mifarma.com.pe/producto/fulgrip-noche-granulos-para-solucion-oral/036573"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 51.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 52.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6224,17 +6109,16 @@
     "inkafarma": "https://inkafarma.pe/producto/fulgrip-noche-granulos-para-solucion-oral/036573",
     "mifarma": "https://www.mifarma.com.pe/producto/fulgrip-noche-granulos-para-solucion-oral/036573"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.75,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6264,17 +6148,16 @@
     "inkafarma": "https://inkafarma.pe/producto/fulgrip-plus-antigripal-500mg-200mg-10mg-plv-pr-sol-or/036651",
     "mifarma": "https://www.mifarma.com.pe/producto/fulgrip-plus-antigripal-500mg-200mg-10mg-plv-pr-sol-or/036651"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 51.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 52.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6304,17 +6187,16 @@
     "inkafarma": "https://inkafarma.pe/producto/fulgrip-plus-antigripal-500mg-200mg-10mg-plv-pr-sol-or/036651",
     "mifarma": "https://www.mifarma.com.pe/producto/fulgrip-plus-antigripal-500mg-200mg-10mg-plv-pr-sol-or/036651"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.75,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6344,17 +6226,16 @@
     "inkafarma": "https://inkafarma.pe/producto/gloranta-caliente-frutos-rojos/038359",
     "mifarma": "https://www.mifarma.com.pe/producto/gloranta-caliente-frutos-rojos/038359"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 57.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 60.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6384,17 +6265,16 @@
     "inkafarma": "https://inkafarma.pe/producto/gloranta-caliente-frutos-rojos/038359",
     "mifarma": "https://www.mifarma.com.pe/producto/gloranta-caliente-frutos-rojos/038359"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6424,17 +6304,16 @@
     "inkafarma": "https://inkafarma.pe/producto/gloranta-caliente-limon-jengibre/038358",
     "mifarma": "https://www.mifarma.com.pe/producto/gloranta-caliente-limon-jengibre/038358"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 57.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 60.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6468,22 +6347,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/gloranta-caliente-limon-jengibre/038358",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/fiebre_y_congestion_nasal-1/gloranta_en_polvo_sabor_jengibre_limon_-_sobre_1_un/38910.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.4,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6517,22 +6395,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/grifantil-nf-suspension-oral/079478",
     "universal": "https://www.farmaciauniversal.com/grifantil-nf-suspension-oral-frasco-60-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 26.3,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 30.74,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6640,17 +6517,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hisaler-d-120mg-5mg-comprimido-de-liberacion-prolongada/008686",
     "mifarma": "https://www.mifarma.com.pe/producto/hisaler-d-120mg-5mg-comprimido-de-liberacion-prolongada/008686"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 36.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 37.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6680,17 +6556,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hisaler-d-120mg-5mg-comprimido-de-liberacion-prolongada/008686",
     "mifarma": "https://www.mifarma.com.pe/producto/hisaler-d-120mg-5mg-comprimido-de-liberacion-prolongada/008686"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 360.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 370.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6720,17 +6595,16 @@
     "inkafarma": "https://inkafarma.pe/producto/mejoral-antigripal-500mg-5mg-2mg-tableta/072433",
     "mifarma": "https://www.mifarma.com.pe/producto/mejoral-antigripal-500mg-5mg-2mg-tableta/072433"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 109.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 118.04,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6760,17 +6634,16 @@
     "inkafarma": "https://inkafarma.pe/producto/mejoral-antigripal-500mg-5mg-2mg-tableta/072433",
     "mifarma": "https://www.mifarma.com.pe/producto/mejoral-antigripal-500mg-5mg-2mg-tableta/072433"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.1,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.27,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6800,17 +6673,16 @@
     "inkafarma": "https://inkafarma.pe/producto/mentholatum-antigrip-t-polvo-para-solucion-oral/034631",
     "mifarma": "https://www.mifarma.com.pe/producto/mentholatum-antigrip-t-polvo-para-solucion-oral/034631"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 108.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 114.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6840,17 +6712,16 @@
     "inkafarma": "https://inkafarma.pe/producto/mentholatum-antigrip-t-polvo-para-solucion-oral/034631",
     "mifarma": "https://www.mifarma.com.pe/producto/mentholatum-antigrip-t-polvo-para-solucion-oral/034631"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6884,22 +6755,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/mucosolvan-30mg-5ml-jarabe-adulto/423691",
     "universal": "https://www.farmaciauniversal.com/mucosolvan-30mg5ml-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.1,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 27.84,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6937,27 +6807,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_adulto_-_frasco_120_ml/00464.html",
     "universal": "https://www.farmaciauniversal.com/mucosolvan-compositum-adultos-15-mg-001-mg5-ml-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.6,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 30.82,
+     "delta_pct": 0.0
     }
    }
   },
@@ -6995,27 +6864,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tos_y_dolor_de_garganta/mucosolvan_compositum_jarabe_pediatrico_-_frasco_120_ml/07920.html",
     "universal": "https://www.farmaciauniversal.com/mucosolvan-compositum-pediatrico-75-mg-0005-mg5-ml-jarabe-frasco-120-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 31.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 31.8,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 31.2,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 27.84,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7049,22 +6917,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-forte-comprimidos/007068",
     "universal": "https://www.farmaciauniversal.com/nastizol-forte-antigripal-comprimidos-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7094,17 +6961,16 @@
     "inkafarma": "https://inkafarma.pe/producto/nastizol-compositum-forte-comprimidos/007068",
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-forte-comprimidos/007068"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 150.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 150.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7134,17 +7000,16 @@
     "inkafarma": "https://inkafarma.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808",
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 93.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 96.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7174,17 +7039,16 @@
     "inkafarma": "https://inkafarma.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808",
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-antigripal-multisintomas-tableta-rec/078808"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.87,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.92,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7218,22 +7082,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-junior-antigripal-comprimidos-/428277",
     "universal": "https://www.farmaciauniversal.com/nastizol-junior-antigripal-comprimidos-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7263,17 +7126,16 @@
     "inkafarma": "https://inkafarma.pe/producto/nastizol-compositum-junior-antigripal-comprimidos-/428277",
     "mifarma": "https://www.mifarma.com.pe/producto/nastizol-compositum-junior-antigripal-comprimidos-/428277"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 90.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 90.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7339,17 +7201,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-grip-10-x2-blister-vick-vitapyrena-forte/PACKFC143",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-grip-10-x2-blister-vick-vitapyrena-forte/PACKFC143"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 25.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7376,17 +7237,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-3-sobres-mejoral-antigripal/PACKFC186",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-3-sobres-mejoral-antigripal/PACKFC186"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.81,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7413,17 +7273,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-3-sobres-mejoral-antigripal-3-sobres-menthobioticos-caramelos/PACKFC184",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-3-sobres-mejoral-antigripal-3-sobres-menthobioticos-caramelos/PACKFC184"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 15.21,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7450,17 +7309,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-chao-nf-tableta-chao-te-antigripal/PACKFC180",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-chao-nf-tableta-chao-te-antigripal/PACKFC180"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7487,17 +7345,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-mentholatum-30gr-3-sobres-mejoral-antigripal/PACKFC181",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-mentholatum-30gr-3-sobres-mejoral-antigripal/PACKFC181"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.61,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7524,17 +7381,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-mentholatum-30gr-3-sobres-mentholatum-antigrip-t/PACKFC182",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-mentholatum-30gr-3-sobres-mentholatum-antigrip-t/PACKFC182"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7548,40 +7404,29 @@
    "unidad": null,
    "precios": {
     "inkafarma": 32.6,
-    "mifarma": 33.6,
-    "universal": 23.66
+    "mifarma": 33.6
    },
-   "precio_unidad": {
-    "universal": 0.2366
-   },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "universal": false
+    "mifarma": false
    },
-   "mas_barato": "universal",
-   "brecha_pct": 42.0,
+   "mas_barato": "inkafarma",
+   "brecha_pct": 3.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-vick-vaporub-unguento-100-gr/PACKFC6",
-    "mifarma": "https://www.mifarma.com.pe/producto/pack-vick-vaporub-unguento-100-gr/PACKFC6",
-    "universal": "https://www.farmaciauniversal.com/vick-vaporub-unguento-pote-100-g/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/pack-vick-vaporub-unguento-100-gr/PACKFC6"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 32.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 33.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7608,17 +7453,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-vick-vaporub-50g-vitapyrena-forte/PACKFC142",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-vick-vaporub-50g-vitapyrena-forte/PACKFC142"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 23.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7648,17 +7492,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panadol-antigripal-nf-tableta/025891",
     "mifarma": "https://www.mifarma.com.pe/producto/panadol-antigripal-nf-tableta/025891"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 130.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 135.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7688,17 +7531,16 @@
     "inkafarma": "https://inkafarma.pe/producto/panadol-antigripal-nf-tableta/025891",
     "mifarma": "https://www.mifarma.com.pe/producto/panadol-antigripal-nf-tableta/025891"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7728,17 +7570,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-grip-cb-325-mg-10-mg-5-mg-capsula-blanda/085154",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-grip-cb-325-mg-10-mg-5-mg-capsula-blanda/085154"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7768,17 +7609,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pharamol-grip-cb-325-mg-10-mg-5-mg-capsula-blanda/085154",
     "mifarma": "https://www.mifarma.com.pe/producto/pharamol-grip-cb-325-mg-10-mg-5-mg-capsula-blanda/085154"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 170.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 180.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7808,17 +7648,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapsin-flu-caliente-dia/070615",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-flu-caliente-dia/070615"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 66.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 76.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7852,22 +7691,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-flu-caliente-dia/070615",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_flu_kion_caliente_dia_-_sobre_1_un/49718-BLISTER.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.55,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7897,17 +7735,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7937,17 +7774,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-instaflu-noche-comprimido-recubierto/070071"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -7981,22 +7817,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-antigripal-dia-comprimido-recubierto/070072",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_antigripal_dia_comprimido_recubierto_-_caja_25_un/45619-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 42.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 45.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8026,17 +7861,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-antigripal-dia-comprimido-recubierto/070072",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-antigripal-dia-comprimido-recubierto/070072"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8244,22 +8078,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-sc-1g-polvo-efervescente/038610",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_efervescente_1g_sabor_limon_-_caja_20_un/47049-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 28.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 28.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 30.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8293,22 +8126,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-sc-1g-polvo-efervescente/038610",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_efervescente_1g_sabor_limon_-_sobre_1_un/47049-BLISTER.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.4,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8338,17 +8170,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tapsin-plus-caliente-noche-polvo-para-suspension-oral/038424",
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-noche-polvo-para-suspension-oral/038424"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 66.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 76.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8382,22 +8213,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/tapsin-plus-caliente-noche-polvo-para-suspension-oral/038424",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/resfrio/tapsin_plus_caliente_noche_-_sobre_1_un/44476-SOBRE.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.55,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.2,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8483,27 +8313,26 @@
     "boticasperu": "https://www.boticasperu.pe/cuidado_personal/bucal/cremas_dentales/crema_dental_colgate_total_12_antisarro_-_tubo_150_ml/36209.html",
     "universal": "https://www.farmaciauniversal.com/colgate-total-12-anti-sarro-crema-dental-tubo-150-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.3,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.3,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 18.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 26.1,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8537,22 +8366,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/desodorante-rexona-men-antibacterial-invisible/032534",
     "universal": "https://www.farmaciauniversal.com/pack-rexona-men-antibacterial-invisible-aerosol-150-ml-pack-2-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.5,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 26.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8856,22 +8684,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/maquina-de-afeitar-gillette-sensor3/072672",
     "universal": "https://www.farmaciauniversal.com/gillete-mach-3-maquina-de-afeitar-blister-1-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 17.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 22.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8946,17 +8773,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-02-shampoo-h-s-anti-resequedad-1lt/PACKCP318",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-02-shampoo-h-s-anti-resequedad-1lt/PACKCP318"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 97.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 97.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -8983,17 +8809,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-2-gel-antitranspirante-gillette-cool-wave-clear/PACKCP340",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-2-gel-antitranspirante-gillette-cool-wave-clear/PACKCP340"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 50.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 50.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9062,17 +8887,16 @@
     "inkafarma": "https://inkafarma.pe/producto/crema-dental-colgate-triple-accion-100-ml/033706",
     "mifarma": "https://www.mifarma.com.pe/producto/crema-dental-colgate-triple-accion-100-ml/033706"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 21.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9106,22 +8930,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-anti-comezon-head-shoulders/071474",
     "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/head_%26_shoulder/shampoo_head_%26_shoulders_anti-comezon_-_frasco_375_ml/46996.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 20.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9269,22 +9092,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-luminous-uv/078576",
     "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/sedal/shampoo_sedal_luminous_uv_-_frasco_340_ml/48780.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.5,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9318,22 +9140,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/shampoo-sedal-zero-caspa-2-en-1-frasco-340-ml/038392",
     "boticasperu": "https://www.boticasperu.pe/cuidado_personal/cabello/shampoo/sedal/shampoo_sedal_zero_caspa_2en1_-_frasco_340_ml/38849.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 11.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9363,17 +9184,16 @@
     "inkafarma": "https://inkafarma.pe/producto/babylac-pro-3-hmo-dha/066634",
     "mifarma": "https://www.mifarma.com.pe/producto/babylac-pro-3-hmo-dha/066634"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 69.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 69.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9403,17 +9223,16 @@
     "inkafarma": "https://inkafarma.pe/producto/babylac-pro-3-hmo-nf/066632",
     "mifarma": "https://www.mifarma.com.pe/producto/babylac-pro-3-hmo-nf/066632"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 139.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 139.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9538,27 +9357,26 @@
     "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/limpiadores_faciales_y_exfoliantes/cetaphil/cetaphil_limpiador_piel_graso_-_frasco_473_ml/49692.html",
     "universal": "https://www.farmaciauniversal.com/cetaphil-limpiador-facial-diario-para-piel-grasa-frasco-473-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 115.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 115.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 115.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 115.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9596,27 +9414,26 @@
     "boticasperu": "https://www.boticasperu.pe/dermocosmetica/corporales/cremas/eucerin_anti-pigment_crema_corporal_-_frasco_200_ml/47081.html",
     "universal": "https://www.farmaciauniversal.com/eucerin-anti-pigment-crema-corporal-tubo-200-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 158.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 158.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 134.3,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 134.3,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9654,27 +9471,26 @@
     "boticasperu": "https://www.boticasperu.pe/promociones/dermocosmetica/isdin/fotoprotectores_isdin_fusion/isdin_fotoprotector_fusion_water_magic_-_frasco_50_ml/44561.html",
     "universal": "https://www.farmaciauniversal.com/isdin-fotoprotector-fusion-water-magic-spf50-frasco-50-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 114.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 114.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 104.89,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9769,27 +9585,26 @@
     "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/piel_grasa/limpiadores_faciales_y_exfoliantes/cerave/cerave_gel_limpiador_espumoso_-_frasco__473_ml/38901.html",
     "universal": "https://www.farmaciauniversal.com/cerave-gel-limpiador-espumoso-piel-normal-a-grasa-frasco-473-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 94.4,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 104.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9851,49 +9666,29 @@
    "unidad": null,
    "precios": {
     "inkafarma": 229.8,
-    "mifarma": 229.8,
-    "boticasperu": 284.9,
-    "universal": 284.91
+    "mifarma": 229.8
    },
-   "precio_unidad": {
-    "boticasperu": 5.698,
-    "universal": 5.6982
-   },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false,
-    "universal": true
+    "mifarma": true
    },
    "mas_barato": "empate",
-   "brecha_pct": 24.0,
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-02-fotoprotector-isdin-fusion-water-magic/PACKDB269",
-    "mifarma": "https://www.mifarma.com.pe/producto/pack-02-fotoprotector-isdin-fusion-water-magic/PACKDB269",
-    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/anti-edad/contorno_de_ojos/tripack_fotoprotector_isdin_fusion_water_magic_50_ml_%26_color_bronze_50_ml%2B_color_medium_50_ml/44561-48045-47576.html",
-    "universal": "https://www.farmaciauniversal.com/pack-x-3-isdin-fotoprotector-fusion-water-magic-spf50-50-ml-c-u-pack-3-und/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/pack-02-fotoprotector-isdin-fusion-water-magic/PACKDB269"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 229.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 229.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9907,49 +9702,29 @@
    "unidad": null,
    "precios": {
     "inkafarma": 344.7,
-    "mifarma": 344.7,
-    "boticasperu": 284.9,
-    "universal": 284.91
+    "mifarma": 344.7
    },
-   "precio_unidad": {
-    "boticasperu": 5.698,
-    "universal": 5.6982
-   },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "boticasperu": false,
-    "universal": true
+    "mifarma": true
    },
-   "mas_barato": "boticasperu",
-   "brecha_pct": 21.0,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-03-fotoprotector-isdin-fusion-water-magic/PACKDB270",
-    "mifarma": "https://www.mifarma.com.pe/producto/pack-03-fotoprotector-isdin-fusion-water-magic/PACKDB270",
-    "boticasperu": "https://www.boticasperu.pe/dermocosmetica/faciales/anti-edad/contorno_de_ojos/tripack_fotoprotector_isdin_fusion_water_magic_50_ml_%26_color_bronze_50_ml%2B_color_medium_50_ml/44561-48045-47576.html",
-    "universal": "https://www.farmaciauniversal.com/pack-x-3-isdin-fotoprotector-fusion-water-magic-spf50-50-ml-c-u-pack-3-und/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/pack-03-fotoprotector-isdin-fusion-water-magic/PACKDB270"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 344.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 344.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -9979,17 +9754,16 @@
     "inkafarma": "https://inkafarma.pe/producto/parches-cerave-control-antiimperfecciones/085261",
     "mifarma": "https://www.mifarma.com.pe/producto/parches-cerave-control-antiimperfecciones/085261"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 56.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 56.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10084,27 +9858,26 @@
     "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/formula_infantil/similac/similac_3/similac_3_hmo_-_lata_800_g/42603.html",
     "universal": "https://www.farmaciauniversal.com/similac-3-con-mezcla-de-5hmos-lata-800-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 76.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 76.5,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 78.5,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 86.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10134,17 +9907,16 @@
     "inkafarma": "https://inkafarma.pe/producto/barra-proteica-quest-mini-cookies-&-cream/077101",
     "mifarma": "https://www.mifarma.com.pe/producto/barra-proteica-quest-mini-cookies-&-cream/077101"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10475,22 +10247,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/hioscina-butilbromuro-acf-10mg-tableta-recubierta/079900",
     "universal": "https://www.farmaciauniversal.com/hioscina-butil-bromuro-10-mg-lg-tabletas-recubiertas-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.7,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10520,17 +10291,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hioscina-butilbromuro-acf-10mg-tableta-recubierta/079900",
     "mifarma": "https://www.mifarma.com.pe/producto/hioscina-butilbromuro-acf-10mg-tableta-recubierta/079900"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 65.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 67.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10690,22 +10460,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/lactulosa-3-33g-5ml-solucion-oral/073961",
     "universal": "https://www.farmaciauniversal.com/lactulosa-333-g-5-ml-fi-solucion-oral-frasco-180-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.92,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10735,17 +10504,16 @@
     "inkafarma": "https://inkafarma.pe/producto/lactulosa-3-3g-5ml-solucion-oral/033080",
     "mifarma": "https://www.mifarma.com.pe/producto/lactulosa-3-3g-5ml-solucion-oral/033080"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 15.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10775,17 +10543,16 @@
     "inkafarma": "https://inkafarma.pe/producto/metoclopramida-10mg-tableta/074427",
     "mifarma": "https://www.mifarma.com.pe/producto/metoclopramida-10mg-tableta/074427"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 9.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10815,17 +10582,16 @@
     "inkafarma": "https://inkafarma.pe/producto/metoclopramida-10mg-tableta/007307",
     "mifarma": "https://www.mifarma.com.pe/producto/metoclopramida-10mg-tableta/007307"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10855,17 +10621,16 @@
     "inkafarma": "https://inkafarma.pe/producto/metoclopram-10mg-tabletas/422219",
     "mifarma": "https://www.mifarma.com.pe/producto/metoclopram-10mg-tabletas/422219"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 8.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -10973,17 +10738,16 @@
     "inkafarma": "https://inkafarma.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749",
     "mifarma": "https://www.mifarma.com.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11013,17 +10777,16 @@
     "inkafarma": "https://inkafarma.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749",
     "mifarma": "https://www.mifarma.com.pe/producto/ome-frenacid-20-mg-capsulas-gastrointestinales/017749"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 160.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 165.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11057,22 +10820,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/omeprazol-ptg-20mg-capsula/425383",
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/acidez/omeprazol_20_mg_-_caja_100_un/15486-CAJA.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 13.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11180,17 +10942,16 @@
     "inkafarma": "https://inkafarma.pe/producto/sal-de-andrews-polvo-efervescente-solucion-oral/074158",
     "mifarma": "https://www.mifarma.com.pe/producto/sal-de-andrews-polvo-efervescente-solucion-oral/074158"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 100.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11228,27 +10989,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/malestar_estomacal/acidez/sal_andrews_clasica_5g_-_sobre_1_un/48141.html",
     "universal": "https://www.farmaciauniversal.com/sal-andrews-clasica-polvo-efervescente-sobre-1-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 1.01,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11369,22 +11129,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/simeticona-80-mg-tableta-masticable/085375",
     "universal": "https://www.farmaciauniversal.com/simeticona-80-mg-mf-tabletas-masticables-blister-10-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.71,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 4.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11414,17 +11173,16 @@
     "inkafarma": "https://inkafarma.pe/producto/simeticona-80-mg-tableta-masticable/085375",
     "mifarma": "https://www.mifarma.com.pe/producto/simeticona-80-mg-tableta-masticable/085375"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 32.52,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 33.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11510,27 +11268,26 @@
     "boticasperu": "https://www.boticasperu.pe/botica_en_casa/gases_intestinales/simeticona_80mg%2Fml_suspension_oral_-_frasco_15_ml/01927.html",
     "universal": "https://www.farmaciauniversal.com/simeticona-80-mg-ml-pt-suspension-oral-frasco-15-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 2.8,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 6.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 10.72,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11625,27 +11382,26 @@
     "boticasperu": "https://www.boticasperu.pe/adulto_mayor/formulas_adultos/glucerna/glucerna_sabor_vainilla_-_lata_850_g/43729.html",
     "universal": "https://www.farmaciauniversal.com/glucerna-en-polvo-sabor-vainilla-lata-850-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 139.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 139.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 137.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 141.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11683,27 +11439,26 @@
     "boticasperu": "https://www.boticasperu.pe/adulto_mayor/formulas_adultos/glucerna/glucerna_liquido_sabor_vainilla_-_frasco_237_ml/27158.html",
     "universal": "https://www.farmaciauniversal.com/glucerna-bebible-sabor-vainilla-frasco-220-ml/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 12.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11741,27 +11496,26 @@
     "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/zinc/magnesol_kids_sabor_fresa_-_frasco_150_g/47951.html",
     "universal": "https://www.farmaciauniversal.com/magnesol-kids-sabor-fresa-mezcla-en-polvo-pote-150-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 39.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 39.5,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 32.9,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 39.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11791,17 +11545,16 @@
     "inkafarma": "https://inkafarma.pe/producto/ensure-advance-sabor-vainilla-850/071134",
     "mifarma": "https://www.mifarma.com.pe/producto/ensure-advance-sabor-vainilla-850/071134"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 194.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 194.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11815,40 +11568,29 @@
    "unidad": null,
    "precios": {
     "inkafarma": 279.8,
-    "mifarma": 279.8,
-    "universal": 258.0
+    "mifarma": 279.8
    },
-   "precio_unidad": {
-    "universal": 1.1727
-   },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": false,
-    "mifarma": false,
-    "universal": false
+    "mifarma": false
    },
-   "mas_barato": "universal",
-   "brecha_pct": 8.4,
+   "mas_barato": "empate",
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-glucerna-sabor-vainilla/PACKNT524",
-    "mifarma": "https://www.mifarma.com.pe/producto/pack-glucerna-sabor-vainilla/PACKNT524",
-    "universal": "https://www.farmaciauniversal.com/pack-x-20-glucerna-bebible-sabor-vainilla-220-ml-c-u/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/pack-glucerna-sabor-vainilla/PACKNT524"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 279.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 279.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11875,17 +11617,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-03-magnesol-polvo-clasico/PACKNT89",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-03-magnesol-polvo-clasico/PACKNT89"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 83.16,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 82.17,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11912,17 +11653,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-1-magnesol-polvo-1-magnesol-polvo-naranja/PACKNT466",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-1-magnesol-polvo-1-magnesol-polvo-naranja/PACKNT466"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 62.04,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.71,
+     "delta_pct": 0.0
     }
    }
   },
@@ -11936,40 +11676,29 @@
    "unidad": null,
    "precios": {
     "inkafarma": 207.8,
-    "mifarma": 207.8,
-    "universal": 240.0
+    "mifarma": 207.8
    },
-   "precio_unidad": {
-    "universal": 1.0909
-   },
+   "precio_unidad": {},
    "promos": {
     "inkafarma": true,
-    "mifarma": true,
-    "universal": false
+    "mifarma": true
    },
    "mas_barato": "empate",
-   "brecha_pct": 15.5,
+   "brecha_pct": 0.0,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pack-ensure-advance-vainilla/PACKNT559",
-    "mifarma": "https://www.mifarma.com.pe/producto/pack-ensure-advance-vainilla/PACKNT559",
-    "universal": "https://www.farmaciauniversal.com/pack-x-20-ensure-advance-con-hmb-bebible-sabor-vainilla-220-ml-c-u/p"
+    "mifarma": "https://www.mifarma.com.pe/producto/pack-ensure-advance-vainilla/PACKNT559"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 207.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 207.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12007,27 +11736,26 @@
     "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/formula_infantil/pediasure/pediasure_10%2B_vainilla-_lata_850_gr/49001.html",
     "universal": "https://www.farmaciauniversal.com/pediasure-10-en-polvo-sabor-vainilla-lata-850-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 96.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 96.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 98.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 102.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12042,50 +11770,40 @@
    "precios": {
     "inkafarma": 179.0,
     "mifarma": 179.0,
-    "boticasperu": 178.9,
-    "universal": 184.9
+    "boticasperu": 178.9
    },
    "precio_unidad": {
     "inkafarma": 0.1119,
     "mifarma": 0.1119,
-    "boticasperu": 0.1118,
-    "universal": 0.1156
+    "boticasperu": 0.1118
    },
    "promos": {
     "inkafarma": false,
     "mifarma": false,
-    "boticasperu": false,
-    "universal": false
+    "boticasperu": false
    },
    "mas_barato": "boticasperu",
-   "brecha_pct": 3.4,
+   "brecha_pct": 0.1,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032",
     "mifarma": "https://www.mifarma.com.pe/producto/pediasure-sabor-vainilla-lata-1-6kg/074032",
-    "boticasperu": "https://www.boticasperu.pe/promociones/mama_y_bebe/formulas_ninos/pediasure/pediasure_triplesure_vainilla_-_lata_1.6_kg/48178.html",
-    "universal": "https://www.farmaciauniversal.com/pediasure-peptigro-en-polvo-sabor-vainilla-lata-16-kg/p"
+    "boticasperu": "https://www.boticasperu.pe/promociones/mama_y_bebe/formulas_ninos/pediasure/pediasure_triplesure_vainilla_-_lata_1.6_kg/48178.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 179.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 179.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 178.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12123,27 +11841,26 @@
     "boticasperu": "https://www.boticasperu.pe/mama_y_bebe/formula_infantil/pediasure/pediasure_10%2B_vainilla-_lata_850_gr/49001.html",
     "universal": "https://www.farmaciauniversal.com/pediasure-10-en-polvo-sabor-vainilla-lata-850-g/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 102.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 102.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 98.0,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 102.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12225,22 +11942,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/centrum-comprimido-recubierto/072372",
     "universal": "https://www.farmaciauniversal.com/centrum-adulto-comprimidos-recubiertos-frasco-30-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 41.4,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 41.4,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 41.4,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12274,22 +11990,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/centrum-silver-comprimido-recubierto/072373",
     "universal": "https://www.farmaciauniversal.com/centrum-silver-comprimidos-recubiertos-frasco-30-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 47.6,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 47.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 47.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12384,27 +12099,26 @@
     "boticasperu": "https://www.boticasperu.pe/farma_d_5000_ui_-_frasco__30un/36975.html",
     "universal": "https://www.farmaciauniversal.com/farma-d-5000-ui-capsulas-frasco-30-und/p"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 79.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 81.4,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 80.6,
+     "delta_pct": 0.0
     },
     "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 92.66,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12473,17 +12187,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769",
     "mifarma": "https://www.mifarma.com.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 80.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 82.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12513,17 +12226,16 @@
     "inkafarma": "https://inkafarma.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769",
     "mifarma": "https://www.mifarma.com.pe/producto/hierro-sacarosa-svp-100mg-5ml-concentrado-para-solucion-para-perfusion/073769"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12694,17 +12406,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-02-ultra-complejo-b-sunvit-capsula-blanda/PACKNT441",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-02-ultra-complejo-b-sunvit-capsula-blanda/PACKNT441"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 99.84,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 99.6,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12731,17 +12442,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-02-vitaminas-c-efervescentes-con-zinc/PACKNT32",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-02-vitaminas-c-efervescentes-con-zinc/PACKNT32"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 29.8,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 29.8,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12768,17 +12478,16 @@
     "inkafarma": "https://inkafarma.pe/producto/pack-03-vitaminas-c-efervescentes-con-zinc/PACKNT33",
     "mifarma": "https://www.mifarma.com.pe/producto/pack-03-vitaminas-c-efervescentes-con-zinc/PACKNT33"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 44.7,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 44.7,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12808,17 +12517,16 @@
     "inkafarma": "https://inkafarma.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173",
     "mifarma": "https://www.mifarma.com.pe/producto/rexona-antitranspirante-spray-v8-2-un/026173"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.5,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 24.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12848,17 +12556,16 @@
     "inkafarma": "https://inkafarma.pe/producto/redoxon-total-comprimido-efervescente/029588",
     "mifarma": "https://www.mifarma.com.pe/producto/redoxon-total-comprimido-efervescente/029588"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 43.92,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 43.89,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12888,17 +12595,16 @@
     "inkafarma": "https://inkafarma.pe/producto/redoxon-total-comprimido-efervescente/029588",
     "mifarma": "https://www.mifarma.com.pe/producto/redoxon-total-comprimido-efervescente/029588"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.64,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 14.63,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12928,17 +12634,16 @@
     "inkafarma": "https://inkafarma.pe/producto/selectum-adultos-18-tableta-recubierta/073974",
     "mifarma": "https://www.mifarma.com.pe/producto/selectum-adultos-18-tableta-recubierta/073974"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 49.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 49.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -12972,22 +12677,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/sunvit-calcium-mag-zinc-d-tableta/037794",
     "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/calcio/calcium_magnesium_zinc_-_frasco_100_un/43147.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 47.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13021,22 +12725,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/sunvit-b-complex-100-tableta/037829",
     "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/vitamina_c/b-complex_%2B_vitamin_c_-_frasco_100_un/47833.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 63.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 63.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 59.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13066,17 +12769,16 @@
     "inkafarma": "https://inkafarma.pe/producto/sunvit-vit-c-1000mg-tableta/037801",
     "mifarma": "https://www.mifarma.com.pe/producto/sunvit-vit-c-1000mg-tableta/037801"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 61.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13106,17 +12808,16 @@
     "inkafarma": "https://inkafarma.pe/producto/sunvit-vitamin-d-2000-iu-tableta/005570",
     "mifarma": "https://www.mifarma.com.pe/producto/sunvit-vitamin-d-2000-iu-tableta/005570"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 74.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 74.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13146,17 +12847,16 @@
     "inkafarma": "https://inkafarma.pe/producto/supradyn-energy-comprimido-recubierto/065303",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-energy-comprimido-recubierto/065303"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 16.0,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13190,22 +12890,21 @@
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-energy-comprimido-recubierto/065303",
     "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/multivitaminicos/supradyn_energy_-_caja_30_un/38936.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 48.0,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 48.0,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 47.5,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13259,28 +12958,24 @@
    "precios": {
     "inkafarma": 47.7,
     "mifarma": 47.7,
-    "boticasperu": 47.5,
-    "universal": 58.5
+    "boticasperu": 47.5
    },
    "precio_unidad": {
     "inkafarma": 1.59,
     "mifarma": 1.59,
-    "boticasperu": 1.5833,
-    "universal": 1.95
+    "boticasperu": 1.5833
    },
    "promos": {
     "inkafarma": false,
     "mifarma": true,
-    "boticasperu": false,
-    "universal": false
+    "boticasperu": false
    },
    "mas_barato": "boticasperu",
-   "brecha_pct": 23.2,
+   "brecha_pct": 0.4,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/supradyn-grageas/403172",
     "mifarma": "https://www.mifarma.com.pe/producto/supradyn-grageas/403172",
-    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/multivitaminicos/supradyn_energy_-_caja_30_un/38936.html",
-    "universal": "https://www.farmaciauniversal.com/supradyn-pronatal-comprimidos-caja-30-und/p"
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/multivitaminicos/supradyn_energy_-_caja_30_un/38936.html"
    },
    "tendencia": {
     "inkafarma": {
@@ -13296,11 +12991,6 @@
     "boticasperu": {
      "dir": "igual",
      "antes": 47.5,
-     "delta_pct": 0.0
-    },
-    "universal": {
-     "dir": "igual",
-     "antes": 58.5,
      "delta_pct": 0.0
     }
    }
@@ -13427,17 +13117,16 @@
     "inkafarma": "https://inkafarma.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247",
     "mifarma": "https://www.mifarma.com.pe/producto/tripack-jabon-rexona-antibacterial-avena/072247"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 7.9,
+     "delta_pct": 0.0
     }
    }
   },
@@ -13452,50 +13141,40 @@
    "precios": {
     "inkafarma": 53.9,
     "mifarma": 53.9,
-    "boticasperu": 51.9,
-    "universal": 38.0
+    "boticasperu": 51.9
    },
    "precio_unidad": {
     "inkafarma": 0.8983,
     "mifarma": 0.8983,
-    "boticasperu": 0.865,
-    "universal": 0.6333
+    "boticasperu": 0.865
    },
    "promos": {
     "inkafarma": true,
     "mifarma": true,
-    "boticasperu": false,
-    "universal": false
+    "boticasperu": false
    },
-   "mas_barato": "universal",
-   "brecha_pct": 41.8,
+   "mas_barato": "boticasperu",
+   "brecha_pct": 3.9,
    "urls": {
     "inkafarma": "https://inkafarma.pe/producto/vitamin-d-1000-iu-tableta/005569",
     "mifarma": "https://www.mifarma.com.pe/producto/vitamin-d-1000-iu-tableta/005569",
-    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/vitamina_d/vitamina_d3_50_mcg_-_frasco_60_und/38765.html",
-    "universal": "https://www.farmaciauniversal.com/prime-health-kids-vitamin-c-zinc-gomitas-frasco-60-und/p"
+    "boticasperu": "https://www.boticasperu.pe/nutricion/vitaminas__y_minerales/vitamina_d/vitamina_d3_50_mcg_-_frasco_60_und/38765.html"
    },
-   "nuevo": true,
    "tendencia": {
     "inkafarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 53.9,
+     "delta_pct": 0.0
     },
     "mifarma": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 53.9,
+     "delta_pct": 0.0
     },
     "boticasperu": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
-    },
-    "universal": {
-     "dir": "nuevo",
-     "antes": null,
-     "delta_pct": null
+     "dir": "igual",
+     "antes": 51.9,
+     "delta_pct": 0.0
     }
    }
   }

@@ -210,36 +210,32 @@ def _cantidad_coincide(ref: Producto, cand: Producto, tol: float = 0.10):
 
 
 def _match_boticas(ref: Producto, cands):
-    """Mejor candidato Boticas para ESA presentación.
+    """Mejor candidato (Boticas o Universal) para ESA presentación.
 
-    Si la presentación Inka tiene cantidad exacta (caso normal, del API de
-    detalle), se EXIGE que la cantidad de Boticas coincida — esto, no el precio,
-    decide la presentación. Así blíster 10 nunca casa con caja 30, y una brecha de
-    precio grande entre presentaciones idénticas es señal válida (no se descarta).
-    Solo en el fallback sin cantidad conocida se usa el viejo guard de plausibilidad.
+    Se EXIGE que la presentación Inka tenga cantidad exacta (caso normal, del API
+    de detalle) y que el candidato la iguale — esto, no el precio, decide la
+    presentación. Así blíster 10 nunca casa con caja 30, y una brecha de precio
+    grande entre presentaciones idénticas es señal válida (no se descarta).
+
+    Si la fila Inka NO tiene cantidad conocida (los "SUPER PACK"/bundles, donde el
+    tamaño no es parseable), NO se empareja: un bundle no se alinea de forma fiable
+    y antes colaba falsos (Pack 02 ↔ pack x3, polvo ↔ 20 botellas). Mejor "—".
     """
-    exige_qty = ref.cantidad_envase is not None and ref.unidad_envase is not None
+    if ref.cantidad_envase is None or ref.unidad_envase is None:
+        return None
     best, best_r = None, None
     for c in cands:
         if c.precio is None:
             continue
-        if exige_qty:
-            # La cantidad exacta confirma la presentación: si coincide, basta con
-            # que pase las reglas duras y la similitud de nombre llegue a la zona
-            # gris (>=70). No se usa imagen aquí (las fotos difieren entre vendors)
-            # ni plausibilidad de precio (una brecha grande es señal válida).
-            if not _cantidad_coincide(ref, c):
-                continue
-            r = comparar(ref, c)
-            if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
-                best, best_r = c, r
-        else:
-            # Fallback (presentación sin cantidad conocida): match estricto + plausibilidad.
-            if not _precio_plausible(c.precio, ref.precio):
-                continue
-            r = comparar(ref, c, phash_fn=imagen.phash)   # Capa 3 solo en zona gris
-            if r.es_match and (not best_r or r.score > best_r.score):
-                best, best_r = c, r
+        # La cantidad exacta confirma la presentación: si coincide, basta con que
+        # pase las reglas duras y la similitud de nombre llegue a la zona gris
+        # (>=70). No se usa imagen (las fotos difieren entre vendors) ni
+        # plausibilidad de precio (una brecha grande es señal válida).
+        if not _cantidad_coincide(ref, c):
+            continue
+        r = comparar(ref, c)
+        if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
+            best, best_r = c, r
     return best
 
 

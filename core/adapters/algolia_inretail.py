@@ -35,6 +35,7 @@ from typing import Any, Dict, Iterator, List, Optional
 
 from ..adapter_base import AdapterBase
 from ..modelo import Producto
+from ..normalizer import extrae_tamano
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_YAML = ROOT / "farmacias.yaml"
@@ -85,6 +86,8 @@ class AlgoliaInRetailAdapter(AdapterBase):
         self.filtro_canal = cfg.get("filtro_canal") or None
         self.producto_url = cfg.get("producto_url")
         self.origin = cfg.get("origin")
+        self.detalle_url = cfg.get("detalle_url")        # API REST de detalle (precio por presentación)
+        self.company_code = cfg.get("company_code")
 
         extra = {
             "X-Algolia-Application-Id": self.app_id,
@@ -236,6 +239,97 @@ class AlgoliaInRetailAdapter(AdapterBase):
             return None
         resp.raise_for_status()
         return self._map_hit(resp.json(), raw=raw)
+
+    # --- DETALLE: presentaciones por producto (API REST, no Algolia) -------
+    def _producto_presentacion(self, d: Dict[str, Any], *, kind: str, etiqueta: str,
+                               precio: float, en_promo: bool, base: Dict[str, Any],
+                               raw: bool) -> Producto:
+        """Arma un Producto para UNA presentación, derivando cantidad/precio_unidad
+        de la etiqueta ("CAJA 100 UN" -> 100 un ; "FRASCO 60 ML" -> 60 ml)."""
+        tam = extrae_tamano(etiqueta)
+        cantidad = tam[0] if tam else None
+        unidad = tam[1] if tam else None
+        ppu = round(precio / cantidad, 4) if (precio and cantidad) else None
+        return Producto(
+            cadena=self.cadena,
+            sku=base["oid"],
+            nombre_origen=base["name"],
+            precio=precio,
+            precio_regular=precio,
+            en_promocion=en_promo,
+            marca=base["marca"],
+            presentacion=etiqueta,
+            presentacion_kind=kind,
+            cantidad_envase=cantidad,
+            unidad_envase=unidad,
+            precio_por_unidad=ppu,
+            prescripcion=base["prescripcion"],
+            url=base["url"],
+            imagen=base["imagen"],
+            ean=base["ean"],
+            sku_mifarma=base["sku_mifarma"],
+            sku_sap=base["sku_sap"],
+            raw=d if raw else None,
+        )
+
+    def _map_detalle(self, d: Dict[str, Any], *, raw: bool = False) -> List[Producto]:
+        """Detalle REST -> lista de presentaciones (pack [+ fracción]) con precio."""
+        oid = _clean(d.get("id"))
+        if not oid:
+            return []
+        slug = _clean(d.get("slug"))
+        imgs = d.get("imageList")
+        imagen = None
+        if isinstance(imgs, list) and imgs and isinstance(imgs[0], dict):
+            imagen = _clean(imgs[0].get("url"))
+        base = {
+            "oid": oid,
+            "name": _clean(d.get("name")) or "",
+            "marca": _clean(d.get("brand")),
+            "prescripcion": _clean(d.get("prescription")),
+            "url": (self.producto_url.format(uri=slug, sku=oid)
+                    if slug and self.producto_url else None),
+            "imagen": imagen,
+            "ean": _clean(d.get("eanCode")) or _clean(d.get("gtin")),
+            "sku_mifarma": _clean(d.get("skuMifarma")),
+            "sku_sap": _clean(d.get("sapCode")),
+        }
+        out: List[Producto] = []
+        # Presentación PACK (caja/frasco): pricePack, etiqueta noFractionatedText.
+        pack_precio = _num(d.get("pricePack"))
+        if pack_precio is None:
+            pack_precio = _num(d.get("price"))
+        pack_label = _clean(d.get("noFractionatedText"))
+        if pack_precio and pack_precio > 0 and pack_label:
+            out.append(self._producto_presentacion(
+                d, kind="pack", etiqueta=pack_label, precio=pack_precio,
+                en_promo=bool(d.get("crossOutPL")), base=base, raw=raw))
+        # Presentación FRACCIÓN (blíster/unidad): solo si fractionalMode.
+        if d.get("fractionalMode"):
+            frac_precio = _num(d.get("fractionatedPrice"))
+            frac_label = _clean(d.get("fractionatedText"))
+            if frac_precio and frac_precio > 0 and frac_label:
+                out.append(self._producto_presentacion(
+                    d, kind="fraccion", etiqueta=frac_label, precio=frac_precio,
+                    en_promo=bool(d.get("crossOutFractionatedPL")), base=base, raw=raw))
+        return out
+
+    def get_presentaciones(self, object_id: str, *, raw: bool = False) -> List[Producto]:
+        """Trae todas las presentaciones (pack/fracción) de un producto por objectID.
+
+        Usa la API REST de detalle (no el índice Algolia, que solo da el precio de
+        la presentación por defecto). Lista vacía si no hay detalle o no resuelve.
+        """
+        if not self.detalle_url:
+            return []
+        url = self.detalle_url.format(id=urllib.parse.quote(str(object_id)))
+        params = {"companyCode": self.company_code or "", "saleChannel": "WEB",
+                  "saleChannelType": "DIGITAL", "sourceDevice": "null"}
+        resp = self._client.get(url, params=params)
+        if resp.status_code == 404:
+            return []
+        resp.raise_for_status()
+        return self._map_detalle(resp.json(), raw=raw)
 
     # --- VÍA 1: búsqueda dirigida ------------------------------------------
     def search(

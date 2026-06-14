@@ -94,6 +94,18 @@ def construir_demo(base: dict) -> dict:
         previo["productos"] = [p for p in pp if p["id"] != nuevo_id]
         notas.append((pa[cand_nuevo]["nombre"], "—", "nuevo (SKU)", None))
 
+    # Recalcula el precio/unidad de las filas perturbadas para que sea coherente
+    # con el precio simulado (precio ÷ cantidad de la presentación).
+    for p in pa:
+        cant = p.get("cantidad")
+        if not cant:
+            continue
+        ppu = p.get("precio_unidad") or {}
+        for c, precio in p.get("precios", {}).items():
+            ppu[c] = round(precio / cant, 4)
+        if ppu:
+            p["precio_unidad"] = ppu
+
     # Motor de producción: anota tendencia/promo_cambio/nuevo en `actual`.
     eventos = cambios.diff_snapshots(previo, actual)
 

@@ -110,6 +110,14 @@ body {
 
 .prod { font-weight: 600; }
 .prod .marca { display: block; font-weight: 400; font-size: 12px; color: var(--suave); }
+.prod .pres {
+  display: inline-block; margin-top: 3px; font-weight: 600; font-size: 11px;
+  padding: 1px 7px; border-radius: 5px; background: #eef4fb; color: #2b5a8c;
+  text-transform: capitalize;
+}
+/* Precio por unidad, debajo del precio en cada celda */
+.ppu { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--suave); font-variant-numeric: tabular-nums; }
+td.precio.barato .ppu { color: #2e8b57; }
 .cat {
   display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px;
   background: #eef1f5; color: #4a5566; white-space: nowrap;

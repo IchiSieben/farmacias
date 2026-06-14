@@ -29,6 +29,10 @@ class InkafarmaAdapter(AlgoliaInRetailAdapter):
         "filtro_canal": "channels:WEB",
         "producto_url": "https://inkafarma.pe/producto/{uri}/{sku}",  # slug + objectID (verificado)
         "origin": "https://inkafarma.pe",
+        # API REST de detalle: precio por presentación (pack/fracción) + precio/unidad.
+        # El search Algolia solo trae el precio de la presentación por defecto.
+        "detalle_url": "https://5doa19p9r7.execute-api.us-east-1.amazonaws.com/MMPROD/product/{id}",
+        "company_code": "IKF",
     }
 
 

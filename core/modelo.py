@@ -44,7 +44,11 @@ class Producto:
     marca: Optional[str] = None
     laboratorio: Optional[str] = None
     principio_activo: Optional[str] = None
-    presentacion: Optional[str] = None         # "BLISTER 10 UN", "Jarabe", ...
+    presentacion: Optional[str] = None         # "BLISTER 10 UN", "CAJA 100 UN", "FRASCO 60 ML"
+    presentacion_kind: Optional[str] = None    # "pack" | "fraccion" (InRetail: caja vs blíster)
+    cantidad_envase: Optional[float] = None    # unidades/volumen del envase: 100 (un), 60 (ml)
+    unidad_envase: Optional[str] = None        # "un" | "ml" | "g"
+    precio_por_unidad: Optional[float] = None  # precio / cantidad_envase (S//un o S//ml)
     categoria: Optional[str] = None
     subcategoria: Optional[str] = None
     prescripcion: Optional[str] = None         # "Venta Libre" / con receta

@@ -62,6 +62,10 @@ farmacias:
       index: "products"
       filtro_canal: "channels:WEB"             # solo productos de venta web (~46.4k)
       producto_url: "https://inkafarma.pe/producto/{uri}/{sku}"   # slug + objectID (la ficha exige ambos; solo el slug -> /404)
+      # API REST de detalle: precio por presentación (pack/fracción) + precio/unidad.
+      # El índice Algolia solo trae el precio de la presentación por defecto.
+      detalle_url: "https://5doa19p9r7.execute-api.us-east-1.amazonaws.com/MMPROD/product/{id}"
+      company_code: "IKF"
     # Dos vías (estrategia híbrida):
     #   search -> POST /1/indexes/*/queries            (dirigido, tope 1000 hits/query) -> canasta ancla
     #   browse -> POST /1/indexes/products/browse      (cursor, catálogo completo)      -> volcado periódico
@@ -102,6 +106,9 @@ farmacias:
       index: "products"
       filtro_canal: "channels:WEB"             # ~12.7k productos (Inkafarma tiene ~46k)
       producto_url: "https://www.mifarma.com.pe/producto/{uri}/{sku}"   # slug + objectID (verificado en fichas reales)
+      # Detalle REST propio de Mifarma (mismo gateway, stage MMMFPRD, companyCode MF).
+      detalle_url: "https://5doa19p9r7.execute-api.us-east-1.amazonaws.com/MMMFPRD/product/{id}"
+      company_code: "MF"
     # Vías:
     #   search        -> POST /1/indexes/*/queries           (dirigido) -> canasta ancla
     #   sync_facetas  -> /queries particionado por subCategory (browse bloqueado) -> catálogo

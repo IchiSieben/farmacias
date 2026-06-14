@@ -39,6 +39,10 @@ class MifarmaAdapter(AlgoliaInRetailAdapter):
         # navegador headless sobre fichas reales). El slug+id es compartido InRetail.
         "producto_url": "https://www.mifarma.com.pe/producto/{uri}/{sku}",
         "origin": "https://www.mifarma.com.pe",
+        # Detalle REST propio de Mifarma (mismo gateway, stage MMMFPRD, companyCode MF):
+        # precios independientes de Inkafarma por presentación (pack/fracción).
+        "detalle_url": "https://5doa19p9r7.execute-api.us-east-1.amazonaws.com/MMMFPRD/product/{id}",
+        "company_code": "MF",
     }
 
 

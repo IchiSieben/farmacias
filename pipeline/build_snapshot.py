@@ -33,7 +33,7 @@ from core.adapters.mifarma import MifarmaAdapter
 from core.matcher import comparar
 from core.modelo import Producto
 from core import imagen
-from core.normalizer import extrae_specs, nucleo
+from core.normalizer import extrae_specs, extrae_tamano, nucleo
 from pipeline import cambios
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -96,6 +96,27 @@ def _comparacion(precios: Dict[str, float]):
     return mb, brecha
 
 
+def _ppu_boticas(precio, nombre, presentacion=None):
+    """Precio por unidad de un candidato Boticas: precio / tamaño del envase."""
+    tam = extrae_tamano(f"{nombre} {presentacion or ''}")
+    if precio and tam and tam[0]:
+        return round(precio / tam[0], 4)
+    return None
+
+
+def _match_boticas(ref: Producto, cands):
+    """Mejor candidato Boticas para ESA presentación (el guard de tamaño del
+    matcher hace que caja case con caja y blíster con blíster)."""
+    best, best_r = None, None
+    for c in cands:
+        r = comparar(ref, c, phash_fn=imagen.phash)   # Capa 3 solo en zona gris
+        if (r.es_match and c.precio is not None
+                and _precio_plausible(c.precio, ref.precio)
+                and (not best_r or r.score > best_r.score)):
+            best, best_r = c, r
+    return best
+
+
 def construir(objetivo: int, pausa: float = 0.15) -> dict:
     ink = InkafarmaAdapter(delay_range=(0, 0))
     mif = MifarmaAdapter(delay_range=(0, 0))
@@ -103,7 +124,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
 
     base: Dict[str, dict] = {}  # objectID -> {inka, categoria}
     with ink, mif, bot:
-        # 1) Catálogo base desde Inkafarma.
+        # 1) Catálogo base desde Inkafarma (descubrimiento por búsqueda Algolia).
         print("Recolectando catálogo base (Inkafarma)...", file=sys.stderr)
         for categoria, terminos in TERMINOS.items():
             for t in terminos:
@@ -121,60 +142,75 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 break
         print(f"  {len(base)} productos base.", file=sys.stderr)
 
-        # 2) + Mifarma (objectID) y 3) + Boticas (fuzzy + tamaño).
+        # 2) Por cada objectID, expandir a UNA FILA POR PRESENTACIÓN (pack/fracción)
+        #    con precio real de cada cadena (API de detalle) + Boticas (matcher).
         productos = []
         n_bot = 0
         for i, (sku, rec) in enumerate(base.items()):
             ip: Producto = rec["inka"]
-            precios = {"inkafarma": ip.precio}
-            promos = {"inkafarma": bool(ip.en_promocion)}
-            urls = {"inkafarma": ip.url}
 
+            # Presentaciones reales (precio por pack/fracción) de cada cadena InRetail.
             try:
-                mp = mif.get_object(sku)
-                if mp and mp.precio is not None:
-                    precios["mifarma"] = mp.precio
-                    promos["mifarma"] = bool(mp.en_promocion)
-                    urls["mifarma"] = mp.url
+                inka_pres = ink.get_presentaciones(sku)
             except Exception:
-                pass
+                inka_pres = []
+            if not inka_pres:   # fallback: detalle falló -> 1 fila con el precio del search
+                inka_pres = [ip]
+            try:
+                mif_pres = {p.presentacion_kind: p for p in mif.get_presentaciones(sku)}
+            except Exception:
+                mif_pres = {}
 
+            # Boticas: una sola búsqueda por producto; cada presentación elige su match.
             try:
                 cands = bot.search(_query_boticas(ip.nombre_origen), limit=10)
-                best, best_r = None, None
-                for c in cands:
-                    # phash_fn activa la Capa 3 SOLO en la zona gris (70–85):
-                    # confirma/descarta por foto los matches dudosos.
-                    r = comparar(ip, c, phash_fn=imagen.phash)
-                    if (r.es_match and c.precio is not None
-                            and _precio_plausible(c.precio, ip.precio)
-                            and (not best_r or r.score > best_r.score)):
-                        best, best_r = c, r
+            except Exception:
+                cands = []
+
+            for ipres in inka_pres:
+                kind = ipres.presentacion_kind or "pack"
+                precios = {"inkafarma": ipres.precio}
+                precio_unidad = {"inkafarma": ipres.precio_por_unidad}
+                promos = {"inkafarma": bool(ipres.en_promocion)}
+                urls = {"inkafarma": ipres.url}
+
+                mpres = mif_pres.get(kind)
+                if mpres and mpres.precio is not None:
+                    precios["mifarma"] = mpres.precio
+                    precio_unidad["mifarma"] = mpres.precio_por_unidad
+                    promos["mifarma"] = bool(mpres.en_promocion)
+                    urls["mifarma"] = mpres.url
+
+                best = _match_boticas(ipres, cands)
                 if best:
                     precios["boticasperu"] = best.precio
+                    precio_unidad["boticasperu"] = _ppu_boticas(best.precio, best.nombre_origen)
                     promos["boticasperu"] = bool(best.en_promocion)
                     urls["boticasperu"] = best.url
                     n_bot += 1
-            except Exception:
-                pass
 
-            mb, brecha = _comparacion(precios)
-            productos.append({
-                "id": sku,
-                "nombre": ip.nombre_origen,
-                "categoria": rec["categoria"],
-                "marca": ip.marca,
-                "precios": {k: round(v, 2) for k, v in precios.items()},
-                "promos": {k: promos[k] for k in precios},
-                "mas_barato": mb,
-                "brecha_pct": brecha,
-                "urls": {k: v for k, v in urls.items() if v},
-            })
+                mb, brecha = _comparacion(precios)
+                productos.append({
+                    "id": f"{sku}:{kind}",
+                    "nombre": ipres.nombre_origen,
+                    "categoria": rec["categoria"],
+                    "marca": ipres.marca,
+                    "presentacion": ipres.presentacion,
+                    "cantidad": ipres.cantidad_envase,
+                    "unidad": ipres.unidad_envase,
+                    "precios": {k: round(v, 2) for k, v in precios.items()},
+                    "precio_unidad": {k: v for k, v in precio_unidad.items() if v is not None},
+                    "promos": {k: promos[k] for k in precios},
+                    "mas_barato": mb,
+                    "brecha_pct": brecha,
+                    "urls": {k: v for k, v in urls.items() if v},
+                })
             time.sleep(pausa)
             if (i + 1) % 25 == 0:
-                print(f"  {i + 1}/{len(base)} procesados (Boticas: {n_bot})", file=sys.stderr)
+                print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)}, Boticas: {n_bot})",
+                      file=sys.stderr)
 
-    productos.sort(key=lambda p: (p["categoria"], p["nombre"]))
+    productos.sort(key=lambda p: (p["categoria"], p["nombre"], p.get("presentacion") or ""))
     return {
         "generado": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "cadenas": [

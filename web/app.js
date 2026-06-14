@@ -117,8 +117,10 @@ function filaProducto(p) {
   const marca = p.marca ? `<span class="marca">${esc(p.marca)}</span>` : "";
   // Badge "nuevo": SKU presente hoy y ausente en el snapshot previo.
   const nuevo = p.nuevo ? ` <span class="nuevo-badge" title="Nuevo en esta captura">nuevo</span>` : "";
+  // Presentación de ESTA fila (cada presentación es su propia fila).
+  const pres = p.presentacion ? `<span class="pres">${esc(p.presentacion)}</span>` : "";
 
-  let html = `<td class="prod">${esc(p.nombre)}${nuevo}${marca}</td>` +
+  let html = `<td class="prod">${esc(p.nombre)}${nuevo}${marca}${pres}</td>` +
              `<td><span class="cat">${titulo(p.categoria)}</span></td>`;
 
   // Cada celda de precio enlaza a la ficha de ESA cadena (si hay precio y URL).
@@ -131,7 +133,7 @@ function filaProducto(p) {
     const precioTxt = (v != null && url)
       ? `<a class="precio-lnk" href="${esc(url)}" target="_blank" rel="noopener" title="Ver en ${esc(c.nombre)}">${SOLES(v)}</a>`
       : SOLES(v);
-    html += `<td class="${clases}">${precioTxt}${tendencia(p, c.id)}${promoMarca(p, c.id)}</td>`;
+    html += `<td class="${clases}">${precioTxt}${tendencia(p, c.id)}${promoMarca(p, c.id)}${ppu(p, c.id)}</td>`;
   }
 
   const b = p.brecha_pct;
@@ -152,6 +154,15 @@ function tendencia(p, cadena) {
   const pct = d == null ? "" : ` · ${d > 0 ? "+" : ""}${d.toFixed(1)}%`;
   const titulo = `Antes ${SOLES(t.antes)}${pct}`;
   return ` <span class="tend tend-${t.dir}" title="${esc(titulo)}">${flecha}</span>`;
+}
+
+// Precio por unidad de esa cadena (S//un o S//ml según la presentación), debajo del precio.
+function ppu(p, cadena) {
+  const v = p.precio_unidad && p.precio_unidad[cadena];
+  if (v == null) return "";
+  const u = p.unidad === "ml" ? "/ml" : (p.unidad === "g" ? "/g" : "/un");
+  const dec = Number(v) < 1 ? 3 : 2;
+  return `<span class="ppu" title="Precio por unidad">S/ ${Number(v).toFixed(dec)}${u}</span>`;
 }
 
 // Marca de promo cuando inicia/termina una promoción en esa cadena vs. el snapshot previo.

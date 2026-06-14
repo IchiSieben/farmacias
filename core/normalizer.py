@@ -52,6 +52,14 @@ _RE_STRENGTH = re.compile(
     r"|\d+(?:[.,]\d+)?\s*(?:mg|mcg|ui|%)",                            # strength suelta: 500mg, 4%
     re.IGNORECASE,
 )
+# Dosis en GRAMOS de un sólido oral ("Paracetamol 1g", "Supracalm 1 Gr"): aquí el
+# gramo SÍ es concentración (no envase). Se separa de _RE_CONC porque hay que
+# filtrar por magnitud: una dosis de comprimido es chica (<= _DOSIS_G_MAX); un
+# gramaje grande ("Lata 850 G", "Crema 30 G") es peso de envase, no dosis. Acepta
+# "g" y "gr"; el valor se canoniza luego a "Ng" para que el matcher lo parsee.
+_DOSIS_G_MAX = 5.0
+_RE_DOSIS_G = re.compile(r"\b(\d+(?:[.,]\d+)?)\s*gr?\b", re.IGNORECASE)
+
 # Cantidad por envase: "x 100", "caja 100", "100 un", "frasco 120 ml".
 _RE_CANT = re.compile(
     r"(?:x\s*(\d+)|caja\s*(?:de\s*)?(\d+)|(\d+)\s*(?:un|und|unidades|tabletas|capsulas|comprimidos))",
@@ -146,6 +154,7 @@ class Specs:
 _STOP_NUCLEO = set(
     "caja cajas frasco frascos blister blisters tableta capsula un und unid unidades "
     "x sobre sobres polvo solucion jarabe suspension gotas crema gel locion jabon "
+    "granulos granulado granulada granular comprimido comprimidos comprimida "
     "shampoo barra efervescente ampolla supositorio spray ml mg mcg ui kg "
     "de del para con sin y o el la las los".split()
 )
@@ -168,6 +177,14 @@ def extrae_specs(nombre: Optional[str]) -> Specs:
 
     m = _RE_CONC.search(texto)
     concentracion = _norm_conc(m.group(0)) if m else None
+    # Sin strength en mg/mcg/%: intenta dosis en gramos (comprimido de 1 g, etc.),
+    # aceptándola solo si el valor es pequeño (una dosis, no el peso del envase).
+    if concentracion is None:
+        mg = _RE_DOSIS_G.search(texto)
+        if mg:
+            val = float(mg.group(1).replace(",", "."))
+            if 0 < val <= _DOSIS_G_MAX:
+                concentracion = f"{val:g}g"   # forma canónica "1g", "0.5g"
 
     forma = None
     for token in texto.split():

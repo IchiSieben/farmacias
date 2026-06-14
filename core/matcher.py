@@ -113,6 +113,21 @@ def _tokens_clave(nombre: Optional[str]) -> set:
             if t not in _GENERICO_NUCLEO and t not in _MODIFICADOR_NUCLEO}
 
 
+# Audiencia PEDIÁTRICA: un producto para niños/bebés es distinto del de adulto
+# (Panadol Infantil ≠ Panadol 500mg adulto). Se usa como flag BOOLEANO simétrico
+# (no como modificador de núcleo): bloquea solo cuando un lado es pediátrico y el
+# otro NO. Así "Panadol Niños" ↔ "Panadol para Niños Infantil" (ambos pediátricos)
+# sigue casando, pero "Panadol 500mg" (adulto) ↔ "Panadol Infantil" se descarta.
+_PEDIATRICO = set(
+    "infantil infantiles pediatrico pediatrica pediatricos pediatricas "
+    "ninos nino nina ninas bebe bebes".split()
+)
+
+
+def _es_pediatrico(p: Producto) -> bool:
+    return bool(_PEDIATRICO & set(nucleo(p.nombre_origen).split()))
+
+
 def _activo_compatible(a: Producto, b: Producto) -> bool:
     """¿Comparten principio activo/marca y la MISMA variante?
 
@@ -149,6 +164,32 @@ def _forma_incompatible(fa: Optional[str], fb: Optional[str]) -> bool:
         return False
     return ((fa in _FORMAS_SOLIDAS and fb in _FORMAS_LIQUIDAS) or
             (fa in _FORMAS_LIQUIDAS and fb in _FORMAS_SOLIDAS))
+
+
+# Efervescente vs tableta normal = presentaciones distintas (como blíster≠caja).
+# Se bloquea solo el CONFLICTO EXPLÍCITO (un lado es tableta/cápsula plana y el
+# otro dice "efervescente"); NO "efervescente vs forma sin especificar", porque
+# Boticas a veces omite "efervescente" (p.ej. "Efetamol - Caja 20") y eso rompería
+# matches legítimos. Polvo/gránulos efervescentes tampoco cuentan como tableta plana.
+_NO_PLANA = {"polvo", "granulos", "granulado", "granulada",
+             "jarabe", "solucion", "suspension", "gotas"}
+
+
+def _es_efervescente(nombre: Optional[str]) -> bool:
+    return "efervescente" in normaliza_texto(nombre)
+
+
+def _es_tableta_plana(nombre: Optional[str]) -> bool:
+    """¿Es explícitamente un sólido oral NO efervescente (tableta/cápsula seca)?"""
+    toks = set(normaliza_texto(nombre).split())
+    if "efervescente" in toks or toks & _NO_PLANA:
+        return False
+    return bool(toks & {"tableta", "capsula"})
+
+
+def _presentacion_incompatible(a: Producto, b: Producto) -> bool:
+    return ((_es_efervescente(a.nombre_origen) and _es_tableta_plana(b.nombre_origen)) or
+            (_es_efervescente(b.nombre_origen) and _es_tableta_plana(a.nombre_origen)))
 
 
 # --- fuzzy: rapidfuzz si existe, si no difflib ------------------------------
@@ -238,6 +279,9 @@ def comparar(a: Producto, b: Producto, *, phash_fn=None) -> Resultado:
     if _forma_incompatible(sa.forma, sb.forma):
         return Resultado(False, 0.0, "regla_dura",
                          motivo=f"forma incompatible ({sa.forma} ≠ {sb.forma})")
+    if _presentacion_incompatible(a, b):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo="presentación distinta (efervescente vs tableta normal)")
     # Tamaño de envase: el size suele estar en `presentacion` (InRetail) o en el
     # nombre (Boticas) -> se combinan ambos para extraerlo.
     ta = extrae_tamano(f"{a.nombre_origen} {a.presentacion or ''}")
@@ -249,6 +293,10 @@ def comparar(a: Producto, b: Producto, *, phash_fn=None) -> Resultado:
     if not _activo_compatible(a, b):
         return Resultado(False, 0.0, "regla_dura",
                          motivo="principio activo o variante distinta")
+    # Audiencia: pediátrico vs adulto/sin marcar -> producto distinto.
+    if _es_pediatrico(a) != _es_pediatrico(b):
+        return Resultado(False, 0.0, "regla_dura",
+                         motivo="audiencia distinta (pediátrico vs adulto)")
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)

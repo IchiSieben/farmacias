@@ -106,7 +106,7 @@ function init(data) {
   // meta
   const fecha = (data.generado || "").slice(0, 10);
   document.getElementById("meta").textContent =
-    `${data.total} productos · ${data.con_boticas} con las 3 cadenas · snapshot ${fecha}`;
+    `${data.total} productos · ${state.cadenas.length} cadenas · snapshot ${fecha}`;
 
   renderCabecera();
   renderLeyendaGrupos(byId);

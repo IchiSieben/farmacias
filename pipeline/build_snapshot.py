@@ -30,6 +30,7 @@ from typing import Dict, List, Optional
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
+from core.adapters.universal import UniversalAdapter
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
 from core import imagen
@@ -44,10 +45,13 @@ EVENTOS_DIR = ROOT / "data" / "processed"
 # Conglomerados (grupos económicos): cadenas del mismo grupo comparten política
 # de precios -> para el usuario, comparar Inkafarma vs Mifarma es comparar contra
 # UN solo competidor. Fuente única del mapeo cadena->grupo (se hornea en data.json).
-# Extensible: al sumar Fasa/Arcángel/BTL -> grupo "quicorp"; Farmacia Universal -> independiente.
+# Extensible: Fasa/BTL son InRetail (no se suman); Boticas Perú y Farmacia
+# Universal son independientes (cada una su propio grupo).
 GRUPOS: List[dict] = [
     {"id": "inretail", "nombre": "InRetail", "cadenas": ["inkafarma", "mifarma"]},
     {"id": "boticasperu", "nombre": "Boticas Perú", "cadenas": ["boticasperu"],
+     "independiente": True},
+    {"id": "universal", "nombre": "Farmacia Universal", "cadenas": ["universal"],
      "independiente": True},
 ]
 _GRUPO_DE = {cad: g["id"] for g in GRUPOS for cad in g["cadenas"]}
@@ -133,6 +137,24 @@ def _buscar_boticas(bot, nombre: str):
     qa = _query_boticas_amplia(nombre)
     if qa != _query_boticas(nombre):
         for c in bot.search(qa, limit=12):
+            if c.sku not in vistos:
+                vistos.add(c.sku)
+                cands.append(c)
+    return cands
+
+
+def _buscar_universal(uni, nombre: str):
+    """Candidatos de Farmacia Universal (VTEX) combinando query precisa + amplia.
+
+    Mismo criterio que Boticas: precisa (núcleo, conserva marca) + amplia (1er
+    token = activo/marca), dedup. El matcher endurecido filtra los irrelevantes.
+    Universal NO expone EAN cruzable con Inka/Mifa -> match por fuzzy + cantidad.
+    """
+    cands = uni.search(_query_boticas(nombre), limit=12)
+    vistos = {c.sku for c in cands}
+    qa = _query_boticas_amplia(nombre)
+    if qa != _query_boticas(nombre):
+        for c in uni.search(qa, limit=12):
             if c.sku not in vistos:
                 vistos.add(c.sku)
                 cands.append(c)
@@ -225,9 +247,10 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
     ink = InkafarmaAdapter(delay_range=(0, 0))
     mif = MifarmaAdapter(delay_range=(0, 0))
     bot = BoticasPeruAdapter(delay_range=(0, 0))
+    uni = UniversalAdapter(delay_range=(0, 0))
 
     base: Dict[str, dict] = {}  # objectID -> {inka, categoria}
-    with ink, mif, bot:
+    with ink, mif, bot, uni:
         # 1) Catálogo base desde Inkafarma (descubrimiento por búsqueda Algolia).
         print("Recolectando catálogo base (Inkafarma)...", file=sys.stderr)
         for categoria, terminos in TERMINOS.items():
@@ -259,6 +282,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
         #    con precio real de cada cadena (API de detalle) + Boticas (matcher).
         productos = []
         n_bot = 0
+        n_uni = 0
         for i, (sku, rec) in enumerate(base.items()):
             ip: Producto = rec["inka"]
 
@@ -274,12 +298,16 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
             except Exception:
                 mif_pres = {}
 
-            # Boticas: búsqueda combinada (precisa + amplia) por producto; cada
-            # presentación elige su match (el matcher filtra los irrelevantes).
+            # Boticas y Universal: búsqueda combinada (precisa + amplia) por
+            # producto; cada presentación elige su match (el matcher filtra).
             try:
                 cands = _buscar_boticas(bot, ip.nombre_origen)
             except Exception:
                 cands = []
+            try:
+                cands_uni = _buscar_universal(uni, ip.nombre_origen)
+            except Exception:
+                cands_uni = []
 
             for ipres in inka_pres:
                 kind = ipres.presentacion_kind or "pack"
@@ -303,6 +331,16 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                     urls["boticasperu"] = best.url
                     n_bot += 1
 
+                # Universal: mismo matcher endurecido (cantidad exacta + reglas
+                # duras). Independiente; "—" donde no vende el producto.
+                best_u = _match_boticas(ipres, cands_uni)
+                if best_u:
+                    precios["universal"] = best_u.precio
+                    precio_unidad["universal"] = _ppu_boticas(best_u.precio, best_u)
+                    promos["universal"] = bool(best_u.en_promocion)
+                    urls["universal"] = best_u.url
+                    n_uni += 1
+
                 mb, brecha = _comparacion(precios)
                 productos.append({
                     "id": f"{sku}:{kind}",
@@ -321,8 +359,8 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 })
             time.sleep(pausa)
             if (i + 1) % 25 == 0:
-                print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)}, Boticas: {n_bot})",
-                      file=sys.stderr)
+                print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)}, "
+                      f"Boticas: {n_bot}, Universal: {n_uni})", file=sys.stderr)
 
     # Dedup de filas GEMELAS: mismo nombre+categoría+presentación+cantidad y
     # precios idénticos en todas las cadenas (p.ej. genéricos con dos objectID
@@ -342,6 +380,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
         print(f"  Dedup: {n_dedup} filas gemelas eliminadas.", file=sys.stderr)
     productos = dedup
     n_bot = sum(1 for p in productos if "boticasperu" in p["precios"])
+    n_uni = sum(1 for p in productos if "universal" in p["precios"])
 
     productos.sort(key=lambda p: (p["categoria"], p["nombre"], p.get("presentacion") or ""))
     return {
@@ -350,11 +389,13 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
             {"id": "inkafarma", "nombre": "Inkafarma", "grupo": _GRUPO_DE.get("inkafarma")},
             {"id": "mifarma", "nombre": "Mifarma", "grupo": _GRUPO_DE.get("mifarma")},
             {"id": "boticasperu", "nombre": "Boticas Perú", "grupo": _GRUPO_DE.get("boticasperu")},
+            {"id": "universal", "nombre": "Farmacia Universal", "grupo": _GRUPO_DE.get("universal")},
         ],
         "grupos": GRUPOS,
         "categorias": sorted({p["categoria"] for p in productos}),
         "total": len(productos),
         "con_boticas": n_bot,
+        "con_universal": n_uni,
         "productos": productos,
     }
 
@@ -381,9 +422,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     ev_path = cambios.escribir_eventos_csv(eventos, fecha, EVENTOS_DIR)
 
     con_bot = data["con_boticas"]
+    con_uni = data.get("con_universal", 0)
     tot = data["total"]
     print(f"\nListo: {tot} productos -> {out}")
-    print(f"  Cobertura Boticas Perú: {con_bot}/{tot} ({100*con_bot//max(tot,1)}%)")
+    print(f"  Cobertura Boticas Perú:     {con_bot}/{tot} ({100*con_bot//max(tot,1)}%)")
+    print(f"  Cobertura Farmacia Universal: {con_uni}/{tot} ({100*con_uni//max(tot,1)}%)")
     print(f"  Snapshot histórico -> {snap_path}")
     if previo is None:
         print("  (primera corrida: sin snapshot previo, sin eventos ni flechas)")

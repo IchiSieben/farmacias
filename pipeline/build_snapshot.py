@@ -75,6 +75,25 @@ TERMINOS: Dict[str, List[str]] = {
                  "amoxicilina", "azitromicina", "glibenclamida", "levotiroxina"],
 }
 
+# Semillas por SUBCATEGORÍA (facetas Algolia): traen la categoría COMPLETA, no solo
+# los términos de alta rotación. Se siembran ANTES que TERMINOS (no las recorta el
+# tope `objetivo`). Escalado validado categoría por categoría (ver
+# pipeline.escala_categoria + regresión del matcher).
+SUBCATS_SEED: Dict[str, List[str]] = {
+    "analgesico": ["Analgésico y Antipirético"],
+    "antigripal": ["Antigripales"],
+}
+
+
+def _seed_subcats(adapter, subcats: List[str]) -> Dict[str, Producto]:
+    """ObjectIDs de una cadena InRetail en las subcategorías dadas (dedup)."""
+    out: Dict[str, Producto] = {}
+    for sc in subcats:
+        for p in adapter._query_paged("", adapter._filtros(True, [f"subCategory:{sc}"])):
+            if p.precio is not None:
+                out.setdefault(p.sku, p)
+    return out
+
 
 # Guard de plausibilidad: dos farmacias rara vez difieren >65% en el MISMO
 # producto; un salto así casi siempre delata un envase/variante distinto que se
@@ -225,7 +244,16 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                         base[p.sku] = {"inka": p, "categoria": categoria}
             if len(base) >= objetivo:
                 break
-        print(f"  {len(base)} productos base.", file=sys.stderr)
+        print(f"  {len(base)} productos base (términos).", file=sys.stderr)
+
+        # 1b) Semillas por SUBCATEGORÍA: se añaden ENCIMA del barrido por términos
+        #     (sin contar contra `objetivo`) para escalar SOLO las categorías ya
+        #     validadas a su subcategoría completa, sin arrastrar otras nuevas.
+        print("Sembrando categorías escaladas (facetas de subcategoría)...", file=sys.stderr)
+        for categoria, subcats in SUBCATS_SEED.items():
+            for sku, p in _seed_subcats(ink, subcats).items():
+                base.setdefault(sku, {"inka": p, "categoria": categoria})
+        print(f"  {len(base)} productos base (con semillas de subcategoría).", file=sys.stderr)
 
         # 2) Por cada objectID, expandir a UNA FILA POR PRESENTACIÓN (pack/fracción)
         #    con precio real de cada cadena (API de detalle) + Boticas (matcher).
@@ -296,6 +324,25 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                 print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)}, Boticas: {n_bot})",
                       file=sys.stderr)
 
+    # Dedup de filas GEMELAS: mismo nombre+categoría+presentación+cantidad y
+    # precios idénticos en todas las cadenas (p.ej. genéricos con dos objectID
+    # distintos pero idénticos para el usuario). Conserva la primera.
+    vistos = set()
+    dedup = []
+    for p in productos:
+        clave = (p["nombre"], p["categoria"], p.get("presentacion"),
+                 p.get("cantidad"), p.get("unidad"),
+                 tuple(sorted(p["precios"].items())))
+        if clave in vistos:
+            continue
+        vistos.add(clave)
+        dedup.append(p)
+    n_dedup = len(productos) - len(dedup)
+    if n_dedup:
+        print(f"  Dedup: {n_dedup} filas gemelas eliminadas.", file=sys.stderr)
+    productos = dedup
+    n_bot = sum(1 for p in productos if "boticasperu" in p["precios"])
+
     productos.sort(key=lambda p: (p["categoria"], p["nombre"], p.get("presentacion") or ""))
     return {
         "generado": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -314,7 +361,8 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Genera web/data.json (snapshot de precios).")
-    parser.add_argument("--objetivo", type=int, default=150, help="N° de productos objetivo")
+    parser.add_argument("--objetivo", type=int, default=150,
+                        help="N° de productos por TÉRMINOS (las semillas de subcategoría se suman aparte)")
     parser.add_argument("--salida", default=str(OUT_DEFAULT))
     args = parser.parse_args(argv)
 

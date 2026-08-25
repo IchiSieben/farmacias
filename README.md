@@ -3,8 +3,6 @@
 Compare medicine prices across Peru's three largest pharmacy chains — think of
 it as a price checker for the same box of paracetamol in three stores at once.
 
-**Live demo:** `[OWNER INPUT: URL de la demo estática en Hostinger]`
-
 ## Why it exists
 
 The same product, from the same lab, routinely differs 20-70% in price between

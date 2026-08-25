@@ -5,7 +5,8 @@ Inkafarma (InRetail) y usa Algolia con el MISMO esquema de documento; cambia sol
 la instancia Algolia (descubierta en el bundle JS del frontend, Fase 0).
 
 Diferencias respecto a Inkafarma:
-  • app Algolia propia: `O74E6QKJ1F`, índice `products`, ~12.7k productos WEB.
+  • app Algolia propia (índice `products`, ~12.7k productos WEB); credenciales
+    por entorno: MIFARMA_ALGOLIA_APP_ID / _API_KEY (ver .env.example).
   • Las keys públicas de Mifarma NO tienen ACL de `browse` ("Method not allowed").
     → el volcado de catálogo va por `sync_facetas()` (partición por subCategory,
       buckets <1000, dedup por objectID). `soporta_browse = False` lo enruta solo.
@@ -30,9 +31,8 @@ class MifarmaAdapter(AlgoliaInRetailAdapter):
     YAML_ID = "mifarma"
     soporta_browse = False   # key sin ACL browse -> volcado por facetas
     DEFAULTS = {
-        "app_id": "O74E6QKJ1F",
-        "api_key": "f14e7e2c350bd2c9bf3b5ff078ccd82f",
-        "host": "https://o74e6qkj1f-dsn.algolia.net",
+        # app_id / api_key / host: por variables de entorno (ver .env.example);
+        # el host se deriva del app_id si no se define.
         "index": "products",
         "filtro_canal": "channels:WEB",
         # Mismo patrón que Inkafarma: /producto/{slug}/{objectID} (verificado con

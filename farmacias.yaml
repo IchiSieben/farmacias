@@ -52,13 +52,11 @@ farmacias:
     plataforma: "algolia"                      # search hospedado en Algolia (no Contentful como se creía)
     nivel: "A"                                 # API JSON limpia (preferido) — adapter: core/adapters/inkafarma.py
     grupo: "inretail"                          # mismo holding que Mifarma (el hit trae skuMifarma -> cruce directo)
-    # Credenciales públicas search-only embebidas en el frontend. Capturadas en Fase 0
-    # (DevTools -> Network -> request a *.algolia.net). Pueden ROTAR: si search/browse
-    # empiezan a dar 403, re-capturar la X-Algolia-API-Key y actualizar aquí.
+    # Credenciales públicas search-only embebidas en el frontend de la cadena.
+    # NO van en este yaml: variables de entorno INKAFARMA_ALGOLIA_APP_ID /
+    # _API_KEY (plantilla en .env.example). Pueden ROTAR: si search/browse dan
+    # 403, re-capturar la X-Algolia-API-Key del frontend y actualizar el .env.
     algolia:
-      app_id: "15W622LAQ4"
-      api_key: "ccd8cbda203928003f7fe6f44ddbfc3a"
-      host: "https://15w622laq4-dsn.algolia.net"
       index: "products"
       filtro_canal: "channels:WEB"             # solo productos de venta web (~46.4k)
       producto_url: "https://inkafarma.pe/producto/{uri}/{sku}"   # slug + objectID (la ficha exige ambos; solo el slug -> /404)
@@ -96,13 +94,11 @@ farmacias:
     plataforma: "algolia"                      # SPA Angular; búsqueda en Algolia (mismo esquema que Inkafarma)
     nivel: "A"                                 # adapter: core/adapters/mifarma.py (hereda de algolia_inretail)
     grupo: "inretail"                          # CONFIRMADO: comparte backend/esquema con Inkafarma
-    # App Algolia PROPIA de Mifarma (distinta de Inkafarma). Descubierta en Fase 0
-    # leyendo el bundle JS del frontend (main.*.js). Misma nota de rotación que Inkafarma.
+    # App Algolia PROPIA de Mifarma (distinta de Inkafarma), descubierta en el
+    # bundle JS del frontend. Credenciales por entorno: MIFARMA_ALGOLIA_APP_ID /
+    # _API_KEY (ver .env.example; misma nota de rotación que Inkafarma).
     # OJO: las keys públicas de Mifarma NO permiten browse -> volcado por facetas.
     algolia:
-      app_id: "O74E6QKJ1F"
-      api_key: "f14e7e2c350bd2c9bf3b5ff078ccd82f"   # alterna válida: b65e33077a0664869c7f2544d5f1e332
-      host: "https://o74e6qkj1f-dsn.algolia.net"
       index: "products"
       filtro_canal: "channels:WEB"             # ~12.7k productos (Inkafarma tiene ~46k)
       producto_url: "https://www.mifarma.com.pe/producto/{uri}/{sku}"   # slug + objectID (verificado en fichas reales)

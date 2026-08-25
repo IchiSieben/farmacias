@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import urllib.parse
 from datetime import date
@@ -40,6 +41,28 @@ from ..normalizer import extrae_tamano
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_YAML = ROOT / "farmacias.yaml"
 RAW_DIR = ROOT / "data" / "raw"
+
+_ENV_LOADED = False
+
+
+def _load_dotenv(path: Optional[Path] = None) -> None:
+    """Carga KEY=VALUE desde el .env de la raíz (sin dependencias externas).
+
+    No pisa variables ya presentes en el entorno (setdefault).
+    """
+    global _ENV_LOADED
+    if _ENV_LOADED:
+        return
+    _ENV_LOADED = True
+    p = path or (ROOT / ".env")
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        os.environ.setdefault(k.strip(), v.strip())
 
 
 # --- helpers de normalización -----------------------------------------------
@@ -79,9 +102,26 @@ class AlgoliaInRetailAdapter(AdapterBase):
     def __init__(self, *, config: Optional[Dict[str, Any]] = None, **kw) -> None:
         cfg = dict(self.DEFAULTS)
         cfg.update(config or {})
-        self.app_id = cfg["app_id"]
-        self.api_key = cfg["api_key"]
-        self.host = cfg["host"].rstrip("/")
+        # Credenciales: entorno (o .env) > config/yaml. Nunca hardcodeadas aquí:
+        # son las keys públicas de búsqueda del frontend de cada cadena, pero no
+        # se versionan en el repo (ver .env.example).
+        _load_dotenv()
+        pref = self.cadena.upper()
+        self.app_id = os.getenv(f"{pref}_ALGOLIA_APP_ID") or cfg.get("app_id")
+        self.api_key = os.getenv(f"{pref}_ALGOLIA_API_KEY") or cfg.get("api_key")
+        if not self.app_id or not self.api_key:
+            raise RuntimeError(
+                f"Faltan credenciales Algolia para {self.cadena}: define "
+                f"{pref}_ALGOLIA_APP_ID y {pref}_ALGOLIA_API_KEY en el entorno "
+                "o en .env (plantilla en .env.example). Se obtienen del bundle "
+                "JS del frontend de la cadena."
+            )
+        host = (
+            os.getenv(f"{pref}_ALGOLIA_HOST")
+            or cfg.get("host")
+            or f"https://{self.app_id.lower()}-dsn.algolia.net"
+        )
+        self.host = host.rstrip("/")
         self.index = cfg["index"]
         self.filtro_canal = cfg.get("filtro_canal") or None
         self.producto_url = cfg.get("producto_url")

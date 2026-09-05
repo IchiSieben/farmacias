@@ -47,6 +47,19 @@ its own website (visible in DevTools → Network → requests to `*.algolia.net`
 They are not private secrets, but they rotate occasionally and don't belong in
 a repo; when search starts returning 403, re-capture and update your `.env`.
 
+## The static demo
+
+`web/` is the published artifact: plain HTML, CSS and JS with no build step. It loads
+`data.json` (or `data.demo.json` with `?demo`) at runtime and renders the comparison table
+client-side, so it costs nothing to host.
+
+It opens with a five-step tutorial (`web/tutorial/`, vendored from `shared/tutorial/` in the
+portfolio workspace) that a returning visitor never sees again — dismissal persists in
+localStorage.
+
+Every path in `web/` is relative, so the folder drops into any subdirectory unchanged.
+Verified served from `/radar-precios/`: page renders, data loads, zero console errors.
+
 ## Scope and conduct
 
 Read-only collection from the same public search endpoints the chains' own

@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Radar de Precios — Farmacias Perú</title>
   <meta name="description" content="Comparador de precios de medicamentos entre cadenas de farmacias en Perú.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="tutorial/tutorial.css">
 </head>
 <body>
   <header class="topbar">
@@ -81,5 +83,44 @@
   </footer>
 
   <script src="app.js"></script>
+
+  <!-- Tutorial de apertura (compartido, upstream en Portfolio/shared/tutorial/).
+       Rutas relativas para que funcione igual en /radar-precios/ que en la raiz. -->
+  <script type="module">
+    import { createTutorial } from './tutorial/tutorial.js';
+    createTutorial({
+      id: 'radar-precios',
+      steps: [
+        {
+          title: 'Radar de Precios',
+          body: 'Compara el precio del <b>mismo medicamento</b> entre cadenas de farmacias peruanas. El problema dificil no es mostrar precios: es decidir que dos SKU distintos son el mismo producto.',
+        },
+        {
+          target: '#q',
+          title: 'Busca un producto',
+          body: 'Por nombre comercial o por <b>principio activo</b>. El buscador cruza ambos, porque las cadenas no nombran igual al mismo farmaco.',
+          placement: 'bottom',
+        },
+        {
+          target: '#cadenasSel',
+          title: 'Elige las cadenas',
+          body: 'Filtra que cadenas entran en la comparacion.',
+          placement: 'bottom',
+        },
+        {
+          target: '#brechaRange',
+          title: 'La brecha',
+          body: 'Cuanta diferencia hay entre el precio mas caro y el mas barato del mismo producto. Subi el minimo para ver solo los casos donde <b>de verdad conviene</b> comparar.',
+          placement: 'bottom',
+        },
+        {
+          target: '#tabla',
+          title: 'El resultado',
+          body: 'Una fila por producto, una columna por cadena. Verde es el mas barato. <b>Descargar</b> te lo baja en CSV.',
+          placement: 'top',
+        },
+      ],
+    });
+  </script>
 </body>
 </html>

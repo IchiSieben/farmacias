@@ -243,5 +243,5 @@ El motor (`core/`) es agnóstico al rubro. Para clonar a otro negocio:
 3. (Opcional) ajustar heurísticas de `matcher` al vocabulario del rubro.
 
 Esto convierte un proyecto en una **plantilla vendible** a múltiples clientes:
-farmacias, veterinarias, ferreterías, retail de electrónica (¡tu comparador de
-Digital City encaja aquí!), etc. Un solo codebase, N negocios.
+farmacias, veterinarias, ferreterías, retail de electrónica (un comparador de
+electrónica encaja aquí sin tocar el motor), etc. Un solo codebase, N negocios.

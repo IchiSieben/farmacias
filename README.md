@@ -126,9 +126,12 @@ repo root and `docs/`.*
 
 ---
 
-# Español
+# Radar de Precios — comparador de precios de farmacias en Perú (Español)
 
-## Radar de Precios — comparador de precios de farmacias en Perú
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![Sin backend](https://img.shields.io/badge/frontend-HTML%2FCSS%2FJS%2C%20no%20build-informational)
+![Estado](https://img.shields.io/badge/status-live-brightgreen)
+![Licencia](https://img.shields.io/badge/license-Apache%202.0-blue)
 
 Compara precios de medicamentos entre cuatro cadenas de farmacias peruanas — un
 verificador de precios para la misma caja de paracetamol en cuatro tiendas a la vez.
@@ -137,14 +140,14 @@ verificador de precios para la misma caja de paracetamol en cuatro tiendas a la 
 
 ![Vista previa de la tabla comparativa](docs/poster.webp)
 
-### Por qué existe
+## Por qué existe
 
 El mismo producto, del mismo laboratorio, suele variar 20-70% de precio entre cadenas —
 y dos de las cuatro cadenas pertenecen al mismo holding. Este proyecto hace visible esa
 brecha: recolecta precios por corrida, empareja productos entre cadenas y renderiza una
 página estática de comparación que cualquiera puede leer.
 
-### Cómo funciona
+## Cómo funciona
 
 ```
 adaptadores (uno por cadena)  →  snapshots (JSONL)  →  matcher  →  HTML estático
@@ -174,7 +177,7 @@ adaptadores (uno por cadena)  →  snapshots (JSONL)  →  matcher  →  HTML es
   Excluye deliberadamente cosmética/cuidado personal, donde no hay principio
   activo que distinga productos casi idénticos entre marcas.
 
-### Cómo correrlo
+## Cómo correrlo
 
 Verificado en Windows, Python 3.12.
 
@@ -190,7 +193,7 @@ embebe en su propio sitio (visibles en DevTools → Network → peticiones a
 `*.algolia.net`). No son secretas, pero rotan de vez en cuando y no van en un repo;
 cuando la búsqueda empiece a devolver 403, hay que recapturarlas y actualizar el `.env`.
 
-#### La demo estática
+### La demo estática
 
 `web/` es el artefacto publicado: HTML, CSS y JS planos, sin build. Carga `data.json`
 (o `data.demo.json` con `?demo`) en tiempo de ejecución y arma la tabla comparativa en
@@ -209,7 +212,7 @@ descarte persiste en localStorage.
 Cada ruta en `web/` es relativa, así que la carpeta funciona en cualquier subdirectorio
 sin cambios. Confirmado en vivo en `/radar-precios/`.
 
-### Fuentes de datos y licencias
+## Fuentes de datos y licencias
 
 Los precios se leen de los endpoints públicos de solo-búsqueda de cada cadena — no de
 una API oficial o documentada de ninguna. El alcance, el throttling y los límites de
@@ -218,14 +221,14 @@ Los precios pertenecen a sus respectivas cadenas (Inkafarma, Mifarma, Boticas Pe
 Farmacia Universal); este proyecto es un ejercicio de comparación independiente y no
 está afiliado a ninguna de ellas.
 
-### Estado
+## Estado
 
 **En vivo** y **usable**: desplegado en `/radar-precios/`, 296 productos cruzados entre
 cadenas (64 cruzados en las tres cadenas comparables). Pendiente: automatizar la corrida
 del snapshot (hoy manual) y mostrar el historial de precios a partir de los snapshots ya
 guardados por corrida.
 
-### Tests
+## Tests
 
 `tests/test_matcher_regresion.py` fija el comportamiento del matcher contra una canasta
 curada de pares buenos y malos conocidos — la guarda que evita que "Vitamina C 500mg x100"
@@ -239,11 +242,11 @@ PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion
 (`PYTHONIOENCODING=utf-8` hace falta en Windows — la consola usa `cp1252` por defecto
 y no puede imprimir algunos caracteres acentuados de la tabla de salida.)
 
-### Autor
+## Autor
 
 Yoichi Palacios Tanaka (IchiSieben) · [ichisieben.dev](https://ichisieben.dev)
 
-### Licencia
+## Licencia
 
 [Apache License 2.0](LICENSE).
 

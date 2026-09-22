@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you build on this project, a citation or a link back is appreciated."
+type: software
+title: "Radar de Precios — Peru Pharmacy Price Comparator"
+authors:
+  - family-names: Palacios Tanaka
+    given-names: Yoichi
+    alias: IchiSieben
+    orcid: ""
+    website: "https://ichisieben.dev"
+repository-code: "https://github.com/IchiSieben/farmacias"
+license: Apache-2.0
+version: 1.0.0
+date-released: 2026-09-22

@@ -1,8 +1,8 @@
 # ESTADO DEL PROYECTO — Radar de Precios (para retomar)
 
 > Abre esto al empezar la sesión. Claude Code lo actualiza al cerrar cada fase.
-> Última actualización: 2026-09-25 (F1 cerrada: corrida completa medida, byte a byte a escala,
-> tarea diaria registrada; PR `v2/f1-data-lake` → `main` abierto).
+> Última actualización: 2026-09-25 (F1 y `fix/cruce-fuzzy` mergeadas a `main`; F3 matcher v2
+> en rama `v2/f3-matcher`, worktree `../farmacias-f3`, esperando revisión de la muestra).
 
 ---
 
@@ -23,9 +23,9 @@
 
 | Fase | Qué | Estado |
 |---|---|---|
-| F1 | Data lake: caché local + archivo en Drive (rclone), Parquet, `pipeline/run.py`, tarea diaria, `--desde-cache`, publicación manual | ✅ cerrada; PR abierto |
+| F1 | Data lake: caché local + archivo en Drive (rclone), Parquet, `pipeline/run.py`, tarea diaria, `--desde-cache`, publicación manual | ✅ mergeada (PR #1) |
 | F2 | Cobertura por categoría (browse/facetas/cgid/fq), `config/categorias.yaml`, una categoría por sesión con muestra revisada | ⬜ siguiente |
-| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | ⬜ (adelanto: rama `fix/cruce-fuzzy`, ver Deuda) |
+| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | 🟨 rama `v2/f3-matcher` (worktree `../farmacias-f3`): hecha, falta revisión de la muestra y PR |
 | F4 | UI v2 bilingüe (Astro): buscador, ficha con historial, panorama por cadena, metodología | 🟨 rama `v2/f4-ui` (worktree `../farmacias-ui`): inicio hecha, ficha en curso |
 | F5 | README final con capturas nuevas, `docs/` (esquema, matching, operación), CITATION 2.0.0 | ⬜ |
 
@@ -97,10 +97,41 @@ Decisiones (y por qué):
 Después de F1 (fuera del PR):
 1. `PUBLISH_*` en `.env` (credenciales FTP/SFTP, las pone el usuario) y probar
    `py -m pipeline.publish --simular`. La primera publicación real, a mano.
-2. Mergear `fix/cruce-fuzzy` **antes** de la primera publicación: sin él, el staging
-   trae Suprahyal↔Mensille (13×) y dos Desloratadina a 6–9× (ver Deuda).
+2. ✅ `fix/cruce-fuzzy` mergeada (PR #2, 1c69537). El staging anterior al merge
+   todavía trae Suprahyal↔Mensille: publicar solo desde una corrida posterior.
 3. Con `/IT`, cerrar sesión a mitad de la corrida la mata: se retoma con
    `--reanudar <id>`.
+
+### F3 — qué quedó (rama `v2/f3-matcher`, detalle en `docs/MATCHING.md`)
+
+Definición escrita: **una fila es el mismo producto registrado (marca, laboratorio,
+R.S.), no un equivalente terapéutico.**
+
+| Pieza | Archivo | Nota |
+|---|---|---|
+| Ficha canónica | `core/ficha.py` | Campo → fuente (`atributo` > `descripcion` > `nombre`). R.S. normalizado `LETRAS-DIGITOS`. |
+| R.S. por cadena | adaptadores | Inka/Mifa desde el texto del detalle (104/224); Universal atributo (729/730); Boticas QuickView (109/139). |
+| Matcher | `core/matcher.py` | Capa 1 id/EAN/R.S.+cantidad; R.S. distinto = veto estricto; reglas duras (+ `aceite`≠`gel`, marcas de dispositivo con núcleo genérico); imagen solo confirma (`VETO_IMAGEN=False`, calibrado). |
+| Curados | `tests/matches_curados.yaml` | 6 pares misma marca con R.S. renumerado (Panadol Niños, Digestase, Enterogermina). |
+| Equivalentes | `pipeline/build_snapshot._mejor_match` | Caen solo por R.S. y casarían sin él (≥85): `tipo="equivalente"`, no son precio. 14 en la corrida del 25-09. |
+| Enriquecedor | `pipeline/enriquecer.py` | QuickView Boticas + hashes de foto, perezoso: solo candidatos que pasan cantidad, precio y texto ≥ 60. No muta `Producto`. |
+| Evidencia | `pipeline/parquet.py`, `data.json` | `matches.parquet` (484 filas, todas con motivo) + `evidencia`/`equivalentes` por fila. |
+| Relleno | `pipeline.run --completar <fecha>` | Baja QuickView + fotos de una corrida vieja (139 + 308, 0 errores, ~20 min). La corrida diaria ya los pide sola. |
+
+Reproceso de la corrida 2026-09-25 contra `main`: Boticas 109 → 98, Universal 78 → 75,
+4 cadenas 51. 26 cruces cambian en 24 filas (Boticas: 4 cambian, 2 nuevos, 14 caen;
+Universal: 1 nuevo, 4 caen). Los que caen son vetos por R.S. (genéricos de otro
+laboratorio, marcas distintas) o las reglas nuevas. Regresión 66/66.
+
+Pendiente F3:
+1. Revisión humana de la muestra de 30 y de los dos sospechosos: Tapsin Plus Día casó
+   con la URL "Noche" de Boticas (misma R.S. EE-05657 en Boticas: error de la cadena) y
+   Huggies Puro y Natural con "recién nacido" (foto idéntica).
+2. PR `v2/f3-matcher` → `main`. La primera corrida tras el merge dará ▲▼ falsos en las
+   filas cuyo SKU cruzado cambió.
+3. `match_id` estable (no se hizo).
+4. `data.json` pasa de 334 a 462 KB por la evidencia: F4 debe partirla (ya está
+   planeado `web/data/` particionado).
 
 ### F2 — por dónde empezar
 
@@ -118,12 +149,8 @@ Después de F1 (fuera del PR):
 - Llaves Algolia rotan → 403; recapturar desde DevTools y actualizar `.env`. Desde F1
   la corrida v2 **no exporta** si ve 401/403 (código 2, staging intacto) y corta en el
   primer 403 diciendo qué key rotó.
-- **Cruce fuzzy absurdo (rama `fix/cruce-fuzzy`, PR aparte):** Suprahyal (ác.
-  hialurónico) casó con Mensille (anticonceptivo) porque "inyectable"/"jeringa"
-  contaban como principio activo, y `_precio_plausible` estaba muerto desde 219e668.
-  El arreglo los vuelve genéricos y reactiva la guarda en todo cruce fuzzy con
-  [1/3, 3]. Reproducida la corrida del 25-09 con el arreglo: cambian exactamente esas
-  3 filas. Regresión 36/36.
+- Las cadenas publican R.S. equivocados (Tapsin Día/Noche en Boticas). El R.S. +
+  cantidad corre antes que las reglas duras: si se repite, curar con `decision: veto`.
 - Corridas pesadas contra Boticas se han cortado alguna vez. Desde F1,
   `py -m pipeline.run --reanudar <corrida>` sigue desde el staging sin repetir
   requests. No reintentar en bucle.
@@ -131,8 +158,7 @@ Después de F1 (fuera del PR):
   productos. La corrida v2 (`pipeline.run`) usa 2–6 s por dominio: no usar la v1
   para corridas automáticas.
 - El histórico se resetea si cambian los ids de match (pasó al separar
-  presentaciones). En F3 el `match_id` pasa a ser estable (derivado de llaves duras
-  cuando existan).
+  presentaciones). El `match_id` estable quedó pendiente de F3.
 - Stock no se captura en InRetail (vive en el detalle) — entra en F2 con el detalle
   REST por producto, solo para lo que ya está emparejado.
 

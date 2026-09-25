@@ -24,6 +24,16 @@ Uso:
     py -m pipeline.run --desde-cache 2026-09-24        # reprocesa sin red (fecha o id)
     py -m pipeline.run --desde-cache 2026-09-24 --salida /tmp/x.json --sin-historial
     py -m pipeline.run --reanudar 2026-09-24T08-30-00Z # sigue una captura cortada
+    py -m pipeline.run --completar 2026-09-25          # F3: baja lo que le falta a una
+                                                       # corrida vieja (QuickView Boticas,
+                                                       # fotos) y reprocesa sin red
+
+Enriquecimiento (F3, pipeline/enriquecer.py): los candidatos con texto >= 60
+piden el QuickView de Boticas (R.S.) y la foto. El QuickView es un complemento
+OPCIONAL del crudo (`boticasperu/<fecha>/quickview_<corrida>.jsonl.gz`, en
+`manifest.complementos`) y las fotos van a RAW_DIR/imagenes/. Al reprocesar, lo
+que falte de ambos es "sin dato", no un error: las corridas previas a F3 se
+reprocesan igual.
     py -m pipeline.run --sincronizar                   # solo copia el lake a Drive
 
 Python 3.12 (pipeline/); core/ sigue siendo 3.9+.
@@ -45,8 +55,11 @@ from typing import Any, Dict, List, Optional, Tuple
 from core import http_cache as hc
 from core.adapter_base import CredencialRechazada
 from core.adapters.algolia_inretail import _load_dotenv
+from core.adapters.boticasperu import BoticasPeruAdapter
+from core.imagen import AlmacenImagenes
 from core.storage import RawStore, StorageError, fecha_de, nuevo_id_corrida, raw_dir_desde_entorno
 from pipeline import build_snapshot, cambios
+from pipeline.enriquecer import CADENA_QUICKVIEW, Enriquecedor
 from pipeline.parquet import exportar_parquet, processed_dir_desde_entorno
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -62,6 +75,38 @@ _VARS_ALGOLIA = ["INKAFARMA_ALGOLIA_APP_ID", "INKAFARMA_ALGOLIA_API_KEY",
 
 class ErrorCorrida(RuntimeError):
     pass
+
+
+def _nombre_quickview(corrida: str) -> str:
+    return f"quickview_{corrida}.jsonl.gz"
+
+
+def _enriquecedor(raw: RawStore, sesion_qv: hc.SesionHttp, *, red: bool,
+                  turnos: Optional[hc.SesionHttp] = None) -> Enriquecedor:
+    """Enriquecedor F3. `red`: las fotos que falten se bajan (captura/--completar);
+    sin red, una foto fuera del índice es "sin dato"."""
+    turno = (turnos or sesion_qv).esperar_turno
+    imagenes = AlmacenImagenes(raw.root / "imagenes", red=red, esperar_turno=turno)
+    bot = BoticasPeruAdapter(delay_range=(0, 0),
+                             transport=sesion_qv.transporte(CADENA_QUICKVIEW))
+    return Enriquecedor(imagenes, bot)
+
+
+def _cerrar_enriquecedor(enr: Enriquecedor) -> None:
+    enr.imagenes.cerrar()
+    enr.boticas.close()
+
+
+def _publicar_quickview(raw: RawStore, corrida: str, sesion_qv: hc.SesionHttp,
+                        manifest: Dict[str, Any]) -> None:
+    """Staging del QuickView -> complemento del crudo (+ manifiesto)."""
+    origen = sesion_qv.archivo_staging(CADENA_QUICKVIEW)
+    if not origen.exists():
+        return
+    nombre = _nombre_quickview(corrida)
+    destino = raw.publicar_archivo(origen, "boticasperu", fecha_de(corrida), nombre)
+    manifest.setdefault("complementos", {})[CADENA_QUICKVIEW] = nombre
+    log(f"  crudo {CADENA_QUICKVIEW}: {destino} ({destino.stat().st_size // 1024} KB)")
 
 
 # --- log a archivo -----------------------------------------------------------
@@ -128,11 +173,14 @@ def capturar(raw: RawStore, corrida: str, *, objetivo: int, semillas: bool,
         }
         raw.escribir_manifest(corrida, manifest)
 
-    sesion = hc.SesionHttp(hc.REANUDAR if reanudar else hc.GRABAR, staging, delay=delay)
+    modo = hc.REANUDAR if reanudar else hc.GRABAR
+    sesion = hc.SesionHttp(modo, staging, delay=delay)
+    sesion_qv = hc.SesionHttp(modo, staging / "quickview", delay=delay, turnos=sesion)
+    enr = _enriquecedor(raw, sesion_qv, red=True, turnos=sesion)
     try:
         data = build_snapshot.construir(
             objetivo, adapter_kw=lambda cad: {"transport": sesion.transporte(cad)},
-            semillas=semillas)
+            semillas=semillas, enriquecedor=enr)
     except CredencialRechazada as exc:
         # Se corta en el PRIMER rechazo. El staging se conserva: tras recapturar la
         # key, --reanudar sigue sin repetir lo ya bajado.
@@ -142,6 +190,8 @@ def capturar(raw: RawStore, corrida: str, *, objetivo: int, semillas: bool,
         raise ErrorCorrida(f"{exc} (corrida {corrida})") from exc
     finally:
         sesion.cerrar()
+        sesion_qv.cerrar()
+        _cerrar_enriquecedor(enr)
 
     fecha = fecha_de(corrida)
     archivos: Dict[str, str] = {}
@@ -153,13 +203,15 @@ def capturar(raw: RawStore, corrida: str, *, objetivo: int, semillas: bool,
         destino = raw.publicar_archivo(origen, cad, fecha, nombre)
         archivos[cad] = nombre
         log(f"  crudo {cad}: {destino} ({destino.stat().st_size // 1024} KB)")
+    _publicar_quickview(raw, corrida, sesion_qv, manifest)
 
     manifest.update({
         "estado": "completa",
         "fin": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "generado": data["generado"],
         "archivos": archivos,
-        "requests": sesion.estadisticas(),
+        "requests": {**sesion.estadisticas(), **sesion_qv.estadisticas()},
+        "enriquecimiento": {**enr.stats, "imagenes": dict(enr.imagenes.stats)},
         "duracion_captura_s": round(time.monotonic() - t0, 1)
             + float(manifest.get("duracion_captura_s", 0) if reanudar else 0),
     })
@@ -168,34 +220,69 @@ def capturar(raw: RawStore, corrida: str, *, objetivo: int, semillas: bool,
     return manifest
 
 
-def procesar(raw: RawStore, corrida: str) -> Tuple[dict, List[dict], Dict[str, Any]]:
-    """Crudo -> snapshot, sin red. Un faltante en el caché hace fallar la corrida."""
+def procesar(raw: RawStore, corrida: str, *, completar: bool = False,
+             delay: Tuple[float, float] = (2.0, 6.0)
+             ) -> Tuple[dict, List[dict], Dict[str, Any]]:
+    """Crudo -> snapshot, sin red. Un faltante en el crudo principal hace fallar la
+    corrida; en el complemento F3 (QuickView, fotos) es "sin dato".
+
+    `completar=True` (--completar): el crudo principal se reproduce igual, pero lo
+    que falte del complemento se baja (delay por dominio) y se agrega al crudo.
+    Esa pasada NO exporta: la salida sale de otra pasada sin red.
+    """
     manifest = raw.leer_manifest(corrida)
     fecha = fecha_de(corrida)
     fuentes = {cad: raw.ruta(cad, fecha, nombre)
                for cad, nombre in manifest.get("archivos", {}).items()}
+    nombre_qv = manifest.get("complementos", {}).get(CADENA_QUICKVIEW)
+    ruta_qv = raw.ruta("boticasperu", fecha, nombre_qv) if nombre_qv else None
     # Los adaptadores Algolia exigen keys al construirse; reproduciendo no se usan
     # (la llave del caché no incluye host ni headers).
     for var in _VARS_ALGOLIA:
         os.environ.setdefault(var, "sin-red")
 
     sesion = hc.SesionHttp(hc.REPRODUCIR, STAGING_DIR / "_no_usar", fuentes=fuentes)
+    if completar:
+        sesion_qv = hc.SesionHttp(hc.REANUDAR, STAGING_DIR / corrida / "quickview_completar",
+                                  delay=delay)
+        semilla = sesion_qv.archivo_staging(CADENA_QUICKVIEW)
+        semilla.parent.mkdir(parents=True, exist_ok=True)
+        # REANUDAR lee y amplía el staging: se siembra con el complemento previo.
+        semilla.write_bytes(raw.read("boticasperu", fecha, nombre_qv) if nombre_qv else b"")
+    else:
+        sesion_qv = hc.SesionHttp(hc.REPRODUCIR, STAGING_DIR / "_no_usar",
+                                  fuentes={CADENA_QUICKVIEW: ruta_qv} if ruta_qv else {})
+    enr = _enriquecedor(raw, sesion_qv, red=completar)
     try:
         data = build_snapshot.construir(
             manifest["args"]["objetivo"], pausa=0,
             adapter_kw=lambda cad: {"transport": sesion.transporte(cad)},
-            semillas=manifest["args"]["semillas"], generado=manifest["generado"])
+            semillas=manifest["args"]["semillas"], generado=manifest["generado"],
+            enriquecedor=enr)
     finally:
         sesion.cerrar()
+        sesion_qv.cerrar()
+        _cerrar_enriquecedor(enr)
     fallos = sesion.fallos()
     if fallos:
         raise ErrorCorrida(
             f"{len(fallos)} requests no están en el crudo de {corrida} (no se tocó la red). "
             "Primeras: " + " | ".join(fallos[:5]))
 
+    stats = {**sesion.estadisticas(), **sesion_qv.estadisticas()}
+    enriq = {**enr.stats, "imagenes": dict(enr.imagenes.stats)}
+    if completar:
+        _publicar_quickview(raw, corrida, sesion_qv, manifest)
+        manifest.setdefault("completado", []).append({
+            "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "requests": sesion_qv.estadisticas(), "enriquecimiento": enriq})
+        raw.escribir_manifest(corrida, manifest)
+        shutil.rmtree(STAGING_DIR / corrida, ignore_errors=True)
+
     previo = raw.leer_json_corrida(corrida, "previo.json.gz")
     eventos = cambios.diff_snapshots(previo, data)  # anota tendencia/promo_cambio in-place
-    return data, eventos, sesion.estadisticas()
+    stats["_enriquecimiento"] = enriq
+    return data, eventos, stats
 
 
 def validar(data: dict, requests: Dict[str, Dict[str, int]]) -> None:
@@ -281,8 +368,14 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
     """`requests` = lo que hizo la CAPTURA (manifest); `replay` = lo que leyó el
     procesado desde el crudo. Van en líneas separadas: en un --desde-cache, un
     "red=365" suelto parecía decir que el replay había tocado la red."""
+    replay = dict(replay) if replay is not None else None
+    enriq = replay.pop("_enriquecimiento", None) if replay is not None else None
     prods = data["productos"]
     por_cadena = {c: sum(1 for p in prods if c in p["precios"]) for c in CADENAS}
+    metodos: Dict[str, int] = {}
+    for p in prods:
+        for ev in [*(p.get("evidencia") or {}).values(), *(p.get("equivalentes") or {}).values()]:
+            metodos[ev["metodo"]] = metodos.get(ev["metodo"], 0) + 1
     multi = sum(1 for p in prods if len(p["precios"]) >= 2)
     todas = sum(1 for p in prods if len(p["precios"]) == len(CADENAS))
     lineas = [
@@ -299,6 +392,11 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
         *([f"  procesado desde el crudo: {sum(s.get('cache', 0) for s in replay.values())} "
            f"respuestas del caché · {sum(s.get('red', 0) for s in replay.values())} por red"]
           if replay is not None else []),
+        *([f"  cruces Boticas/Universal por método (equivalente = no es match): "
+           + ", ".join(f"{k} {v}" for k, v in sorted(metodos.items()))] if metodos else []),
+        *([f"  enriquecimiento F3: QuickView {enriq['quickview_con_rs']} con R.S. / "
+           f"{enriq['quickview_sin_dato']} sin dato · fotos {enriq['imagenes']}"]
+          if enriq else []),
         f"  errores: {len(errores)}" + ("".join(f"\n    - {e}" for e in errores)),
         "=" * 64,
     ]
@@ -315,6 +413,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                       help="reprocesa una corrida grabada, sin red")
     modo.add_argument("--reanudar", metavar="CORRIDA",
                       help="continúa una captura cortada y luego procesa + exporta")
+    modo.add_argument("--completar", metavar="FECHA|CORRIDA",
+                      help="F3: baja QuickView/fotos que le faltan a una corrida y reprocesa")
     modo.add_argument("--sincronizar", action="store_true",
                       help="solo copia RAW_DIR y Parquet a Drive (rclone copy)")
     ap.add_argument("--objetivo", type=int, default=150)
@@ -332,8 +432,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     errores: List[str] = []
     try:
         raw = RawStore(raw_dir_desde_entorno())
-        if args.desde_cache:
-            corrida = raw.resolver_corrida(args.desde_cache)
+        if args.desde_cache or args.completar:
+            corrida = raw.resolver_corrida(args.desde_cache or args.completar)
         elif args.reanudar:
             corrida = args.reanudar
         else:
@@ -357,7 +457,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     ruta_log, fh = _abrir_log(corrida)
     try:
         log(f"Corrida {corrida} · RAW_DIR={raw.root} · log={ruta_log}")
-        if not args.desde_cache:
+        if args.completar:
+            log(f"Paso completar (QuickView Boticas + fotos de los candidatos >= 60, "
+                f"delay por dominio {args.delay} s)")
+            _, _, st = procesar(raw, corrida, completar=True, delay=_parse_delay(args.delay))
+            log(f"  {st.get(CADENA_QUICKVIEW, {})} · {st['_enriquecimiento']}")
+        elif not args.desde_cache:
             log("Paso capturar (red, delay por dominio "
                 f"{args.delay} s, objetivo {args.objetivo}"
                 f"{', sin semillas' if args.sin_semillas else ''})")

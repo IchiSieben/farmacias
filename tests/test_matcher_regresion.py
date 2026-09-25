@@ -14,9 +14,10 @@ from __future__ import annotations
 
 import sys
 
+from core.ficha import clave_rs, extrae_rs_texto, ficha_de, normaliza_rs
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
-from pipeline.build_snapshot import _match_boticas
+from pipeline.build_snapshot import _match_boticas, _mejor_match
 
 
 def _p(nombre: str, sku: str) -> Producto:
@@ -85,6 +86,13 @@ DEBEN_BLOQUEAR = [
     ("Suprahyal (ác. hialurónico) ≠ Mensille (anticonceptivo inyectable)",
      "Suprahyal 25 Mg/2.5 Ml Solución Inyectable Jeringa Pre-llenada",
      "Mensille 25mg/5mg Suspensión Inyectable + Jeringa - Caja 1 UN"),
+    # --- F3, corrida 2026-09-25: se colaban por texto; antes los tapaba el veto por
+    # imagen, que se apagó (fotos del mismo producto difieren entre cadenas) ---
+    ("Aspirador Nasal Nuby ≠ Owawa Aspirador Nasal (dispositivo: manda la marca)",
+     "Aspirador Nasal Nuby", "Owawa Aspirador Nasal - Blíster 1 und"),
+    ("CeraVe limpiador en aceite ≠ CeraVe gel limpiador (aceite ≠ gel)",
+     "Limpiador Corporal de Ducha en Aceite Espumoso CeraVe",
+     "Cerave Gel Limpiador Espumoso - Frasco 473 ML"),
 ]
 
 DEBEN_CASAR = [
@@ -122,6 +130,17 @@ DEBEN_CASAR = [
      "Vitamina C 1000mg Tableta - Frasco 30 UN", "Vitamina C 1000 mg Tabletas - Frasco 30 UN"),
     ("Pediasure ↔ Pediasure (misma variante, distinta caja - solo tamaño)",
      "Pediasure Vainilla Polvo - Lata 850 G", "Pediasure Vainilla en Polvo - Lata 850 G"),
+    # --- F3: las reglas nuevas no rompen el cruce correcto del mismo producto ---
+    ("Aspirador Nasal Nuby ↔ Nuby Aspirador Nasal (misma marca)",
+     "Aspirador Nasal Nuby", "Nuby Aspirador Nasal  - Unidad 1 UN"),
+    ("CeraVe limpiador en aceite ↔ CeraVe limpiador en aceite (Universal)",
+     "Limpiador Corporal de Ducha en Aceite Espumoso CeraVe",
+     "Cerave Limpiador en Aceite Espumoso Hidratante Piel Normal a Seca - Frasco 473 ml"),
+    # --- F3: los vetaba la imagen (foto distinta entre cadenas) y eran correctos ---
+    ("Diclofenaco 1% gel ↔ gel tópico (foto de otra cadena, mismo producto)",
+     "Diclofenaco 1% Gel", "Diclofenaco 1% Gel Tópico - Tubo 50 G"),
+    ("Glucerna vainilla ↔ Glucerna vainilla lata (foto de otra cadena)",
+     "Glucerna Sabor Vainilla", "Glucerna Sabor Vainilla - Lata 850 G"),
 ]
 
 
@@ -138,6 +157,139 @@ GUARDA_PRECIO = [
     ("Simeticona S/2.70 ↔ S/6.60 (2,4×, genérico vs marca): brecha real, casa",
      "Simeticona 80mg/ml Suspensión Oral", 2.7,
      "Simeticona 80mg/ml Suspensión Oral - Frasco 15 ML", 6.6, True),
+]
+
+
+# Casos reales por la ruta _match_boticas, con los atributos que da cada fuente
+# (registro sanitario, presentación del detalle). (descripción, ref, candidato, ¿casa?)
+def _oferta(cadena: str, sku: str, nombre: str, precio: float, **attrs) -> Producto:
+    p = Producto(cadena=cadena, sku=sku, nombre_origen=nombre, precio=precio)
+    for k, v in attrs.items():
+        setattr(p, k, v)
+    return p
+
+
+_SUPRADYN_INKA = _oferta(
+    "inkafarma", "403172", "Supradyn Gragea", 48.0,
+    presentacion="FRASCO 30 UN", presentacion_kind="pack",
+    cantidad_envase=30.0, unidad_envase="un", registro_sanitario="DE-0340")
+
+CASOS_REALES = [
+    # Corrida 2026-09-25: texto, cantidad (30) y precio (S/48) coinciden, pero es
+    # OTRO producto: R.S. DE-3831 (comprimidos Energy) vs DE-0340 (grageas). Verificado a mano.
+    ("Supradyn Gragea DE-0340 ≠ Boticas Supradyn Energy DE-3831 (R.S. distinto)",
+     _SUPRADYN_INKA,
+     _oferta("boticasperu", "38936", "Supradyn Energy - Caja 30 UN", 48.0,
+             registro_sanitario="DE-3831"),
+     False),
+    ("Supradyn Gragea DE-0340 ↔ Universal Supradyn Grageas DE0340 (mismo R.S.)",
+     _SUPRADYN_INKA,
+     _oferta("universal", "u-supradyn", "Supradyn Multivitamínico Grageas - Caja 30 und", 48.0,
+             registro_sanitario="DE0340"),
+     True),
+]
+
+
+# Capa 4 (tests/matches_curados.yaml) y equivalentes, por la ruta real _mejor_match.
+_PANADOL_NINOS_INKA = _oferta(
+    "inkafarma", "093090", "Panadol Niños 160mg/5ml Jarabe", 15.1,
+    presentacion="FRASCO 60 ML", presentacion_kind="pack",
+    cantidad_envase=60.0, unidad_envase="ml", registro_sanitario="EE-09339")
+_PARACETAMOL_500_INKA = _oferta(
+    "inkafarma", "017987", "Paracetamol 500mg Tableta", 3.5,
+    presentacion="CAJA 100 UN", presentacion_kind="pack",
+    cantidad_envase=100.0, unidad_envase="un", registro_sanitario="EN-04550")
+
+# (descripción, ref, candidato, qué devuelve _mejor_match: "match" | "equivalente" | None, método)
+CURADO_Y_EQUIVALENTE = [
+    ("Panadol Niños Boticas: R.S. renumerado (EE-09339 ≠ E-14820), el curado manda",
+     _PANADOL_NINOS_INKA,
+     _oferta("boticasperu", "00907", "Panadol para Niños 2+ 160Mg Infantil Jarabe - Frasco 60 ML",
+             15.3, registro_sanitario="E-14820"),
+     "match", "curado"),
+    ("mismo par sin curar (otro sku): el R.S. distinto lo veta",
+     _PANADOL_NINOS_INKA,
+     _oferta("boticasperu", "otro-sku", "Panadol para Niños 2+ 160Mg Infantil Jarabe - Frasco 60 ML",
+             15.3, registro_sanitario="E-14820"),
+     "equivalente", "equivalente"),
+    ("Paracetamol 500 genérico de otro laboratorio (EN-04550 ≠ EE-08657): equivalente, no match",
+     _PARACETAMOL_500_INKA,
+     _oferta("boticasperu", "p500", "Paracetamol 500 Mg - Caja 100 UN", 4.2,
+             registro_sanitario="EE-08657"),
+     "equivalente", "equivalente"),
+    ("Supradyn Energy (DE-3831, texto 72): otra fórmula, ni match ni equivalente",
+     _SUPRADYN_INKA,
+     _oferta("boticasperu", "38936", "Supradyn Energy - Caja 30 UN", 48.0,
+             registro_sanitario="DE-3831"),
+     None, None),
+]
+
+
+# Capa 3 (imagen) y R.S. sin cantidad, sobre `comparar` con fichas armadas a mano.
+# Hashes sintéticos de 64 bits: _H0 base; _H_INTER a 12 bits (zona intermedia);
+# _H_DIST a 64 bits (claramente distinta).
+_H0 = "a5a5a5a5a5a5a5a5"
+_H_INTER = format(int(_H0, 16) ^ 0xFFF, "016x")
+_H_DIST = format(int(_H0, 16) ^ 0xFFFFFFFFFFFFFFFF, "016x")
+
+
+def _con_foto(p: Producto, h: str):
+    f = ficha_de(p)
+    f.imagen_phash = f.imagen_dhash = h
+    return f
+
+
+_SUPRADYN_BOT_OK = _oferta("boticasperu", "b-ok", "Supradyn Multivitamínico Grageas - Caja 30 UN", 48.1)
+_PARACETAMOL_INKA = _oferta("inkafarma", "p1", "Paracetamol 500mg Tableta", 5.0,
+                            presentacion="CAJA 100 UN", cantidad_envase=100.0,
+                            unidad_envase="un", fuentes={"cantidad": "atributo"})
+_PARACETAMOL_BOT = _oferta("boticasperu", "p2", "Paracetamol 500mg Tableta - Caja 100 UN", 5.5)
+_PARACETAMOL_NOMBRE = _oferta("inkafarma", "p3", "Paracetamol 500mg Tableta - Caja 100 UN", 5.0)
+
+# (descripción, a, ficha a, b, ficha b, ¿casa?, método esperado o None)
+CAPA_FICHA = [
+    ("mismo R.S. pero otra cantidad (30 vs 60): la cantidad manda, no es llave",
+     _SUPRADYN_INKA, None,
+     _oferta("universal", "u60", "Supradyn Multivitamínico Grageas - Caja 60 und", 90.0,
+             registro_sanitario="DE0340"), None, False, None),
+    ("texto 69,6 (sin R.S.) + foto idéntica: la imagen confirma 60–85",
+     _SUPRADYN_INKA, _con_foto(_SUPRADYN_INKA, _H0),
+     _SUPRADYN_BOT_OK, _con_foto(_SUPRADYN_BOT_OK, _H0), True, "imagen"),
+    ("texto 69,6 + foto en zona intermedia: no decide (sigue sin casar)",
+     _SUPRADYN_INKA, _con_foto(_SUPRADYN_INKA, _H0),
+     _SUPRADYN_BOT_OK, _con_foto(_SUPRADYN_BOT_OK, _H_INTER), False, "fuzzy"),
+    # El veto por imagen está apagado (matcher.VETO_IMAGEN): fotos del mismo producto
+    # difieren entre cadenas tanto como dos productos al azar.
+    ("texto 100 + foto claramente distinta + cantidad de atributo: NO veta (veto apagado)",
+     _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), True, "fuzzy"),
+    ("texto 100 + foto en zona intermedia: no veta",
+     _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_INTER), True, "fuzzy"),
+    ("texto 100 + foto distinta, cantidades solo del nombre: no veta",
+     _PARACETAMOL_NOMBRE, _con_foto(_PARACETAMOL_NOMBRE, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), True, "fuzzy"),
+]
+
+
+# Parseo del registro sanitario: (descripción, entrada, R.S. normalizado esperado).
+# Entrada str -> normaliza_rs (campo propio); tuple -> extrae_rs_texto (descripción).
+RS_PARSEO = [
+    ("DE-0340 tal cual", "DE-0340", "DE-0340"),
+    ("DE0340 sin guion (Universal)", "DE0340", "DE-0340"),
+    ("'DE 0340' con espacio", "DE 0340", "DE-0340"),
+    ("minúsculas", "de-0340", "DE-0340"),
+    ("texto que no es R.S.", "Caja 30 UN", None),
+    ("descripción Inka: 'Registro Sanitario DE-0340'",
+     ("<ul><li>Sabor a Naranja</li><li>Registro Sanitario DE-0340</li></ul>",), "DE-0340"),
+    ("'Reg. San. DE-0340' seguido de un RUC (no agarra el RUC)",
+     ("No superar la dosis. Reg. San. DE-0340. Bayer S.A – RUC 20100096341",), "DE-0340"),
+    ("'R.S: EN-02157' (Inka, analgésicos)", ("<ul><li>R.S: EN-02157</li></ul>",), "EN-02157"),
+    ("mismo R.S. repetido en dos secciones -> uno",
+     ("Registro Sanitario DE-0340", "Reg. San. DE0340"), "DE-0340"),
+    ("pack con DOS R.S. distintos -> ninguno",
+     ("RS EN-00538 Mentholatum", "R.S. EN-07516"), None),
+    ("RUC suelto sin etiqueta -> ninguno", ("Bayer S.A – RUC 20100096341",), None),
 ]
 
 
@@ -186,7 +338,52 @@ def main() -> int:
         fallos += not ok
         print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
 
-    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO)
+    print("\n" + "=" * 78)
+    print("CASOS REALES (ruta _match_boticas con atributos de la fuente)")
+    print("=" * 78)
+    for desc, ref, cand, esperado in CASOS_REALES:
+        casa = _match_boticas(ref, [cand]) is not None
+        ok = casa == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
+
+    print("\n" + "=" * 78)
+    print("CAPA 4 (curados) Y EQUIVALENTES, ruta _mejor_match")
+    print("=" * 78)
+    for desc, ref, cand, esperado, metodo in CURADO_Y_EQUIVALENTE:
+        best, r, eq, eq_r = _mejor_match(ref, [cand])
+        got = "match" if best else "equivalente" if eq else None
+        got_m = r.metodo if best else "equivalente" if eq else None
+        ok = got == esperado and got_m == metodo
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {str(got):12} {desc}")
+        if not ok:
+            print(f"          ! {(r or eq_r).motivo if (r or eq_r) else 'sin candidato'}")
+
+    print("\n" + "=" * 78)
+    print("FICHA: imagen (Capa 3) y R.S. sin cantidad, sobre comparar()")
+    print("=" * 78)
+    for desc, a, fa, b, fb, casa, metodo in CAPA_FICHA:
+        r = comparar(a, b, fa=fa, fb=fb)
+        ok = r.es_match == casa and (metodo is None or r.metodo == metodo)
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] score={r.score:5.1f} {r.metodo:18} {desc}")
+        if not ok:
+            print(f"          ! {r.motivo}")
+
+    print("\n" + "=" * 78)
+    print("REGISTRO SANITARIO (parseo y normalización)")
+    print("=" * 78)
+    for desc, entrada, esperado in RS_PARSEO:
+        got = normaliza_rs(entrada) if isinstance(entrada, str) else extrae_rs_texto(*entrada)
+        ok = got == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {str(got):10} {desc}")
+    ok = clave_rs("DE-340") == clave_rs("DE-0340") != clave_rs("DE-3401")
+    fallos += not ok
+    print(f"  [{'OK' if ok else 'FALLA':5}] {'':10} clave: DE-340 == DE-0340 ≠ DE-3401")
+
+    total = len(CURADO_Y_EQUIVALENTE) + len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

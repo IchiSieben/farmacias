@@ -147,7 +147,8 @@ class SesionHttp:
     def __init__(self, modo: str, staging: Path, *,
                  fuentes: Optional[Dict[str, Path]] = None,
                  delay: Tuple[float, float] = (2.0, 6.0),
-                 red: Optional[httpx.BaseTransport] = None) -> None:
+                 red: Optional[httpx.BaseTransport] = None,
+                 turnos: Optional["SesionHttp"] = None) -> None:
         if modo not in MODOS:
             raise ValueError(f"modo inválido: {modo}")
         self.modo = modo
@@ -157,6 +158,11 @@ class SesionHttp:
         self.red = red  # transporte "de red" inyectable (tests); None -> HTTPTransport real
         self._ultimo_por_host: Dict[str, float] = {}
         self._lock = threading.Lock()
+        if turnos is not None:
+            # Otra sesión al mismo dominio (el QuickView de F3 junto al grid de
+            # Boticas): el delay por dominio se cuenta una sola vez para ambas.
+            self._ultimo_por_host = turnos._ultimo_por_host
+            self._lock = turnos._lock
         self.transportes: Dict[str, "TransporteCache"] = {}
 
     @property

@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from core import http_cache as hc
+from core.adapter_base import CredencialRechazada
 from core.adapters.algolia_inretail import _load_dotenv
 from core.storage import RawStore, StorageError, fecha_de, nuevo_id_corrida, raw_dir_desde_entorno
 from pipeline import build_snapshot, cambios
@@ -125,6 +126,13 @@ def capturar(raw: RawStore, corrida: str, *, objetivo: int, semillas: bool,
         data = build_snapshot.construir(
             objetivo, adapter_kw=lambda cad: {"transport": sesion.transporte(cad)},
             semillas=semillas)
+    except CredencialRechazada as exc:
+        # Se corta en el PRIMER rechazo. El staging se conserva: tras recapturar la
+        # key, --reanudar sigue sin repetir lo ya bajado.
+        manifest.update({"estado": "abortada", "motivo": str(exc),
+                         "requests": sesion.estadisticas()})
+        raw.escribir_manifest(corrida, manifest)
+        raise ErrorCorrida(f"{exc} (corrida {corrida})") from exc
     finally:
         sesion.cerrar()
 

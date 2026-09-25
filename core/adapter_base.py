@@ -31,6 +31,14 @@ USER_AGENTS = [
 ]
 
 
+class CredencialRechazada(RuntimeError):
+    """El sitio rechazó la credencial (401/403): seguir solo repite el rechazo.
+
+    Los pipelines NO deben tragarla con un `except Exception` genérico: aborta la
+    corrida en el primer rechazo (V2_PLAN §4, rotación de llaves).
+    """
+
+
 class AdapterBase(abc.ABC):
     """Clase base para los adaptadores por cadena."""
 
@@ -94,11 +102,15 @@ class AdapterBase(abc.ABC):
                 if not self._offline:
                     time.sleep(min(2 ** i, 30))
                 continue
+            self._revisar_credencial(resp)
             resp.raise_for_status()
             return resp.json()
         assert ultimo is not None
         ultimo.raise_for_status()
         return ultimo.json()
+
+    def _revisar_credencial(self, resp: httpx.Response) -> None:
+        """Hook: los adaptadores con llave lanzan `CredencialRechazada` en 401/403."""
 
     # --- interfaz que deben implementar los adaptadores ---------------------
     @abc.abstractmethod

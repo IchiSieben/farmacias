@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from core.adapter_base import CredencialRechazada
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
@@ -272,6 +273,8 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     break
                 try:
                     hits = ink.search(t, limit=3)
+                except CredencialRechazada:
+                    raise  # key rotada: seguir solo repite el 403 con cada término
                 except Exception as exc:
                     print(f"  ! inka '{t}': {exc}", file=sys.stderr)
                     continue

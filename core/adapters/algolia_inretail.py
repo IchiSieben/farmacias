@@ -34,7 +34,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
 
-from ..adapter_base import AdapterBase
+from ..adapter_base import AdapterBase, CredencialRechazada
 from ..modelo import Producto
 from ..normalizer import extrae_tamano
 
@@ -277,8 +277,24 @@ class AlgoliaInRetailAdapter(AdapterBase):
         resp = self._client.get(url)
         if resp.status_code == 404:
             return None
+        self._revisar_credencial(resp)
         resp.raise_for_status()
         return self._map_hit(resp.json(), raw=raw)
+
+    def _revisar_credencial(self, resp) -> None:
+        """401/403 de Algolia = la key pública del frontend rotó: abortar ya."""
+        if resp.status_code not in (401, 403):
+            return
+        pref = self.cadena.upper()
+        sitio = self.origin or f"la web de {self.cadena}"
+        raise CredencialRechazada(
+            f"Algolia respondió {resp.status_code} para {self.cadena}: rotó la key "
+            f"{pref}_ALGOLIA_API_KEY (o {pref}_ALGOLIA_APP_ID). Recapturar: abrir {sitio} "
+            "con DevTools > Network, filtrar 'algolia', buscar algo en el sitio y copiar "
+            "de la request '/queries' los headers x-algolia-application-id y "
+            f"x-algolia-api-key a {pref}_ALGOLIA_APP_ID / {pref}_ALGOLIA_API_KEY en .env. "
+            "Luego reanudar: py -m pipeline.run --reanudar <corrida>."
+        )
 
     # --- DETALLE: presentaciones por producto (API REST, no Algolia) -------
     def _producto_presentacion(self, d: Dict[str, Any], *, kind: str, etiqueta: str,

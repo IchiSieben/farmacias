@@ -30,6 +30,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 import random
 import threading
 import time
@@ -119,19 +120,25 @@ def cargar_registros(ruta: Path) -> Dict[str, Deque[Dict[str, Any]]]:
     return colas
 
 
-def _truncar_linea_cortada(ruta: Path) -> None:
+def _limpiar_staging(ruta: Path) -> None:
     """Corta el staging en el último salto de línea.
 
     Si la corrida murió a mitad de un `write`, la última línea queda a medias; sin
     esto, lo que se anote al reanudar quedaría pegado a ese fragmento y se perdería.
+    Además descarta las respuestas 401/403: se reanuda después de recapturar la key,
+    y reproducir el rechazo grabado volvería a abortar la corrida.
     """
     if not ruta.exists():
         return
-    with open(ruta, "rb+") as fh:
-        datos = fh.read()
-        if not datos or datos.endswith(b"\n"):
-            return
-        fh.truncate(datos.rfind(b"\n") + 1)
+    datos = ruta.read_bytes()
+    lineas = datos[:datos.rfind(b"\n") + 1].splitlines(keepends=True)
+    utiles = [ln for ln in lineas
+              if json.loads(ln).get("status") not in (401, 403)]
+    if len(utiles) == len(lineas) and datos.endswith(b"\n"):
+        return
+    tmp = ruta.with_name(ruta.name + ".tmp")
+    tmp.write_bytes(b"".join(utiles))
+    os.replace(tmp, ruta)
 
 
 class SesionHttp:
@@ -164,7 +171,7 @@ class SesionHttp:
             if self.modo == REPRODUCIR:
                 previas = cargar_registros(self.fuentes.get(cadena, Path("__sin_fuente__")))
             elif self.modo == REANUDAR:
-                _truncar_linea_cortada(self.archivo_staging(cadena))
+                _limpiar_staging(self.archivo_staging(cadena))
                 previas = cargar_registros(self.archivo_staging(cadena))
             else:
                 previas = {}

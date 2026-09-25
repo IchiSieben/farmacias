@@ -126,6 +126,23 @@ def main() -> int:
         check(st["http_404"] == 1 and st["http_error"] == 1 and st["http_auth"] == 1,
               "404 informativo, 403 = error de auth")
 
+        # 4d) reanudar tras recapturar la key: el 403 grabado no se vuelve a servir
+        st6 = tmp / "staging6"
+        s6 = hc.SesionHttp(hc.GRABAR, st6, delay=(0, 0),
+                           red=httpx.MockTransport(lambda r: httpx.Response(403)))
+        try:
+            _cliente(s6, "inkafarma").get("/p")
+        finally:
+            s6.cerrar()
+        LLAMADAS.clear()
+        s7 = hc.SesionHttp(hc.REANUDAR, st6, delay=(0, 0), red=red)
+        ok = _cliente(s7, "inkafarma").get("/p").status_code
+        s7.cerrar()
+        estados = [r["status"] for q in hc.cargar_registros(st6 / "inkafarma.jsonl").values()
+                   for r in q]
+        check(ok == 200 and LLAMADAS == ["/p"] and estados == [200],
+              "reanudar descarta el 403 grabado y vuelve a pedir")
+
         # 5) llave: orden de query y de claves JSON no importa
         r1 = httpx.Request("POST", "https://a.test/x?b=1&a=2", json={"x": 1, "y": 2})
         r2 = httpx.Request("POST", "https://b.test/x?a=2&b=1", json={"y": 2, "x": 1},

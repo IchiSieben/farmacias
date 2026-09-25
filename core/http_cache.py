@@ -119,6 +119,21 @@ def cargar_registros(ruta: Path) -> Dict[str, Deque[Dict[str, Any]]]:
     return colas
 
 
+def _truncar_linea_cortada(ruta: Path) -> None:
+    """Corta el staging en el último salto de línea.
+
+    Si la corrida murió a mitad de un `write`, la última línea queda a medias; sin
+    esto, lo que se anote al reanudar quedaría pegado a ese fragmento y se perdería.
+    """
+    if not ruta.exists():
+        return
+    with open(ruta, "rb+") as fh:
+        datos = fh.read()
+        if not datos or datos.endswith(b"\n"):
+            return
+        fh.truncate(datos.rfind(b"\n") + 1)
+
+
 class SesionHttp:
     """Una corrida: un transporte por cadena, delays por dominio compartidos."""
 
@@ -149,6 +164,7 @@ class SesionHttp:
             if self.modo == REPRODUCIR:
                 previas = cargar_registros(self.fuentes.get(cadena, Path("__sin_fuente__")))
             elif self.modo == REANUDAR:
+                _truncar_linea_cortada(self.archivo_staging(cadena))
                 previas = cargar_registros(self.archivo_staging(cadena))
             else:
                 previas = {}
@@ -193,7 +209,10 @@ class TransporteCache(httpx.BaseTransport):
         self._red: Optional[httpx.BaseTransport] = None
         self._fh = None
         self.faltantes: List[str] = []
-        self.stats = {"red": 0, "cache": 0, "http_error": 0, "red_error": 0, "faltantes": 0}
+        # http_404 es informativo (p.ej. detalle InRetail inexistente = "sin
+        # presentaciones", caso normal). http_auth (401/403) suele ser key rotada.
+        self.stats = {"red": 0, "cache": 0, "http_error": 0, "http_404": 0, "http_auth": 0,
+                      "red_error": 0, "faltantes": 0}
 
     # --- caché ----------------------------------------------------------------
     def _desde_cache(self, k: str) -> Optional[Dict[str, Any]]:
@@ -245,8 +264,12 @@ class TransporteCache(httpx.BaseTransport):
             self.stats["red_error"] += 1
             self._anotar({**base, "error": {"tipo": type(exc).__name__, "mensaje": str(exc)}})
             raise
-        if resp.status_code >= 400:
+        if resp.status_code == 404:
+            self.stats["http_404"] += 1
+        elif resp.status_code >= 400:
             self.stats["http_error"] += 1
+            if resp.status_code in (401, 403):
+                self.stats["http_auth"] += 1
         registro = {
             **base,
             "status": resp.status_code,

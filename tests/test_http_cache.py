@@ -102,6 +102,30 @@ def main() -> int:
         n_lineas = len((tmp / "staging" / "inkafarma.jsonl").read_text(encoding="utf-8").splitlines())
         check(n_lineas == 5, "reanudar anota lo nuevo en el mismo staging")
 
+        # 4b) corte a mitad de un write: la última línea del staging queda a medias
+        staging = tmp / "staging" / "inkafarma.jsonl"
+        with open(staging, "a", encoding="utf-8") as fh:
+            fh.write('{"k": "cortada", "cuerpo": "<html>mitad de la respu')
+        LLAMADAS.clear()
+        s4 = hc.SesionHttp(hc.REANUDAR, tmp / "staging", delay=(0, 0), red=red)
+        _cliente(s4, "inkafarma").get("/tras-el-corte")
+        s4.cerrar()
+        colas = hc.cargar_registros(staging)
+        nueva = hc.llave(httpx.Request("GET", "https://x.test/tras-el-corte"))
+        check(LLAMADAS == ["/tras-el-corte"] and nueva in colas,
+              "reanudar tras línea cortada: lo nuevo se conserva")
+        check("cortada" not in colas, "el fragmento cortado se descarta")
+
+        # 4c) 404 es informativo; 403 cuenta como error de auth
+        s5 = hc.SesionHttp(hc.GRABAR, tmp / "staging5", delay=(0, 0), red=httpx.MockTransport(
+            lambda r: httpx.Response(404 if r.url.path == "/no" else 403)))
+        c5 = _cliente(s5, "mifarma")
+        c5.get("/no"); c5.get("/auth")
+        s5.cerrar()
+        st = s5.estadisticas()["mifarma"]
+        check(st["http_404"] == 1 and st["http_error"] == 1 and st["http_auth"] == 1,
+              "404 informativo, 403 = error de auth")
+
         # 5) llave: orden de query y de claves JSON no importa
         r1 = httpx.Request("POST", "https://a.test/x?b=1&a=2", json={"x": 1, "y": 2})
         r2 = httpx.Request("POST", "https://b.test/x?a=2&b=1", json={"y": 2, "x": 1},

@@ -31,6 +31,7 @@ import argparse
 import glob
 import gzip
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -224,6 +225,21 @@ def _escribir(ruta: Path, obj: dict) -> None:
     ruta.write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
+def _proporcion(ruta: Path) -> Optional[float]:
+    """Ancho/alto de un logo (SVG por viewBox/width-height, raster por Pillow)."""
+    if not ruta.exists():
+        return None
+    if ruta.suffix.lower() == ".svg":
+        cab = ruta.read_text(encoding="utf-8", errors="replace")[:2000]
+        m = re.search(r'viewBox="\s*[\d.-]+[\s,]+[\d.-]+[\s,]+([\d.]+)[\s,]+([\d.]+)', cab)
+        if m and float(m.group(2)):
+            return round(float(m.group(1)) / float(m.group(2)), 3)
+        return None
+    from PIL import Image
+    with Image.open(ruta) as im:
+        return round(im.width / im.height, 3)
+
+
 def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Optional[Path],
              logos: Optional[Path]) -> Dict[str, Any]:
     idx = indice_crudo(raw)
@@ -232,11 +248,16 @@ def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Option
     base = {"version": VERSION_ESQUEMA, "generado": gen}
 
     info_logos = json.loads(logos.read_text(encoding="utf-8")) if logos and logos.exists() else {}
-    cadenas = [{
-        "id": c["id"], "nombre": c["nombre"], "grupo": c.get("grupo"),
-        "color": (info_logos.get(c["id"]) or {}).get("color"),
-        "logo": (info_logos.get(c["id"]) or {}).get("archivo"),
-    } for c in data["cadenas"]]
+    cadenas = []
+    for c in data["cadenas"]:
+        info = info_logos.get(c["id"]) or {}
+        archivo = info.get("archivo")
+        cadenas.append({
+            "id": c["id"], "nombre": c["nombre"], "grupo": c.get("grupo"),
+            "color": info.get("color"), "logo": archivo,
+            # ancho/alto del logo: la UI reserva el hueco antes de que cargue (sin CLS)
+            "logo_ratio": _proporcion(logos.parent / archivo) if archivo else None,
+        })
     cats = sorted({f["cat"] for f in filas if f["cat"]})
     k = kpis(filas)
 

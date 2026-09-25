@@ -34,6 +34,7 @@ import json
 import re
 import shutil
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
 
@@ -180,20 +181,48 @@ def fila(p: dict, idx: Dict[str, Dict[str, dict]]) -> dict:
 
 
 # --- historial --------------------------------------------------------------------
+# Cadenas que se cruzan por fuzzy (nombre + cantidad), no por id compartido.
+_FUZZY = ("boticasperu", "universal")
+# Misma guarda que pipeline/build_snapshot._precio_plausible: los snapshots viejos
+# (v1 de junio, y el del 2026-09-25 escrito antes de fix/cruce-fuzzy) no pasaron por
+# ella, y el historial dibujaría como "precio de Boticas" el de otro producto.
+_RATIO_MIN, _RATIO_MAX = 1 / 3, 3.0
+_LIMA = timezone(timedelta(hours=-5))
+
+
+def _plausible(precio: float, ref: Optional[float]) -> bool:
+    return not ref or _RATIO_MIN <= precio / ref <= _RATIO_MAX
+
+
 def historial(snapshots: Optional[Path], ids: set) -> Dict[str, List[dict]]:
-    series: Dict[str, List[dict]] = {i: [] for i in ids}
+    """Serie diaria por producto: [{fecha: 'AAAA-MM-DD' (Lima), precios, promos}].
+
+    Un punto por día y por cadena: el último precio que ESA cadena mostró ese día (no
+    el último snapshot entero: las corridas de prueba parciales harían desaparecer
+    cadenas). Los cruces fuzzy implausibles (>3× vs Inkafarma) se descartan.
+    """
+    dias: Dict[str, Dict[str, Dict[str, tuple]]] = {i: {} for i in ids}
     if snapshots is None or not snapshots.is_dir():
-        return series
+        return {i: [] for i in ids}
     for f in sorted(snapshots.glob("snapshot_*.json")):
         d = json.loads(f.read_text(encoding="utf-8"))
+        dia = datetime.fromisoformat(d["generado"]).astimezone(_LIMA).date().isoformat()
         for p in d.get("productos", []):
-            if p["id"] in series:
-                series[p["id"]].append({
-                    "fecha": d["generado"],
-                    "precios": {c: p["precios"][c] for c in CADENAS_ORDEN if c in p["precios"]},
-                    "promos": {c: bool(v) for c, v in (p.get("promos") or {}).items()},
-                })
-    return series
+            if p["id"] not in dias:
+                continue
+            ref = p["precios"].get("inkafarma")
+            promos = p.get("promos") or {}
+            por_cadena = dias[p["id"]].setdefault(dia, {})
+            for c in CADENAS_ORDEN:
+                v = p["precios"].get(c)
+                if v is None or (c in _FUZZY and not _plausible(v, ref)):
+                    continue
+                por_cadena[c] = (v, bool(promos.get(c)))  # sorted(): gana el último del día
+    return {i: [{"fecha": dia,
+                 "precios": {c: v for c, (v, _) in sorted(pc.items(), key=lambda x: CADENAS_ORDEN.index(x[0]))},
+                 "promos": {c: pr for c, (_, pr) in pc.items()}}
+                for dia, pc in sorted(por_dia.items()) if pc]
+            for i, por_dia in dias.items()}
 
 
 # --- KPIs -------------------------------------------------------------------------

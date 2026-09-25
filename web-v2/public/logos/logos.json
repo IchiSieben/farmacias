@@ -1,0 +1,26 @@
+{
+ "inkafarma": {
+  "archivo": null,
+  "color": "#11aa55",
+  "fuente": "monograma",
+  "origen": "https://inkafarma.pe/assets/icons/inkafarma/favicon.ico"
+ },
+ "mifarma": {
+  "archivo": "mifarma.svg",
+  "color": "#ff7929",
+  "fuente": "og:image",
+  "origen": "https://images.ctfassets.net/buvy887680uc/3f1z1TRfyGL0gSeubGwUKm/788001d462053aed81aa6b8650e61331/imagotipo-color.svg"
+ },
+ "boticasperu": {
+  "archivo": "boticasperu.png",
+  "color": "#334499",
+  "fuente": "header-img",
+  "origen": "https://www.boticasperu.pe/on/demandware.static/Sites-BoticasPeru-Site/-/default/dw98408d89/images/logo.png"
+ },
+ "universal": {
+  "archivo": "universal.png",
+  "color": "#004499",
+  "fuente": "header-img",
+  "origen": "https://farmaciauniversalpe.vtexassets.com/arquivos/farmacia-universal-logo.png"
+ }
+}

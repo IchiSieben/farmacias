@@ -52,6 +52,7 @@
   "unidad.g": "g",
   "vacio.titulo": "No encontramos productos con esos filtros",
   "vacio.texto": "Prueba con otro nombre o principio activo, o quita algún filtro.",
+  "vacio.sugeridos": "paracetamol|ibuprofeno|vitamina c|omeprazol",
   "vacio.prueba": "Prueba con:",
   "pie.aviso": "Proyecto independiente. No está afiliado a ninguna de las cadenas mencionadas; sus nombres y logos pertenecen a sus dueños. Los precios son públicos, pueden cambiar y deben confirmarse en cada tienda.",
   "pie.codigo": "Código en GitHub",

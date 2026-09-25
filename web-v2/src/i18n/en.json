@@ -52,6 +52,7 @@
   "unidad.g": "g",
   "vacio.titulo": "No products match these filters",
   "vacio.texto": "Try another name or active ingredient, or remove a filter.",
+  "vacio.sugeridos": "paracetamol|ibuprofeno|vitamina c|omeprazol",
   "vacio.prueba": "Try:",
   "pie.aviso": "Independent project. Not affiliated with any of the pharmacies listed; their names and logos belong to their owners. Prices are public, may change and should be confirmed at each store.",
   "pie.codigo": "Code on GitHub",

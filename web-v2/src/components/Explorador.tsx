@@ -18,7 +18,6 @@ interface Props {
 }
 
 const PAGINA = 30;
-const SUGERIDOS = ['paracetamol', 'ibuprofeno', 'vitamina c', 'omeprazol'];
 const LOCALE = { es: 'es-PE', en: 'en-US' } as const;
 
 // --- estado <-> URL (?q=&cat=&cad=&orden=) ------------------------------------
@@ -254,7 +253,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
           <p className="mt-1 text-suave">{tx('vacio.texto')}</p>
           <p className="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm">
             <span className="text-suave">{tx('vacio.prueba')}</span>
-            {SUGERIDOS.map((s) => (
+            {tx('vacio.sugeridos').split('|').map((s) => (
               <button key={s} type="button" onClick={() => setF({ ...FILTROS_INICIALES(ids), q: s })}
                 className="rounded-full border border-borde px-3 py-1 hover:bg-superficie-2">{s}</button>
             ))}

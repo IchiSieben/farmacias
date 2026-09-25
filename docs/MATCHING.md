@@ -87,10 +87,22 @@ Cada entrada lleva motivo y fecha de revisión. La regresión cubre la ruta real
 
 ## 7. Riesgos conocidos
 
-- **Las cadenas se equivocan en el R.S.** Tapsin Plus Día y Tapsin Instaflu Noche
-  comparten R.S. EE-05657 en Boticas: el R.S. + cantidad los casa aunque sean productos
-  distintos. La Capa 1 por R.S. corre antes que las reglas duras. Arreglo si se repite:
-  entrada `veto` en el curado, o que la regla de variante (día/noche) corra antes.
+- **R.S. dudoso en una cadena (sospecha, sin verificar).** Dos URLs de Boticas
+  (Tapsin Plus Día y la de "Noche") devuelven el mismo R.S. EE-05657 en su QuickView, y
+  Tapsin Plus Día de Inkafarma casó con la de "Noche" por R.S. + cantidad. La Capa 1
+  por R.S. corre antes que las reglas duras. Si se confirma: entrada `veto` en el
+  curado, o que la regla de variante (día/noche) corra antes.
+- **El laboratorio no se compara cuando falta el R.S.** El veto por R.S. solo actúa
+  si ambos lados lo traen, e Inkafarma no lo trae en ~120 de 224 detalles. Ninguna
+  regla compara `laboratorio`, así que un genérico de otro laboratorio puede casar por
+  texto. Corrida 2026-09-25: 94 cruces `fuzzy`/`imagen` sin R.S. en algún lado; en 6
+  el nombre o la URL nombra laboratorios distintos (p.ej. Cetirizina jarabe
+  "Portugal" ↔ Universal "FI", S/ 2,90 vs 7,13).
+- **Un SKU de una cadena puede quedar en dos filas.** No hay restricción uno a uno:
+  9 SKUs de Boticas/Universal están cruzados con dos filas de Inkafarma (16 en `main`).
+  Algunos son duplicados de Inkafarma (mismo producto listado dos veces), otros son
+  errores: Eucerin Oil Control y La Roche-Posay Anthelios casan con el mismo Anthelios
+  de Boticas; "Ensure" y "Ensure Advance" con el mismo Ensure Advance.
 - **Cambio de SKU cruzado = evento falso.** Si un cruce cambia de SKU entre dos
   corridas, `pipeline/cambios.py` ve una subida o bajada que no pasó. Pasará en la
   primera corrida tras el merge de F3.

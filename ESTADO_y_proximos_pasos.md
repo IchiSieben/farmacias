@@ -124,13 +124,18 @@ Universal: 1 nuevo, 4 caen). Los que caen son vetos por R.S. (genéricos de otro
 laboratorio, marcas distintas) o las reglas nuevas. Regresión 66/66.
 
 Pendiente F3:
-1. Revisión humana de la muestra de 30 y de los dos sospechosos: Tapsin Plus Día casó
-   con la URL "Noche" de Boticas (misma R.S. EE-05657 en Boticas: error de la cadena) y
-   Huggies Puro y Natural con "recién nacido" (foto idéntica).
-2. PR `v2/f3-matcher` → `main`. La primera corrida tras el merge dará ▲▼ falsos en las
+1. Revisión humana de la muestra de 30 y de los sospechosos: Tapsin Plus Día casó
+   con la URL "Noche" de Boticas (mismo R.S. EE-05657 en las dos URLs de Boticas;
+   sospecha de error de la cadena, sin verificar) y Huggies Puro y Natural con
+   "recién nacido" (foto idéntica).
+2. Decidir dos reglas (cambian el matcher, no se hicieron sin OK): laboratorio
+   distinto ⇒ no es la misma fila (6 casos detectados por nombre/URL), y cruce uno a
+   uno (9 SKUs en dos filas; Eucerin↔Anthelios, Ensure↔Ensure Advance). Ver
+   `docs/MATCHING.md` §7.
+3. PR `v2/f3-matcher` → `main`. La primera corrida tras el merge dará ▲▼ falsos en las
    filas cuyo SKU cruzado cambió.
-3. `match_id` estable (no se hizo).
-4. `data.json` pasa de 334 a 462 KB por la evidencia: F4 debe partirla (ya está
+4. `match_id` estable (no se hizo).
+5. `data.json` pasa de 334 a 462 KB por la evidencia: F4 debe partirla (ya está
    planeado `web/data/` particionado).
 
 ### F2 — por dónde empezar
@@ -149,8 +154,8 @@ Pendiente F3:
 - Llaves Algolia rotan → 403; recapturar desde DevTools y actualizar `.env`. Desde F1
   la corrida v2 **no exporta** si ve 401/403 (código 2, staging intacto) y corta en el
   primer 403 diciendo qué key rotó.
-- Las cadenas publican R.S. equivocados (Tapsin Día/Noche en Boticas). El R.S. +
-  cantidad corre antes que las reglas duras: si se repite, curar con `decision: veto`.
+- Posible R.S. equivocado en Boticas (Tapsin Día/Noche, sin verificar). El R.S. +
+  cantidad corre antes que las reglas duras: si se confirma, curar con `decision: veto`.
 - Corridas pesadas contra Boticas se han cortado alguna vez. Desde F1,
   `py -m pipeline.run --reanudar <corrida>` sigue desde el staging sin repetir
   requests. No reintentar en bucle.

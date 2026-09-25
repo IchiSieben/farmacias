@@ -183,6 +183,23 @@ def procesar(raw: RawStore, corrida: str) -> Tuple[dict, List[dict], Dict[str, A
     return data, eventos, sesion.estadisticas()
 
 
+def validar(data: dict, requests: Dict[str, Dict[str, int]]) -> None:
+    """Guarda antes de exportar: una corrida rota no pisa web/data.json ni el histórico.
+
+    Si se exportara, el snapshot vacío sería el `previo` de mañana: todo saldría
+    "nuevo" y se perderían las ▲▼. El crudo queda en RAW_DIR para diagnosticar.
+    """
+    auth = {c: s.get("http_auth", 0) for c, s in requests.items() if s.get("http_auth")}
+    if auth:
+        raise ErrorCorrida(
+            f"respuestas 401/403 en {auth}: probable key Algolia rotada. Recapturarla "
+            "(DevTools), actualizar .env y volver a capturar. No se exportó nada.")
+    prods = data.get("productos", [])
+    if not prods or not any("inkafarma" in p["precios"] for p in prods):
+        raise ErrorCorrida(f"snapshot sin filas de Inkafarma ({len(prods)} filas): "
+                           "no se exportó nada.")
+
+
 def exportar(data: dict, eventos: List[dict], corrida: str, *, salida: Path,
              historial: bool) -> List[Path]:
     """Snapshot -> web/data.json (mismo formato que la v1) + histórico."""
@@ -214,7 +231,7 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
                                    sorted(cambios.resumen_eventos(eventos).items())) or "ninguno"),
         "  requests: " + " · ".join(
             f"{c} red={s.get('red', 0)} cache={s.get('cache', 0)} "
-            f"err={s.get('http_error', 0) + s.get('red_error', 0)}"
+            f"404={s.get('http_404', 0)} err={s.get('http_error', 0) + s.get('red_error', 0)}"
             for c, s in requests.items()),
         f"  errores: {len(errores)}" + ("".join(f"\n    - {e}" for e in errores)),
         "=" * 64,
@@ -269,7 +286,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                            reanudar=bool(args.reanudar))
             for cad, s in man["requests"].items():
                 if s.get("http_error") or s.get("red_error"):
-                    errores.append(f"{cad}: {s.get('http_error', 0)} HTTP>=400, "
+                    errores.append(f"{cad}: {s.get('http_error', 0)} HTTP>=400 (sin contar 404), "
                                    f"{s.get('red_error', 0)} errores de red")
             if args.solo_captura:
                 log(f"Captura lista: {corrida}. Procesar con --desde-cache {corrida}")
@@ -278,6 +295,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         log("Paso procesar (desde el crudo, sin red)")
         data, eventos, _ = procesar(raw, corrida)
         requests = raw.leer_manifest(corrida).get("requests", {})
+        validar(data, requests)
         log("Paso exportar")
         for p in exportar(data, eventos, corrida, salida=Path(args.salida),
                           historial=not args.sin_historial):

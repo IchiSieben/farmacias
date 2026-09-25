@@ -1,6 +1,6 @@
-# Datos crudos cacheados por corrida (no versionar — pueden ser pesados)
-data/raw/
-data/
+# Datos locales: crudo, staging, logs, snapshots, Parquet (no versionar — pesados).
+# Anclado a la raíz: `data/` a secas también ignoraría web/data/ (contrato de F4).
+/data/
 
 # Credenciales (Service Account de Google Sheets, etc.)
 *.json.key

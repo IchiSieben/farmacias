@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/* Solo el subconjunto latino de Inter (ES/EN caben enteros): un woff2 en vez de siete. */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Tema oscuro por clase en <html> (la pone Base.astro antes de pintar). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-superficie-2: var(--superficie-2);
+  --color-texto: var(--texto);
+  --color-suave: var(--suave);
+  --color-borde: var(--borde);
+  --color-acento: var(--acento);
+  --color-acento-texto: var(--acento-texto);
+  --color-ahorro: var(--ahorro);
+  --color-ahorro-fondo: var(--ahorro-fondo);
+  --color-sube: var(--sube);
+  --color-baja: var(--baja);
+}
+
+:root {
+  --fondo: #f6f6f3;
+  --superficie: #ffffff;
+  --superficie-2: #f0f1ee;
+  --texto: #1b1f24;
+  --suave: #5a626c;
+  --borde: #e2e4e0;
+  --acento: #0e6e66;
+  --acento-texto: #ffffff;
+  --ahorro: #0b6b37;
+  --ahorro-fondo: #e6f4ea;
+  --sube: #b42318;
+  --baja: #0b6b37;
+  color-scheme: light;
+}
+
+.dark {
+  --fondo: #0f1215;
+  --superficie: #171b20;
+  --superficie-2: #1e232a;
+  --texto: #e9ebee;
+  --suave: #a0a8b2;
+  --borde: #2b3139;
+  --acento: #3cc8b9;
+  --acento-texto: #0b1412;
+  --ahorro: #6fdc97;
+  --ahorro-fondo: #14291c;
+  --sube: #ff8a80;
+  --baja: #6fdc97;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}

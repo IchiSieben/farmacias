@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import { textos, t, type Idioma } from '../i18n';
+import fuenteInter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+
+interface Props {
+  idioma: Idioma;
+  titulo?: string;
+  descripcion?: string;
+}
+const { idioma, titulo, descripcion } = Astro.props;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const tituloFinal = titulo ? `${titulo} · ${t(dic, 'sitio.nombre')}` : t(dic, 'sitio.nombre');
+const alternos = (['es', 'en'] as const).map((l) => ({
+  l,
+  href: new URL(Astro.url.pathname.replace(/\/(es|en)\//, `/${l}/`), Astro.site).href,
+}));
+---
+
+<!doctype html>
+<html lang={idioma}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloFinal}</title>
+    <meta name="description" content={descripcion ?? t(dic, 'sitio.descripcion')} />
+    <link rel="preload" href={fuenteInter} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    {alternos.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
+    <meta property="og:title" content={tituloFinal} />
+    <meta property="og:description" content={descripcion ?? t(dic, 'sitio.descripcion')} />
+    <meta name="theme-color" content="#0e6e66" />
+    <script is:inline>
+      // Tema antes del primer pintado (sin parpadeo): elección guardada > sistema.
+      (function () {
+        var guardado = null;
+        try { guardado = localStorage.getItem('tema'); } catch (e) {}
+        var oscuro = guardado ? guardado === 'oscuro' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', oscuro);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-fondo text-texto">
+    <slot />
+  </body>
+</html>

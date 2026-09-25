@@ -118,17 +118,19 @@ por día: si hay dos, la última gana. Reprocesar una fecha vieja no pisa `lates
 | `valor_anterior`, `valor_nuevo` | string \| null | precio como texto, o `sí`/`no` en promos |
 | `delta_pct` | double \| null | solo en cambios de precio |
 
-### `matches` (F3) — una fila por cruce aceptado (producto_id, cadena)
+### `matches` (F3) — una fila por cruce (producto_id, cadena, tipo)
 
 La referencia es la presentación de Inkafarma. Mifarma entra como `id` (mismo objectID
-InRetail); Boticas y Universal con la evidencia del matcher.
+InRetail); Boticas y Universal con la evidencia del matcher. Qué cuenta como "el mismo
+producto": `docs/MATCHING.md`.
 
 | Columna | Tipo Arrow | Nota |
 |---|---|---|
 | `corrida`, `capturado_en` | string, timestamp[ms, UTC] | |
 | `producto_id`, `cadena` | string | |
+| `tipo` | string | `match` (precio de la fila) · `equivalente` (mismo activo, concentración, forma y cantidad con otro R.S.; NO se muestra como match) |
 | `sku_cadena` | string | id del producto en esa cadena |
-| `metodo` | string | `id`, `ean`, `registro_sanitario`, `fuzzy`, `imagen` |
+| `metodo` | string | `id`, `ean`, `registro_sanitario`, `fuzzy`, `imagen`, `curado` (`tests/matches_curados.yaml`), `equivalente` |
 | `score` | double | 0–100 |
 | `revisar` | bool | zona gris 70–85 sin confirmación por imagen |
 | `motivo` | string | frase legible de la decisión |
@@ -139,6 +141,7 @@ InRetail); Boticas y Universal con la evidencia del matcher.
 | `imagen_veredicto` | string \| null | `identica`, `intermedia`, `distinta`; null = sin foto |
 | `imagen_dist_phash`, `imagen_dist_dhash` | int16 \| null | Hamming sobre 64 bits |
 | `ratio_precio` | double \| null | precio de la cadena / precio de Inkafarma |
+| `precio`, `url` | double, string \| null | solo en `equivalente`: el match ya los tiene en `ofertas` |
 | `evidencia` | string (JSON) | el mismo objeto que `data.json` |
 
 `fichas` no se persiste todavía: la ficha se arma en memoria en cada corrida
@@ -150,6 +153,10 @@ Cada producto suma `evidencia`: cadena (`boticasperu`, `universal`) → `{sku, m
 score, revisar, motivo, ratio_precio, rs, rs_fuente, cantidad, unidad,
 cantidad_fuente, texto?, imagen?}`. Los pares `[a, b]` son `[Inkafarma, cadena]`.
 Es la fuente del panel "¿Por qué se emparejó?" (F4). Clave nueva: `web/app.js` la ignora.
+
+Y `equivalentes`: cadena → el mismo objeto más `nombre`, `precio`, `url`, con
+`metodo: "equivalente"`. No entra en `precios` ni en el ahorro: es la semilla de
+"alternativas con el mismo principio activo" (docs/MATCHING.md §5).
 
 La corrida lo escribe en staging (`data/publicar/data.json`); `pipeline.publish` lo sube
 al hosting con confirmación y deja `web/data.json` como espejo de lo publicado. Lo

@@ -86,6 +86,13 @@ DEBEN_BLOQUEAR = [
     ("Suprahyal (ác. hialurónico) ≠ Mensille (anticonceptivo inyectable)",
      "Suprahyal 25 Mg/2.5 Ml Solución Inyectable Jeringa Pre-llenada",
      "Mensille 25mg/5mg Suspensión Inyectable + Jeringa - Caja 1 UN"),
+    # --- F3, corrida 2026-09-25: se colaban por texto; antes los tapaba el veto por
+    # imagen, que se apagó (fotos del mismo producto difieren entre cadenas) ---
+    ("Aspirador Nasal Nuby ≠ Owawa Aspirador Nasal (dispositivo: manda la marca)",
+     "Aspirador Nasal Nuby", "Owawa Aspirador Nasal - Blíster 1 und"),
+    ("CeraVe limpiador en aceite ≠ CeraVe gel limpiador (aceite ≠ gel)",
+     "Limpiador Corporal de Ducha en Aceite Espumoso CeraVe",
+     "Cerave Gel Limpiador Espumoso - Frasco 473 ML"),
 ]
 
 DEBEN_CASAR = [
@@ -123,6 +130,17 @@ DEBEN_CASAR = [
      "Vitamina C 1000mg Tableta - Frasco 30 UN", "Vitamina C 1000 mg Tabletas - Frasco 30 UN"),
     ("Pediasure ↔ Pediasure (misma variante, distinta caja - solo tamaño)",
      "Pediasure Vainilla Polvo - Lata 850 G", "Pediasure Vainilla en Polvo - Lata 850 G"),
+    # --- F3: las reglas nuevas no rompen el cruce correcto del mismo producto ---
+    ("Aspirador Nasal Nuby ↔ Nuby Aspirador Nasal (misma marca)",
+     "Aspirador Nasal Nuby", "Nuby Aspirador Nasal  - Unidad 1 UN"),
+    ("CeraVe limpiador en aceite ↔ CeraVe limpiador en aceite (Universal)",
+     "Limpiador Corporal de Ducha en Aceite Espumoso CeraVe",
+     "Cerave Limpiador en Aceite Espumoso Hidratante Piel Normal a Seca - Frasco 473 ml"),
+    # --- F3: los vetaba la imagen (foto distinta entre cadenas) y eran correctos ---
+    ("Diclofenaco 1% gel ↔ gel tópico (foto de otra cadena, mismo producto)",
+     "Diclofenaco 1% Gel", "Diclofenaco 1% Gel Tópico - Tubo 50 G"),
+    ("Glucerna vainilla ↔ Glucerna vainilla lata (foto de otra cadena)",
+     "Glucerna Sabor Vainilla", "Glucerna Sabor Vainilla - Lata 850 G"),
 ]
 
 
@@ -205,9 +223,11 @@ CAPA_FICHA = [
     ("texto 69,6 + foto en zona intermedia: no decide (sigue sin casar)",
      _SUPRADYN_INKA, _con_foto(_SUPRADYN_INKA, _H0),
      _SUPRADYN_BOT_OK, _con_foto(_SUPRADYN_BOT_OK, _H_INTER), False, "fuzzy"),
-    ("texto 100 + foto claramente distinta + cantidad de atributo: veto",
+    # El veto por imagen está apagado (matcher.VETO_IMAGEN): fotos del mismo producto
+    # difieren entre cadenas tanto como dos productos al azar.
+    ("texto 100 + foto claramente distinta + cantidad de atributo: NO veta (veto apagado)",
      _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
-     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), False, "imagen"),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), True, "fuzzy"),
     ("texto 100 + foto en zona intermedia: no veta",
      _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
      _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_INTER), True, "fuzzy"),

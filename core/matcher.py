@@ -103,7 +103,10 @@ _GENERICO_NUCLEO = set(
     "acido vitamina complejo sales sal "
     # vía/dispositivo: "Suprahyal ... Inyectable Jeringa" y "Mensille ... Inyectable
     # + Jeringa" compartían SOLO estas palabras y casaban como mismo activo
-    "inyectable inyectables jeringa jeringas prellenada pre llenada ampolla ampollas vial".split()
+    "inyectable inyectables jeringa jeringas prellenada pre llenada ampolla ampollas vial "
+    # dispositivos: el nombre del aparato no identifica el producto, la MARCA sí
+    # ("Aspirador Nasal Nuby" ≠ "Owawa Aspirador Nasal": marca distinta)
+    "aspirador aspiradores nasal termometro digital nebulizador tensiometro".split()
 )
 # Modificadores de COMPOSICIÓN: indican un producto DISTINTO porque cambian la
 # fórmula (Panadol Antigripal ≠ Panadol; Dolocordralan Forte ≠ Dolocordralan;
@@ -162,6 +165,18 @@ UMBRAL_REVISION = 70.0
 # Desde aquí se consulta la imagen (Capa 3): una foto idéntica confirma 60–85.
 UMBRAL_IMAGEN = 60.0
 
+# Interruptores de los vetos de F3 (medidos en la corrida del 2026-09-25, ver ESTADO):
+#   VETO_IMAGEN  foto claramente distinta veta texto >= 85.
+#   VETO_RS      "estricto": R.S. distintos vetan siempre · "salvo_foto": no vetan si
+#                la foto es idéntica · "no": el R.S. solo es llave; un conflicto
+#                deja el cruce en revisión.
+# Decisión del 2026-09-25: el veto por imagen queda APAGADO. Dos fotos del mismo
+# producto (mismo R.S.) salen a pHash 22–34 entre cadenas, lo mismo que dos productos
+# al azar: no hay una distancia "claramente distinta". Vetaba 27 cruces, casi todos
+# buenos. La confirmación por foto idéntica (<= 6) sí se sostiene y sigue activa.
+VETO_IMAGEN = False
+VETO_RS = "estricto"
+
 # El núcleo (principio activo/marca) pesa más que el nombre completo, porque las
 # cadenas nombran el empaque de forma muy distinta ("Tableta" vs "Caja 100 UN").
 _W_NOMBRE = 0.35
@@ -174,9 +189,16 @@ _FORMAS_SOLIDAS = {"tableta", "capsula"}
 _FORMAS_LIQUIDAS = {"jarabe", "suspension", "solucion", "gotas"}
 
 
+# Tópicos: aceite y gel son productos distintos aunque compartan marca y uso
+# (CeraVe limpiador en aceite ≠ CeraVe gel limpiador espumoso).
+_FORMAS_EXCLUYENTES = [{"aceite", "gel"}]
+
+
 def _forma_incompatible(fa: Optional[str], fb: Optional[str]) -> bool:
     if not fa or not fb:
         return False
+    if any({fa, fb} == par for par in _FORMAS_EXCLUYENTES):
+        return True
     return ((fa in _FORMAS_SOLIDAS and fb in _FORMAS_LIQUIDAS) or
             (fa in _FORMAS_LIQUIDAS and fb in _FORMAS_SOLIDAS))
 
@@ -318,6 +340,9 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
 
     def res(es_match, score, metodo, revisar=False, motivo=None) -> Resultado:
         ev["decision"] = metodo
+        if es_match and ev.get("rs_conflicto"):
+            revisar = True
+            motivo = f"{motivo}; R.S. en conflicto ({fa.registro_sanitario} ≠ {fb.registro_sanitario})"
         return Resultado(es_match, score, metodo, revisar=revisar, motivo=motivo,
                          evidencia=ev)
 
@@ -330,10 +355,15 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
     ka, kb = clave_rs(fa.registro_sanitario), clave_rs(fb.registro_sanitario)
     if ka and kb:
         if ka != kb:
-            return res(False, 0.0, "registro_sanitario",
-                       motivo=f"registro sanitario distinto ({fa.registro_sanitario} ≠ "
-                              f"{fb.registro_sanitario})")
-        if _misma_cantidad(fa, fb):
+            foto = (veredicto((fa.imagen_phash, fa.imagen_dhash), (fb.imagen_phash, fb.imagen_dhash))
+                    if fa.imagen_phash and fb.imagen_phash else None)
+            if VETO_RS == "estricto" or (
+                    VETO_RS == "salvo_foto" and not (foto and foto["veredicto"] == "identica")):
+                return res(False, 0.0, "registro_sanitario",
+                           motivo=f"registro sanitario distinto ({fa.registro_sanitario} ≠ "
+                                  f"{fb.registro_sanitario})")
+            ev["rs_conflicto"] = True
+        elif _misma_cantidad(fa, fb):
             return res(True, 100.0, "registro_sanitario",
                        motivo=f"mismo registro sanitario ({fa.registro_sanitario}) "
                               f"y misma cantidad ({fa.cantidad:g} {fa.unidad})")
@@ -391,7 +421,7 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
         # Veto: 85+ por texto con foto claramente distinta suele ser otra variante
         # o envase. Solo si la cantidad de algún lado viene de un atributo (no del
         # nombre): la cantidad ya está confirmada y lo que difiere es el producto.
-        if (img and img["veredicto"] == "distinta"
+        if (VETO_IMAGEN and img and img["veredicto"] == "distinta"
                 and ATRIBUTO in (fa.fuente("cantidad"), fb.fuente("cantidad"))):
             return res(False, 0.0, "imagen",
                        motivo=f"foto claramente distinta (pHash {img['phash']}, dHash "

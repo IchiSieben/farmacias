@@ -31,8 +31,13 @@ from urllib.parse import urlsplit
 
 from .adapter_base import USER_AGENTS
 
-# Umbrales de Hamming (64 bits), calibrados con la corrida del 2026-09-25: ver
-# `veredicto`. Entre ambos queda la zona intermedia, que no decide.
+# Umbrales de Hamming (64 bits). Corrida del 2026-09-25, 236 pares con foto:
+#   - pares de productos distintos al azar: pHash p1 = 18, dHash p1 = 11 -> una
+#     distancia <= 6 en ambos es la misma foto (las 4 confirmaciones tenían precio
+#     alineado).
+#   - pares del MISMO producto (mismo R.S.) entre cadenas: pHash 2..34. Cada cadena
+#     fotografía a su manera, así que "distinta" NO prueba otro producto: el matcher
+#     no veta por imagen (matcher.VETO_IMAGEN). DISTINTA_MIN queda solo como dato.
 IDENTICA_MAX = 6
 DISTINTA_MIN = 22
 

@@ -26,7 +26,7 @@ _FORMAS = {
     "gotas": "gotas",
     "polvo": "polvo",
     "efervescente": "efervescente",
-    "crema": "crema", "gel": "gel", "locion": "locion",
+    "crema": "crema", "gel": "gel", "locion": "locion", "aceite": "aceite",
     "jabon": "jabon", "shampoo": "shampoo", "champu": "shampoo",
     "ampolla": "ampolla", "ampollas": "ampolla",
     "supositorio": "supositorio",

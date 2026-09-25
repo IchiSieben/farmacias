@@ -33,6 +33,7 @@ from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
 from core.adapters.universal import UniversalAdapter
 from core.ficha import ficha_de
+from core import matcher
 from core.matcher import comparar, Resultado, UMBRAL_IMAGEN, UMBRAL_REVISION
 from core.modelo import Producto
 from core.normalizer import nucleo
@@ -238,8 +239,12 @@ def _mejor_match(ref: Producto, cands, enr=None) -> Tuple[Optional[Producto], Op
         if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
             continue
         r = comparar(ref, c)
-        if (enr is not None and r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
-                and r.score >= UMBRAL_IMAGEN):
+        # Veto por R.S. que la foto puede levantar (matcher.VETO_RS = "salvo_foto").
+        veto_rs = (not r.es_match and r.metodo == "registro_sanitario"
+                   and matcher.VETO_RS == "salvo_foto")
+        if enr is not None and (veto_rs or (
+                r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
+                and r.score >= UMBRAL_IMAGEN)):
             r = comparar(ref, c, fa=enr.ficha(ref), fb=enr.ficha(c))
         if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
             best, best_r = c, r

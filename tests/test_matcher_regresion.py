@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import sys
 
-from core.ficha import clave_rs, extrae_rs_texto, normaliza_rs
+from core.ficha import clave_rs, extrae_rs_texto, ficha_de, normaliza_rs
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
 from pipeline.build_snapshot import _match_boticas
@@ -172,6 +172,51 @@ CASOS_REALES = [
 ]
 
 
+# Capa 3 (imagen) y R.S. sin cantidad, sobre `comparar` con fichas armadas a mano.
+# Hashes sintéticos de 64 bits: _H0 base; _H_INTER a 12 bits (zona intermedia);
+# _H_DIST a 64 bits (claramente distinta).
+_H0 = "a5a5a5a5a5a5a5a5"
+_H_INTER = format(int(_H0, 16) ^ 0xFFF, "016x")
+_H_DIST = format(int(_H0, 16) ^ 0xFFFFFFFFFFFFFFFF, "016x")
+
+
+def _con_foto(p: Producto, h: str):
+    f = ficha_de(p)
+    f.imagen_phash = f.imagen_dhash = h
+    return f
+
+
+_SUPRADYN_BOT_OK = _oferta("boticasperu", "b-ok", "Supradyn Multivitamínico Grageas - Caja 30 UN", 48.1)
+_PARACETAMOL_INKA = _oferta("inkafarma", "p1", "Paracetamol 500mg Tableta", 5.0,
+                            presentacion="CAJA 100 UN", cantidad_envase=100.0,
+                            unidad_envase="un", fuentes={"cantidad": "atributo"})
+_PARACETAMOL_BOT = _oferta("boticasperu", "p2", "Paracetamol 500mg Tableta - Caja 100 UN", 5.5)
+_PARACETAMOL_NOMBRE = _oferta("inkafarma", "p3", "Paracetamol 500mg Tableta - Caja 100 UN", 5.0)
+
+# (descripción, a, ficha a, b, ficha b, ¿casa?, método esperado o None)
+CAPA_FICHA = [
+    ("mismo R.S. pero otra cantidad (30 vs 60): la cantidad manda, no es llave",
+     _SUPRADYN_INKA, None,
+     _oferta("universal", "u60", "Supradyn Multivitamínico Grageas - Caja 60 und", 90.0,
+             registro_sanitario="DE0340"), None, False, None),
+    ("texto 69,6 (sin R.S.) + foto idéntica: la imagen confirma 60–85",
+     _SUPRADYN_INKA, _con_foto(_SUPRADYN_INKA, _H0),
+     _SUPRADYN_BOT_OK, _con_foto(_SUPRADYN_BOT_OK, _H0), True, "imagen"),
+    ("texto 69,6 + foto en zona intermedia: no decide (sigue sin casar)",
+     _SUPRADYN_INKA, _con_foto(_SUPRADYN_INKA, _H0),
+     _SUPRADYN_BOT_OK, _con_foto(_SUPRADYN_BOT_OK, _H_INTER), False, "fuzzy"),
+    ("texto 100 + foto claramente distinta + cantidad de atributo: veto",
+     _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), False, "imagen"),
+    ("texto 100 + foto en zona intermedia: no veta",
+     _PARACETAMOL_INKA, _con_foto(_PARACETAMOL_INKA, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_INTER), True, "fuzzy"),
+    ("texto 100 + foto distinta, cantidades solo del nombre: no veta",
+     _PARACETAMOL_NOMBRE, _con_foto(_PARACETAMOL_NOMBRE, _H0),
+     _PARACETAMOL_BOT, _con_foto(_PARACETAMOL_BOT, _H_DIST), True, "fuzzy"),
+]
+
+
 # Parseo del registro sanitario: (descripción, entrada, R.S. normalizado esperado).
 # Entrada str -> normaliza_rs (campo propio); tuple -> extrae_rs_texto (descripción).
 RS_PARSEO = [
@@ -248,6 +293,17 @@ def main() -> int:
         print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
 
     print("\n" + "=" * 78)
+    print("FICHA: imagen (Capa 3) y R.S. sin cantidad, sobre comparar()")
+    print("=" * 78)
+    for desc, a, fa, b, fb, casa, metodo in CAPA_FICHA:
+        r = comparar(a, b, fa=fa, fb=fb)
+        ok = r.es_match == casa and (metodo is None or r.metodo == metodo)
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] score={r.score:5.1f} {r.metodo:18} {desc}")
+        if not ok:
+            print(f"          ! {r.motivo}")
+
+    print("\n" + "=" * 78)
     print("REGISTRO SANITARIO (parseo y normalización)")
     print("=" * 78)
     for desc, entrada, esperado in RS_PARSEO:
@@ -259,7 +315,7 @@ def main() -> int:
     fallos += not ok
     print(f"  [{'OK' if ok else 'FALLA':5}] {'':10} clave: DE-340 == DE-0340 ≠ DE-3401")
 
-    total = len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
+    total = len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

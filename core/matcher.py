@@ -324,7 +324,8 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
     # Capa 1: identificador duro.
     metodo = match_por_id(a, b)
     if metodo:
-        return res(True, 100.0, metodo)
+        return res(True, 100.0, metodo, motivo=(
+            f"mismo EAN ({fa.ean})" if metodo == "ean" else "mismo id de producto"))
     # Registro sanitario: llave si coincide con la cantidad; veto si difiere.
     ka, kb = clave_rs(fa.registro_sanitario), clave_rs(fb.registro_sanitario)
     if ka and kb:
@@ -395,11 +396,15 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
             return res(False, 0.0, "imagen",
                        motivo=f"foto claramente distinta (pHash {img['phash']}, dHash "
                               f"{img['dhash']}) con texto {score:.0f}")
-        return res(True, score, "fuzzy")
+        return res(True, score, "fuzzy", motivo=(
+            f"texto {score:.0f} >= {UMBRAL_MATCH:.0f} (núcleo {sim_nucleo:.0f}, "
+            f"nombre {sim_nombre:.0f})"))
     if img and img["veredicto"] == "identica":
         return res(True, max(score, UMBRAL_MATCH), "imagen",
                    motivo=f"foto idéntica (pHash {img['phash']}, dHash {img['dhash']}) "
                           f"confirma texto {score:.0f}")
     if score >= UMBRAL_REVISION:
-        return res(False, score, "fuzzy", revisar=True, motivo="zona gris: revisar a mano")
+        return res(False, score, "fuzzy", revisar=True,
+                   motivo=f"zona gris: revisar a mano (texto {score:.0f}, núcleo "
+                          f"{sim_nucleo:.0f}, nombre {sim_nombre:.0f})")
     return res(False, score, "fuzzy", motivo="bajo umbral")

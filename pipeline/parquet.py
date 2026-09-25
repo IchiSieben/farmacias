@@ -5,19 +5,19 @@ Aplana el snapshot de una corrida a dos tablas Parquet con tipos explícitos
 
     ofertas   una fila por (producto_id, cadena) con precio en esa corrida
     eventos   cambios contra la corrida anterior (nuevo, sube/baja, promo)
-
-`fichas` y `matches` NO se definen aquí: son construcciones de F3 (matcher v2) y
-fijar su esquema ahora sería adivinar.
+    matches   F3: una fila por cruce aceptado (producto_id, cadena) con su evidencia
+              (método, score, R.S., cantidad y su fuente, imagen, precio)
 
 Layout en PROCESSED_DIR (default data/processed/):
-    history/<YYYY-MM-DD>/{ofertas,eventos}.parquet   una corrida por día (la última gana)
-    latest/{ofertas,eventos}.parquet                 solo si es la fecha más nueva
+    history/<YYYY-MM-DD>/{ofertas,eventos,matches}.parquet   una corrida por día (la última gana)
+    latest/{ofertas,eventos,matches}.parquet                 solo si es la fecha más nueva
 
 Usa pyarrow directo (sin pandas) para fijar el esquema sin inferencias.
 """
 
 from __future__ import annotations
 
+import json
 import os
 from datetime import datetime
 from pathlib import Path
@@ -79,6 +79,78 @@ def _ts(generado: str) -> datetime:
 
 def _vacio_a_none(v):
     return None if v == "" else v
+
+
+ESQUEMA_MATCHES = pa.schema([
+    ("corrida", pa.string()),
+    ("capturado_en", _UTC),
+    ("producto_id", pa.string()),
+    ("cadena", pa.string()),
+    ("sku_cadena", pa.string()),
+    ("metodo", pa.string()),            # id | ean | registro_sanitario | fuzzy | imagen
+    ("score", pa.float64()),
+    ("revisar", pa.bool_()),
+    ("motivo", pa.string()),
+    ("rs_ref", pa.string()),
+    ("rs_cadena", pa.string()),
+    ("cantidad_ref", pa.float64()),
+    ("cantidad_cadena", pa.float64()),
+    ("unidad", pa.string()),
+    ("cantidad_fuente_ref", pa.string()),
+    ("cantidad_fuente_cadena", pa.string()),
+    ("texto_score", pa.float64()),
+    ("imagen_veredicto", pa.string()),  # identica | intermedia | distinta | NULL sin dato
+    ("imagen_dist_phash", pa.int16()),
+    ("imagen_dist_dhash", pa.int16()),
+    ("ratio_precio", pa.float64()),
+    ("evidencia", pa.string()),         # JSON completo (lo mismo que data.json)
+], metadata={"esquema": "matches", "version": "1"})
+
+# Inkafarma <-> Mifarma comparten objectID (grupo InRetail): llave dura sin más señal.
+_EVIDENCIA_INRETAIL = {"metodo": "id", "score": 100.0, "revisar": False,
+                       "motivo": "mismo objectID InRetail"}
+
+
+def _lado(ev: dict, campo: str, i: int):
+    """La evidencia guarda pares [referencia Inkafarma, cadena]."""
+    par = ev.get(campo) or [None, None]
+    return par[i]
+
+
+def filas_matches(data: dict, corrida: str) -> List[Dict]:
+    ts = _ts(data["generado"])
+    filas = []
+    for p in data["productos"]:
+        evs = dict(p.get("evidencia") or {})
+        if "mifarma" in p.get("precios", {}):
+            evs.setdefault("mifarma", {**_EVIDENCIA_INRETAIL, "sku": p["id"].split(":")[0]})
+        for cadena, ev in sorted(evs.items()):
+            img = ev.get("imagen") or {}
+            filas.append({
+                "corrida": corrida,
+                "capturado_en": ts,
+                "producto_id": p["id"],
+                "cadena": cadena,
+                "sku_cadena": ev.get("sku"),
+                "metodo": ev["metodo"],
+                "score": ev.get("score"),
+                "revisar": bool(ev.get("revisar")),
+                "motivo": ev.get("motivo"),
+                "rs_ref": _lado(ev, "rs", 0),
+                "rs_cadena": _lado(ev, "rs", 1),
+                "cantidad_ref": _lado(ev, "cantidad", 0),
+                "cantidad_cadena": _lado(ev, "cantidad", 1),
+                "unidad": _lado(ev, "unidad", 0),
+                "cantidad_fuente_ref": _lado(ev, "cantidad_fuente", 0),
+                "cantidad_fuente_cadena": _lado(ev, "cantidad_fuente", 1),
+                "texto_score": (ev.get("texto") or {}).get("score"),
+                "imagen_veredicto": img.get("veredicto"),
+                "imagen_dist_phash": img.get("phash"),
+                "imagen_dist_dhash": img.get("dhash"),
+                "ratio_precio": ev.get("ratio_precio"),
+                "evidencia": json.dumps(ev, ensure_ascii=False, sort_keys=True),
+            })
+    return filas
 
 
 def filas_ofertas(data: dict, corrida: str) -> List[Dict]:
@@ -169,4 +241,6 @@ def exportar_parquet(data: dict, eventos: List[dict], corrida: str,
     fecha = data["generado"][:10]
     ofertas = pa.Table.from_pylist(filas_ofertas(data, corrida), schema=ESQUEMA_OFERTAS)
     evs = pa.Table.from_pylist(filas_eventos(eventos, data, corrida), schema=ESQUEMA_EVENTOS)
-    return store.write("ofertas", ofertas, fecha) + store.write("eventos", evs, fecha)
+    matches = pa.Table.from_pylist(filas_matches(data, corrida), schema=ESQUEMA_MATCHES)
+    return (store.write("ofertas", ofertas, fecha) + store.write("eventos", evs, fecha)
+            + store.write("matches", matches, fecha))

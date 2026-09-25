@@ -41,10 +41,32 @@
 | Tarea diaria | `scripts/instalar_tarea_windows.ps1` + `corrida_diaria.cmd` | `schtasks /IT` (solo con sesión iniciada: Drive se monta por sesión). **Aún no registrada.** |
 | Config | `.env.example`, `.gitignore` | `RAW_DIR`, `PROCESSED_DIR`, `PUBLISH_*` (reservado). `data/` anclado a `/data/` (antes también ignoraba `web/data/`). |
 
-Verificado: regresión 32/32; `tests/test_http_cache.py` OK en Python 3.12 y 3.9;
-captura real de 3 productos (15 requests, 0 errores) → `--desde-cache` con **sockets
-bloqueados** da un `data.json` **byte a byte igual**; `--reanudar` termina con 0
-requests de red. `web/` sin cambios respecto de `main`.
+Verificado: regresión 32/32; `tests/test_http_cache.py` OK en Python 3.12 y 3.9
+(incluye reanudar tras una línea cortada); captura real de 3 productos (15 requests,
+0 errores) → `--desde-cache` con **sockets bloqueados** da un `data.json` **byte a
+byte igual**; `--reanudar` termina con 0 requests de red; una captura simulada con
+key Algolia rotada (403) sale con código 2 **sin** escribir `data.json` ni snapshot.
+`web/` sin cambios respecto de `main`.
+
+**Verificarlo tú en 5 minutos (PowerShell, desde la raíz del repo):**
+
+```powershell
+git checkout v2/f1-data-lake
+py -m pip install -r requirements.txt            # suma pyarrow
+$env:PYTHONIOENCODING = "utf-8"
+py -m tests.test_matcher_regresion               # 32/32 OK
+py -m tests.test_http_cache                      # todo OK
+# Mini captura real (~40 s). --salida y --sin-historial son OBLIGATORIOS aquí:
+# sin ellos pisa web/data.json con 3 productos y deja un snapshot de 3 filas que
+# sería el "previo" de la primera corrida real.
+$env:RAW_DIR = "$env:TEMP\raw_prueba"; New-Item -ItemType Directory -Force $env:RAW_DIR | Out-Null
+py -m pipeline.run --todo --objetivo 3 --sin-semillas --salida "$env:TEMP\vivo.json" --sin-historial
+# Copia el id que imprime la primera línea ("Corrida 2026-...Z") y:
+py -m tests.verificar_desde_cache <id-corrida> --contra "$env:TEMP\vivo.json"   # OK: sin red y byte a byte igual
+Get-ChildItem -Recurse $env:RAW_DIR | Select-Object FullName, Length          # crudo por cadena + _corridas
+.\scripts\instalar_tarea_windows.ps1 -Hora 04:30 -Simular                      # muestra el schtasks, no registra
+Remove-Item Env:RAW_DIR
+```
 
 Decisiones (y por qué):
 - **Caché a nivel HTTP (record/replay), no volcado de catálogo:** la v1 descubre
@@ -64,9 +86,13 @@ Pendiente para cerrar F1:
 1. `RAW_DIR`: en esta sesión Google Drive para escritorio **no estaba montado** (no
    existían `G:\Mi unidad` ni `C:\Users\Usuario\Mi unidad`). Abrirlo, ver la ruta en
    el Explorador y ponerla en `.env`.
-2. Primera corrida completa real: `py -m pipeline.run --todo` (2–6 s por dominio +
-   semillas: ~1–2 h). Después, `py -m tests.verificar_desde_cache <id-corrida>`.
-3. Registrar la tarea: `.\scripts\instalar_tarea_windows.ps1 -Hora 04:30`.
+2. Primera corrida completa real: `py -m pipeline.run --todo`. Duración **sin
+   medir**: la mini captura dio ~11 s por producto con 2–6 s por dominio; con 150
+   productos más las semillas de 2 subcategorías, **estimo** 1 h o más. Medirla en esta
+   primera corrida (sale en el resumen) antes de elegir la hora de la tarea.
+   Después, `py -m tests.verificar_desde_cache <id-corrida>`.
+3. Registrar la tarea: `.\scripts\instalar_tarea_windows.ps1 -Hora 04:30`. Con `/IT`,
+   cerrar sesión a mitad de la corrida la mata: se retoma con `--reanudar <id>`.
 4. PR `v2/f1-data-lake` → `main`.
 
 ### F2 — por dónde empezar
@@ -82,7 +108,10 @@ Pendiente para cerrar F1:
 
 ## 🔧 Deuda conocida (sigue vigente)
 
-- Llaves Algolia rotan → 403; recapturar desde DevTools y actualizar `.env`.
+- Llaves Algolia rotan → 403; recapturar desde DevTools y actualizar `.env`. Desde F1
+  la corrida v2 **no exporta** si ve 401/403 (código 2, `data.json` intacto). Falta
+  cortar en el primer 403: hoy prueba todos los términos (~75 requests) antes de
+  rendirse → tarea chica para F2.
 - Corridas pesadas contra Boticas se han cortado alguna vez. Desde F1,
   `py -m pipeline.run --reanudar <corrida>` sigue desde el staging sin repetir
   requests. No reintentar en bucle.

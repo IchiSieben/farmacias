@@ -31,8 +31,19 @@ export function porcentaje(idioma: Idioma, pct: number): string {
   return new Intl.NumberFormat(LOCALE[idioma], { maximumFractionDigits: 1 }).format(Math.abs(pct)) + ' %';
 }
 
+// "AAAA-MM-DD" es un día de Lima ya calculado (historial): se formatea en UTC para que
+// no retroceda un día. Un timestamp completo se muestra en hora de Lima.
+const zona = (iso: string) => (iso.length === 10 ? 'UTC' : 'America/Lima');
+
 export function fecha(idioma: Idioma, iso: string): string {
-  return new Intl.DateTimeFormat(LOCALE[idioma], { day: 'numeric', month: 'long', year: 'numeric' }).format(
+  return new Intl.DateTimeFormat(LOCALE[idioma], {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: zona(iso),
+  }).format(new Date(iso));
+}
+
+/** "14 jun" / "Jun 14": ejes y eventos. */
+export function fechaCorta(idioma: Idioma, iso: string): string {
+  return new Intl.DateTimeFormat(LOCALE[idioma], { day: 'numeric', month: 'short', timeZone: zona(iso) }).format(
     new Date(iso),
   );
 }

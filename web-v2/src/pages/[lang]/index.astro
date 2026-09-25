@@ -1,0 +1,49 @@
+---
+import { readFileSync } from 'node:fs';
+import Base from '../../layouts/Base.astro';
+import Cabecera from '../../components/Cabecera.astro';
+import Explorador from '../../components/Explorador';
+import { IDIOMAS, textos, t, type Idioma } from '../../i18n';
+import { ordenar, type Meta, type Producto } from '../../lib/datos';
+
+export function getStaticPaths() {
+  return IDIOMAS.map((lang) => ({ params: { lang } }));
+}
+
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+// Contrato web/data/ (copiado a public/data por scripts/copiar-datos.mjs).
+const leer = (f: string) => JSON.parse(readFileSync(new URL(`../../../public/data/${f}`, import.meta.url), 'utf-8'));
+const meta: Meta = leer('meta.json');
+const indice: { productos: Producto[] } = leer('index.json');
+// Las primeras filas salen en el HTML (pintado inmediato, sin saltos); el resto
+// lo trae la isla en segundo plano.
+const iniciales = ordenar(indice.productos, 'ahorro', meta.cadenas.map((c) => c.id), idioma === 'es' ? 'es-PE' : 'en-US').slice(0, 30);
+---
+
+<Base idioma={idioma}>
+  <Cabecera idioma={idioma} snapshot={meta.snapshot} />
+  <main>
+    <h1 class="sr-only">{t(dic, 'sitio.nombre')}: {t(dic, 'sitio.subtitulo')}</h1>
+    <Explorador
+      client:load
+      idioma={idioma}
+      dic={dic}
+      cadenas={meta.cadenas}
+      categorias={meta.categorias}
+      iniciales={iniciales}
+      total={meta.kpis.productos}
+      base={base}
+    />
+  </main>
+  <footer class="border-t border-borde">
+    <div class="mx-auto max-w-6xl space-y-2 px-4 py-6 text-xs text-suave">
+      <p>{t(dic, 'pie.aviso')}</p>
+      <p>
+        <a class="underline underline-offset-2" href="https://github.com/IchiSieben/farmacias">{t(dic, 'pie.codigo')}</a>
+        · {t(dic, 'pie.licencia')}
+      </p>
+    </div>
+  </footer>
+</Base>

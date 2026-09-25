@@ -108,16 +108,18 @@ def _seed_subcats(adapter, subcats: List[str]) -> Dict[str, Producto]:
     return out
 
 
-# Guard de plausibilidad: dos farmacias rara vez difieren >65% en el MISMO
-# producto; un salto así casi siempre delata un envase/variante distinto que se
-# coló pese a las reglas del matcher. Se descarta el match (mejor "—" que dato falso).
-_RATIO_MIN, _RATIO_MAX = 0.60, 1.65
+# Guard de plausibilidad para TODO cruce fuzzy (Boticas, Universal): con la misma
+# cantidad, más de 3× de diferencia delata otro producto que pasó las reglas
+# (Suprahyal S/257.80 ↔ Mensille S/19.20). Mejor "—" que dato falso. El límite
+# 0.60–1.65 de antes descartaba brechas reales genérico vs marca (2–2,6× en la
+# corrida del 2026-09-25: Simeticona, Diclofenaco gel), por eso [1/3, 3].
+_RATIO_MIN, _RATIO_MAX = 1 / 3, 3.0
 
 
-def _precio_plausible(precio_bot: float, precio_ref: float) -> bool:
+def _precio_plausible(precio_cand: float, precio_ref: Optional[float]) -> bool:
     if not precio_ref:
         return True
-    return _RATIO_MIN <= (precio_bot / precio_ref) <= _RATIO_MAX
+    return _RATIO_MIN <= (precio_cand / precio_ref) <= _RATIO_MAX
 
 
 def _query_boticas(nombre: str) -> str:
@@ -224,7 +226,7 @@ def _match_boticas(ref: Producto, cands):
     Se EXIGE que la presentación Inka tenga cantidad exacta (caso normal, del API
     de detalle) y que el candidato la iguale — esto, no el precio, decide la
     presentación. Así blíster 10 nunca casa con caja 30, y una brecha de precio
-    grande entre presentaciones idénticas es señal válida (no se descarta).
+    moderada entre presentaciones idénticas es señal válida (solo >3× se descarta).
 
     Si la fila Inka NO tiene cantidad conocida (los "SUPER PACK"/bundles, donde el
     tamaño no es parseable), NO se empareja: un bundle no se alinea de forma fiable
@@ -238,9 +240,9 @@ def _match_boticas(ref: Producto, cands):
             continue
         # La cantidad exacta confirma la presentación: si coincide, basta con que
         # pase las reglas duras y la similitud de nombre llegue a la zona gris
-        # (>=70). No se usa imagen (las fotos difieren entre vendors) ni
-        # plausibilidad de precio (una brecha grande es señal válida).
-        if not _cantidad_coincide(ref, c):
+        # (>=70). No se usa imagen (las fotos difieren entre vendors). El precio
+        # solo veta lo absurdo (>3×): la brecha moderada es señal válida.
+        if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
             continue
         r = comparar(ref, c)
         if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):

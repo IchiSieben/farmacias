@@ -1,0 +1,5 @@
+# LF en el repo y en disco. Con core.autocrlf=true, web/data.json quedaba en CRLF
+# en el working tree (321 688 bytes contra 308 660 publicados) y los diffs byte a
+# byte de los JSON generados dependían de la máquina.
+*.json text eol=lf
+*.py text eol=lf

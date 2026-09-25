@@ -1,7 +1,8 @@
 # ESTADO DEL PROYECTO — Radar de Precios (para retomar)
 
 > Abre esto al empezar la sesión. Claude Code lo actualiza al cerrar cada fase.
-> Última actualización: 2026-09-24 (F1 implementada en rama `v2/f1-data-lake`, PR pendiente).
+> Última actualización: 2026-09-25 (F1 cerrada: corrida completa medida, byte a byte a escala,
+> tarea diaria registrada; PR `v2/f1-data-lake` → `main` abierto).
 
 ---
 
@@ -22,10 +23,10 @@
 
 | Fase | Qué | Estado |
 |---|---|---|
-| F1 | Data lake: crudo a Google Drive (`RAW_DIR`), Parquet, `pipeline/run.py`, tarea diaria Windows, `--desde-cache` | 🟨 hecha en rama; falta 1ª corrida completa + merge |
+| F1 | Data lake: caché local + archivo en Drive (rclone), Parquet, `pipeline/run.py`, tarea diaria, `--desde-cache`, publicación manual | ✅ cerrada; PR abierto |
 | F2 | Cobertura por categoría (browse/facetas/cgid/fq), `config/categorias.yaml`, una categoría por sesión con muestra revisada | ⬜ siguiente |
-| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | ⬜ |
-| F4 | UI v2 bilingüe (Astro): buscador, ficha con historial, panorama por cadena, metodología | ⬜ |
+| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | ⬜ (adelanto: rama `fix/cruce-fuzzy`, ver Deuda) |
+| F4 | UI v2 bilingüe (Astro): buscador, ficha con historial, panorama por cadena, metodología | 🟨 rama `v2/f4-ui` (worktree `../farmacias-ui`): inicio hecha, ficha en curso |
 | F5 | README final con capturas nuevas, `docs/` (esquema, matching, operación), CITATION 2.0.0 | ⬜ |
 
 **Arranque:** pegar `PROMPT_claude_code.md` en Claude Code desde la raíz del repo.
@@ -38,14 +39,22 @@
 | Graba/reproduce HTTP | `core/http_cache.py` + `core/adapter_base.py` | Transporte httpx: graba cada respuesta **antes** del parseo; reproduce sin red (un faltante falla, no sale a la red); reanuda corridas cortadas. Delay por dominio solo en requests reales. Las keys Algolia nunca llegan al crudo. |
 | Orquestador | `pipeline/run.py` | `--todo`, `--solo-captura`, `--desde-cache`, `--reanudar`, `--delay` (default 2–6 s), `--sin-semillas`. La salida oficial **siempre** se reprocesa desde el crudo. Log en `data/logs/`. |
 | Parquet | `pipeline/parquet.py` + `docs/ESQUEMA_DATOS.md` | `ofertas` y `eventos`, esquema Arrow explícito, `history/<fecha>/` + `latest/`. |
-| Tarea diaria | `scripts/instalar_tarea_windows.ps1` + `corrida_diaria.cmd` | `schtasks /IT` (solo con sesión iniciada: Drive se monta por sesión). **Aún no registrada.** |
-| Config | `.env.example`, `.gitignore` | `RAW_DIR`, `PROCESSED_DIR`, `PUBLISH_*` (reservado). `data/` anclado a `/data/` (antes también ignoraba `web/data/`). |
+| Archivo en Drive | `pipeline/run.py --sincronizar` | `rclone copy` (nunca `sync`) del crudo y el Parquet a `RCLONE_REMOTE*`, **después** de snapshot y Parquet: si Drive falla, la corrida ya está completa y el copy se reintenta mañana. Incluido al final de `--todo`/`--reanudar`. |
+| Publicación | `pipeline/publish.py` | La corrida exporta a staging (`data/publicar/data.json`), nunca a lo servido. `publish` muestra resumen (productos, cambios de precio, desaparecidos, tamaño), pide escribir `publicar`, rechaza si desaparece >20 % salvo `--forzar`, sube por FTP/SFTP (`PUBLISH_*` en `.env`) con respaldo local del remoto. `--simular` prueba la conexión en solo lectura. **No** lo llama la tarea diaria. |
+| Tarea diaria | `scripts/instalar_tarea_windows.ps1` + `corrida_diaria.cmd` | **Registrada: diaria a las 02:00** (`RadarPrecios-CorridaDiaria`), `schtasks /IT`: corre con la sesión iniciada (bloqueada vale) sin guardar contraseña. |
+| Config | `.env.example`, `.gitignore`, `.gitattributes` | `RAW_DIR`, `PROCESSED_DIR`, `RCLONE_REMOTE*`, `PUBLISH_*`. `data/` anclado a `/data/` (antes también ignoraba `web/data/`). `*.json`/`*.py` en LF. |
 
 Verificado: regresión 32/32; `tests/test_http_cache.py` OK en Python 3.12 y 3.9
 (incluye reanudar tras una línea cortada); captura real de 3 productos (15 requests,
 0 errores) → `--desde-cache` con **sockets bloqueados** da un `data.json` **byte a
 byte igual**; `--reanudar` termina con 0 requests de red; una captura simulada con
-key Algolia rotada (403) sale con código 2 **sin** escribir `data.json` ni snapshot.
+key Algolia rotada (403) sale con código 2 **sin** escribir `data.json` ni snapshot, y la
+captura se corta en el **primer** 403 con un mensaje que dice qué key rotó y cómo recapturarla.
+
+**A escala (corrida `2026-09-25T03-33-29Z`, `--objetivo 150`, con historial):** 3131 s
+(**52 min**) + ~1,5 min de rclone; 1232 requests, 0 errores; 296 filas, 55 con las 4
+cadenas. `--desde-cache` de esa corrida con sockets bloqueados: **byte a byte igual**
+(334 188 bytes) en 5 s. Tests `http_cache`, `credencial`, `publish`, `sincronizar`: OK.
 `web/` sin cambios respecto de `main`.
 
 **Verificarlo tú en 5 minutos (PowerShell, desde la raíz del repo):**
@@ -64,7 +73,7 @@ py -m pipeline.run --todo --objetivo 3 --sin-semillas --salida "$env:TEMP\vivo.j
 # Copia el id que imprime la primera línea ("Corrida 2026-...Z") y:
 py -m tests.verificar_desde_cache <id-corrida> --contra "$env:TEMP\vivo.json"   # OK: sin red y byte a byte igual
 Get-ChildItem -Recurse $env:RAW_DIR | Select-Object FullName, Length          # crudo por cadena + _corridas
-.\scripts\instalar_tarea_windows.ps1 -Hora 04:30 -Simular                      # muestra el schtasks, no registra
+.\scripts\instalar_tarea_windows.ps1 -Simular                                 # muestra el schtasks, no registra
 Remove-Item Env:RAW_DIR
 ```
 
@@ -79,21 +88,19 @@ Decisiones (y por qué):
 - **`fichas`/`matches` no entran todavía al Parquet:** son de F3.
 - **pandas fuera de `core/`** (regla 3.9): el Parquet vive en `pipeline/`, con pyarrow.
 - **`publicar` NO se automatizó:** subir a Hostinger sobrescribe el sitio público, y
-  la regla del portafolio exige confirmación explícita. Falta acordar el mecanismo
-  (p.ej. subir a una carpeta staging y confirmar a mano el cambio).
+  la regla del portafolio exige confirmación explícita. Contrato: la tarea exporta a
+  staging; `pipeline.publish` compara con lo publicado y pide confirmación.
+- **Caché local + archivo en Drive vía rclone** (no Drive para escritorio montado):
+  la corrida no depende de una unidad de red; ver `V2_PLAN.md` §1 (enmendado).
+- **02:00:** 52 min medidos + rclone terminan hacia las 03:00.
 
-Pendiente para cerrar F1:
-1. `RAW_DIR`: en esta sesión Google Drive para escritorio **no estaba montado** (no
-   existían `G:\Mi unidad` ni `C:\Users\Usuario\Mi unidad`). Abrirlo, ver la ruta en
-   el Explorador y ponerla en `.env`.
-2. Primera corrida completa real: `py -m pipeline.run --todo`. Duración **sin
-   medir**: la mini captura dio ~11 s por producto con 2–6 s por dominio; con 150
-   productos más las semillas de 2 subcategorías, **estimo** 1 h o más. Medirla en esta
-   primera corrida (sale en el resumen) antes de elegir la hora de la tarea.
-   Después, `py -m tests.verificar_desde_cache <id-corrida>`.
-3. Registrar la tarea: `.\scripts\instalar_tarea_windows.ps1 -Hora 04:30`. Con `/IT`,
-   cerrar sesión a mitad de la corrida la mata: se retoma con `--reanudar <id>`.
-4. PR `v2/f1-data-lake` → `main`.
+Después de F1 (fuera del PR):
+1. `PUBLISH_*` en `.env` (credenciales FTP/SFTP, las pone el usuario) y probar
+   `py -m pipeline.publish --simular`. La primera publicación real, a mano.
+2. Mergear `fix/cruce-fuzzy` **antes** de la primera publicación: sin él, el staging
+   trae Suprahyal↔Mensille (13×) y dos Desloratadina a 6–9× (ver Deuda).
+3. Con `/IT`, cerrar sesión a mitad de la corrida la mata: se retoma con
+   `--reanudar <id>`.
 
 ### F2 — por dónde empezar
 
@@ -109,9 +116,14 @@ Pendiente para cerrar F1:
 ## 🔧 Deuda conocida (sigue vigente)
 
 - Llaves Algolia rotan → 403; recapturar desde DevTools y actualizar `.env`. Desde F1
-  la corrida v2 **no exporta** si ve 401/403 (código 2, `data.json` intacto). Falta
-  cortar en el primer 403: hoy prueba todos los términos (~75 requests) antes de
-  rendirse → tarea chica para F2.
+  la corrida v2 **no exporta** si ve 401/403 (código 2, staging intacto) y corta en el
+  primer 403 diciendo qué key rotó.
+- **Cruce fuzzy absurdo (rama `fix/cruce-fuzzy`, PR aparte):** Suprahyal (ác.
+  hialurónico) casó con Mensille (anticonceptivo) porque "inyectable"/"jeringa"
+  contaban como principio activo, y `_precio_plausible` estaba muerto desde 219e668.
+  El arreglo los vuelve genéricos y reactiva la guarda en todo cruce fuzzy con
+  [1/3, 3]. Reproducida la corrida del 25-09 con el arreglo: cambian exactamente esas
+  3 filas. Regresión 36/36.
 - Corridas pesadas contra Boticas se han cortado alguna vez. Desde F1,
   `py -m pipeline.run --reanudar <corrida>` sigue desde el staging sin repetir
   requests. No reintentar en bucle.
@@ -131,7 +143,10 @@ PYTHONIOENCODING=utf-8 py -m pipeline.run --todo                      # corrida 
 PYTHONIOENCODING=utf-8 py -m pipeline.run --desde-cache 2026-09-25    # reproceso sin red
 PYTHONIOENCODING=utf-8 py -m pipeline.run --reanudar <id-corrida>     # captura cortada
 PYTHONIOENCODING=utf-8 py -m tests.test_http_cache
-PYTHONIOENCODING=utf-8 py -m tests.verificar_desde_cache <fecha|id> [--contra web/data.json]
+PYTHONIOENCODING=utf-8 py -m tests.verificar_desde_cache <fecha|id>   # contra data/publicar/data.json
+PYTHONIOENCODING=utf-8 py -m pipeline.run --sincronizar               # reintenta el copy a Drive
+PYTHONIOENCODING=utf-8 py -m pipeline.publish --simular               # resumen + prueba de conexión
+PYTHONIOENCODING=utf-8 py -m pipeline.publish                         # pide escribir "publicar"
 ```
 
 Ojo: la fecha de corrida está en **UTC** (de noche en Lima ya es el día siguiente).

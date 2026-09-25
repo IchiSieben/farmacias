@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from core.adapter_base import CredencialRechazada
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
@@ -247,11 +248,20 @@ def _match_boticas(ref: Producto, cands):
     return best
 
 
-def construir(objetivo: int, pausa: float = 0.15) -> dict:
-    ink = InkafarmaAdapter(delay_range=(0, 0))
-    mif = MifarmaAdapter(delay_range=(0, 0))
-    bot = BoticasPeruAdapter(delay_range=(0, 0))
-    uni = UniversalAdapter(delay_range=(0, 0))
+def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
+              semillas: bool = True, generado: Optional[str] = None) -> dict:
+    """Arma el snapshot. Los kwargs opcionales los usa `pipeline.run` (F1):
+
+    - `adapter_kw(cadena) -> dict`: kwargs extra por adaptador (p.ej. el
+      transporte que graba/reproduce el crudo, ver core.http_cache).
+    - `semillas=False`: omite SUBCATS_SEED (captura chica de prueba).
+    - `generado`: fija el sello de la corrida (reproceso desde caché byte a byte).
+    """
+    kw = adapter_kw or (lambda cadena: {})
+    ink = InkafarmaAdapter(delay_range=(0, 0), **kw("inkafarma"))
+    mif = MifarmaAdapter(delay_range=(0, 0), **kw("mifarma"))
+    bot = BoticasPeruAdapter(delay_range=(0, 0), **kw("boticasperu"))
+    uni = UniversalAdapter(delay_range=(0, 0), **kw("universal"))
 
     base: Dict[str, dict] = {}  # objectID -> {inka, categoria}
     with ink, mif, bot, uni:
@@ -263,6 +273,8 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
                     break
                 try:
                     hits = ink.search(t, limit=3)
+                except CredencialRechazada:
+                    raise  # key rotada: seguir solo repite el 403 con cada término
                 except Exception as exc:
                     print(f"  ! inka '{t}': {exc}", file=sys.stderr)
                     continue
@@ -277,7 +289,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
         #     (sin contar contra `objetivo`) para escalar SOLO las categorías ya
         #     validadas a su subcategoría completa, sin arrastrar otras nuevas.
         print("Sembrando categorías escaladas (facetas de subcategoría)...", file=sys.stderr)
-        for categoria, subcats in SUBCATS_SEED.items():
+        for categoria, subcats in (SUBCATS_SEED.items() if semillas else []):
             for sku, p in _seed_subcats(ink, subcats).items():
                 base.setdefault(sku, {"inka": p, "categoria": categoria})
         print(f"  {len(base)} productos base (con semillas de subcategoría).", file=sys.stderr)
@@ -392,7 +404,7 @@ def construir(objetivo: int, pausa: float = 0.15) -> dict:
 
     productos.sort(key=lambda p: (p["categoria"], p["nombre"], p.get("presentacion") or ""))
     return {
-        "generado": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generado": generado or datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "cadenas": [
             {"id": "inkafarma", "nombre": "Inkafarma", "grupo": _GRUPO_DE.get("inkafarma")},
             {"id": "mifarma", "nombre": "Mifarma", "grupo": _GRUPO_DE.get("mifarma")},

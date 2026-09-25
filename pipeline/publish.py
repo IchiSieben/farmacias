@@ -228,6 +228,25 @@ def subir(destino: Destino, datos: bytes, generado: str) -> Path:
     return respaldo
 
 
+def probar_conexion() -> bool:
+    """Solo lectura: login y lectura del data.json remoto. No escribe nada."""
+    try:
+        destino = destino_desde_entorno()
+        try:
+            actual = destino.leer(NOMBRE_REMOTO)
+        finally:
+            destino.cerrar()
+    except Exception as exc:  # credenciales, red, ruta remota
+        print(f"  conexión: FALLA ({type(exc).__name__}: {exc})")
+        return False
+    if actual is None:
+        print(f"  conexión: OK, pero no hay {NOMBRE_REMOTO} en PUBLISH_REMOTE_DIR (¿ruta correcta?)")
+        return False
+    print(f"  conexión: OK · {NOMBRE_REMOTO} remoto = {len(actual)} bytes, "
+          f"generado {json.loads(actual).get('generado', '?')}")
+    return True
+
+
 def confirmar(entrada=input) -> bool:
     try:
         return entrada("Escribe 'publicar' para subirlo: ").strip().lower() == "publicar"
@@ -260,6 +279,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"RECHAZADO: {exc}", file=sys.stderr)
         return 3
     if args.simular:
+        if os.getenv("PUBLISH_HOST", "").strip():
+            probar_conexion()
         print("(simulación: no se subió nada)")
         return 0
     if not confirmar():

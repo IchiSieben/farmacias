@@ -44,6 +44,7 @@ class AdapterBase(abc.ABC):
         user_agent: Optional[str] = None,
         extra_headers: Optional[Dict[str, str]] = None,
         client: Optional[httpx.Client] = None,
+        transport: Optional[httpx.BaseTransport] = None,
     ) -> None:
         self.delay_range = delay_range
         self.timeout = timeout
@@ -55,9 +56,14 @@ class AdapterBase(abc.ABC):
         }
         if extra_headers:
             headers.update(extra_headers)
+        # `transport` (opcional): p.ej. core.http_cache.TransporteCache, que graba
+        # el crudo antes del parseo o lo reproduce sin red (V2_PLAN F1).
         self._client = client or httpx.Client(
-            headers=headers, timeout=timeout, follow_redirects=True
+            headers=headers, timeout=timeout, follow_redirects=True,
+            transport=transport,
         )
+        # Reproduciendo desde caché no hay sitio con el que ser cortés: sin delays.
+        self._offline = bool(getattr(getattr(transport, "sesion", None), "offline", False))
         self._owns_client = client is None
 
     # --- ciclo de vida ------------------------------------------------------
@@ -75,7 +81,7 @@ class AdapterBase(abc.ABC):
     def _sleep(self, rango=None) -> None:
         """Delay aleatorio entre requests (cortesía con el sitio)."""
         lo, hi = rango or self.delay_range
-        if hi > 0:
+        if hi > 0 and not self._offline:
             time.sleep(random.uniform(lo, hi))
 
     def _post_json(self, url: str, body: dict, *, intentos: int = 4) -> dict:
@@ -85,7 +91,8 @@ class AdapterBase(abc.ABC):
             resp = self._client.post(url, json=body)
             ultimo = resp
             if resp.status_code in (429, 503):
-                time.sleep(min(2 ** i, 30))
+                if not self._offline:
+                    time.sleep(min(2 ** i, 30))
                 continue
             resp.raise_for_status()
             return resp.json()

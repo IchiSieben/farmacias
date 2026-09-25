@@ -4,14 +4,19 @@
 
 .DESCRIPTION
   Crea una tarea diaria que ejecuta scripts\corrida_diaria.cmd
-  (= py -m pipeline.run --todo). Se registra con /IT: corre SOLO con tu sesión
-  iniciada, porque Google Drive para escritorio (RAW_DIR) se monta por sesión;
-  sin sesión la unidad no existe y la corrida fallaría al validar RAW_DIR.
-  Si el PC está apagado a esa hora, la corrida de ese día no se hace.
+  (= py -m pipeline.run --todo: captura, procesado, exportación a staging y
+  rclone copy a Drive). Se registra con /IT: corre con tu sesión iniciada
+  (bloqueada vale) y así no hace falta guardar tu contraseña en la tarea; usa
+  tu .env y tu configuración de rclone (%APPDATA%\rclone). Con la sesión cerrada
+  o el PC apagado a esa hora, la corrida de ese día no se hace.
+
+  Duración medida (2026-09-25, --objetivo 150): 52 min de captura y procesado +
+  ~1,5 min de rclone. A las 02:00 termina hacia las 03:00, con margen de sobra
+  antes del día. NO publica: web/data.json solo cambia con pipeline.publish.
 
 .EXAMPLE
-  .\scripts\instalar_tarea_windows.ps1 -Hora 04:30
-  .\scripts\instalar_tarea_windows.ps1 -Hora 04:30 -Simular   # muestra el comando, no registra
+  .\scripts\instalar_tarea_windows.ps1                # diaria a las 02:00
+  .\scripts\instalar_tarea_windows.ps1 -Hora 02:00 -Simular   # muestra el comando, no registra
   .\scripts\instalar_tarea_windows.ps1 -Quitar
 
 .NOTES
@@ -21,7 +26,7 @@
 #>
 param(
     [ValidatePattern('^\d{2}:\d{2}$')]
-    [string]$Hora = "04:30",
+    [string]$Hora = "02:00",
     [string]$Nombre = "RadarPrecios-CorridaDiaria",
     [switch]$Quitar,
     [switch]$Simular

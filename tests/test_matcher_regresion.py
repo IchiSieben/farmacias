@@ -17,7 +17,7 @@ import sys
 from core.ficha import clave_rs, extrae_rs_texto, ficha_de, normaliza_rs
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
-from pipeline.build_snapshot import _match_boticas
+from pipeline.build_snapshot import _match_boticas, _mejor_match
 
 
 def _p(nombre: str, sku: str) -> Producto:
@@ -190,6 +190,41 @@ CASOS_REALES = [
 ]
 
 
+# Capa 4 (tests/matches_curados.yaml) y equivalentes, por la ruta real _mejor_match.
+_PANADOL_NINOS_INKA = _oferta(
+    "inkafarma", "093090", "Panadol Niños 160mg/5ml Jarabe", 15.1,
+    presentacion="FRASCO 60 ML", presentacion_kind="pack",
+    cantidad_envase=60.0, unidad_envase="ml", registro_sanitario="EE-09339")
+_PARACETAMOL_500_INKA = _oferta(
+    "inkafarma", "017987", "Paracetamol 500mg Tableta", 3.5,
+    presentacion="CAJA 100 UN", presentacion_kind="pack",
+    cantidad_envase=100.0, unidad_envase="un", registro_sanitario="EN-04550")
+
+# (descripción, ref, candidato, qué devuelve _mejor_match: "match" | "equivalente" | None, método)
+CURADO_Y_EQUIVALENTE = [
+    ("Panadol Niños Boticas: R.S. renumerado (EE-09339 ≠ E-14820), el curado manda",
+     _PANADOL_NINOS_INKA,
+     _oferta("boticasperu", "00907", "Panadol para Niños 2+ 160Mg Infantil Jarabe - Frasco 60 ML",
+             15.3, registro_sanitario="E-14820"),
+     "match", "curado"),
+    ("mismo par sin curar (otro sku): el R.S. distinto lo veta",
+     _PANADOL_NINOS_INKA,
+     _oferta("boticasperu", "otro-sku", "Panadol para Niños 2+ 160Mg Infantil Jarabe - Frasco 60 ML",
+             15.3, registro_sanitario="E-14820"),
+     "equivalente", "equivalente"),
+    ("Paracetamol 500 genérico de otro laboratorio (EN-04550 ≠ EE-08657): equivalente, no match",
+     _PARACETAMOL_500_INKA,
+     _oferta("boticasperu", "p500", "Paracetamol 500 Mg - Caja 100 UN", 4.2,
+             registro_sanitario="EE-08657"),
+     "equivalente", "equivalente"),
+    ("Supradyn Energy (DE-3831, texto 72): otra fórmula, ni match ni equivalente",
+     _SUPRADYN_INKA,
+     _oferta("boticasperu", "38936", "Supradyn Energy - Caja 30 UN", 48.0,
+             registro_sanitario="DE-3831"),
+     None, None),
+]
+
+
 # Capa 3 (imagen) y R.S. sin cantidad, sobre `comparar` con fichas armadas a mano.
 # Hashes sintéticos de 64 bits: _H0 base; _H_INTER a 12 bits (zona intermedia);
 # _H_DIST a 64 bits (claramente distinta).
@@ -313,6 +348,19 @@ def main() -> int:
         print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
 
     print("\n" + "=" * 78)
+    print("CAPA 4 (curados) Y EQUIVALENTES, ruta _mejor_match")
+    print("=" * 78)
+    for desc, ref, cand, esperado, metodo in CURADO_Y_EQUIVALENTE:
+        best, r, eq, eq_r = _mejor_match(ref, [cand])
+        got = "match" if best else "equivalente" if eq else None
+        got_m = r.metodo if best else "equivalente" if eq else None
+        ok = got == esperado and got_m == metodo
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {str(got):12} {desc}")
+        if not ok:
+            print(f"          ! {(r or eq_r).motivo if (r or eq_r) else 'sin candidato'}")
+
+    print("\n" + "=" * 78)
     print("FICHA: imagen (Capa 3) y R.S. sin cantidad, sobre comparar()")
     print("=" * 78)
     for desc, a, fa, b, fb, casa, metodo in CAPA_FICHA:
@@ -335,7 +383,7 @@ def main() -> int:
     fallos += not ok
     print(f"  [{'OK' if ok else 'FALLA':5}] {'':10} clave: DE-340 == DE-0340 ≠ DE-3401")
 
-    total = len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
+    total = len(CURADO_Y_EQUIVALENTE) + len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

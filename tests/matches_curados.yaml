@@ -1,0 +1,56 @@
+# Capa 4 del matcher (V2_PLAN §3.4): pares decididos a mano. Manda sobre todo lo
+# anterior (llaves, reglas, R.S., imagen). Se acumula sesión a sesión.
+#
+#   ref       fila de la referencia: <objectID InRetail>:<pack|fraccion>
+#   cadena    boticasperu | universal
+#   sku       id del producto en esa cadena (evidencia.sku en data.json)
+#   decision  match (casa aunque el matcher lo vete) | veto (nunca casa)
+#   motivo    por qué, en una línea; sale en la evidencia
+#   revisado  fecha (YYYY-MM-DD) y quién
+#
+# Criterio para curar un "match": misma marca, mismo laboratorio, misma
+# concentración, forma y cantidad, precio alineado; el R.S. que muestra una cadena
+# está viejo o renumerado. No se curan genéricos de otro laboratorio: esos son
+# "equivalentes", no el mismo producto (docs/MATCHING.md).
+
+- ref: "093090:pack"
+  cadena: boticasperu
+  sku: "00907"
+  decision: match
+  motivo: "Panadol Niños 160mg/5ml jarabe 60 ml; Panadol Niños figura con 3 R.S. (EE-09339, E-14820, EE-07826): renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+- ref: "093090:pack"
+  cadena: universal
+  sku: "10859"
+  decision: match
+  motivo: "Panadol Niños jarabe 60 ml (Universal escribe 160mg/ml); R.S. EE-07826 vs EE-09339: renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+- ref: "012136:pack"
+  cadena: boticasperu
+  sku: "00227-CAJA"
+  decision: match
+  motivo: "Digestase 80mg tableta masticable caja 120; R.S. EN-05376 vs EN-08506: renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+- ref: "012136:fraccion"
+  cadena: boticasperu
+  sku: "00227-BLISTER"
+  decision: match
+  motivo: "Digestase 80mg tableta masticable blíster 10; R.S. EN-05376 vs EN-08506: renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+- ref: "421011:pack"
+  cadena: boticasperu
+  sku: "15349-CAJA"
+  decision: match
+  motivo: "Enterogermina frasco bebible 5 ml caja 10; R.S. BE-00409 vs BE-00937: renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+- ref: "421011:fraccion"
+  cadena: boticasperu
+  sku: "15349-FRASCO"
+  decision: match
+  motivo: "Enterogermina frasco bebible 5 ml x1; R.S. BE-00409 vs BE-00937: renumerado"
+  revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"

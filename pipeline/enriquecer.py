@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from typing import Dict, Optional, Tuple
 
-from core.ficha import ATRIBUTO, Ficha, ficha_de
+from core.ficha import ATRIBUTO, Ficha, ficha_de, normaliza_rs
 from core.imagen import AlmacenImagenes
 from core.modelo import Producto
 
@@ -44,14 +44,17 @@ class Enriquecedor:
         return self._qv[pid]
 
     def ficha(self, p: Producto) -> Ficha:
-        if (p.cadena == "boticasperu" and self.boticas is not None
-                and not p.registro_sanitario):
-            rs = self._rs_boticas(str(p.sku))
-            if rs:
-                p.registro_sanitario = rs
-                p.fuentes = {**(p.fuentes or {}), "registro_sanitario": ATRIBUTO}
+        """Ficha completa. No modifica `p`: el R.S. del QuickView va solo a la ficha,
+        así una comparación sin enriquecer nunca ve datos pedidos para otra (el
+        resultado no depende del orden en que se comparan las referencias)."""
         k = (p.cadena, str(p.sku), p.presentacion_kind)
         if k not in self._fichas:
-            self._fichas[k] = ficha_de(
-                p, hashes_fn=self.imagenes.hashes if self.imagenes else None)
+            f = ficha_de(p, hashes_fn=self.imagenes.hashes if self.imagenes else None)
+            if (p.cadena == "boticasperu" and self.boticas is not None
+                    and not f.registro_sanitario):
+                rs = normaliza_rs(self._rs_boticas(str(p.sku)))
+                if rs:
+                    f.registro_sanitario = rs
+                    f.fuentes["registro_sanitario"] = ATRIBUTO
+            self._fichas[k] = f
         return self._fichas[k]

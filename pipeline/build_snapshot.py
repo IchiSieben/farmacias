@@ -20,12 +20,15 @@ Python 3.9+.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+
+import yaml
 
 from core.adapter_base import CredencialRechazada
 from core.adapters.boticasperu import BoticasPeruAdapter
@@ -219,45 +222,114 @@ def _cantidad_coincide(ref: Producto, cand: Producto, tol: float = 0.10):
 
 _CAPA_1 = ("id", "ean", "registro_sanitario")
 
+# Capa 4 (V2_PLAN §3.4): pares decididos a mano, mandan sobre todo lo anterior.
+CURADOS_YAML = ROOT / "tests" / "matches_curados.yaml"
+_curados_cache: Optional[Dict[Tuple[str, str, str], dict]] = None
 
-def _mejor_match(ref: Producto, cands, enr=None) -> Tuple[Optional[Producto], Optional[Resultado]]:
-    """Mejor candidato (Boticas o Universal) para ESA presentación, con su Resultado.
 
-    Ver `_match_boticas`. Con `enr` (pipeline.enriquecer.Enriquecedor), los
-    candidatos con texto >= 60 que no decidió una llave dura se vuelven a comparar
-    con la ficha completa: R.S. de Boticas (QuickView) y hashes de imagen.
+def _curados() -> Dict[Tuple[str, str, str], dict]:
+    """(ref "<objectID>:<pack|fraccion>", cadena, sku) -> entrada curada."""
+    global _curados_cache
+    if _curados_cache is None:
+        filas = []
+        if CURADOS_YAML.exists():
+            filas = yaml.safe_load(CURADOS_YAML.read_text(encoding="utf-8")) or []
+        _curados_cache = {(str(f["ref"]), f["cadena"], str(f["sku"])): f for f in filas}
+    return _curados_cache
+
+
+def _sin_rs(f):
+    """La misma ficha sin registro sanitario: ¿casaría si el R.S. no existiera?"""
+    return dataclasses.replace(
+        f, registro_sanitario=None,
+        fuentes={k: v for k, v in f.fuentes.items() if k != "registro_sanitario"})
+
+
+def _mejor_match(ref: Producto, cands, enr=None):
+    """Mejor candidato (Boticas o Universal) para ESA presentación.
+
+    Devuelve (match, resultado, equivalente, resultado_equivalente):
+      - match: ver `_match_boticas`. Con `enr` (pipeline.enriquecer.Enriquecedor),
+        los candidatos con texto >= 60 que no decidió una llave dura se vuelven a
+        comparar con la ficha completa: R.S. de Boticas (QuickView) y hashes de foto.
+      - equivalente: el mejor candidato que cae SOLO por R.S. distinto y que sin el
+        R.S. casaría (mismo activo, concentración, forma y cantidad; otro producto
+        registrado, p.ej. genérico de otro laboratorio). No es un match: se guarda
+        aparte (docs/MATCHING.md).
+    Los pares de tests/matches_curados.yaml mandan sobre todo lo anterior.
     """
     if ref.cantidad_envase is None or ref.unidad_envase is None:
-        return None, None
-    best, best_r = None, None
+        return None, None, None, None
+    ref_id = f"{ref.sku}:{ref.presentacion_kind or 'pack'}"
+    curados = _curados()
+    best, best_r, eq, eq_r = None, None, None, None
     for c in cands:
         if c.precio is None:
             continue
-        # La cantidad exacta confirma la presentación: si coincide, basta con que
-        # pase las reglas duras y la similitud de nombre llegue a la zona gris
-        # (>=70). El precio solo veta lo absurdo (>3×).
-        if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
+        curado = curados.get((ref_id, c.cadena, str(c.sku)))
+        if curado and curado.get("decision") == "veto":
             continue
-        r = comparar(ref, c)
-        # Veto por R.S. que la foto puede levantar (matcher.VETO_RS = "salvo_foto").
-        veto_rs = (not r.es_match and r.metodo == "registro_sanitario"
-                   and matcher.VETO_RS == "salvo_foto")
-        if enr is not None and (veto_rs or (
-                r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
-                and r.score >= UMBRAL_IMAGEN)):
-            r = comparar(ref, c, fa=enr.ficha(ref), fb=enr.ficha(c))
+        # Las fichas completas cuestan requests (QuickView, fotos): solo se piden para
+        # los curados y para los candidatos que pasan cantidad, precio y texto >= 60.
+        def fichas():
+            return {"fa": enr.ficha(ref), "fb": enr.ficha(c)} if enr is not None else {}
+
+        if curado:
+            base = comparar(ref, c, **fichas())  # solo para la evidencia
+            r = Resultado(True, 100.0, "curado",
+                          motivo=f"curado a mano: {curado.get('motivo', '')}",
+                          evidencia={**base.evidencia, "decision": "curado",
+                                     "revisado": curado.get("revisado")})
+        else:
+            # La cantidad exacta confirma la presentación: si coincide, basta con que
+            # pase las reglas duras y la similitud de nombre llegue a la zona gris
+            # (>=70). El precio solo veta lo absurdo (>3×).
+            if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
+                continue
+            r = comparar(ref, c)
+            # Veto por R.S. que la foto puede levantar (matcher.VETO_RS = "salvo_foto").
+            veto_rs = (not r.es_match and r.metodo == "registro_sanitario"
+                       and matcher.VETO_RS == "salvo_foto")
+            if enr is not None and (veto_rs or (
+                    r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
+                    and r.score >= UMBRAL_IMAGEN)):
+                r = comparar(ref, c, **fichas())
+            if not r.es_match and r.metodo == "registro_sanitario":
+                # El veto ya pidió lo que hacía falta (Boticas: QuickView); Universal
+                # trae el R.S. en la búsqueda y no pide nada.
+                completas = fichas() if enr is not None and c.cadena == "boticasperu" else {}
+                fa = completas.get("fa") or ficha_de(ref)
+                fb = completas.get("fb") or ficha_de(c)
+                r2 = comparar(ref, c, fa=_sin_rs(fa), fb=_sin_rs(fb))
+                # Equivalente solo si sin el R.S. casaría de verdad (>= 85 o foto
+                # idéntica), no por zona gris: Supradyn Energy (texto 72) no lo es.
+                if r2.es_match and (not eq_r or r2.score > eq_r.score):
+                    r2.evidencia.update(rs=[fa.registro_sanitario, fb.registro_sanitario],
+                                        rs_fuente=[fa.fuente("registro_sanitario"),
+                                                   fb.fuente("registro_sanitario")])
+                    r2.motivo = f"otro producto registrado: {r.motivo}; {r2.motivo}"
+                    eq, eq_r = c, r2
         if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
             best, best_r = c, r
-    return best, best_r
+    if eq is not None and best is not None and str(eq.sku) == str(best.sku):
+        eq, eq_r = None, None
+    return best, best_r, eq, eq_r
 
 
 def _evidencia(ref: Producto, cand: Producto, r: Resultado) -> Dict[str, Any]:
-    """Evidencia compacta de un cruce aceptado (data.json y matches.parquet)."""
+    """Evidencia compacta de un cruce (data.json y matches.parquet)."""
     ev = {"sku": str(cand.sku), "metodo": r.metodo, "score": round(r.score, 1),
           "revisar": r.revisar, "motivo": r.motivo,
           "ratio_precio": round(cand.precio / ref.precio, 2) if ref.precio else None}
     ev.update({k: v for k, v in r.evidencia.items() if k != "decision"})
     return ev
+
+
+def _equivalente(ref: Producto, cand: Producto, r: Resultado) -> Dict[str, Any]:
+    """Un equivalente (mismo activo/concentración/forma/cantidad, otro R.S.): no es
+    precio de la fila; lleva su propio nombre, precio y enlace."""
+    return {**_evidencia(ref, cand, r), "metodo": "equivalente", "nombre": cand.nombre_origen,
+            "precio": round(cand.precio, 2), "url": cand.url}
 
 
 def _match_boticas(ref: Producto, cands, enr=None):
@@ -375,8 +447,10 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     promos["mifarma"] = bool(mpres.en_promocion)
                     urls["mifarma"] = mpres.url
 
-                evidencia = {}
-                best, best_r = _mejor_match(ipres, cands, enriquecedor)
+                evidencia, equivalentes = {}, {}
+                best, best_r, eq, eq_r = _mejor_match(ipres, cands, enriquecedor)
+                if eq:
+                    equivalentes["boticasperu"] = _equivalente(ipres, eq, eq_r)
                 if best:
                     evidencia["boticasperu"] = _evidencia(ipres, best, best_r)
                     precios["boticasperu"] = best.precio
@@ -387,7 +461,9 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
 
                 # Universal: mismo matcher endurecido (cantidad exacta + reglas
                 # duras). Independiente; "—" donde no vende el producto.
-                best_u, best_ur = _mejor_match(ipres, cands_uni, enriquecedor)
+                best_u, best_ur, eq_u, eq_ur = _mejor_match(ipres, cands_uni, enriquecedor)
+                if eq_u:
+                    equivalentes["universal"] = _equivalente(ipres, eq_u, eq_ur)
                 if best_u:
                     evidencia["universal"] = _evidencia(ipres, best_u, best_ur)
                     precios["universal"] = best_u.precio
@@ -412,6 +488,7 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     "brecha_pct": brecha,
                     "urls": {k: v for k, v in urls.items() if v},
                     "evidencia": evidencia,
+                    "equivalentes": equivalentes,
                 })
             time.sleep(pausa)
             if (i + 1) % 25 == 0:

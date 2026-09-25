@@ -5,8 +5,10 @@ Aplana el snapshot de una corrida a dos tablas Parquet con tipos explícitos
 
     ofertas   una fila por (producto_id, cadena) con precio en esa corrida
     eventos   cambios contra la corrida anterior (nuevo, sube/baja, promo)
-    matches   F3: una fila por cruce aceptado (producto_id, cadena) con su evidencia
-              (método, score, R.S., cantidad y su fuente, imagen, precio)
+    matches   F3: una fila por cruce (producto_id, cadena, tipo) con su evidencia
+              (método, score, R.S., cantidad y su fuente, imagen, precio). tipo =
+              "match" (el precio de la fila) o "equivalente" (mismo activo,
+              concentración, forma y cantidad, otro R.S.: no se muestra como match)
 
 Layout en PROCESSED_DIR (default data/processed/):
     history/<YYYY-MM-DD>/{ofertas,eventos,matches}.parquet   una corrida por día (la última gana)
@@ -86,8 +88,9 @@ ESQUEMA_MATCHES = pa.schema([
     ("capturado_en", _UTC),
     ("producto_id", pa.string()),
     ("cadena", pa.string()),
+    ("tipo", pa.string()),              # match | equivalente
     ("sku_cadena", pa.string()),
-    ("metodo", pa.string()),            # id | ean | registro_sanitario | fuzzy | imagen
+    ("metodo", pa.string()),            # id|ean|registro_sanitario|fuzzy|imagen|curado|equivalente
     ("score", pa.float64()),
     ("revisar", pa.bool_()),
     ("motivo", pa.string()),
@@ -103,6 +106,8 @@ ESQUEMA_MATCHES = pa.schema([
     ("imagen_dist_phash", pa.int16()),
     ("imagen_dist_dhash", pa.int16()),
     ("ratio_precio", pa.float64()),
+    ("precio", pa.float64()),
+    ("url", pa.string()),
     ("evidencia", pa.string()),         # JSON completo (lo mismo que data.json)
 ], metadata={"esquema": "matches", "version": "1"})
 
@@ -124,13 +129,17 @@ def filas_matches(data: dict, corrida: str) -> List[Dict]:
         evs = dict(p.get("evidencia") or {})
         if "mifarma" in p.get("precios", {}):
             evs.setdefault("mifarma", {**_EVIDENCIA_INRETAIL, "sku": p["id"].split(":")[0]})
-        for cadena, ev in sorted(evs.items()):
+        cruces = [("match", c, ev) for c, ev in sorted(evs.items())]
+        cruces += [("equivalente", c, ev)
+                   for c, ev in sorted((p.get("equivalentes") or {}).items())]
+        for tipo, cadena, ev in cruces:
             img = ev.get("imagen") or {}
             filas.append({
                 "corrida": corrida,
                 "capturado_en": ts,
                 "producto_id": p["id"],
                 "cadena": cadena,
+                "tipo": tipo,
                 "sku_cadena": ev.get("sku"),
                 "metodo": ev["metodo"],
                 "score": ev.get("score"),
@@ -148,6 +157,8 @@ def filas_matches(data: dict, corrida: str) -> List[Dict]:
                 "imagen_dist_phash": img.get("phash"),
                 "imagen_dist_dhash": img.get("dhash"),
                 "ratio_precio": ev.get("ratio_precio"),
+                "precio": ev.get("precio") if tipo == "equivalente" else p["precios"].get(cadena),
+                "url": ev.get("url") if tipo == "equivalente" else (p.get("urls") or {}).get(cadena),
                 "evidencia": json.dumps(ev, ensure_ascii=False, sort_keys=True),
             })
     return filas

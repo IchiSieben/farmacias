@@ -374,7 +374,7 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
     por_cadena = {c: sum(1 for p in prods if c in p["precios"]) for c in CADENAS}
     metodos: Dict[str, int] = {}
     for p in prods:
-        for ev in (p.get("evidencia") or {}).values():
+        for ev in [*(p.get("evidencia") or {}).values(), *(p.get("equivalentes") or {}).values()]:
             metodos[ev["metodo"]] = metodos.get(ev["metodo"], 0) + 1
     multi = sum(1 for p in prods if len(p["precios"]) >= 2)
     todas = sum(1 for p in prods if len(p["precios"]) == len(CADENAS))
@@ -392,7 +392,7 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
         *([f"  procesado desde el crudo: {sum(s.get('cache', 0) for s in replay.values())} "
            f"respuestas del caché · {sum(s.get('red', 0) for s in replay.values())} por red"]
           if replay is not None else []),
-        *([f"  cruces Boticas/Universal por método: "
+        *([f"  cruces Boticas/Universal por método (equivalente = no es match): "
            + ", ".join(f"{k} {v}" for k, v in sorted(metodos.items()))] if metodos else []),
         *([f"  enriquecimiento F3: QuickView {enriq['quickview_con_rs']} con R.S. / "
            f"{enriq['quickview_sin_dato']} sin dato · fotos {enriq['imagenes']}"]

@@ -11,3 +11,4 @@ pyarrow>=14.0      # capa PROCESSED del data lake: Parquet con esquema explícit
 
 # --- previstas para fases siguientes (aún no usadas) ---
 # pandas>=2.0      # analítica sobre el Parquet (F2/F3)
+# paramiko>=3.0    # solo si PUBLISH_PROTOCOL=sftp (pipeline.publish)

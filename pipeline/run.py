@@ -6,9 +6,9 @@ Pasos:
              RAW_DIR/<cadena>/<fecha>/ junto a un manifiesto de la corrida.
   procesar   crudo -> snapshot. Normaliza + matchea (hoy es `construir()` de la v1,
              reproducido SIN red desde el crudo; F3 lo separa en dos pasos).
-  exportar   snapshot -> web/data.json (contrato v1) + histórico + Parquet
+  exportar   snapshot -> data/publicar/data.json (staging, contrato v1) + histórico + Parquet
              (pipeline/parquet.py, esquema en docs/ESQUEMA_DATOS.md).
-  publicar   pendiente (ver ESTADO): subir a Hostinger exige confirmación explícita.
+  publicar   aparte y a mano: py -m pipeline.publish (resumen + confirmación).
 
 La salida oficial SIEMPRE sale del crudo, también en `--todo`: la captura en vivo
 solo graba, y el procesado se hace reproduciendo lo grabado. Así el camino
@@ -47,7 +47,9 @@ from pipeline.parquet import exportar_parquet
 ROOT = Path(__file__).resolve().parent.parent
 STAGING_DIR = ROOT / "data" / "staging"
 LOG_DIR = ROOT / "data" / "logs"
-OUT_DEFAULT = ROOT / "web" / "data.json"
+# Staging de publicación: la corrida NUNCA escribe web/data.json (lo servido).
+# Publicar es manual y con confirmación: py -m pipeline.publish
+OUT_DEFAULT = ROOT / "data" / "publicar" / "data.json"
 CADENAS = ["inkafarma", "mifarma", "boticasperu", "universal"]
 _VARS_ALGOLIA = ["INKAFARMA_ALGOLIA_APP_ID", "INKAFARMA_ALGOLIA_API_KEY",
                  "MIFARMA_ALGOLIA_APP_ID", "MIFARMA_ALGOLIA_API_KEY"]
@@ -192,7 +194,7 @@ def procesar(raw: RawStore, corrida: str) -> Tuple[dict, List[dict], Dict[str, A
 
 
 def validar(data: dict, requests: Dict[str, Dict[str, int]]) -> None:
-    """Guarda antes de exportar: una corrida rota no pisa web/data.json ni el histórico.
+    """Guarda antes de exportar: una corrida rota no pisa el staging ni el histórico.
 
     Si se exportara, el snapshot vacío sería el `previo` de mañana: todo saldría
     "nuevo" y se perderían las ▲▼. El crudo queda en RAW_DIR para diagnosticar.
@@ -210,7 +212,7 @@ def validar(data: dict, requests: Dict[str, Dict[str, int]]) -> None:
 
 def exportar(data: dict, eventos: List[dict], corrida: str, *, salida: Path,
              historial: bool) -> List[Path]:
-    """Snapshot -> web/data.json (mismo formato que la v1) + histórico."""
+    """Snapshot -> staging data.json (mismo formato que la v1) + histórico."""
     salida.parent.mkdir(parents=True, exist_ok=True)
     salida.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     escritos = [salida]

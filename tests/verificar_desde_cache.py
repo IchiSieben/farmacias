@@ -2,7 +2,7 @@
 
 Bloquea los sockets del proceso (cualquier intento de red revienta), reprocesa una
 corrida grabada a un archivo temporal y lo compara byte a byte con un data.json
-de referencia (por defecto, web/data.json).
+de referencia (por defecto, el staging data/publicar/data.json).
 
     PYTHONIOENCODING=utf-8 py -m tests.verificar_desde_cache 2026-09-24
     PYTHONIOENCODING=utf-8 py -m tests.verificar_desde_cache 2026-09-24 --contra otra/data.json
@@ -32,7 +32,7 @@ def _sin_red(*a, **k):
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("corrida", help="fecha (YYYY-MM-DD) o id de corrida")
-    ap.add_argument("--contra", default=str(ROOT / "web" / "data.json"))
+    ap.add_argument("--contra", default=str(ROOT / "data" / "publicar" / "data.json"))
     args = ap.parse_args(argv)
 
     from pipeline import run  # importar antes de bloquear (ssl hereda de socket)

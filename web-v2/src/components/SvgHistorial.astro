@@ -1,0 +1,69 @@
+---
+// Un SVG del historial para unas medidas dadas (escritorio o móvil). Sin JS.
+import { textos, t, soles, fecha, fechaCorta, type Idioma } from '../i18n';
+import { ESTILO, geometria, marcador, type Medidas, type Punto } from '../lib/historial';
+
+interface Props {
+  idioma: Idioma;
+  serie: Punto[];
+  ids: string[];
+  nombres: Record<string, string>;
+  med: Medidas;
+  idTitulo: string;
+  titulo: string;
+  desc: string;
+}
+const { idioma, serie, ids, nombres, med, idTitulo, titulo, desc } = Astro.props;
+const dic = textos(idioma);
+const g = geometria(serie, ids, med);
+const { ancho, alto, m } = med;
+const tam = med.etiquetas ? 11 : 10;
+---
+
+<svg viewBox={`0 0 ${ancho} ${alto}`} class="h-auto w-full" role="img" aria-labelledby={`${idTitulo}-t ${idTitulo}-d`}>
+  <title id={`${idTitulo}-t`}>{titulo}</title>
+  <desc id={`${idTitulo}-d`}>{desc}</desc>
+  {g.huecos.map((h) => (
+    <g>
+      <rect x={h.x1} y={m.arr} width={h.x2 - h.x1} height={alto - m.arr - m.aba} class="fill-superficie-2" />
+      {h.x2 - h.x1 > 60 && (
+        <text x={(h.x1 + h.x2) / 2} y={m.arr + 13} text-anchor="middle" class="fill-suave" font-size={tam}>
+          {t(dic, 'ficha.grafico.sinDatos')}
+        </text>
+      )}
+    </g>
+  ))}
+  {g.ejeY.map((e) => (
+    <g>
+      <line x1={m.izq} x2={ancho - m.der} y1={e.y} y2={e.y} class="stroke-borde" stroke-width="1" />
+      <text x={m.izq - 6} y={e.y + 4} text-anchor="end" class="num fill-suave" font-size={tam}>{soles(idioma, e.valor)}</text>
+    </g>
+  ))}
+  {g.ejeX.map((e) => (
+    <text x={e.x} y={alto - 9} text-anchor="middle" class="fill-suave" font-size={tam}>{fechaCorta(idioma, e.fecha)}</text>
+  ))}
+  {g.series.map((s) => (
+    <g style={`color: var(--cad-${s.cadena})`}>
+      {s.tramos.map((tr) => (
+        <path d={tr.d} fill="none" stroke="currentColor" stroke-linecap="round"
+          stroke-width={tr.hueco ? 1.5 : 2.25}
+          stroke-dasharray={tr.hueco ? '1 6' : ESTILO[s.cadena]?.trazo || undefined}
+          opacity={tr.hueco ? 0.6 : 1} />
+      ))}
+      {s.puntos.map((p) => (
+        <path d={marcador(ESTILO[s.cadena]?.marcador ?? 'circulo', p.x, p.y)} stroke="currentColor" stroke-width="1.75"
+          class={p.promo ? '' : 'fill-superficie'} fill={p.promo ? 'currentColor' : undefined}>
+          <title>{nombres[s.cadena]} · {fecha(idioma, p.fecha)} · {soles(idioma, p.precio)}{p.promo ? ` · ${t(dic, 'producto.promo')}` : ''}</title>
+        </path>
+      ))}
+      {med.etiquetas && (
+        <>
+          <path d={marcador(ESTILO[s.cadena]?.marcador ?? 'circulo', ancho - m.der + 14, s.etiquetaY, 4)} fill="currentColor" />
+          <text x={ancho - m.der + 24} y={s.etiquetaY + 4} class="fill-texto" font-size="12">
+            {nombres[s.cadena]} <tspan class="num" font-weight="600">{soles(idioma, s.puntos[s.puntos.length - 1].precio)}</tspan>
+          </text>
+        </>
+      )}
+    </g>
+  ))}
+</svg>

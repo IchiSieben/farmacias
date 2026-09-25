@@ -1,0 +1,124 @@
+---
+// Historial como SVG generado en el build: sin librería de gráficos ni JS. El cambio de
+// periodo es CSS (radios + :checked); la tabla en <details> es la versión accesible.
+import { textos, t, soles, fecha, type Idioma, type Clave } from '../i18n';
+import type { Cadena } from '../lib/datos';
+import { ESCRITORIO, ESTILO, MOVIL, RANGOS, marcador, recortar, type Punto, type Rango } from '../lib/historial';
+import SvgHistorial from './SvgHistorial.astro';
+
+interface Props {
+  idioma: Idioma;
+  serie: Punto[];
+  cadenas: Cadena[];
+}
+const { idioma, serie, cadenas } = Astro.props;
+const dic = textos(idioma);
+const ids = cadenas.map((c) => c.id).filter((c) => serie.some((p) => p.precios[c] != null));
+const nombre = (id: string) => cadenas.find((c) => c.id === id)?.nombre ?? id;
+const nombres = Object.fromEntries(ids.map((c) => [c, nombre(c)]));
+const ultimo = (c: string) => [...serie].reverse().find((p) => p.precios[c] != null)?.precios[c];
+const etiquetaRango = (r: Rango) => t(dic, `ficha.rango.${r}` as Clave);
+
+const vistas = RANGOS.map((r) => {
+  const s = recortar(serie, r);
+  return { r, serie: s, ok: s.length >= 2 || (r === 'todo' && s.length === 1) };
+});
+const unDia = serie.length === 1;
+const desc = serie.length
+  ? t(dic, 'ficha.grafico.desc', {
+      cadenas: ids.map(nombre).join(', '),
+      desde: fecha(idioma, serie[0].fecha),
+      hasta: fecha(idioma, serie[serie.length - 1].fecha),
+    })
+  : '';
+---
+
+<section aria-labelledby="h-historial" class="rounded-xl border border-borde bg-superficie p-4 sm:p-5">
+  <h2 id="h-historial" class="text-lg font-semibold">{t(dic, 'ficha.historial')}</h2>
+
+  <div class="grafico mt-3">
+    {vistas.map((v) => (
+      <input type="radio" name="rango" id={`r-${v.r}`} class="sr-only" checked={v.r === 'todo'} disabled={!v.ok} />
+    ))}
+    <div role="group" aria-label={t(dic, 'ficha.rango')} class="rangos flex flex-wrap gap-2 text-sm">
+      {vistas.map((v) => (
+        <label for={`r-${v.r}`} data-r={v.r}
+          title={v.ok ? undefined : t(dic, 'ficha.rango.insuficiente', { rango: etiquetaRango(v.r) })}
+          class={`rounded-full border border-borde px-3 py-1 ${v.ok ? 'cursor-pointer hover:bg-superficie-2' : 'cursor-not-allowed opacity-45'}`}>
+          {etiquetaRango(v.r)}
+        </label>
+      ))}
+    </div>
+
+    {vistas.filter((v) => v.ok).map((v) => (
+      <figure class={`fig fig-${v.r} mt-3`}>
+        <div class="sm:hidden">
+          <SvgHistorial idioma={idioma} serie={v.serie} ids={ids} nombres={nombres} med={MOVIL}
+            idTitulo={`gm-${v.r}`} titulo={`${t(dic, 'ficha.historial')} · ${etiquetaRango(v.r)}`} desc={desc} />
+        </div>
+        <div class="hidden sm:block">
+          <SvgHistorial idioma={idioma} serie={v.serie} ids={ids} nombres={nombres} med={ESCRITORIO}
+            idTitulo={`ge-${v.r}`} titulo={`${t(dic, 'ficha.historial')} · ${etiquetaRango(v.r)}`} desc={desc} />
+        </div>
+      </figure>
+    ))}
+    <ul class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs sm:hidden" aria-hidden="true">
+      {ids.map((c) => (
+        <li class="flex items-center gap-1.5" style={`color: var(--cad-${c})`}>
+          <svg viewBox="0 0 12 12" class="size-3 shrink-0"><path d={marcador(ESTILO[c]?.marcador ?? 'circulo', 6, 6, 4)} fill="currentColor" /></svg>
+          <span class="text-texto">{nombre(c)} <span class="num font-semibold">{ultimo(c) != null ? soles(idioma, ultimo(c)!) : '—'}</span></span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {unDia && <p class="mt-2 text-sm text-suave">{t(dic, 'ficha.grafico.unDia', { fecha: fecha(idioma, serie[0].fecha) })}</p>}
+  <p class="mt-2 text-xs text-suave">{t(dic, 'ficha.grafico.leyenda')}</p>
+
+  <details class="mt-3 text-sm">
+    <summary class="cursor-pointer font-medium">{t(dic, 'ficha.grafico.tabla')}</summary>
+    <div class="mt-2 overflow-x-auto">
+      <table class="w-full border-collapse text-right">
+        <thead>
+          <tr class="border-b border-borde">
+            <th scope="col" class="py-1.5 pr-3 text-left font-medium">{t(dic, 'ficha.tabla.fecha')}</th>
+            {ids.map((c) => <th scope="col" class="px-2 py-1.5 font-medium">{nombre(c)}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {serie.map((p) => (
+            <tr class="border-b border-borde/60">
+              <th scope="row" class="py-1.5 pr-3 text-left font-normal">{fecha(idioma, p.fecha)}</th>
+              {ids.map((c) => (
+                <td class="num px-2 py-1.5">
+                  {p.precios[c] != null ? soles(idioma, p.precios[c]) : '—'}
+                  {p.promos[c] && <span class="ml-1 text-xs text-suave">({t(dic, 'producto.promo')})</span>}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<style>
+  .fig { display: none; }
+  #r-todo:checked ~ .fig-todo,
+  #r-90:checked ~ .fig-90,
+  #r-30:checked ~ .fig-30 { display: block; }
+  #r-todo:checked ~ .rangos label[data-r='todo'],
+  #r-90:checked ~ .rangos label[data-r='90'],
+  #r-30:checked ~ .rangos label[data-r='30'] {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: var(--acento-texto);
+  }
+  #r-todo:focus-visible ~ .rangos label[data-r='todo'],
+  #r-90:focus-visible ~ .rangos label[data-r='90'],
+  #r-30:focus-visible ~ .rangos label[data-r='30'] {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+  }
+</style>

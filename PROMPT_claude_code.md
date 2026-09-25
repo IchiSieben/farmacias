@@ -1,43 +1,34 @@
-# PROMPT DE ARRANQUE PARA CLAUDE CODE
-# Pégale esto a Claude Code junto con SPEC_comparador_farmacias.md,
-# ANEXO_matching_api_historico.md y farmacias.yaml.
+# Prompt de arranque v2 para Claude Code
+
+> Pegar en Claude Code desde la raíz del repo (`farmacias/`). El prompt de la v1
+> (Fase 0, reconocimiento) quedó en el historial de git; ya no aplica.
+> Modelo sugerido: Opus, effort alto. Una fase por sesión.
 
 ---
 
-Estoy construyendo "FarmaComparador Perú", un comparador de precios entre cadenas de
-farmacias peruanas (estilo Trivago de farmacias). Te adjunto el SPEC de arquitectura,
-un anexo técnico (matching, explotación de API, histórico) y un farmacias.yaml inicial.
+Lee primero, en este orden: `CLAUDE.md`, `V2_PLAN.md`, `ESTADO_y_proximos_pasos.md`,
+`farmacias.yaml`. Luego recorre `core/`, `pipeline/build_snapshot.py`, `web/app.js` y
+`tests/test_matcher_regresion.py` para ver cómo está construida la v1. No propongas
+reescribir desde cero: la v1 está viva en producción y funciona; v2 la extiende.
 
-Lee los tres documentos primero. Quiero que trabajemos por fases. NO escribas todo el
-proyecto de golpe.
+Vamos a ejecutar `V2_PLAN.md` fase por fase. Empezamos por **F1 (data lake y corrida
+automática)**. Antes de escribir código:
 
-## FASE 0 — Reconocimiento (empezamos AQUÍ)
-Antes de codear el scraper, necesito mapear los endpoints reales. Para boticasperu.pe
-(Salesforce Commerce Cloud), inkafarma.pe (SPA Contentful) y mifarma.com.pe:
+1. Corre la regresión (`PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion`) y
+   confirma que está en verde. Ese es el piso.
+2. Dame un diagnóstico corto (≤ 20 líneas) de qué tocarías en F1 y en qué orden, con
+   los archivos exactos. Señala cualquier punto del plan que te parezca mal o
+   arriesgado — quiero que discutas, no que obedezcas.
+3. Recién después, crea la rama `v2/f1-data-lake` e implementa. Un commit por pieza
+   (`core/storage.py`, adaptadores → `RawStore`, `pipeline/run.py`, esquema Parquet,
+   tarea de Windows, `.env.example`). Mensajes en español, imperativo.
 
-1. Crea un script `recon/inspect_site.py` que, dado un dominio y un término de búsqueda,
-   haga la petición con headers/UA realistas y guarde la respuesta cruda en
-   `data/raw/recon/`. Que reporte: status code, content-type, tamaño, y si detecta
-   Cloudflare/WAF (headers cf-*, server, challenge).
-2. Para los sitios SPA, dame instrucciones claras de qué filtrar en DevTools → Network
-   (Fetch/XHR) para encontrar el endpoint JSON, qué copiar (URL, método, params, headers),
-   y dónde pegarlo en farmacias.yaml.
-3. Si un request directo da 403/anti-bot, prepara el fallback con Playwright.
+Restricciones que no se negocian: solo datos públicos con los delays actuales; el
+crudo se cachea antes de parsear; nada de credenciales en el repo; `web/data.json` y
+`web/` actuales siguen funcionando hasta que F4 los reemplace; toda pieza nueva se
+prueba con `--desde-cache` sin tocar la red.
 
-NO avances a Fase 1 hasta que tengamos los endpoints confirmados en farmacias.yaml.
-
-## Estructura del proyecto
-Sigue la del SPEC (config/, core/, pipeline/, dashboard/, data/). Patrón adaptador +
-motor genérico, para que sea replicable a otros rubros cambiando solo la config.
-
-## Stack
-Python 3.11, httpx, selectolax, rapidfuzz, imagehash, pandas, pyyaml, playwright (fallback),
-gspread (para el histórico en Sheets). Streamlit para el dashboard.
-
-## Reglas
-- Datos públicos de catálogo solamente. Delays aleatorios 2–6s, respeto de robots.txt.
-- Cachea siempre el crudo en data/raw/<fecha>/ para no re-pegarle al sitio mientras depuramos.
-- Empezamos con una canasta de ~30 productos ancla (la defino yo / la generamos juntos).
-
-Arranca con la Fase 0: crea recon/inspect_site.py y dame las instrucciones de DevTools.
-```
+Mi `RAW_DIR` va a ser una carpeta de Google Drive montada en Windows (te paso la ruta
+cuando la pidas). Termina la sesión con: qué quedó hecho, cómo lo verifico yo en 5
+minutos, y qué sigue en F2. Actualiza `ESTADO_y_proximos_pasos.md` con eso antes del
+último commit.

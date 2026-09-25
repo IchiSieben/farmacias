@@ -1,256 +1,197 @@
-# Radar de Precios — Peru Pharmacy Price Comparator
+# Radar de Precios · Pharmacy Price Radar (Peru)
+
+[Español](#español) · [English](#english)
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![No backend](https://img.shields.io/badge/frontend-HTML%2FCSS%2FJS%2C%20no%20build-informational)
-![Status](https://img.shields.io/badge/status-live-brightgreen)
+![Static site](https://img.shields.io/badge/frontend-static%2C%20no%20server-informational)
+![Status](https://img.shields.io/badge/status-live%20·%20v2%20in%20progress-brightgreen)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
-Compare medicine prices across four Peruvian pharmacy chains — a price checker for the
-same box of paracetamol in four stores at once.
-
-**Live demo:** [ichisieben.dev/radar-precios](https://ichisieben.dev/radar-precios/)
+**Live:** [ichisieben.dev/radar-precios](https://ichisieben.dev/radar-precios/)
 
 ![Comparison table preview](docs/poster.webp)
 
-## Why it exists
+---
 
-The same product, from the same lab, routinely differs 20-70% in price between chains —
-and two of the four chains belong to the same holding. This project makes that spread
-visible: it collects prices on a schedule, matches products across chains, and renders a
-static comparison page anyone can read.
+## English
 
-## How it works
+### The one-line pitch
 
-```
-adapters (one per chain)  →  snapshots (JSONL)  →  matcher  →  static HTML
-```
+The same box of paracetamol, from the same lab, costs 20–70 % more in one Peruvian
+pharmacy chain than in the one across the street — and two of the four chains belong
+to the same holding. Radar de Precios collects public catalog prices every run,
+decides when two listings are the *same* product, and publishes a comparison anyone
+can search.
 
-- **One adapter per chain**, each speaking the chain's own storefront protocol:
-  - Inkafarma and Mifarma run on their holding's Algolia search (same document
-    schema, separate instances). The adapters use the public client-side search
-    keys each storefront ships in its own JS bundle.
-  - Boticas Perú runs on Salesforce Commerce Cloud; its adapter combines the
-    HTML product grid with the storefront's clean QuickView JSON.
-  - Farmacia Universal runs on VTEX; its adapter reads the storefront's public
-    search API.
-- **A three-layer matcher** decides when two listings are the same product:
-  1. Exact ID — Inkafarma and Mifarma share an internal product ID, so those
-     match 1:1 for free.
-  2. Fuzzy — name plus active ingredient and pack size, for chains that share
-     nothing (with hard guards against bundles, variants and near-miss
-     vitamins).
-  3. Image verification — perceptual hashing of product photos to confirm
-     doubtful fuzzy matches.
-- **Snapshots are kept per run**, so the site can show price history and
-  detect promotions by diffing runs, not by trusting promo labels.
-- The comparator covers **medicines, supplements and dermo** — categories where
-  matching by active ingredient + concentration + presentation is reliable. It
-  deliberately excludes cosmetics/personal care, where there's no active
-  ingredient to disambiguate near-identical products across brands.
+### Why it is not a trivial scraper
 
-## Running it
+Pulling prices is the easy part. The hard part is **matching**: chains name the same
+product differently ("Paracetamol 500mg Tableta x 100" vs "Paracetamol 500 mg caja
+100"), hide the pack size in a separate attribute, and reuse the same photo for the
+box of 100 and the blister of 10. A wrong match is worse than a missing one, so the
+matcher is built as layers of increasing cost with hard guards at each step:
+
+1. **Hard identifiers** — a shared internal ID (Inkafarma ↔ Mifarma), EAN/GTIN where
+   a storefront exposes it, and (v2) the Peruvian sanitary-registry code.
+2. **Structured rules** — active ingredient, concentration, dosage form, pack size,
+   pediatric vs adult, vitamin letter, gummy vs tablet… any mismatch is a veto,
+   however similar the names look.
+3. **Fuzzy text** on the normalized core (ingredient + brand), weighted above the
+   full name.
+4. **Perceptual image hashing** to confirm doubtful pairs (v2: for every candidate,
+   also as a veto).
+5. **A curated golden set** of confirmed and rejected pairs that overrides everything
+   and grows with every review session (`tests/`).
+
+### What it covers today (v1)
+
+| Chain | Platform | How we read it | Cross-chain key |
+|---|---|---|---|
+| Inkafarma | Algolia (InRetail) | public search-only client key | shared `objectID` with Mifarma |
+| Mifarma | Algolia (InRetail) | public search-only client key | shared `objectID` with Inkafarma |
+| Boticas Perú | Salesforce Commerce Cloud | HTML grid + QuickView JSON | name + specs (+ sanitary registry in v2) |
+| Farmacia Universal | VTEX | public catalog API | EAN-13 when real, else name + specs |
+
+Scope: medicines, supplements and dermocosmetics — categories where active ingredient
++ concentration + presentation identify a product. Cosmetics and personal care are
+deliberately out (no active ingredient to disambiguate near-identical SKUs).
+
+Current snapshot: 296 products priced in ≥ 2 chains, 64 in all four; one snapshot per
+run so price moves (▲▼) and promotions are detected by diffing runs, not by trusting
+promo labels.
+
+### What v2 is doing (see `V2_PLAN.md`)
+
+Full category coverage instead of a hand-picked basket; raw dumps archived to Google
+Drive and processed to Parquet; a multi-signal matcher that reads structured
+attributes and sanitary-registry codes and hashes every product image; and a redesigned
+bilingual UI with per-product price history and a chain-positioning dashboard.
+
+### Run it
 
 Verified on Windows, Python 3.12.
 
 ```bash
 py -m pip install -r requirements.txt
-cp .env.example .env   # then fill in the Algolia search credentials
-py -m core.adapters.inkafarma buscar paracetamol
+cp .env.example .env            # fill in the Algolia search keys (see below)
+PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion    # matcher regression, must be all OK
 py -m pipeline.build_snapshot --objetivo 150 --salida web/data.json
+py -m http.server -d web 8000   # http://localhost:8000
 ```
 
-The credentials in `.env` are the public search-only keys each chain embeds in
-its own website (visible in DevTools → Network → requests to `*.algolia.net`).
-They are not private secrets, but they rotate occasionally and don't belong in
-a repo; when search starts returning 403, re-capture and update your `.env`.
+The `.env` keys are the public, search-only Algolia keys each chain ships in its own
+storefront JavaScript. They are not secrets, but they rotate; when search returns 403,
+re-capture them from DevTools → Network → `*.algolia.net`.
 
-### The static demo
+`web/` is plain HTML/CSS/JS with no build step: every path is relative, so the folder
+drops into any static host unchanged.
 
-`web/` is the published artifact: plain HTML, CSS and JS with no build step. It loads
-`data.json` (or `data.demo.json` with `?demo`) at runtime and renders the comparison table
-client-side, so it costs nothing to host.
+### Data, ethics and affiliation
 
-```bash
-cd web
-py -m http.server 8000
-# open http://localhost:8000 — confirmed: 200 on index.html, data.json and app.js
-```
+Prices are read from each chain's own public storefront endpoints, at low frequency
+(once per run) with randomized delays and back-off, never behind a login. Prices belong
+to their chains; this is an independent comparison exercise, not affiliated with
+Inkafarma, Mifarma, Boticas Perú or Farmacia Universal. The engine is domain-agnostic:
+a new vertical (veterinary, hardware, groceries) is a new adapter config, not new code.
 
-It opens with a five-step tutorial (`web/tutorial/`, vendored from `shared/tutorial/` in the
-portfolio workspace) that a returning visitor never sees again — dismissal persists in
-localStorage.
+### Author
 
-Every path in `web/` is relative, so the folder drops into any subdirectory unchanged.
-Confirmed live at `/radar-precios/`.
-
-## Data sources and licences
-
-Prices are read from each chain's own public, search-only storefront endpoints — not an
-official or documented API of any chain. Scope, throttling and rate limits are documented
-in `SPEC_comparador_farmacias.md` and `recon/README_devtools.md`. Prices belong to their
-respective chains (Inkafarma, Mifarma, Boticas Perú, Farmacia Universal); this project is
-an independent comparison exercise and is not affiliated with any of them.
-
-## Status
-
-**Live** and **usable**: deployed at `/radar-precios/`, 296 products matched across
-chains (64 matched in all three comparable chains). Pending: automating the currently
-manual snapshot run, and surfacing price history from the snapshots already kept per run.
-
-## Tests
-
-`tests/test_matcher_regresion.py` pins the matcher against a curated basket of
-known-good and known-bad pairs — the guard that keeps "Vitamina C 500mg x100"
-from matching "Vitamina C gomitas x60". It's a standalone script, not pytest:
-
-```bash
-PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion
-# REGRESIÓN LIMPIA: 32/32 casos OK
-```
-
-(`PYTHONIOENCODING=utf-8` is needed on Windows — the default `cp1252` console
-encoding can't print some accented characters in the output table.)
-
-## Author
-
-Yoichi Palacios Tanaka (IchiSieben) · [ichisieben.dev](https://ichisieben.dev)
-
-## License
-
-[Apache License 2.0](LICENSE).
+Yoichi Palacios Tanaka (IchiSieben) · [ichisieben.dev](https://ichisieben.dev) ·
+Apache 2.0 · Cite with `CITATION.cff`.
 
 ---
 
-*Internal working notes (SPEC, matching annex, roadmap) are in Spanish in the
-repo root and `docs/`.*
+## Español
 
----
+### El pitch en una línea
 
-# Radar de Precios — comparador de precios de farmacias en Perú (Español)
+La misma caja de paracetamol, del mismo laboratorio, cuesta 20–70 % más en una cadena
+de farmacias peruana que en la de enfrente — y dos de las cuatro cadenas son del mismo
+holding. Radar de Precios captura precios públicos de catálogo en cada corrida, decide
+cuándo dos listados son *el mismo* producto y publica una comparación que cualquiera
+puede buscar.
 
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![Sin backend](https://img.shields.io/badge/frontend-HTML%2FCSS%2FJS%2C%20no%20build-informational)
-![Estado](https://img.shields.io/badge/status-live-brightgreen)
-![Licencia](https://img.shields.io/badge/license-Apache%202.0-blue)
+### Por qué no es un scraper más
 
-Compara precios de medicamentos entre cuatro cadenas de farmacias peruanas — un
-verificador de precios para la misma caja de paracetamol en cuatro tiendas a la vez.
+Sacar precios es la parte fácil. Lo difícil es el **emparejamiento**: las cadenas
+nombran distinto al mismo producto ("Paracetamol 500mg Tableta x 100" vs "Paracetamol
+500 mg caja 100"), esconden la cantidad en otro atributo y reusan la misma foto para
+la caja de 100 y el blíster de 10. Un cruce equivocado es peor que un "—", así que el
+matcher está armado por capas de costo creciente, con vetos duros en cada paso:
 
-**Demo en vivo:** [ichisieben.dev/radar-precios](https://ichisieben.dev/radar-precios/)
+1. **Identificadores duros** — ID interno compartido (Inkafarma ↔ Mifarma), EAN/GTIN
+   donde la tienda lo expone y (v2) el registro sanitario DIGEMID.
+2. **Reglas estructuradas** — principio activo, concentración, forma farmacéutica,
+   cantidad, pediátrico vs adulto, letra de vitamina, gomita vs tableta… cualquier
+   desacuerdo veta el cruce por más que los nombres se parezcan.
+3. **Fuzzy de texto** sobre el núcleo normalizado (activo + marca), con más peso que
+   el nombre completo.
+4. **Hash perceptual de imagen** para confirmar pares dudosos (v2: en todo candidato,
+   también como veto).
+5. **Set curado** de pares confirmados y rechazados que manda sobre todo lo demás y
+   crece con cada sesión de revisión (`tests/`).
 
-![Vista previa de la tabla comparativa](docs/poster.webp)
+### Qué cubre hoy (v1)
 
-## Por qué existe
+| Cadena | Plataforma | Cómo se lee | Llave entre cadenas |
+|---|---|---|---|
+| Inkafarma | Algolia (InRetail) | llave pública de solo búsqueda | `objectID` compartido con Mifarma |
+| Mifarma | Algolia (InRetail) | llave pública de solo búsqueda | `objectID` compartido con Inkafarma |
+| Boticas Perú | Salesforce Commerce Cloud | grilla HTML + QuickView JSON | nombre + specs (+ registro sanitario en v2) |
+| Farmacia Universal | VTEX | API pública de catálogo | EAN-13 cuando es real; si no, nombre + specs |
 
-El mismo producto, del mismo laboratorio, suele variar 20-70% de precio entre cadenas —
-y dos de las cuatro cadenas pertenecen al mismo holding. Este proyecto hace visible esa
-brecha: recolecta precios por corrida, empareja productos entre cadenas y renderiza una
-página estática de comparación que cualquiera puede leer.
+Alcance: medicamentos, suplementos y dermocosmética — categorías donde principio
+activo + concentración + presentación identifican un producto. Cosmética y cuidado
+personal quedan fuera a propósito (sin principio activo no hay cómo distinguir SKUs
+casi idénticos).
 
-## Cómo funciona
+Snapshot actual: 296 productos con precio en ≥ 2 cadenas, 64 en las cuatro; un
+snapshot por corrida, así que subidas/bajadas (▲▼) y promociones se detectan
+comparando corridas, no confiando en la etiqueta de promo.
 
-```
-adaptadores (uno por cadena)  →  snapshots (JSONL)  →  matcher  →  HTML estático
-```
+### Qué está haciendo la v2 (ver `V2_PLAN.md`)
 
-- **Un adaptador por cadena**, cada uno hablando el protocolo propio de la tienda:
-  - Inkafarma y Mifarma corren sobre el Algolia del holding (mismo esquema de
-    documento, instancias separadas). Los adaptadores usan las llaves públicas
-    de búsqueda del lado cliente que cada tienda embebe en su propio bundle JS.
-  - Boticas Perú corre sobre Salesforce Commerce Cloud; su adaptador combina la
-    grilla HTML de producto con el JSON limpio de QuickView de la tienda.
-  - Farmacia Universal corre sobre VTEX; su adaptador lee la API de búsqueda
-    pública de la tienda.
-- **Un matcher de tres capas** decide cuándo dos listados son el mismo producto:
-  1. ID exacto — Inkafarma y Mifarma comparten un ID interno de producto, así
-     que esos cruzan 1:1 gratis.
-  2. Difuso (fuzzy) — nombre más principio activo y presentación, para cadenas
-     que no comparten nada (con guardas duras contra combos, variantes y
-     vitaminas casi idénticas).
-  3. Verificación de imagen — hash perceptual de las fotos de producto para
-     confirmar cruces difusos dudosos.
-- **Se guarda un snapshot por corrida**, así que el sitio puede mostrar
-  historial de precios y detectar promociones comparando corridas, no
-  confiando en las etiquetas de promo.
-- El comparador cubre **medicamentos, suplementos y dermo** — categorías donde
-  emparejar por principio activo + concentración + presentación es confiable.
-  Excluye deliberadamente cosmética/cuidado personal, donde no hay principio
-  activo que distinga productos casi idénticos entre marcas.
+Cobertura por categoría completa en vez de canasta elegida a mano; crudo archivado en
+Google Drive y procesado a Parquet; matcher multi-señal que lee atributos
+estructurados y registro sanitario y hashea todas las imágenes; y una interfaz
+rediseñada, bilingüe, con historial de precio por producto y panorama de
+posicionamiento por cadena.
 
-## Cómo correrlo
+### Cómo correrlo
 
 Verificado en Windows, Python 3.12.
 
 ```bash
 py -m pip install -r requirements.txt
-cp .env.example .env   # luego completar las credenciales de Algolia
-py -m core.adapters.inkafarma buscar paracetamol
+cp .env.example .env            # completar las llaves Algolia (ver abajo)
+PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion    # regresión del matcher, todo OK
 py -m pipeline.build_snapshot --objetivo 150 --salida web/data.json
+py -m http.server -d web 8000   # http://localhost:8000
 ```
 
-Las credenciales de `.env` son las llaves públicas de solo-búsqueda que cada cadena
-embebe en su propio sitio (visibles en DevTools → Network → peticiones a
-`*.algolia.net`). No son secretas, pero rotan de vez en cuando y no van en un repo;
-cuando la búsqueda empiece a devolver 403, hay que recapturarlas y actualizar el `.env`.
+Las llaves del `.env` son las públicas de solo búsqueda que cada cadena embebe en su
+propio JavaScript. No son secretas, pero rotan; cuando la búsqueda devuelva 403, hay
+que recapturarlas desde DevTools → Network → `*.algolia.net`.
 
-### La demo estática
+`web/` es HTML/CSS/JS plano sin build: todas las rutas son relativas, así que la
+carpeta funciona en cualquier hosting estático sin cambios.
 
-`web/` es el artefacto publicado: HTML, CSS y JS planos, sin build. Carga `data.json`
-(o `data.demo.json` con `?demo`) en tiempo de ejecución y arma la tabla comparativa en
-el cliente, así que no cuesta nada de hosting.
+### Datos, ética y afiliación
 
-```bash
-cd web
-py -m http.server 8000
-# abrir http://localhost:8000 — confirmado: 200 en index.html, data.json y app.js
-```
+Los precios se leen de los endpoints públicos de cada cadena, a baja frecuencia (una
+vez por corrida), con delays aleatorios y back-off, nunca detrás de un login. Los
+precios pertenecen a sus cadenas; este es un ejercicio de comparación independiente,
+sin afiliación con Inkafarma, Mifarma, Boticas Perú ni Farmacia Universal. El motor es
+agnóstico al rubro: un vertical nuevo (veterinarias, ferreterías, abarrotes) es una
+configuración de adaptador nueva, no código nuevo.
 
-Abre con un tutorial de cinco pasos (`web/tutorial/`, vendorizado desde `shared/tutorial/`
-en el workspace del portafolio) que un visitante que regresa nunca vuelve a ver — el
-descarte persiste en localStorage.
+### Autor
 
-Cada ruta en `web/` es relativa, así que la carpeta funciona en cualquier subdirectorio
-sin cambios. Confirmado en vivo en `/radar-precios/`.
-
-## Fuentes de datos y licencias
-
-Los precios se leen de los endpoints públicos de solo-búsqueda de cada cadena — no de
-una API oficial o documentada de ninguna. El alcance, el throttling y los límites de
-tasa están documentados en `SPEC_comparador_farmacias.md` y `recon/README_devtools.md`.
-Los precios pertenecen a sus respectivas cadenas (Inkafarma, Mifarma, Boticas Perú,
-Farmacia Universal); este proyecto es un ejercicio de comparación independiente y no
-está afiliado a ninguna de ellas.
-
-## Estado
-
-**En vivo** y **usable**: desplegado en `/radar-precios/`, 296 productos cruzados entre
-cadenas (64 cruzados en las tres cadenas comparables). Pendiente: automatizar la corrida
-del snapshot (hoy manual) y mostrar el historial de precios a partir de los snapshots ya
-guardados por corrida.
-
-## Tests
-
-`tests/test_matcher_regresion.py` fija el comportamiento del matcher contra una canasta
-curada de pares buenos y malos conocidos — la guarda que evita que "Vitamina C 500mg x100"
-cruce con "Vitamina C gomitas x60". Es un script standalone, no pytest:
-
-```bash
-PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion
-# REGRESIÓN LIMPIA: 32/32 casos OK
-```
-
-(`PYTHONIOENCODING=utf-8` hace falta en Windows — la consola usa `cp1252` por defecto
-y no puede imprimir algunos caracteres acentuados de la tabla de salida.)
-
-## Autor
-
-Yoichi Palacios Tanaka (IchiSieben) · [ichisieben.dev](https://ichisieben.dev)
-
-## Licencia
-
-[Apache License 2.0](LICENSE).
+Yoichi Palacios Tanaka (IchiSieben) · [ichisieben.dev](https://ichisieben.dev) ·
+Apache 2.0 · Citar con `CITATION.cff`.
 
 ---
 
-*Las notas internas de trabajo (SPEC, anexo de matching, roadmap) están en español en
-la raíz del repo y en `docs/`.*
+*Documentos de trabajo: `V2_PLAN.md` (plan vigente), `CLAUDE.md` (contexto para
+Claude Code), `SPEC_comparador_farmacias.md` y `ANEXO_matching_api_historico.md`
+(diseño original v1), `ROADMAP_expansion_farmacias.md` (expansión a más cadenas).*

@@ -276,7 +276,11 @@ def sincronizar(raw_root: Path, processed_root: Path, nombre_log: str) -> List[s
 
 # --- resumen -----------------------------------------------------------------
 def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]],
-            duracion: float, errores: List[str]) -> str:
+            duracion: float, errores: List[str],
+            replay: Optional[Dict[str, Dict[str, int]]] = None) -> str:
+    """`requests` = lo que hizo la CAPTURA (manifest); `replay` = lo que leyó el
+    procesado desde el crudo. Van en líneas separadas: en un --desde-cache, un
+    "red=365" suelto parecía decir que el replay había tocado la red."""
     prods = data["productos"]
     por_cadena = {c: sum(1 for p in prods if c in p["precios"]) for c in CADENAS}
     multi = sum(1 for p in prods if len(p["precios"]) >= 2)
@@ -288,10 +292,13 @@ def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]]
         "  por cadena: " + " · ".join(f"{c} {n}" for c, n in por_cadena.items()),
         "  eventos: " + (", ".join(f"{k} {v}" for k, v in
                                    sorted(cambios.resumen_eventos(eventos).items())) or "ninguno"),
-        "  requests: " + " · ".join(
+        "  captura (manifest): " + " · ".join(
             f"{c} red={s.get('red', 0)} cache={s.get('cache', 0)} "
             f"404={s.get('http_404', 0)} err={s.get('http_error', 0) + s.get('red_error', 0)}"
             for c, s in requests.items()),
+        *([f"  procesado desde el crudo: {sum(s.get('cache', 0) for s in replay.values())} "
+           f"respuestas del caché · {sum(s.get('red', 0) for s in replay.values())} por red"]
+          if replay is not None else []),
         f"  errores: {len(errores)}" + ("".join(f"\n    - {e}" for e in errores)),
         "=" * 64,
     ]
@@ -366,7 +373,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 return 1 if errores else 0
 
         log("Paso procesar (desde el crudo, sin red)")
-        data, eventos, _ = procesar(raw, corrida)
+        data, eventos, replay = procesar(raw, corrida)
         requests = raw.leer_manifest(corrida).get("requests", {})
         validar(data, requests)
         log("Paso exportar")
@@ -377,7 +384,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             # Después de snapshot y Parquet: si Drive falla, la corrida ya está completa.
             log("Paso sincronizar (rclone copy a Drive)")
             errores.extend(sincronizar(raw.root, processed_dir_desde_entorno(), corrida))
-        print(resumen(data, eventos, requests, time.monotonic() - t0, errores), file=sys.stderr)
+        print(resumen(data, eventos, requests, time.monotonic() - t0, errores, replay),
+              file=sys.stderr)
         return 1 if errores else 0
     except (ErrorCorrida, StorageError) as exc:
         log(f"ERROR: {exc}")

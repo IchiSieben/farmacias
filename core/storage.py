@@ -7,14 +7,15 @@ El crudo de cada corrida se guarda particionado por cadena y fecha:
       _corridas/<corrida>/manifest.json                     # qué se corrió, con qué args
       _corridas/<corrida>/previo.json.gz                    # snapshot contra el que se difea
 
-`RAW_DIR` es una carpeta cualquiera; en producción, una carpeta de Google Drive
-para escritorio montada en Windows. Por eso:
+`RAW_DIR` es una carpeta local (default `data/raw/`). El archivo en Google Drive
+se hace aparte, con `rclone copy` al final de la corrida (`pipeline.run
+--sincronizar`), así que:
 
 - se escribe primero a un temporal **en la misma carpeta destino** y se publica con
-  `os.replace` (atómico dentro de un volumen; nunca queda un .gz a medias visible);
-- pocos archivos grandes y comprimidos (Drive sincroniza mal miles de archivos chicos);
-- si `RAW_DIR` está configurado pero no existe (Drive sin montar) se falla de
-  inmediato, en vez de crear una carpeta local que nadie sincroniza.
+  `os.replace` (atómico; nunca queda un .gz a medias que rclone pueda subir);
+- pocos archivos grandes y comprimidos (rclone sube mejor pocos archivos que miles);
+- si `RAW_DIR` está configurado pero no existe (disco externo desconectado, typo)
+  se falla de inmediato, en vez de crear una carpeta en otro lado.
 
 Solo stdlib (Python 3.9+). El Parquet (capa PROCESSED) vive en `pipeline/`, porque
 pandas no cabe en la regla de compatibilidad de `core/`.
@@ -57,8 +58,8 @@ def raw_dir_desde_entorno() -> Path:
     p = Path(valor).expanduser()
     if not p.is_dir():
         raise StorageError(
-            f"RAW_DIR={valor} no existe o no es carpeta. Si es Google Drive, "
-            "revisa que Drive para escritorio esté abierto y la unidad montada."
+            f"RAW_DIR={valor} no existe o no es carpeta. Revisa la ruta en .env "
+            "(o déjala vacía para usar data/raw/)."
         )
     return p
 

@@ -8,6 +8,9 @@ Pasos:
              reproducido SIN red desde el crudo; F3 lo separa en dos pasos).
   exportar   snapshot -> data/publicar/data.json (staging, contrato v1) + histórico + Parquet
              (pipeline/parquet.py, esquema en docs/ESQUEMA_DATOS.md).
+  sincronizar  RAW_DIR y Parquet -> Google Drive con `rclone copy` (nunca sync).
+             Va al final de --todo, con todo ya escrito: si Drive falla la corrida
+             queda completa y el copy de mañana sube lo pendiente (es incremental).
   publicar   aparte y a mano: py -m pipeline.publish (resumen + confirmación).
 
 La salida oficial SIEMPRE sale del crudo, también en `--todo`: la captura en vivo
@@ -21,6 +24,7 @@ Uso:
     py -m pipeline.run --desde-cache 2026-09-24        # reprocesa sin red (fecha o id)
     py -m pipeline.run --desde-cache 2026-09-24 --salida /tmp/x.json --sin-historial
     py -m pipeline.run --reanudar 2026-09-24T08-30-00Z # sigue una captura cortada
+    py -m pipeline.run --sincronizar                   # solo copia el lake a Drive
 
 Python 3.12 (pipeline/); core/ sigue siendo 3.9+.
 """
@@ -31,6 +35,7 @@ import argparse
 import json
 import os
 import shutil
+import subprocess
 import sys
 import time
 from datetime import datetime, timezone
@@ -42,7 +47,7 @@ from core.adapter_base import CredencialRechazada
 from core.adapters.algolia_inretail import _load_dotenv
 from core.storage import RawStore, StorageError, fecha_de, nuevo_id_corrida, raw_dir_desde_entorno
 from pipeline import build_snapshot, cambios
-from pipeline.parquet import exportar_parquet
+from pipeline.parquet import exportar_parquet, processed_dir_desde_entorno
 
 ROOT = Path(__file__).resolve().parent.parent
 STAGING_DIR = ROOT / "data" / "staging"
@@ -225,6 +230,50 @@ def exportar(data: dict, eventos: List[dict], corrida: str, *, salida: Path,
     return escritos
 
 
+def _rclone() -> str:
+    """rclone no está en PATH en Windows (WinGet): RCLONE_EXE > PATH > ruta WinGet."""
+    exe = os.getenv("RCLONE_EXE", "").strip() or shutil.which("rclone")
+    if exe:
+        return exe
+    winget = Path(os.getenv("LOCALAPPDATA", "")) / "Microsoft" / "WinGet" / "Links" / "rclone.exe"
+    if winget.exists():
+        return str(winget)
+    raise ErrorCorrida("no encuentro rclone (define RCLONE_EXE en .env)")
+
+
+def sincronizar(raw_root: Path, processed_root: Path, nombre_log: str) -> List[str]:
+    """Copia el lake local a Drive con `rclone copy` (nunca sync: no borra en Drive).
+
+    Destinos en .env: RCLONE_REMOTE (crudo) y RCLONE_REMOTE_PROCESSED (Parquet,
+    opcional). Devuelve la lista de errores; no lanza: la corrida ya está completa.
+    """
+    pares = [(raw_root, os.getenv("RCLONE_REMOTE", "").strip()),
+             (processed_root, os.getenv("RCLONE_REMOTE_PROCESSED", "").strip())]
+    if not pares[0][1]:
+        return ["RCLONE_REMOTE vacío en .env: el crudo no se archivó en Drive"]
+    errores = []
+    try:
+        exe = _rclone()
+    except ErrorCorrida as exc:
+        return [str(exc)]
+    for origen, destino in pares:
+        if not destino or not origen.is_dir():
+            continue
+        log_rclone = LOG_DIR / f"rclone_{nombre_log}.log"
+        cmd = [exe, "copy", str(origen), destino, "--transfers", "4",
+               "--exclude", "*.tmp", "--log-file", str(log_rclone), "--log-level", "INFO"]
+        log(f"  rclone copy {origen} -> {destino}")
+        try:
+            rc = subprocess.run(cmd, timeout=3600).returncode
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            errores.append(f"rclone {destino}: {exc}")
+            continue
+        if rc != 0:
+            errores.append(f"rclone copy -> {destino} terminó con código {rc} (ver {log_rclone}); "
+                           "se reintenta en la próxima corrida")
+    return errores
+
+
 # --- resumen -----------------------------------------------------------------
 def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]],
             duracion: float, errores: List[str]) -> str:
@@ -259,6 +308,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                       help="reprocesa una corrida grabada, sin red")
     modo.add_argument("--reanudar", metavar="CORRIDA",
                       help="continúa una captura cortada y luego procesa + exporta")
+    modo.add_argument("--sincronizar", action="store_true",
+                      help="solo copia RAW_DIR y Parquet a Drive (rclone copy)")
     ap.add_argument("--objetivo", type=int, default=150)
     ap.add_argument("--sin-semillas", action="store_true",
                     help="omite SUBCATS_SEED (captura chica de prueba)")
@@ -283,6 +334,18 @@ def main(argv: Optional[List[str]] = None) -> int:
     except StorageError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
+
+    if args.sincronizar:
+        ruta_log, fh = _abrir_log(f"sync_{nuevo_id_corrida()}")
+        try:
+            errores = sincronizar(raw.root, processed_dir_desde_entorno(), ruta_log.stem[len("run_"):])
+            for e in errores:
+                log(f"ERROR: {e}")
+            log("Sincronización " + ("con errores" if errores else "OK"))
+            return 1 if errores else 0
+        finally:
+            sys.stdout, sys.stderr = sys.__stdout__, sys.__stderr__
+            fh.close()
 
     ruta_log, fh = _abrir_log(corrida)
     try:
@@ -310,6 +373,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         for p in exportar(data, eventos, corrida, salida=Path(args.salida),
                           historial=not args.sin_historial):
             log(f"  -> {p}")
+        if args.todo or args.reanudar:
+            # Después de snapshot y Parquet: si Drive falla, la corrida ya está completa.
+            log("Paso sincronizar (rclone copy a Drive)")
+            errores.extend(sincronizar(raw.root, processed_dir_desde_entorno(), corrida))
         print(resumen(data, eventos, requests, time.monotonic() - t0, errores), file=sys.stderr)
         return 1 if errores else 0
     except (ErrorCorrida, StorageError) as exc:

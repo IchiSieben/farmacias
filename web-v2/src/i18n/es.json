@@ -35,6 +35,8 @@
   "tabla.producto": "Producto",
   "tabla.ahorro": "Ahorro",
   "tabla.caption": "Precios por cadena. El precio más bajo de cada fila está marcado.",
+  "producto.aRevisar": "A revisar: diferencia inusual",
+  "producto.aRevisar.detalle": "Más de 3× entre la cadena más cara y la más barata. Suele ser un cruce entre productos distintos: no se cuenta como ahorro.",
   "producto.ahorras": "Ahorras {monto} en {cadena}",
   "producto.empate": "Mismo precio en {cadenas}",
   "producto.unaCadena": "Solo en {cadena}",

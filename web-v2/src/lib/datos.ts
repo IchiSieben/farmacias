@@ -91,6 +91,18 @@ export function ahorroActivo(p: Producto, activas: string[]): Ahorro | null {
   };
 }
 
+/** Diferencia inusual (>3× entre la más cara y la más barata): casi siempre delata
+ *  un cruce entre productos distintos que se coló. Se marca "a revisar" y no
+ *  compite en el orden por ahorro (mejor abajo que en el escaparate). */
+export const RATIO_REVISAR = 3;
+
+export function aRevisar(p: Producto, activas: string[]): boolean {
+  const valores = Object.values(preciosActivos(p, activas));
+  if (valores.length < 2) return false;
+  const lo = Math.min(...valores);
+  return lo > 0 && Math.max(...valores) / lo > RATIO_REVISAR;
+}
+
 export function filtrar(productos: Producto[], f: Filtros, idsBusqueda: Set<string> | null): Producto[] {
   return productos.filter((p) => {
     if (idsBusqueda && !idsBusqueda.has(p.id)) return false;
@@ -118,7 +130,8 @@ export function ordenar(productos: Producto[], orden: string, activas: string[],
     return copia.sort((a, b) => (a.precios[c] ?? Infinity) - (b.precios[c] ?? Infinity));
   }
   return copia.sort(
-    (a, b) => (ahorroActivo(b, activas)?.soles ?? -1) - (ahorroActivo(a, activas)?.soles ?? -1) ||
+    (a, b) => Number(aRevisar(a, activas)) - Number(aRevisar(b, activas)) ||
+      (ahorroActivo(b, activas)?.soles ?? -1) - (ahorroActivo(a, activas)?.soles ?? -1) ||
       a.nombre.localeCompare(b.nombre, locale),
   );
 }

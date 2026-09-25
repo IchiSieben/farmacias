@@ -35,6 +35,8 @@
   "tabla.producto": "Product",
   "tabla.ahorro": "Savings",
   "tabla.caption": "Prices by pharmacy. The lowest price in each row is marked.",
+  "producto.aRevisar": "Under review: unusual gap",
+  "producto.aRevisar.detalle": "More than 3× between the most and least expensive chain. Usually a match between different products: not counted as savings.",
   "producto.ahorras": "Save {monto} at {cadena}",
   "producto.empate": "Same price at {cadenas}",
   "producto.unaCadena": "Only at {cadena}",

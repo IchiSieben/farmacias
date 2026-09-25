@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Fuse from 'fuse.js';
 import { t, soles, porcentaje, type Idioma, type Textos, type Clave } from '../i18n';
 import {
-  FILTROS_INICIALES, aCsv, ahorroActivo, filtrar, ordenar, preciosActivos,
+  FILTROS_INICIALES, aCsv, aRevisar, ahorroActivo, filtrar, ordenar, preciosActivos,
   type Cadena, type Filtros, type Producto,
 } from '../lib/datos';
 import { LogoCadena } from './LogoCadena';
@@ -355,6 +355,14 @@ function ResumenAhorro({ p, activas, idioma, dic, compacto }: Omit<PiezaProps, '
     const unica = Object.keys(preciosActivos(p, activas.map((c) => c.id)))[0];
     return <span className="text-xs text-suave">{t(dic, 'producto.unaCadena', { cadena: nombres([unica]) })}</span>;
   }
+  if (aRevisar(p, activas.map((c) => c.id))) {
+    return (
+      <span title={t(dic, 'producto.aRevisar.detalle')}
+        className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-borde px-3 py-1 text-xs font-medium text-suave">
+        <span aria-hidden="true">⚠</span>{t(dic, 'producto.aRevisar')}
+      </span>
+    );
+  }
   if (ah.soles === 0) return <span className="text-xs text-suave">{t(dic, 'producto.empate', { cadenas: nombres(ah.en) })}</span>;
   const monto = soles(idioma, ah.soles);
   if (compacto) {
@@ -423,7 +431,7 @@ function Tarjeta({ p, activas, idioma, dic, base }: PiezaProps) {
       </div>
       <ul className="mt-3 divide-y divide-borde">
         {conPrecio.map((c) => {
-          const mejor = Boolean(ah && ah.soles > 0 && ah.en.includes(c.id));
+          const mejor = Boolean(ah && ah.soles > 0 && ah.en.includes(c.id) && !aRevisar(p, activas.map((x) => x.id)));
           return (
             <li key={c.id} className={`flex items-center justify-between gap-3 py-1.5 ${mejor ? '-mx-1.5 rounded-md bg-ahorro-fondo px-1.5' : ''}`}>
               <span className="flex items-center gap-2 text-sm">
@@ -456,7 +464,7 @@ function Fila({ p, activas, idioma, dic, base }: PiezaProps) {
         </div>
       </th>
       {activas.map((c) => {
-        const mejor = Boolean(ah && ah.soles > 0 && ah.en.includes(c.id));
+        const mejor = Boolean(ah && ah.soles > 0 && ah.en.includes(c.id) && !aRevisar(p, activas.map((x) => x.id)));
         return (
           <td key={c.id} className={`px-3 py-2.5 text-right ${mejor ? 'bg-ahorro-fondo' : ''}`}>
             <Precio p={p} c={c} idioma={idioma} dic={dic} masBarato={mejor} />

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import sys
 
+from core.ficha import clave_rs, extrae_rs_texto, normaliza_rs
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
 from pipeline.build_snapshot import _match_boticas
@@ -171,6 +172,27 @@ CASOS_REALES = [
 ]
 
 
+# Parseo del registro sanitario: (descripción, entrada, R.S. normalizado esperado).
+# Entrada str -> normaliza_rs (campo propio); tuple -> extrae_rs_texto (descripción).
+RS_PARSEO = [
+    ("DE-0340 tal cual", "DE-0340", "DE-0340"),
+    ("DE0340 sin guion (Universal)", "DE0340", "DE-0340"),
+    ("'DE 0340' con espacio", "DE 0340", "DE-0340"),
+    ("minúsculas", "de-0340", "DE-0340"),
+    ("texto que no es R.S.", "Caja 30 UN", None),
+    ("descripción Inka: 'Registro Sanitario DE-0340'",
+     ("<ul><li>Sabor a Naranja</li><li>Registro Sanitario DE-0340</li></ul>",), "DE-0340"),
+    ("'Reg. San. DE-0340' seguido de un RUC (no agarra el RUC)",
+     ("No superar la dosis. Reg. San. DE-0340. Bayer S.A – RUC 20100096341",), "DE-0340"),
+    ("'R.S: EN-02157' (Inka, analgésicos)", ("<ul><li>R.S: EN-02157</li></ul>",), "EN-02157"),
+    ("mismo R.S. repetido en dos secciones -> uno",
+     ("Registro Sanitario DE-0340", "Reg. San. DE0340"), "DE-0340"),
+    ("pack con DOS R.S. distintos -> ninguno",
+     ("RS EN-00538 Mentholatum", "R.S. EN-07516"), None),
+    ("RUC suelto sin etiqueta -> ninguno", ("Bayer S.A – RUC 20100096341",), None),
+]
+
+
 def _ref(nombre: str, precio: float, cantidad: float, unidad: str) -> Producto:
     p = Producto(cadena="inkafarma", sku="R:" + nombre[:20], nombre_origen=nombre, precio=precio)
     p.cantidad_envase, p.unidad_envase = cantidad, unidad
@@ -225,7 +247,19 @@ def main() -> int:
         fallos += not ok
         print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
 
-    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
+    print("\n" + "=" * 78)
+    print("REGISTRO SANITARIO (parseo y normalización)")
+    print("=" * 78)
+    for desc, entrada, esperado in RS_PARSEO:
+        got = normaliza_rs(entrada) if isinstance(entrada, str) else extrae_rs_texto(*entrada)
+        ok = got == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {str(got):10} {desc}")
+    ok = clave_rs("DE-340") == clave_rs("DE-0340") != clave_rs("DE-3401")
+    fallos += not ok
+    print(f"  [{'OK' if ok else 'FALLA':5}] {'':10} clave: DE-340 == DE-0340 ≠ DE-3401")
+
+    total = len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

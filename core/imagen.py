@@ -26,7 +26,7 @@ import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Callable, Dict, Optional, Tuple
 from urllib.parse import urlsplit
 
 from .adapter_base import USER_AGENTS
@@ -76,11 +76,15 @@ class AlmacenImagenes:
     """Caché en disco de imágenes y sus hashes, por URL."""
 
     def __init__(self, root: Path, *, red: bool = False,
-                 delay: Tuple[float, float] = (2.0, 6.0), timeout: float = 15.0) -> None:
+                 delay: Tuple[float, float] = (2.0, 6.0), timeout: float = 15.0,
+                 esperar_turno: Optional[Callable[[str], None]] = None) -> None:
         self.root = Path(root)
         self.red = red
         self.delay = delay
         self.timeout = timeout
+        # Si se inyecta (SesionHttp.esperar_turno), las fotos comparten el delay por
+        # dominio con los adaptadores: las de Boticas salen del mismo host que el sitio.
+        self._turno_externo = esperar_turno
         self.indice: Dict[str, Dict[str, object]] = {}
         self.stats = {"cache": 0, "red": 0, "error": 0, "sin_dato": 0}
         self._ultimo_por_host: Dict[str, float] = {}
@@ -103,6 +107,9 @@ class AlmacenImagenes:
         self.indice[str(reg["url"])] = reg
 
     def _esperar_turno(self, host: str) -> None:
+        if self._turno_externo is not None:
+            self._turno_externo(host)
+            return
         lo, hi = self.delay
         with self._lock:
             ultimo = self._ultimo_por_host.get(host)

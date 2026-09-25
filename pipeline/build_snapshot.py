@@ -25,17 +25,17 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from core.adapter_base import CredencialRechazada
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
 from core.adapters.universal import UniversalAdapter
-from core.matcher import comparar, UMBRAL_REVISION
+from core.ficha import ficha_de
+from core.matcher import comparar, Resultado, UMBRAL_IMAGEN, UMBRAL_REVISION
 from core.modelo import Producto
-from core import imagen
-from core.normalizer import extrae_specs, extrae_tamano, nucleo
+from core.normalizer import nucleo
 from pipeline import cambios
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -184,18 +184,14 @@ def _comparacion(precios: Dict[str, float]):
 
 
 def _qty_boticas(cand: Producto):
-    """Cantidad del envase de un candidato Boticas como (valor, clase).
+    """Cantidad del envase de un candidato (Boticas/Universal) como (valor, clase).
 
-    Primero por tamaño ("Frasco 120 ML" -> 120 ml, "Caja 30 tabletas" -> 30 un);
-    si no, por la cantidad de specs ("Caja 30" -> 30 un). None si no es legible.
+    La de la ficha (core.ficha): atributo de la API si existe (la "Presentación"
+    de Universal), si no el nombre ("Frasco 120 ML" -> 120 ml, "Caja 30" -> 30 un).
+    None si no es legible.
     """
-    tam = extrae_tamano(cand.nombre_origen)
-    if tam:
-        return tam
-    sp = extrae_specs(cand.nombre_origen)
-    if sp.cantidad:
-        return (float(sp.cantidad), "un")
-    return None
+    f = ficha_de(cand)
+    return (f.cantidad, f.unidad) if f.cantidad is not None else None
 
 
 def _ppu_boticas(precio, cand: Producto):
@@ -220,7 +216,46 @@ def _cantidad_coincide(ref: Producto, cand: Producto, tol: float = 0.10):
     return abs(q[0] - ref.cantidad_envase) / mayor <= tol
 
 
-def _match_boticas(ref: Producto, cands):
+_CAPA_1 = ("id", "ean", "registro_sanitario")
+
+
+def _mejor_match(ref: Producto, cands, enr=None) -> Tuple[Optional[Producto], Optional[Resultado]]:
+    """Mejor candidato (Boticas o Universal) para ESA presentación, con su Resultado.
+
+    Ver `_match_boticas`. Con `enr` (pipeline.enriquecer.Enriquecedor), los
+    candidatos con texto >= 60 que no decidió una llave dura se vuelven a comparar
+    con la ficha completa: R.S. de Boticas (QuickView) y hashes de imagen.
+    """
+    if ref.cantidad_envase is None or ref.unidad_envase is None:
+        return None, None
+    best, best_r = None, None
+    for c in cands:
+        if c.precio is None:
+            continue
+        # La cantidad exacta confirma la presentación: si coincide, basta con que
+        # pase las reglas duras y la similitud de nombre llegue a la zona gris
+        # (>=70). El precio solo veta lo absurdo (>3×).
+        if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
+            continue
+        r = comparar(ref, c)
+        if (enr is not None and r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
+                and r.score >= UMBRAL_IMAGEN):
+            r = comparar(ref, c, fa=enr.ficha(ref), fb=enr.ficha(c))
+        if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
+            best, best_r = c, r
+    return best, best_r
+
+
+def _evidencia(ref: Producto, cand: Producto, r: Resultado) -> Dict[str, Any]:
+    """Evidencia compacta de un cruce aceptado (data.json y matches.parquet)."""
+    ev = {"sku": str(cand.sku), "metodo": r.metodo, "score": round(r.score, 1),
+          "revisar": r.revisar, "motivo": r.motivo,
+          "ratio_precio": round(cand.precio / ref.precio, 2) if ref.precio else None}
+    ev.update({k: v for k, v in r.evidencia.items() if k != "decision"})
+    return ev
+
+
+def _match_boticas(ref: Producto, cands, enr=None):
     """Mejor candidato (Boticas o Universal) para ESA presentación.
 
     Se EXIGE que la presentación Inka tenga cantidad exacta (caso normal, del API
@@ -231,33 +266,23 @@ def _match_boticas(ref: Producto, cands):
     Si la fila Inka NO tiene cantidad conocida (los "SUPER PACK"/bundles, donde el
     tamaño no es parseable), NO se empareja: un bundle no se alinea de forma fiable
     y antes colaba falsos (Pack 02 ↔ pack x3, polvo ↔ 20 botellas). Mejor "—".
+
+    Con `enr`, las llaves y vetos de F3 (registro sanitario, imagen) deciden
+    además de las reglas duras; un veto deja score 0 y nunca se acepta.
     """
-    if ref.cantidad_envase is None or ref.unidad_envase is None:
-        return None
-    best, best_r = None, None
-    for c in cands:
-        if c.precio is None:
-            continue
-        # La cantidad exacta confirma la presentación: si coincide, basta con que
-        # pase las reglas duras y la similitud de nombre llegue a la zona gris
-        # (>=70). No se usa imagen (las fotos difieren entre vendors). El precio
-        # solo veta lo absurdo (>3×): la brecha moderada es señal válida.
-        if not _cantidad_coincide(ref, c) or not _precio_plausible(c.precio, ref.precio):
-            continue
-        r = comparar(ref, c)
-        if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
-            best, best_r = c, r
-    return best
+    return _mejor_match(ref, cands, enr)[0]
 
 
 def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
-              semillas: bool = True, generado: Optional[str] = None) -> dict:
+              semillas: bool = True, generado: Optional[str] = None,
+              enriquecedor=None) -> dict:
     """Arma el snapshot. Los kwargs opcionales los usa `pipeline.run` (F1):
 
     - `adapter_kw(cadena) -> dict`: kwargs extra por adaptador (p.ej. el
       transporte que graba/reproduce el crudo, ver core.http_cache).
     - `semillas=False`: omite SUBCATS_SEED (captura chica de prueba).
     - `generado`: fija el sello de la corrida (reproceso desde caché byte a byte).
+    - `enriquecedor`: completa la ficha de los candidatos (F3, pipeline.enriquecer).
     """
     kw = adapter_kw or (lambda cadena: {})
     ink = InkafarmaAdapter(delay_range=(0, 0), **kw("inkafarma"))
@@ -345,8 +370,10 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     promos["mifarma"] = bool(mpres.en_promocion)
                     urls["mifarma"] = mpres.url
 
-                best = _match_boticas(ipres, cands)
+                evidencia = {}
+                best, best_r = _mejor_match(ipres, cands, enriquecedor)
                 if best:
+                    evidencia["boticasperu"] = _evidencia(ipres, best, best_r)
                     precios["boticasperu"] = best.precio
                     precio_unidad["boticasperu"] = _ppu_boticas(best.precio, best)
                     promos["boticasperu"] = bool(best.en_promocion)
@@ -355,8 +382,9 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
 
                 # Universal: mismo matcher endurecido (cantidad exacta + reglas
                 # duras). Independiente; "—" donde no vende el producto.
-                best_u = _match_boticas(ipres, cands_uni)
+                best_u, best_ur = _mejor_match(ipres, cands_uni, enriquecedor)
                 if best_u:
+                    evidencia["universal"] = _evidencia(ipres, best_u, best_ur)
                     precios["universal"] = best_u.precio
                     precio_unidad["universal"] = _ppu_boticas(best_u.precio, best_u)
                     promos["universal"] = bool(best_u.en_promocion)
@@ -378,6 +406,7 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     "mas_barato": mb,
                     "brecha_pct": brecha,
                     "urls": {k: v for k, v in urls.items() if v},
+                    "evidencia": evidencia,
                 })
             time.sleep(pausa)
             if (i + 1) % 25 == 0:

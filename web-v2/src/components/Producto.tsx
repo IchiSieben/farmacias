@@ -12,7 +12,8 @@ export interface PiezaProps {
   base: string;
 }
 
-export function Miniatura({ p, dic, tam }: { p: Producto; dic: Textos; tam: number }) {
+// `prioritaria`: foto principal de la ficha, sobre el pliegue (candidata a LCP): sin lazy.
+export function Miniatura({ p, dic, tam, prioritaria = false }: { p: Producto; dic: Textos; tam: number; prioritaria?: boolean }) {
   const [roto, setRoto] = useState(false);
   const clase = 'shrink-0 rounded-lg border border-borde bg-white object-contain';
   if (!p.imagen || roto) {
@@ -23,7 +24,7 @@ export function Miniatura({ p, dic, tam }: { p: Producto; dic: Textos; tam: numb
     );
   }
   return (
-    <img src={p.imagen} alt="" width={tam} height={tam} loading="lazy" decoding="async"
+    <img src={p.imagen} alt="" width={tam} height={tam} loading={prioritaria ? 'eager' : 'lazy'} decoding="async" fetchPriority={prioritaria ? 'high' : undefined}
       referrerPolicy="no-referrer" onError={() => setRoto(true)} style={{ width: tam, height: tam }} className={clase} />
   );
 }

@@ -7,6 +7,7 @@ rapidfuzz>=3.0     # matcher de productos (ANEXO §A, Capa 2 — fuzzy)
 selectolax>=0.3    # parsing HTML rápido (Nivel B — grilla SFRA de Boticas Perú)
 imagehash>=4.3     # matcher Capa 3 (ANEXO §A) — pHash, solo zona gris 70–85
 Pillow>=10.0       # backend de imagen para imagehash (Capa 3)
+pyarrow>=14.0      # capa PROCESSED del data lake: Parquet con esquema explícito (F1)
 
 # --- previstas para fases siguientes (aún no usadas) ---
-# pandas>=2.0      # analítica / consolidación a Parquet
+# pandas>=2.0      # analítica sobre el Parquet (F2/F3)

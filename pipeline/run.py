@@ -6,7 +6,8 @@ Pasos:
              RAW_DIR/<cadena>/<fecha>/ junto a un manifiesto de la corrida.
   procesar   crudo -> snapshot. Normaliza + matchea (hoy es `construir()` de la v1,
              reproducido SIN red desde el crudo; F3 lo separa en dos pasos).
-  exportar   snapshot -> web/data.json (contrato v1) + histórico + Parquet.
+  exportar   snapshot -> web/data.json (contrato v1) + histórico + Parquet
+             (pipeline/parquet.py, esquema en docs/ESQUEMA_DATOS.md).
   publicar   pendiente (ver ESTADO): subir a Hostinger exige confirmación explícita.
 
 La salida oficial SIEMPRE sale del crudo, también en `--todo`: la captura en vivo
@@ -40,6 +41,7 @@ from core import http_cache as hc
 from core.adapters.algolia_inretail import _load_dotenv
 from core.storage import RawStore, StorageError, fecha_de, nuevo_id_corrida, raw_dir_desde_entorno
 from pipeline import build_snapshot, cambios
+from pipeline.parquet import exportar_parquet
 
 ROOT = Path(__file__).resolve().parent.parent
 STAGING_DIR = ROOT / "data" / "staging"
@@ -192,6 +194,7 @@ def exportar(data: dict, eventos: List[dict], corrida: str, *, salida: Path,
         escritos.append(cambios.persistir_snapshot(data, build_snapshot.SNAP_DIR))
         escritos.append(cambios.escribir_eventos_csv(
             eventos, data["generado"][:10], build_snapshot.EVENTOS_DIR))
+        escritos.extend(exportar_parquet(data, eventos, corrida))
     return escritos
 
 

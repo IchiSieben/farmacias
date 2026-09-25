@@ -92,7 +92,10 @@ _GENERICO_NUCLEO = set(
     "sodico sodica potasico potasica calcico calcica magnesico "
     "maleato sulfato fosfato nitrato bromuro clorhidrato dihidrato monohidrato "
     "besilato base micronizado anhidro trihidrato "
-    "acido vitamina complejo sales sal".split()
+    "acido vitamina complejo sales sal "
+    # vía/dispositivo: "Suprahyal ... Inyectable Jeringa" y "Mensille ... Inyectable
+    # + Jeringa" compartían SOLO estas palabras y casaban como mismo activo
+    "inyectable inyectables jeringa jeringas prellenada pre llenada ampolla ampollas vial".split()
 )
 # Modificadores de COMPOSICIÓN: indican un producto DISTINTO porque cambian la
 # fórmula (Panadol Antigripal ≠ Panadol; Dolocordralan Forte ≠ Dolocordralan;

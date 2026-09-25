@@ -16,6 +16,7 @@ import sys
 
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
+from pipeline.build_snapshot import _match_boticas
 
 
 def _p(nombre: str, sku: str) -> Producto:
@@ -79,6 +80,11 @@ DEBEN_BLOQUEAR = [
      "Pediasure Vainilla Polvo - Lata 850 G", "Pediasure Peptigro Polvo Vainilla - Lata 850 G"),
     ("Forma gomita ≠ tableta (misma vitamina)",
      "Vitamina C Tabletas - Frasco 30 UN", "Vitamina C Gomitas - Frasco 30 UN"),
+    # --- corrida 2026-09-25: casó con fuzzy 75 porque solo compartían palabras de
+    # vía de administración ("inyectable", "jeringa"), no el principio activo ---
+    ("Suprahyal (ác. hialurónico) ≠ Mensille (anticonceptivo inyectable)",
+     "Suprahyal 25 Mg/2.5 Ml Solución Inyectable Jeringa Pre-llenada",
+     "Mensille 25mg/5mg Suspensión Inyectable + Jeringa - Caja 1 UN"),
 ]
 
 DEBEN_CASAR = [
@@ -119,6 +125,32 @@ DEBEN_CASAR = [
 ]
 
 
+# Guarda de precio en la ruta real (_match_boticas): aunque nombre y cantidad
+# pasen, un precio fuera de [1/3, 3] del de referencia delata otro producto.
+# (descripción, nombre ref, precio ref, nombre candidato, precio candidato, ¿casa?)
+GUARDA_PRECIO = [
+    ("Suprahyal S/257.80 ↔ Mensille S/19.20 (13×): se descarta",
+     "Suprahyal 25 Mg/2.5 Ml Solución Inyectable Jeringa Pre-llenada", 257.8,
+     "Mensille 25mg/5mg Suspensión Inyectable + Jeringa - Caja 1 UN", 19.2, False),
+    ("Desloratadina blíster 10 S/2.70 ↔ S/17.90 (6,6×): se descarta",
+     "Desloratadina 5mg Tableta Recubierta", 2.7,
+     "Desloratadina 5 mg Tabletas - Blister 10 UN", 17.9, False),
+    ("Simeticona S/2.70 ↔ S/6.60 (2,4×, genérico vs marca): brecha real, casa",
+     "Simeticona 80mg/ml Suspensión Oral", 2.7,
+     "Simeticona 80mg/ml Suspensión Oral - Frasco 15 ML", 6.6, True),
+]
+
+
+def _ref(nombre: str, precio: float, cantidad: float, unidad: str) -> Producto:
+    p = Producto(cadena="inkafarma", sku="R:" + nombre[:20], nombre_origen=nombre, precio=precio)
+    p.cantidad_envase, p.unidad_envase = cantidad, unidad
+    return p
+
+
+def _cand(nombre: str, precio: float) -> Producto:
+    return Producto(cadena="boticasperu", sku="C:" + nombre[:20], nombre_origen=nombre, precio=precio)
+
+
 def main() -> int:
     fallos = 0
     print("=" * 78)
@@ -143,7 +175,18 @@ def main() -> int:
         if not ok:
             print(f"          ! NO casó ({r.motivo}): {a!r} <> {b!r}")
 
-    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR)
+    print("\n" + "=" * 78)
+    print("GUARDA DE PRECIO (ruta real _match_boticas, cruce fuzzy)")
+    print("=" * 78)
+    cantidades = {"Suprahyal": (1, "un"), "Desloratadina": (10, "un"), "Simeticona": (15, "ml")}
+    for desc, na, pa, nb, pb, esperado in GUARDA_PRECIO:
+        q, u = cantidades[na.split()[0]]
+        casa = _match_boticas(_ref(na, pa, q, u), [_cand(nb, pb)]) is not None
+        ok = casa == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
+
+    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

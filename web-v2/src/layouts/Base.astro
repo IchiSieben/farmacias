@@ -7,8 +7,9 @@ interface Props {
   idioma: Idioma;
   titulo?: string;
   descripcion?: string;
+  imagen?: string | null;
 }
-const { idioma, titulo, descripcion } = Astro.props;
+const { idioma, titulo, descripcion, imagen } = Astro.props;
 const dic = textos(idioma);
 const base = import.meta.env.BASE_URL;
 const tituloFinal = titulo ? `${titulo} · ${t(dic, 'sitio.nombre')}` : t(dic, 'sitio.nombre');
@@ -30,6 +31,9 @@ const alternos = (['es', 'en'] as const).map((l) => ({
     {alternos.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
     <meta property="og:title" content={tituloFinal} />
     <meta property="og:description" content={descripcion ?? t(dic, 'sitio.descripcion')} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+    {imagen && <meta property="og:image" content={imagen} />}
+    <meta name="twitter:card" content={imagen ? 'summary_large_image' : 'summary'} />
     <meta name="theme-color" content="#0e6e66" />
     <script is:inline>
       // Tema antes del primer pintado (sin parpadeo): elección guardada > sistema.

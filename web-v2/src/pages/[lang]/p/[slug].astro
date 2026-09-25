@@ -1,0 +1,224 @@
+---
+// Ficha de producto (brief §5.2): una página estática por presentación. Todo sale del
+// contrato web/data/ en el build; el único JS es el botón de compartir.
+import Base from '../../../layouts/Base.astro';
+import Cabecera from '../../../components/Cabecera.astro';
+import GraficoHistorial from '../../../components/GraficoHistorial.astro';
+import { LogoCadena } from '../../../components/LogoCadena';
+import { Miniatura, Precio, ResumenAhorro } from '../../../components/Producto';
+import { IDIOMAS, textos, t, soles, porcentaje, fechaCorta, type Idioma, type Clave } from '../../../i18n';
+import { aRevisar, ahorroActivo, type Meta, type Producto } from '../../../lib/datos';
+import { eventos, dias, type Historial } from '../../../lib/historial';
+import { leerDatos } from '../../../lib/contrato';
+
+export function getStaticPaths() {
+  const meta: Meta = leerDatos<Meta>('meta.json');
+  const { productos }: { productos: Producto[] } = leerDatos<{ productos: Producto[] }>('index.json');
+  return IDIOMAS.flatMap((lang) =>
+    productos.map((p) => ({
+      params: { lang, slug: p.slug },
+      props: {
+        p,
+        meta,
+        hermanos: productos.filter((q) => q.id.split(':')[0] === p.id.split(':')[0]),
+        hist: leerDatos<Historial>(`hist/${p.slug}.json`),
+      },
+    })),
+  );
+}
+
+interface Props {
+  p: Producto;
+  meta: Meta;
+  hermanos: Producto[];
+  hist: Historial;
+}
+const { p, meta, hermanos, hist } = Astro.props;
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const cadenas = meta.cadenas;
+const ids = cadenas.map((c) => c.id);
+const conPrecio = cadenas.filter((c) => p.precios[c.id] != null);
+const ah = ahorroActivo(p, ids);
+const revisar = aRevisar(p, ids);
+const nombre = (id: string) => cadenas.find((c) => c.id === id)?.nombre ?? id;
+const nombreCat = (id: string | null) => (id ? ((dic[`cat.${id}` as Clave] as string | undefined) ?? id) : null);
+const minimo = Math.min(...Object.values(p.precios));
+const cadenaMin = conPrecio.find((c) => p.precios[c.id] === minimo);
+
+const cambios = eventos(hist.serie, ids).slice(0, 8);
+const cuando = (desde: string, hasta: string) =>
+  dias(desde, hasta) > 1
+    ? t(dic, 'ficha.evento.entre', { desde: fechaCorta(idioma, desde), hasta: fechaCorta(idioma, hasta) })
+    : t(dic, 'ficha.evento.el', { fecha: fechaCorta(idioma, hasta) });
+
+const metodo = (id: string) =>
+  id === 'inkafarma' ? t(dic, 'ficha.match.inkafarma')
+  : id === 'mifarma' ? t(dic, 'ficha.match.mifarma')
+  : t(dic, 'ficha.match.fuzzy');
+
+const descripcionOg = cadenaMin
+  ? t(dic, 'ficha.og', { monto: soles(idioma, minimo), cadena: cadenaMin.nombre })
+  : undefined;
+const datos = [
+  [t(dic, 'ficha.activo'), p.activo],
+  [t(dic, 'ficha.laboratorio'), p.laboratorio],
+  [t(dic, 'ficha.categoria'), nombreCat(p.cat)],
+].filter(([, v]) => v);
+---
+
+<Base idioma={idioma} titulo={p.nombre} descripcion={descripcionOg} imagen={p.imagen}>
+  <Cabecera idioma={idioma} snapshot={meta.snapshot} />
+  <main class="mx-auto max-w-4xl space-y-5 px-4 pb-16 pt-4">
+    <a href={`${base}${idioma}/`} class="inline-flex items-center gap-1 text-sm text-acento hover:underline">
+      <span aria-hidden="true">←</span> {t(dic, 'ficha.volver')}
+    </a>
+
+    <!-- Encabezado -->
+    <section class="flex flex-col gap-4 sm:flex-row sm:items-start">
+      <Miniatura p={p} dic={dic} tam={128} />
+      <div class="min-w-0 flex-1">
+        <h1 class="text-2xl font-semibold leading-tight tracking-tight">{p.nombre}</h1>
+        <p class="mt-1 text-suave">{[p.pres, p.marca].filter(Boolean).join(' · ')}</p>
+        {datos.length > 0 && (
+          <dl class="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+            {datos.map(([k, v]) => (<><dt class="text-suave">{k}</dt><dd>{v}</dd></>))}
+          </dl>
+        )}
+        <div class="mt-3 flex flex-wrap items-center gap-3">
+          <ResumenAhorro p={p} activas={cadenas} idioma={idioma} dic={dic} />
+          <button type="button" id="compartir" data-copiado={t(dic, 'ficha.copiado')}
+            class="inline-flex items-center gap-1.5 rounded-lg border border-borde px-3 py-1.5 text-sm hover:bg-superficie-2">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            <span>{t(dic, 'ficha.compartir')}</span>
+          </button>
+          <span id="compartir-estado" role="status" class="text-sm text-ahorro"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Precio por cadena -->
+    <section aria-labelledby="h-precios" class="rounded-xl border border-borde bg-superficie p-4 sm:p-5">
+      <h2 id="h-precios" class="text-lg font-semibold">{t(dic, 'ficha.precios')}</h2>
+      <table class="mt-3 w-full border-collapse text-sm">
+        <caption class="sr-only">{t(dic, 'ficha.precios.caption')}</caption>
+        <tbody>
+          {cadenas.map((c) => {
+            const mejor = Boolean(ah && ah.soles > 0 && ah.en.includes(c.id) && !revisar);
+            return (
+              <tr class={`border-b border-borde last:border-0 ${mejor ? 'bg-ahorro-fondo' : ''}`}>
+                <th scope="row" class="py-2.5 pl-2 text-left font-normal">
+                  <span class="flex items-center gap-2.5">
+                    <LogoCadena cadena={c} base={base} tam="md" />
+                    <span class={c.logo ? 'sr-only' : ''}>{c.nombre}</span>
+                    {mejor && <span class="text-xs font-medium text-ahorro">✓ {t(dic, 'producto.masBarato')}</span>}
+                  </span>
+                </th>
+                <td class="py-2.5 pr-2 text-right">
+                  <Precio p={p} c={c} idioma={idioma} dic={dic} masBarato={mejor} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Presentaciones del mismo producto -->
+    {hermanos.length > 1 && (
+      <section aria-labelledby="h-pres" class="rounded-xl border border-borde bg-superficie p-4 sm:p-5">
+        <h2 id="h-pres" class="text-lg font-semibold">{t(dic, 'ficha.presentaciones')}</h2>
+        <ul class="mt-2 divide-y divide-borde text-sm">
+          {hermanos.map((h) => {
+            const hMin = Math.min(...Object.values(h.precios));
+            const actual = h.id === p.id;
+            return (
+              <li class="flex items-center justify-between gap-3 py-2">
+                {actual
+                  ? <span class="font-medium">{h.pres} <span class="text-xs font-normal text-suave">({t(dic, 'ficha.presentacion.actual')})</span></span>
+                  : <a href={`${base}${idioma}/p/${h.slug}/`} class="text-acento hover:underline">{h.pres}</a>}
+                <span class="num text-suave">{soles(idioma, hMin)}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    )}
+
+    <GraficoHistorial idioma={idioma} serie={hist.serie} cadenas={cadenas} />
+
+    <!-- Eventos -->
+    <section aria-labelledby="h-eventos" class="rounded-xl border border-borde bg-superficie p-4 sm:p-5">
+      <h2 id="h-eventos" class="text-lg font-semibold">{t(dic, 'ficha.eventos')}</h2>
+      {cambios.length === 0
+        ? <p class="mt-2 text-sm text-suave">{t(dic, 'ficha.eventos.ninguno')}</p>
+        : (
+          <ul class="mt-2 space-y-1.5 text-sm">
+            {cambios.map((e) => (
+              <li class="flex gap-2">
+                <span aria-hidden="true" class={e.tipo === 'baja' ? 'text-baja' : e.tipo === 'sube' ? 'text-sube' : 'text-suave'}>
+                  {e.tipo === 'baja' ? '▼' : e.tipo === 'sube' ? '▲' : '%'}
+                </span>
+                <span>
+                  {t(dic, `ficha.evento.${e.tipo}` as Clave, {
+                    cadena: nombre(e.cadena),
+                    pct: e.pct != null ? porcentaje(idioma, e.pct) : '',
+                    antes: e.antes != null ? soles(idioma, e.antes) : '',
+                    despues: e.despues != null ? soles(idioma, e.despues) : '',
+                  })}{' '}
+                  <span class="text-suave">{cuando(e.desde, e.hasta)}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+    </section>
+
+    <!-- ¿Por qué se emparejó? -->
+    <section aria-labelledby="h-match" class="rounded-xl border border-borde bg-superficie p-4 sm:p-5">
+      <h2 id="h-match" class="text-lg font-semibold">{t(dic, 'ficha.match.titulo')}</h2>
+      <p class="mt-1 text-sm text-suave">{t(dic, 'ficha.match.intro')}</p>
+      <dl class="mt-3 space-y-2.5 text-sm">
+        {conPrecio.map((c) => (
+          <div class="gap-3 sm:flex">
+            <dt class="shrink-0 font-medium sm:w-36">{c.nombre}</dt>
+            <dd>{metodo(c.id)}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-3 text-xs text-suave">{t(dic, 'ficha.match.nota')}</p>
+    </section>
+  </main>
+
+  <footer class="border-t border-borde">
+    <div class="mx-auto max-w-4xl space-y-2 px-4 py-6 text-xs text-suave">
+      <p>{t(dic, 'pie.aviso')}</p>
+      <p>
+        <a class="underline underline-offset-2" href="https://github.com/IchiSieben/farmacias">{t(dic, 'pie.codigo')}</a>
+        · {t(dic, 'pie.licencia')}
+      </p>
+    </div>
+  </footer>
+</Base>
+
+<script is:inline>
+  // Único JS de la ficha: copiar la URL (con respaldo si el portapapeles no está).
+  (function () {
+    var b = document.getElementById('compartir');
+    var estado = document.getElementById('compartir-estado');
+    if (!b) return;
+    b.addEventListener('click', function () {
+      var url = location.href.split('#')[0];
+      var listo = function () {
+        estado.textContent = b.getAttribute('data-copiado');
+        setTimeout(function () { estado.textContent = ''; }, 2500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(listo, function () { prompt('', url); });
+      } else {
+        prompt('', url);
+      }
+    });
+  })();
+</script>

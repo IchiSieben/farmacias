@@ -1,10 +1,10 @@
 ---
-import { readFileSync } from 'node:fs';
 import Base from '../../layouts/Base.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import Explorador from '../../components/Explorador';
 import { IDIOMAS, textos, t, type Idioma } from '../../i18n';
 import { ordenar, type Meta, type Producto } from '../../lib/datos';
+import { leerDatos } from '../../lib/contrato';
 
 export function getStaticPaths() {
   return IDIOMAS.map((lang) => ({ params: { lang } }));
@@ -14,9 +14,8 @@ const idioma = Astro.params.lang as Idioma;
 const dic = textos(idioma);
 const base = import.meta.env.BASE_URL;
 // Contrato web/data/ (copiado a public/data por scripts/copiar-datos.mjs).
-const leer = (f: string) => JSON.parse(readFileSync(new URL(`../../../public/data/${f}`, import.meta.url), 'utf-8'));
-const meta: Meta = leer('meta.json');
-const indice: { productos: Producto[] } = leer('index.json');
+const meta = leerDatos<Meta>('meta.json');
+const indice = leerDatos<{ productos: Producto[] }>('index.json');
 // Las primeras filas salen en el HTML (pintado inmediato, sin saltos); el resto
 // lo trae la isla en segundo plano.
 const iniciales = ordenar(indice.productos, 'ahorro', meta.cadenas.map((c) => c.id), idioma === 'es' ? 'es-PE' : 'en-US').slice(0, 30);

@@ -9,7 +9,9 @@ Prioridad de candidatos (primero que pase el control de calidad):
      ni de marcas de terceros), en orden de aparición
   2. og:image SOLO si el archivo se llama logo/imagotipo/isotipo (si no, suele ser
      un banner)
-  3. el ícono más grande declarado (<link rel=icon|apple-touch-icon sizes>)
+  3. <img> de logo en el header YA RENDERIZADO (Playwright, una carga de la home):
+     SPAs que pintan el header desde su CMS (Inkafarma)
+  4. el ícono más grande declarado (<link rel=icon|apple-touch-icon sizes>)
 Control de calidad: SVG válido, o raster decodificable con lado menor >= 64 px.
 
 Salida en web-v2/public/logos/: <cadena>.<ext> y logos.json con
@@ -17,6 +19,7 @@ Salida en web-v2/public/logos/: <cadena>.<ext> y logos.json con
 logo (no inventado); `archivo` = null -> la UI muestra el monograma.
 
 Uso:  py scripts/bajar_logos.py            (4 cadenas, ~10 requests, 2–6 s entre ellas)
+      py scripts/bajar_logos.py inkafarma  (solo esas cadenas; conserva el resto de logos.json)
 """
 
 from __future__ import annotations
@@ -84,6 +87,31 @@ def candidatos(html: str, base: str) -> List[Tuple[str, str]]:
     return unicos
 
 
+def candidatos_renderizados(sitio: str) -> List[Tuple[str, str]]:
+    """Logo del header tras ejecutar el JS (SPAs como Inkafarma: el HTML estático no
+    trae <img> de logo, ni manifest, ni apple-touch-icon; el header lo pinta desde el
+    CMS de la propia cadena). Una sola carga de la home. Sin Playwright -> []."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return []
+    with sync_playwright() as p:
+        nav = p.chromium.launch()
+        pg = nav.new_page(viewport={"width": 1366, "height": 900}, user_agent=USER_AGENTS[0])
+        pg.goto(sitio, wait_until="domcontentloaded", timeout=60000)
+        pg.wait_for_timeout(8000)
+        imgs = pg.evaluate("""() => [...document.querySelectorAll('header img, [class*=header] img')]
+            .map(i => [i.currentSrc || i.src, i.alt || '', i.getBoundingClientRect().width])""")
+        nav.close()
+    out: List[Tuple[str, str]] = []
+    for src, alt, ancho in imgs:
+        texto = f"{alt} {src.rsplit('/', 1)[-1]}"
+        if ancho >= 40 and re.search(r"logo|imagotipo|isotipo", texto, re.I) and not _AJENOS.search(texto):
+            if ("header-render", src) not in out:
+                out.append(("header-render", src))
+    return out
+
+
 def _es_svg(datos: bytes) -> bool:
     cabeza = datos[:512].lstrip().lower()
     return cabeza.startswith(b"<svg") or (cabeza.startswith(b"<?xml") and b"<svg" in datos[:4096].lower())
@@ -130,11 +158,20 @@ def evaluar(datos: bytes) -> Tuple[Optional[str], Optional[str], str]:
     return ext, _color_raster(img), f"{img.format} {img.size[0]}x{img.size[1]}"
 
 
+def _candidatos_en_orden(html: str, sitio: str):
+    """Estáticos primero; el header renderizado solo si ningún estático es un logo
+    (los íconos van al final: si solo hay íconos, antes se prueba el render)."""
+    estaticos = candidatos(html, sitio)
+    yield from [c for c in estaticos if c[0] != "icono"]
+    yield from candidatos_renderizados(sitio)
+    yield from [c for c in estaticos if c[0] == "icono"]
+
+
 def bajar(cliente: httpx.Client, cadena: str, sitio: str) -> dict:
     html = cliente.get(sitio).text
     _dormir()
     color_respaldo: Tuple[Optional[str], Optional[str]] = (None, None)
-    for fuente, url in candidatos(html, sitio):
+    for fuente, url in _candidatos_en_orden(html, sitio):
         try:
             resp = cliente.get(url)
             _dormir()
@@ -169,8 +206,12 @@ def main() -> int:
     cliente = httpx.Client(headers={"User-Agent": USER_AGENTS[0],
                                     "Accept-Language": "es-PE,es;q=0.9"},
                            follow_redirects=True, timeout=30)
-    resultado = {}
+    solo = set(sys.argv[1:])  # p.ej. `py -m scripts.bajar_logos inkafarma`
+    previo = SALIDA / "logos.json"
+    resultado = json.loads(previo.read_text(encoding="utf-8")) if solo and previo.exists() else {}
     for cadena, sitio in SITIOS.items():
+        if solo and cadena not in solo:
+            continue
         try:
             resultado[cadena] = bajar(cliente, cadena, sitio)
         except httpx.HTTPError as exc:

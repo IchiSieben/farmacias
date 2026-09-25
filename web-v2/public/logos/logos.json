@@ -1,9 +1,9 @@
 {
  "inkafarma": {
-  "archivo": null,
-  "color": "#11aa55",
-  "fuente": "monograma",
-  "origen": "https://inkafarma.pe/assets/icons/inkafarma/favicon.ico"
+  "archivo": "inkafarma.svg",
+  "color": "#1b8f43",
+  "fuente": "header-render",
+  "origen": "https://images.ctfassets.net/l9x8e72nkkav/6xqbBgTHavdMuuDVCyKdI/afd0935a8e51a6a3f7ac89f17499baf7/inkafarma.svg"
  },
  "mifarma": {
   "archivo": "mifarma.svg",

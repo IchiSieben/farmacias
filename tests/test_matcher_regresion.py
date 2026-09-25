@@ -141,6 +141,36 @@ GUARDA_PRECIO = [
 ]
 
 
+# Casos reales por la ruta _match_boticas, con los atributos que da cada fuente
+# (registro sanitario, presentación del detalle). (descripción, ref, candidato, ¿casa?)
+def _oferta(cadena: str, sku: str, nombre: str, precio: float, **attrs) -> Producto:
+    p = Producto(cadena=cadena, sku=sku, nombre_origen=nombre, precio=precio)
+    for k, v in attrs.items():
+        setattr(p, k, v)
+    return p
+
+
+_SUPRADYN_INKA = _oferta(
+    "inkafarma", "403172", "Supradyn Gragea", 48.0,
+    presentacion="FRASCO 30 UN", presentacion_kind="pack",
+    cantidad_envase=30.0, unidad_envase="un", registro_sanitario="DE-0340")
+
+CASOS_REALES = [
+    # Corrida 2026-09-25: texto, cantidad (30) y precio (S/48) coinciden, pero es
+    # OTRO producto: R.S. DE-3831 (comprimidos Energy) vs DE-0340 (grageas). Verificado a mano.
+    ("Supradyn Gragea DE-0340 ≠ Boticas Supradyn Energy DE-3831 (R.S. distinto)",
+     _SUPRADYN_INKA,
+     _oferta("boticasperu", "38936", "Supradyn Energy - Caja 30 UN", 48.0,
+             registro_sanitario="DE-3831"),
+     False),
+    ("Supradyn Gragea DE-0340 ↔ Universal Supradyn Grageas DE0340 (mismo R.S.)",
+     _SUPRADYN_INKA,
+     _oferta("universal", "u-supradyn", "Supradyn Multivitamínico Grageas - Caja 30 und", 48.0,
+             registro_sanitario="DE0340"),
+     True),
+]
+
+
 def _ref(nombre: str, precio: float, cantidad: float, unidad: str) -> Producto:
     p = Producto(cadena="inkafarma", sku="R:" + nombre[:20], nombre_origen=nombre, precio=precio)
     p.cantidad_envase, p.unidad_envase = cantidad, unidad
@@ -186,7 +216,16 @@ def main() -> int:
         fallos += not ok
         print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
 
-    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO)
+    print("\n" + "=" * 78)
+    print("CASOS REALES (ruta _match_boticas con atributos de la fuente)")
+    print("=" * 78)
+    for desc, ref, cand, esperado in CASOS_REALES:
+        casa = _match_boticas(ref, [cand]) is not None
+        ok = casa == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if casa else 'no casa':8} {desc}")
+
+    total = len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

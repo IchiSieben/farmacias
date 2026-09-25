@@ -3,7 +3,7 @@
 Tres capas: **RAW** (lo que respondieron los sitios, tal cual), **PROCESSED** (Parquet
 tipado) y **WEB** (JSON para la página). Todo instante va en **UTC**.
 
-## 1. RAW — `RAW_DIR` (Google Drive montado; default `data/raw/`)
+## 1. RAW — `RAW_DIR` (local, default `data/raw/`; archivado en Drive con `rclone copy` a `RCLONE_REMOTE`)
 
 ```
 RAW_DIR/
@@ -93,9 +93,11 @@ por día: si hay dos, la última gana. Reprocesar una fecha vieja no pisa `lates
 **Fuera de F1:** `fichas` y `matches` (con `evidencia`) se definen en F3, cuando exista
 el matcher multi-señal.
 
-## 3. WEB — `web/data.json` (contrato v1, sin cambios)
+## 3. WEB — `data.json` (contrato v1, sin cambios de formato)
 
-Lo sigue consumiendo `web/app.js` hasta que F4 lo reemplace por `web/data/`
+La corrida lo escribe en staging (`data/publicar/data.json`); `pipeline.publish` lo sube
+al hosting con confirmación y deja `web/data.json` como espejo de lo publicado. Lo
+consume `web/app.js` hasta que F4 lo reemplace por `web/data/`
 particionado. Además se guarda una copia por corrida en
 `data/snapshots/snapshot_<generado>.json` y los eventos en
 `data/processed/eventos_<fecha>.csv` (formato ANEXO §C).

@@ -35,6 +35,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
 
 from ..adapter_base import AdapterBase, CredencialRechazada
+from ..ficha import extrae_rs_texto
 from ..modelo import Producto
 from ..normalizer import extrae_tamano
 
@@ -325,6 +326,10 @@ class AlgoliaInRetailAdapter(AdapterBase):
             ean=base["ean"],
             sku_mifarma=base["sku_mifarma"],
             sku_sap=base["sku_sap"],
+            registro_sanitario=base["rs"],
+            principio_activo=base["activos"],
+            fuentes={"cantidad": "atributo", "registro_sanitario": "descripcion",
+                     "principio_activo": "atributo"},
             raw=d if raw else None,
         )
 
@@ -349,6 +354,13 @@ class AlgoliaInRetailAdapter(AdapterBase):
             "ean": _clean(d.get("eanCode")) or _clean(d.get("gtin")),
             "sku_mifarma": _clean(d.get("skuMifarma")),
             "sku_sap": _clean(d.get("sapCode")),
+            # F3: el R.S. no tiene campo propio; viene en la descripción corta o en
+            # las secciones del detalle ("Registro Sanitario DE-0340", "R.S: EN-02157").
+            "rs": extrae_rs_texto(d.get("shortDescription"), d.get("longDescription"),
+                                  *[x.get("content") for x in (d.get("details") or [])
+                                    if isinstance(x, dict)]),
+            "activos": ", ".join(a.strip() for a in (d.get("activePrinciples") or [])
+                                 if isinstance(a, str) and a.strip()) or None,
         }
         out: List[Producto] = []
         # Presentación PACK (caja/frasco): pricePack, etiqueta noFractionatedText.

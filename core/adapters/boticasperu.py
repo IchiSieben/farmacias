@@ -201,7 +201,10 @@ class BoticasPeruAdapter(AdapterBase):
             stock=bool(p.get("available")) if p.get("available") is not None else None,
             url=self._abs_url(_clean(p.get("selectedProductUrl"))),
             imagen=_clean(img),
-            ean=rsanit,  # no hay EAN; guardamos R.S. (registro sanitario) como id secundario
+            # SFCC no expone EAN. El R.S. va en su campo: en `ean` casaría como Capa 1
+            # contra un EAN de verdad.
+            registro_sanitario=rsanit,
+            fuentes={"registro_sanitario": "atributo"} if rsanit else {},
             raw=p if raw else None,
         )
 

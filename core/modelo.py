@@ -62,6 +62,11 @@ class Producto:
     ean: Optional[str] = None                  # código de barras / gtin (matching Capa 1)
     sku_mifarma: Optional[str] = None          # cruce directo Inkafarma↔Mifarma (mismo grupo InRetail)
     sku_sap: Optional[str] = None              # id interno SAP del grupo
+    registro_sanitario: Optional[str] = None   # R.S. DIGEMID tal cual lo da la fuente (F3)
+
+    # --- trazabilidad (F3): de dónde salió cada dato estructurado ---
+    # campo -> "atributo" (campo de la API) | "descripcion" (texto de la ficha) | "nombre"
+    fuentes: Dict[str, str] = field(default_factory=dict)
 
     # --- metadatos de captura ---
     capturado_en: str = field(default_factory=_ahora_iso)

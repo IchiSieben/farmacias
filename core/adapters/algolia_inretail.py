@@ -34,7 +34,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
 
-from ..adapter_base import AdapterBase
+from ..adapter_base import AdapterBase, CredencialRechazada
+from ..ficha import extrae_rs_texto
 from ..modelo import Producto
 from ..normalizer import extrae_tamano
 
@@ -277,8 +278,24 @@ class AlgoliaInRetailAdapter(AdapterBase):
         resp = self._client.get(url)
         if resp.status_code == 404:
             return None
+        self._revisar_credencial(resp)
         resp.raise_for_status()
         return self._map_hit(resp.json(), raw=raw)
+
+    def _revisar_credencial(self, resp) -> None:
+        """401/403 de Algolia = la key pública del frontend rotó: abortar ya."""
+        if resp.status_code not in (401, 403):
+            return
+        pref = self.cadena.upper()
+        sitio = self.origin or f"la web de {self.cadena}"
+        raise CredencialRechazada(
+            f"Algolia respondió {resp.status_code} para {self.cadena}: rotó la key "
+            f"{pref}_ALGOLIA_API_KEY (o {pref}_ALGOLIA_APP_ID). Recapturar: abrir {sitio} "
+            "con DevTools > Network, filtrar 'algolia', buscar algo en el sitio y copiar "
+            "de la request '/queries' los headers x-algolia-application-id y "
+            f"x-algolia-api-key a {pref}_ALGOLIA_APP_ID / {pref}_ALGOLIA_API_KEY en .env. "
+            "Luego reanudar: py -m pipeline.run --reanudar <corrida>."
+        )
 
     # --- DETALLE: presentaciones por producto (API REST, no Algolia) -------
     def _producto_presentacion(self, d: Dict[str, Any], *, kind: str, etiqueta: str,
@@ -309,6 +326,10 @@ class AlgoliaInRetailAdapter(AdapterBase):
             ean=base["ean"],
             sku_mifarma=base["sku_mifarma"],
             sku_sap=base["sku_sap"],
+            registro_sanitario=base["rs"],
+            principio_activo=base["activos"],
+            fuentes={"cantidad": "atributo", "registro_sanitario": "descripcion",
+                     "principio_activo": "atributo"},
             raw=d if raw else None,
         )
 
@@ -333,6 +354,13 @@ class AlgoliaInRetailAdapter(AdapterBase):
             "ean": _clean(d.get("eanCode")) or _clean(d.get("gtin")),
             "sku_mifarma": _clean(d.get("skuMifarma")),
             "sku_sap": _clean(d.get("sapCode")),
+            # F3: el R.S. no tiene campo propio; viene en la descripción corta o en
+            # las secciones del detalle ("Registro Sanitario DE-0340", "R.S: EN-02157").
+            "rs": extrae_rs_texto(d.get("shortDescription"), d.get("longDescription"),
+                                  *[x.get("content") for x in (d.get("details") or [])
+                                    if isinstance(x, dict)]),
+            "activos": ", ".join(a.strip() for a in (d.get("activePrinciples") or [])
+                                 if isinstance(a, str) and a.strip()) or None,
         }
         out: List[Producto] = []
         # Presentación PACK (caja/frasco): pricePack, etiqueta noFractionatedText.

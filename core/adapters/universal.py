@@ -138,6 +138,8 @@ class UniversalAdapter(AdapterBase):
             url=_clean(prod.get("link")),
             imagen=imagen,
             ean=_ean_valido(item.get("ean")),
+            registro_sanitario=self._spec(prod, "Registro Sanitario"),
+            fuentes={"registro_sanitario": "atributo"},
             raw=prod if raw else None,
         )
 

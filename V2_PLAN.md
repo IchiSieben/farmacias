@@ -6,7 +6,7 @@
 > comprobado en el sitio: se confirma con recon antes de construir encima.
 
 **English TL;DR.** v1 is live (4 chains, 296 matched products, static page). v2 has
-four workstreams, in order: (1) a proper data lake — raw dumps to Google Drive,
+four workstreams, in order: (1) a proper data lake — local raw cache archived to Google Drive via rclone,
 processed Parquet, small JSON for the web; (2) real coverage by category instead of
 hand-picked search terms; (3) a multi-signal matcher (structured attributes, Peruvian
 sanitary-registry codes, image hashing for every candidate pair, a curated golden set);
@@ -44,47 +44,56 @@ Lo que limita:
 ```
                  ┌──────────────── corrida (local, Task Scheduler) ────────────────┐
                  │                                                                 │
- adapters ──►  RAW (Google Drive)  ──►  parse/normalize  ──►  PROCESSED (Parquet)   │
- (browse por      raw/<cadena>/<fecha>/     core/normalizer     data/processed/     │
-  categoría)      catalogo.jsonl(.gz)       core/ficha           ofertas.parquet     │
-                  fichas/*.json                                  matches.parquet     │
-                                                                 eventos.parquet     │
-                                                     │                               │
-                                                     ▼                               │
-                                        matcher v2 (offline, sobre Parquet)          │
-                                                     │                               │
-                                                     ▼                               │
-                                        export web: JSON chico por categoría         │
-                                        web/data/{index,cat_*,hist_*}.json           │
-                                                     │                               │
-                                                     ▼                               │
-                                        publish (FTP/SSH Hostinger) ─────────────────┘
+ adapters ──► http_cache ──► RAW local (RAW_DIR, default data/raw/)                 │
+ (consultas;    graba antes   <cadena>/<fecha>/respuestas_<corrida>.jsonl.gz        │
+  F2: browse)   de parsear    _corridas/<corrida>/manifest.json                     │
+                                     │                                             │
+                                     ▼  (reproducido SIN red)                       │
+                              parse/normalize + matcher ──► PROCESSED (Parquet)     │
+                                     │                      data/processed/         │
+                                     ▼                      ofertas · eventos       │
+                              export: data/publicar/data.json (staging)             │
+                                     │                                             │
+                                     ▼                                             │
+                              sincronizar: rclone copy ──► Gdrive: (archivo) ───────┘
+                                     ·
+                                     · (manual, con resumen y confirmación)
+                                     ▼
+                              publish (FTPS/SFTP Hostinger)
 ```
 
 Decisiones:
 
-- **RAW en Google Drive (5 TB disponibles).** Google Drive para escritorio monta la
-  unidad como carpeta en Windows (`G:\Mi unidad\...`). El pipeline escribe ahí vía
-  `RAW_DIR` (variable de entorno, ver `.env.example`), nada más. Sin API de Drive, sin
-  service account: es una carpeta. Realismo: un volcado completo de Inkafarma (~46k
-  hits Algolia) pesa decenas de MB en JSONL, ~5–10 MB gzip. Cuatro cadenas diarias
-  caben en unos cientos de MB/mes; 5 TB dan para décadas. Se comprime (`.jsonl.gz`)
-  porque Drive sincroniza más rápido archivos pequeños.
+- **RAW: caché local + archivo en Google Drive vía rclone** *(enmendado 2026-09-24;
+  antes: Drive para escritorio montado como carpeta — no se instala)*. El pipeline
+  escribe el crudo en `RAW_DIR`, una carpeta local (default `data/raw/`); de ahí se
+  reprocesa con `--desde-cache`. Al final de `--todo`, el paso `--sincronizar` hace
+  `rclone copy` (nunca `sync`: no borra en Drive) a `RCLONE_REMOTE`
+  (`Gdrive:03-Datasets/raw/radar-precios`) y el Parquet a `RCLONE_REMOTE_PROCESSED`.
+  Corre después de escribir snapshot y Parquet: si Drive falla, la corrida ya está
+  completa y el copy del día siguiente sube lo pendiente (es incremental). Realismo:
+  un volcado completo de Inkafarma (~46k hits Algolia) pesa decenas de MB en JSONL,
+  ~5–10 MB gzip; cuatro cadenas diarias son unos cientos de MB/mes y 5 TB dan para
+  décadas. Se comprime (`.jsonl.gz`, pocos archivos por corrida) porque rclone sube
+  mejor pocos archivos grandes que miles de chicos.
 - **PROCESSED en Parquet, local y versionable por fecha**, con `pandas` + `pyarrow`.
   Es lo que consume el matcher y la analítica. Se mantiene un `latest/` y un
-  `history/<fecha>/`. Parquet también se copia a Drive (chico).
+  `history/<fecha>/`. Parquet también se copia a Drive (chico), con el mismo rclone.
 - **Web recibe JSON pequeño y particionado.** No un `data.json` de 300 KB que crecerá
   a 5 MB: un `index.json` (lista liviana para el buscador) + `cat_<categoria>.json`
   + `hist_<match_id>.json` bajo demanda. Hostinger compartido sirve estático sin
   problema; es el mismo modelo que hoy.
 - **La corrida vive en tu PC, no en GitHub Actions.** Razones: Boticas está detrás
-  de Cloudflare y responde mejor desde IP residencial; el Drive está montado ahí; las
+  de Cloudflare y responde mejor desde IP residencial; rclone ya está configurado ahí; las
   llaves Algolia rotan y es más simple en un `.env` local. Windows Task Scheduler
   lanza `py -m pipeline.run --todo` a diario. GitHub Actions queda como opción para
   InRetail-only si algún día se quiere.
-- **Publicar = subir `web/`**. `pipeline/publish.py` sube por FTP/SFTP con
-  credenciales en `.env` (Hostinger compartido las da). Alternativa: git auto-deploy
-  de Hostinger apuntando a la carpeta `web/` de una rama `deploy`.
+- **Publicar es manual y va aparte de la corrida** *(enmendado 2026-09-24)*. La
+  corrida diaria exporta a staging (`data/publicar/`), nunca a lo servido.
+  `pipeline/publish.py` compara contra lo publicado (productos, cambios de precio,
+  desaparecidos, tamaño), se niega si desaparece > 20 % salvo `--forzar`, pide
+  confirmación escrita y sube por FTPS/SFTP con credenciales en `.env`. Alternativa
+  futura: git auto-deploy de Hostinger apuntando a una rama `deploy`.
 
 ---
 
@@ -92,7 +101,7 @@ Decisiones:
 
 ### F1 — Data lake y corrida automática
 
-Objetivo: cualquier corrida deja crudo reproducible en Drive, procesado en Parquet, y
+Objetivo: cualquier corrida deja crudo reproducible (local + archivo en Drive), procesado en Parquet, y
 se puede relanzar desde el caché sin volver a pegarle al sitio.
 
 Tareas:

@@ -76,7 +76,7 @@ def diff_snapshots(previo: Optional[dict], actual: dict) -> List[dict]:
         if prev is None:
             prod["nuevo"] = True
             eventos.append({
-                "tipo_evento": "nuevo", "cadena": "", "producto": prod.get("nombre", ""),
+                "tipo_evento": "nuevo", "producto_id": pid, "cadena": "", "producto": prod.get("nombre", ""),
                 "valor_anterior": "", "valor_nuevo": "", "delta_pct": "",
             })
 
@@ -97,6 +97,7 @@ def diff_snapshots(previo: Optional[dict], actual: dict) -> List[dict]:
                 if direccion in ("baja", "sube"):
                     eventos.append({
                         "tipo_evento": "baja_precio" if direccion == "baja" else "sube_precio",
+                        "producto_id": pid,
                         "cadena": cadena, "producto": prod.get("nombre", ""),
                         "valor_anterior": antes, "valor_nuevo": precio,
                         "delta_pct": delta if delta is not None else "",
@@ -113,7 +114,7 @@ def diff_snapshots(previo: Optional[dict], actual: dict) -> List[dict]:
                     promo_cambio[cadena] = "fin"
                     tipo = "fin_promo"
                 eventos.append({
-                    "tipo_evento": tipo, "cadena": cadena, "producto": prod.get("nombre", ""),
+                    "tipo_evento": tipo, "producto_id": pid, "cadena": cadena, "producto": prod.get("nombre", ""),
                     "valor_anterior": "sí" if promo_prev else "no",
                     "valor_nuevo": "sí" if promo_now else "no", "delta_pct": "",
                 })

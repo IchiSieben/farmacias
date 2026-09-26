@@ -13,11 +13,12 @@ Sin dependencias externas (no requiere pytest). Python 3.9+.
 from __future__ import annotations
 
 import sys
+from typing import Optional
 
 from core.ficha import clave_rs, extrae_rs_texto, ficha_de, normaliza_rs
 from core.matcher import comparar, UMBRAL_REVISION
 from core.modelo import Producto
-from pipeline.build_snapshot import _match_boticas, _mejor_match
+from pipeline.build_snapshot import _asignar, _candidatos, _match_boticas, _mejor_match
 
 
 def _p(nombre: str, sku: str) -> Producto:
@@ -272,6 +273,173 @@ CAPA_FICHA = [
 ]
 
 
+# Revisión F3 (decisiones de iC7, cerradas el 2026-09-26). Cada caso malo va por la
+# ruta que lo cruzó en la corrida del 2026-09-25 (mismo R.S., foto idéntica, atributos
+# de laboratorio), con su gemelo que DEBE seguir casando.
+def _ficha_rs(p: Producto, rs: str):
+    f = ficha_de(p)
+    f.registro_sanitario, f.fuentes["registro_sanitario"] = rs, "atributo"
+    return f
+
+
+_TAPSIN_DIA_INKA = _oferta(
+    "inkafarma", "070072", "Tapsin Plus Antigripal Día Comprimido Recubierto", 42.5,
+    presentacion="CAJA 25 SOBRE", presentacion_kind="pack", cantidad_envase=25.0,
+    unidad_envase="un", marca="MAVER", registro_sanitario="EE-05657")
+_TAPSIN_FLU_INKA = _oferta(
+    "inkafarma", "070615", "Tapsin Flu Caliente Día", 2.2, presentacion="SOBRE 1 UN",
+    presentacion_kind="fraccion", cantidad_envase=1.0, unidad_envase="un",
+    marca="TAPSIN", registro_sanitario="EN-06568")
+_TAPSIN_SC_INKA = _oferta(
+    "inkafarma", "038610", "Tapsin SC 1g Polvo efervescente", 1.4, presentacion="TABLETA 1 UN",
+    presentacion_kind="fraccion", cantidad_envase=1.0, unidad_envase="un",
+    marca="LABORATORIOS MAVER", registro_sanitario="EE-10702")
+_HUGGIES_PURO = _oferta(
+    "inkafarma", "002994", "Toallitas Húmedas Huggies Puro y Natural Desechables", 18.5,
+    presentacion="BOLSA 80 UN", presentacion_kind="pack", cantidad_envase=80.0,
+    unidad_envase="un", marca="HUGGIES")
+_HUGGIES_G = _oferta(
+    "inkafarma", "036335", "Pañales Huggies G Bigpack Natural Care", 65.5,
+    presentacion="BOLSA 66 UN", presentacion_kind="pack", cantidad_envase=66.0,
+    unidad_envase="un", marca="HUGGIES")
+_PAMPERS_XXXG = _oferta(
+    "inkafarma", "072472", "Pañales Desechables Pampers Premium Care Hipoalergénico XXXG", 72.9,
+    presentacion="BOLSA 52 UN", presentacion_kind="pack", cantidad_envase=52.0,
+    unidad_envase="un", marca="PAMPERS", registro_sanitario="NSOA-07000")
+_CETIRIZINA_PT = _oferta(
+    "inkafarma", "420338", "Cetirizina 5mg/5ml Jarabe Portugal - Frasco 60 ML", 2.9,
+    presentacion="FRASCO 60 ML", presentacion_kind="pack", cantidad_envase=60.0,
+    unidad_envase="ml", marca="PORTUGAL")
+_MUCOSOLVAN_INKA = _oferta(
+    "inkafarma", "m1", "Mucosolvan Compositum 15mg - 0.01 mg/5ml Jarabe", 30.0,
+    presentacion="FRASCO 120 ML", presentacion_kind="pack", cantidad_envase=120.0,
+    unidad_envase="ml", marca="BOEHRINGER INGELHEIM")
+_ENSURE_INKA = _oferta(
+    "inkafarma", "079503", "Ensure Sabor Vainilla", 83.0, presentacion="LATA 850 GR",
+    presentacion_kind="pack", cantidad_envase=850.0, unidad_envase="g", marca="ENSURE")
+_SUPRACALM_INKA = _oferta(
+    "inkafarma", "427813", "Supracalm 1G Comprimidos", 13.4, presentacion="BLÍSTER 10 UN",
+    presentacion_kind="fraccion", cantidad_envase=10.0, unidad_envase="un", marca="TECNOFARMA")
+
+# (descripción, a, ficha a o None, b, ficha b o None, ¿casa?)
+REVISION_F3 = [
+    ("Tapsin Plus Día ↔ Boticas Noche con el MISMO R.S. (EE-05657): variante distinta",
+     _TAPSIN_DIA_INKA, None,
+     _oferta("boticasperu", "45620-CAJA",
+             "Tapsin Plus Antigripal Noche Comprimido Recubierto - Caja 25 UN", 45.0,
+             registro_sanitario="EE-05657"), None, False),
+    ("  gemelo: Tapsin Plus Día ↔ Día con el mismo R.S. sigue casando",
+     _TAPSIN_DIA_INKA, None,
+     _oferta("boticasperu", "45621-CAJA",
+             "Tapsin Plus Antigripal Día Comprimido Recubierto - Caja 25 UN", 45.0,
+             registro_sanitario="EE-05657"), None, True),
+    ("Tapsin Flu Día SOBRE ↔ Boticas 49718-BLISTER con el mismo R.S.: presentación distinta",
+     _TAPSIN_FLU_INKA, None,
+     _oferta("boticasperu", "49718-BLISTER", "Tapsin Flu Kión caliente día - Sobre 1 UN", 2.2,
+             registro_sanitario="EN-06568"), None, False),
+    ("  gemelo: Tapsin Flu Día SOBRE ↔ SKU -SOBRE casa",
+     _TAPSIN_FLU_INKA, None,
+     _oferta("boticasperu", "49718-SOBRE", "Tapsin Flu Kión caliente día - Sobre 1 UN", 2.2,
+             registro_sanitario="EN-06568"), None, True),
+    ("  gemelo: Inka 'TABLETA 1 UN' ↔ 47049-BLISTER no choca (tableta no es tipo de envase)",
+     _TAPSIN_SC_INKA, None,
+     _oferta("boticasperu", "47049-BLISTER", "Tapsin efervescente 1G sabor Limón - Sobre 1 UN",
+             1.5, registro_sanitario="EE-10702"), None, True),
+    ("  gemelo: Inka 'CAJA 25 SOBRE' ↔ SKU -CAJA no choca",
+     _TAPSIN_DIA_INKA, None,
+     _oferta("boticasperu", "45621-CAJA", "Tapsin Plus Antigripal Día - Caja 25 UN", 45.0,
+             registro_sanitario="EE-05657"), None, True),
+    ("Huggies Puro y Natural ↔ Recién Nacido con foto idéntica: etapa distinta",
+     _HUGGIES_PURO, _con_foto(_HUGGIES_PURO, _H0),
+     _oferta("boticasperu", "27363", "Toallitas Húmedas Huggies Recién Nacido - Bolsa 80UN", 16.9),
+     None, False),
+    ("  gemelo: Huggies 'G Bigpack' ↔ 'Talla G' casa (la G suelta no es talla declarada)",
+     _HUGGIES_G, None,
+     _oferta("boticasperu", "45202",
+             "Pañales Huggies Natural Care Bigpack Talla G - Bolsa 66 UN", 59.9), None, True),
+    ("Pampers XXXG ↔ Boticas Talla G con el mismo R.S.: talla distinta",
+     _PAMPERS_XXXG, None,
+     _oferta("boticasperu", "45219", "Pañales Pampers Premium Care Talla G - Bolsa 54 UN", 67.9,
+             registro_sanitario="NSOA-07000"), None, False),
+    ("Huggies Puro y Natural ↔ toallitas Agugu (zona gris, sin la marca)",
+     _HUGGIES_PURO, None,
+     _oferta("boticasperu", "32327", "Toallitas Húmedas Agugu - Bolsa 80 UN", 8.9,
+             url="https://www.boticasperu.pe/mama_y_bebe/toallitas_humedas/neopan/"
+                 "toallitas_humedas_agugu__-_bolsa_80_un/32327.html"), None, False),
+    ("Cetirizina Portugal ↔ Universal 'FI' (Farmindustria), sin R.S. en Inka: laboratorio",
+     _CETIRIZINA_PT, None,
+     _oferta("universal", "17222", "Cetirizina 5 mg/5 ml FI Jarabe - Frasco 60 ml", 7.13,
+             marca="Farmindustria", laboratorio="Farmindustria",
+             registro_sanitario="EN-01402"), None, False),
+    ("  gemelo: Mucosolvan Boehringer ↔ Universal Sanofi casa (misma línea, hoy de Sanofi)",
+     _MUCOSOLVAN_INKA, None,
+     _oferta("universal", "u-muco",
+             "Mucosolvan Compositum Adultos 15 mg + 0.01 mg/5 ml Jarabe - Frasco 120 ml", 31.0,
+             marca="Sanofi", laboratorio="Sanofi"), None, True),
+    ("Ensure ↔ Boticas Ensure Advance (texto 100): advance es otra fórmula",
+     _ENSURE_INKA, None,
+     _oferta("boticasperu", "20859", "Ensure Advance Sabor Vainilla - Lata 850 G", 103.9),
+     None, False),
+    ("  gemelo: Ensure ↔ Universal Ensure en polvo casa",
+     _ENSURE_INKA, None,
+     _oferta("universal", "19412", "Ensure en Polvo Sabor Vainilla - Lata 850 g", 83.0),
+     None, True),
+    ("Supracalm 1G ↔ Supracalm Flex: otra fórmula",
+     _SUPRACALM_INKA, None,
+     _oferta("boticasperu", "38596-BLISTER", "Supracalm Flex Comprimidos - Blister 10 UN", 21.6),
+     None, False),
+]
+
+
+class _EnrSinRed:
+    """Enriquecedor de prueba: la ficha sale del Producto (sin QuickView ni fotos)."""
+    def ficha(self, p: Producto):
+        return ficha_de(p)
+
+
+# Laboratorio deducido por R.S.: Boticas no trae laboratorio, pero su R.S. EN-01402 es
+# el de la Cetirizina FI de Universal. (descripción, ref, candidato, labs_rs, ¿casa?)
+_CETIRIZINA_BOT = _oferta("boticasperu", "14565", "Cetirizina 5Mg/5Ml Jarabe - Frasco 60 ML", 5.8,
+                          registro_sanitario="EN-01402")
+LAB_POR_RS = [
+    ("Cetirizina Portugal ↔ Boticas con R.S. de Farmindustria (EN-01402): no casa",
+     _CETIRIZINA_PT, _CETIRIZINA_BOT, {"EN-1402": "farmindustria"}, False),
+    ("  gemelo: el mismo par sin laboratorio conocido para ese R.S. casa",
+     _CETIRIZINA_PT, _CETIRIZINA_BOT, {}, True),
+]
+
+
+# Asignación uno a uno (_asignar). Dos filas distintas quieren el mismo SKU: se lo
+# lleva la de evidencia más fuerte. Dos filas que son el MISMO producto (mismo R.S.)
+# lo comparten.
+def _fila(ref: Producto):
+    return {"id": f"{ref.sku}:{ref.presentacion_kind}", "precios": {"inkafarma": ref.precio},
+            "precio_unidad": {}, "promos": {}, "urls": {}, "evidencia": {}, "equivalentes": {}}
+
+
+def _desloratadina(sku: str, nombre: str, marca: str, rs: Optional[str]) -> Producto:
+    return _oferta("inkafarma", sku, nombre, 20.0, presentacion="CAJA 100 UN",
+                   presentacion_kind="pack", cantidad_envase=100.0, unidad_envase="un",
+                   marca=marca, registro_sanitario=rs)
+
+
+_DESLO_BOT = _oferta("boticasperu", "42683",
+                     "Desloratadina 5mg Tableta Recubierta - Caja 100 UN", 21.0,
+                     registro_sanitario="EN-02222")
+# (descripción, [refs], candidato, ids de fila que deben quedar con el SKU)
+UNO_A_UNO = [
+    ("Desloratadina: la fila con el mismo R.S. gana a la que casa solo por texto",
+     [_desloratadina("017199", "Desloratadina 5mg Tabletas recubiertas", "LABOGEN", None),
+      _desloratadina("425000", "Desloratadina 5mg Tableta Recubierta", "PORTUGAL", "EN-02222")],
+     _DESLO_BOT, {"425000:pack"}),
+    ("dos filas Inka del mismo producto (mismo R.S. y cantidad): comparten el SKU",
+     [_desloratadina("425000", "Desloratadina 5mg Tableta Recubierta", "PORTUGAL", "EN-02222"),
+      _desloratadina("425001", "Desloratadina 5mg Tableta Recubierta x100", "PORTUGAL",
+                     "EN-2222")],
+     _DESLO_BOT, {"425000:pack", "425001:pack"}),
+]
+
+
 # Parseo del registro sanitario: (descripción, entrada, R.S. normalizado esperado).
 # Entrada str -> normaliza_rs (campo propio); tuple -> extrae_rs_texto (descripción).
 RS_PARSEO = [
@@ -372,6 +540,35 @@ def main() -> int:
             print(f"          ! {r.motivo}")
 
     print("\n" + "=" * 78)
+    print("REVISIÓN F3 (decisiones iC7): variante, envase, etapa, marca, laboratorio")
+    print("=" * 78)
+    for desc, a, fa, b, fb, casa in REVISION_F3:
+        r = comparar(a, b, fa=fa, fb=fb)
+        ok = _aceptaria(r) if casa else _bloqueado(r) and not r.es_match
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] score={r.score:5.1f} {r.metodo:18} {desc}")
+        if not ok:
+            print(f"          ! {r.motivo}")
+    for desc, ref, cand, labs_rs, casa in LAB_POR_RS:
+        best = _mejor_match(ref, [cand], _EnrSinRed(), labs_rs)[0]
+        ok = (best is not None) == casa
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {'casa' if best else 'no casa':8} {desc}")
+
+    print("\n" + "=" * 78)
+    print("ASIGNACIÓN UNO A UNO (_asignar)")
+    print("=" * 78)
+    for desc, refs, cand, esperado in UNO_A_UNO:
+        pend = [(_fila(r), r, [cand], []) for r in refs]
+        _asignar("boticasperu", pend, [_candidatos(r, [cand]) for r in refs])
+        got = {f["id"] for f, _, _, _ in pend if "boticasperu" in f["evidencia"]}
+        ok = got == esperado
+        fallos += not ok
+        print(f"  [{'OK' if ok else 'FALLA':5}] {len(got)} fila(s) {desc}")
+        if not ok:
+            print(f"          ! quedaron {sorted(got)}, se esperaba {sorted(esperado)}")
+
+    print("\n" + "=" * 78)
     print("REGISTRO SANITARIO (parseo y normalización)")
     print("=" * 78)
     for desc, entrada, esperado in RS_PARSEO:
@@ -383,7 +580,7 @@ def main() -> int:
     fallos += not ok
     print(f"  [{'OK' if ok else 'FALLA':5}] {'':10} clave: DE-340 == DE-0340 ≠ DE-3401")
 
-    total = len(CURADO_Y_EQUIVALENTE) + len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
+    total = len(REVISION_F3) + len(LAB_POR_RS) + len(UNO_A_UNO) + len(CURADO_Y_EQUIVALENTE) + len(CAPA_FICHA) + len(RS_PARSEO) + 1 + len(DEBEN_BLOQUEAR) + len(DEBEN_CASAR) + len(GUARDA_PRECIO) + len(CASOS_REALES)
     print("\n" + "-" * 78)
     if fallos:
         print(f"REGRESIÓN CON FALLOS: {fallos}/{total}")

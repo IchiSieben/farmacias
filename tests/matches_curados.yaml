@@ -54,3 +54,37 @@
   decision: match
   motivo: "Enterogermina frasco bebible 5 ml x1; R.S. BE-00409 vs BE-00937: renumerado"
   revisado: "2026-09-25, propuesto en la sesión F3 y aprobado por iC7"
+
+# Revisión F3 cerrada en la corrida autónoma del 2026-09-26: líneas de toallitas Huggies.
+# No hay regla razonable (la línea es texto libre: "Puro y Natural", "4 en 1",
+# "Cuidados"); la foto de la bolsa es casi idéntica entre líneas.
+- ref: "002994:pack"
+  cadena: boticasperu
+  sku: "30832"
+  decision: veto
+  motivo: "Huggies Puro y Natural ≠ Huggies 4 en 1: otra línea de toallitas"
+  revisado: "2026-09-26, corrida autónoma (regla iC7: etapa/línea distinta ⇒ producto distinto)"
+
+- ref: "002994:pack"
+  cadena: universal
+  sku: "21067"
+  decision: veto
+  motivo: "Huggies Puro y Natural ≠ Huggies Cuidados 4 en 1: otra línea de toallitas"
+  revisado: "2026-09-26, corrida autónoma (regla iC7: etapa/línea distinta ⇒ producto distinto)"
+
+- ref: "002994:pack"
+  cadena: universal
+  sku: "19924"
+  decision: veto
+  motivo: "Huggies Puro y Natural ≠ Huggies Triple Acción: otra línea de toallitas"
+  revisado: "2026-09-26, corrida autónoma (regla iC7: etapa/línea distinta ⇒ producto distinto)"
+
+# Pediasure: las filas Inka "Pediasure Sabor Vainilla (Polvo)" traen el EAN de Pediasure
+# Peptigro (Universal las cruza por EAN con Peptigro). Boticas ofrece otras fórmulas
+# (10+; Triplesure lo separa la regla de modificadores): no es el mismo producto.
+- ref: "074030:pack"
+  cadena: boticasperu
+  sku: "49001"
+  decision: veto
+  motivo: "Inka con EAN de Pediasure Peptigro ≠ Boticas Pediasure 10+ (otra fórmula)"
+  revisado: "2026-09-26, corrida autónoma (conservador: falso positivo peor que —)"

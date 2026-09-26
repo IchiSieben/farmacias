@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
 from .ficha import ATRIBUTO, Ficha, clave_rs, ficha_de
 from .imagen import veredicto
@@ -118,7 +118,13 @@ _MODIFICADOR_NUCLEO = set(
     "antigripal compuesto compositum plus duo forte fuerte "
     "expectorante descongestionante gripa "
     "fol "          # "Maltofer Fol" (hierro + ácido fólico) ≠ "Maltofer" (hierro solo)
-    "pronatal prenatal peptigro".split()   # Supradyn Pronatal ≠ Supradyn; Pediasure Peptigro ≠ Pediasure
+    "pronatal prenatal peptigro "   # Supradyn Pronatal ≠ Supradyn; Pediasure Peptigro ≠ Pediasure
+    # Decisión iC7 (revisión F3, 2026-09-26): Tapsin Día ≠ Tapsin Noche (la de noche
+    # lleva antihistamínico) y Ensure ≠ Ensure Advance. Son fórmulas distintas, no
+    # audiencias: se comparan ANTES del registro sanitario (ver _variante_distinta).
+    "dia noche advance "
+    "flex "          # Supracalm Flex (con otro activo) ≠ Supracalm 1 g
+    "triplesure".split()   # Pediasure Triplesure ≠ Pediasure (como Peptigro)
 )
 
 
@@ -155,9 +161,146 @@ def _activo_compatible(a: Producto, b: Producto) -> bool:
     kb = _tokens_clave(b.nombre_origen)
     if ka and kb and not (ka & kb):
         return False
-    ma = {t for t in nucleo(a.nombre_origen).split() if t in _MODIFICADOR_NUCLEO}
-    mb = {t for t in nucleo(b.nombre_origen).split() if t in _MODIFICADOR_NUCLEO}
-    return ma == mb
+    return not _variante_distinta(a, b)
+
+
+def _modificadores(p: Producto) -> set:
+    return {t for t in nucleo(p.nombre_origen).split() if t in _MODIFICADOR_NUCLEO}
+
+
+def _variante_distinta(a: Producto, b: Producto) -> bool:
+    """¿Distintos modificadores de fórmula (día/noche, forte, advance…)? Corre antes
+    que el R.S.: Boticas devolvió el mismo R.S. para Tapsin Plus Día y Noche."""
+    return _modificadores(a) != _modificadores(b)
+
+
+# Tipo de presentación explícito: sobre ≠ blíster (decisión iC7, revisión F3).
+# En Boticas el tipo real sale del sufijo del SKU/variante ("49718-BLISTER"), no del
+# nombre ("... - Sobre 1 UN" en ese mismo SKU); en InRetail, de la primera palabra de
+# `presentacion` ("SOBRE 1 UN"). Solo bloquea el conflicto sobre vs blíster: "TABLETA"
+# o "CAJA" no dicen nada del envase unitario.
+_TIPO_ENVASE = {"sobre": "sobre", "sobres": "sobre", "blister": "blister"}
+
+
+def _tipo_envase(p: Producto) -> Optional[str]:
+    sufijo = str(p.sku or "").rsplit("-", 1)
+    if len(sufijo) == 2 and sufijo[1].lower() in _TIPO_ENVASE:
+        return _TIPO_ENVASE[sufijo[1].lower()]
+    toks = normaliza_texto(p.presentacion).split()
+    if toks and toks[0] in _TIPO_ENVASE:
+        return _TIPO_ENVASE[toks[0]]
+    return None
+
+
+def _envase_distinto(a: Producto, b: Producto) -> bool:
+    ta, tb = _tipo_envase(a), _tipo_envase(b)
+    return bool(ta and tb and ta != tb)
+
+
+# Etapa/talla (pañales, toallitas): "recién nacido" es otra línea de producto, así que
+# basta con que UN lado la declare (Huggies Puro y Natural ≠ Huggies Recién Nacido,
+# decisión iC7). Las tallas solo bloquean si ambos lados declaran una y difieren:
+# InRetail escribe la talla suelta ("Huggies G Bigpack", "Hipoalergénico XXXG") y
+# Boticas "Talla G"; una G suelta no se lee (choca con gramos). Corre antes del R.S.:
+# un mismo R.S. cubre todas las tallas de un pañal (Pampers Premium Care).
+_RE_TALLA = re.compile(r"\btalla\s+(rn|xp|p|m|g|xg|xxg|xxxg)\b|\b(xg|xxg|xxxg)\b")
+_RE_RECIEN_NACIDO = re.compile(r"\brecien\s+nacid[oa]s?\b")
+
+
+def _etapa(p: Producto):
+    t = normaliza_texto(f"{p.nombre_origen} {p.presentacion or ''}")
+    rn = bool(_RE_RECIEN_NACIDO.search(t)) or "talla rn" in t
+    tallas = {x or y for x, y in _RE_TALLA.findall(t)}   # "talla G" o "XXXG" suelta
+    return rn, tallas - {"rn"}
+
+
+def _etapa_distinta(a: Producto, b: Producto) -> bool:
+    (rna, ta), (rnb, tb) = _etapa(a), _etapa(b)
+    return rna != rnb or bool(ta and tb and ta != tb)
+
+
+# Laboratorio distinto ⇒ no casa (decisión iC7), aunque falte el R.S. en un lado.
+# Solo se compara cuando AMBOS lados resuelven a un laboratorio de esta lista: la
+# `marca` de InRetail a veces es el laboratorio (PORTUGAL, GENFAR) y a veces la marca
+# comercial (TAPSIN, ENSURE); el "laboratorio" de Universal es su `brand`; Boticas no
+# trae ninguno (se deduce por R.S., ver pipeline.build_snapshot). Grupos: Genfar es de
+# Sanofi, y la línea de consumo de Boehringer (Mucosolvan, Bisolvon) pasó a Sanofi.
+_LABORATORIOS = {
+    "portugal": ["portugal"],
+    "farmindustria": ["farmindustria"],
+    "sanofi": ["sanofi", "genfar", "boehringer"],
+    "medifarma": ["medifarma"],
+    "labogen": ["labogen"],
+    "acfarma": ["ac farma"],
+    "hersil": ["hersil"],
+    "iqfarma": ["iqfarma", "iq farma"],
+    "induquimica": ["induquimica"],
+    "teva": ["teva"],
+    "marfan": ["marfan"],
+    "eurofarma": ["eurofarma"],
+    "bago": ["bago"],
+    "bayer": ["bayer"],
+    "abbott": ["abbott"],
+    "gsk": ["gsk", "glaxo", "glaxosmithkline", "haleon"],
+    "tecnofarma": ["tecnofarma"],
+    "siegfried": ["siegfried"],
+    "maver": ["maver"],
+    "menarini": ["menarini"],
+    "saval": ["saval"],
+    "faes": ["faes"],
+    "delfarma": ["delfarma"],
+    "bonapharm": ["bonapharm"],
+    "keyfarm": ["keyfarm"],
+    "pharmagen": ["pharmagen"],
+    "sherfarma": ["sherfarma"],
+    "elifarma": ["elifarma"],
+    "lusa": ["lusa"],
+    "quilab": ["quilab"],
+    "indufar": ["indufar"],
+}
+# Siglas que Universal pone en el nombre de sus genéricos ("Cetirizina 5 mg/5 ml FI
+# Jarabe"). Solo se leen en Universal: "AC" choca con "Cetaphil Pro AC" y no se usa.
+_SIGLAS_UNIVERSAL = {"fi": "farmindustria", "gf": "sanofi", "pt": "portugal", "lg": "labogen",
+                     "iq": "iqfarma", "mf": "medifarma"}
+_ALIAS_LAB = sorted(((a, lab) for lab, als in _LABORATORIOS.items() for a in als),
+                    key=lambda x: -len(x[0]))
+
+
+def laboratorio_canonico(texto: Optional[str]) -> set:
+    """Laboratorios conocidos nombrados en un texto (marca, laboratorio o nombre)."""
+    t = f" {normaliza_texto(texto)} "
+    return {lab for alias, lab in _ALIAS_LAB if f" {alias} " in t}
+
+
+def _laboratorios(p: Producto, f: Optional[Ficha]) -> set:
+    labs = set()
+    for txt in (p.laboratorio, p.marca, p.nombre_origen, f.laboratorio if f else None):
+        labs |= laboratorio_canonico(txt)
+    if p.cadena == "universal":
+        labs |= {_SIGLAS_UNIVERSAL[t] for t in normaliza_texto(p.nombre_origen).split()
+                 if t in _SIGLAS_UNIVERSAL}
+    return labs
+
+
+def _marca_ausente(ref: Producto, cand: Producto) -> bool:
+    """¿La marca de la referencia (InRetail) falta en el nombre y la URL del candidato?
+    Solo cuenta si la marca aparece en el propio nombre de la referencia y no es un
+    laboratorio (eso lo decide `_laboratorio_distinto`)."""
+    if not ref.marca or laboratorio_canonico(ref.marca):
+        return False
+    toks = [t for t in normaliza_texto(ref.marca).split() if len(t) >= 3]
+    propio = set(normaliza_texto(ref.nombre_origen).split())
+    if not toks or not all(t in propio for t in toks):
+        return False
+    url = re.sub(r"[_/\-.]+", " ", cand.url or "")
+    otro = set(normaliza_texto(f"{cand.nombre_origen} {url}").split())
+    return not all(t in otro for t in toks)
+
+
+def _laboratorio_distinto(a: Producto, b: Producto, fa: Optional[Ficha] = None,
+                          fb: Optional[Ficha] = None) -> Optional[Tuple[set, set]]:
+    la, lb = _laboratorios(a, fa), _laboratorios(b, fb)
+    return (la, lb) if la and lb and not (la & lb) else None
 
 # Umbrales (ANEXO §A): >=85 match, 70–85 revisar a mano, <70 descartar.
 UMBRAL_MATCH = 85.0
@@ -287,7 +430,7 @@ except ImportError:  # fallback stdlib (aprox: intersección de tokens)
 class Resultado:
     es_match: bool
     score: float
-    metodo: str   # "id" | "ean" | "registro_sanitario" | "fuzzy" | "regla_dura" | "imagen"
+    metodo: str   # "id" | "ean" | "registro_sanitario" | "fuzzy" | "regla_dura" | "imagen" | "laboratorio"
     revisar: bool = False      # zona gris 70–85
     motivo: Optional[str] = None
     evidencia: Dict[str, Any] = field(default_factory=dict)
@@ -327,12 +470,14 @@ def match_por_id(a: Producto, b: Producto) -> Optional[str]:
 
 
 def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
-             fb: Optional[Ficha] = None) -> Resultado:
+             fb: Optional[Ficha] = None, laboratorio: bool = True) -> Resultado:
     """Decide si `a` y `b` son el mismo producto (ANEXO §A, V2_PLAN §3.4).
 
     `fa`/`fb` (opcionales): fichas ya armadas (core.ficha), con R.S. y hashes de
     imagen. Sin ellas se arman del `Producto` sin imagen: el matcher nunca toca la
     red (las fotos las baja y cachea core.imagen.AlmacenImagenes).
+    `laboratorio=False` omite el veto por laboratorio: lo usa la búsqueda de
+    equivalentes (otro laboratorio, mismo activo), que es justo lo que ese veto separa.
     """
     fa = fa or ficha_de(a)
     fb = fb or ficha_de(b)
@@ -351,6 +496,18 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
     if metodo:
         return res(True, 100.0, metodo, motivo=(
             f"mismo EAN ({fa.ean})" if metodo == "ean" else "mismo id de producto"))
+    # Antes del R.S.: una cadena puede mostrar el mismo R.S. en dos variantes (Tapsin
+    # Plus Día y Noche en Boticas), dos envases (Tapsin Flu sobre y blíster) o dos
+    # tallas (un R.S. cubre todas las de un pañal).
+    if _etapa_distinta(a, b):
+        return res(False, 0.0, "regla_dura", motivo="etapa o talla distinta")
+    if _variante_distinta(a, b):
+        return res(False, 0.0, "regla_dura", motivo=(
+            f"variante de fórmula distinta ({', '.join(sorted(_modificadores(a))) or '—'} ≠ "
+            f"{', '.join(sorted(_modificadores(b))) or '—'})"))
+    if _envase_distinto(a, b):
+        return res(False, 0.0, "regla_dura", motivo=(
+            f"tipo de presentación distinto ({_tipo_envase(a)} ≠ {_tipo_envase(b)})"))
     # Registro sanitario: llave si coincide con la cantidad; veto si difiere.
     ka, kb = clave_rs(fa.registro_sanitario), clave_rs(fb.registro_sanitario)
     if ka and kb:
@@ -403,6 +560,10 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
     # Forma gomita vs tableta/cápsula -> presentación distinta.
     if _gomita_incompatible(a, b):
         return res(False, 0.0, "regla_dura", motivo="forma distinta (gomita vs tableta)")
+    labs = _laboratorio_distinto(a, b, fa, fb) if laboratorio else None
+    if labs:
+        return res(False, 0.0, "laboratorio", motivo=(
+            f"laboratorio distinto ({'/'.join(sorted(labs[0]))} ≠ {'/'.join(sorted(labs[1]))})"))
 
     # Score: núcleo (principio activo/marca) pesa más que el nombre completo.
     sim_nombre = _sim(sa.texto_norm, sb.texto_norm)
@@ -416,6 +577,13 @@ def comparar(a: Producto, b: Producto, *, fa: Optional[Ficha] = None,
     if score >= UMBRAL_IMAGEN and fa.imagen_phash and fb.imagen_phash:
         img = veredicto((fa.imagen_phash, fa.imagen_dhash), (fb.imagen_phash, fb.imagen_dhash))
         ev["imagen"] = img
+
+    # Zona gris (texto < 85): la marca de la referencia tiene que estar en el candidato.
+    # Con la asignación uno a uno, una fila que pierde su mejor SKU cae al siguiente, y
+    # ahí aparecían otras marcas ("Huggies Puro y Natural" -> toallitas Agugu).
+    if score < UMBRAL_MATCH and _marca_ausente(a, b):
+        return res(False, 0.0, "regla_dura",
+                   motivo=f"zona gris sin la marca de la referencia ({a.marca})")
 
     if score >= UMBRAL_MATCH:
         # Veto: 85+ por texto con foto claramente distinta suele ser otra variante

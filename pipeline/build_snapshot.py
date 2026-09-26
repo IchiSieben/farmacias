@@ -35,7 +35,7 @@ from core.adapters.boticasperu import BoticasPeruAdapter
 from core.adapters.inkafarma import InkafarmaAdapter
 from core.adapters.mifarma import MifarmaAdapter
 from core.adapters.universal import UniversalAdapter
-from core.ficha import ficha_de
+from core.ficha import clave_rs, ficha_de
 from core import matcher
 from core.matcher import comparar, Resultado, UMBRAL_IMAGEN, UMBRAL_REVISION
 from core.modelo import Producto
@@ -245,24 +245,69 @@ def _sin_rs(f):
         fuentes={k: v for k, v in f.fuentes.items() if k != "registro_sanitario"})
 
 
-def _mejor_match(ref: Producto, cands, enr=None):
-    """Mejor candidato (Boticas o Universal) para ESA presentación.
+# Fuerza de la evidencia para ordenar candidatos y repartir SKUs uno a uno: una
+# llave dura gana a cualquier texto; a igual fuerza decide el score.
+_FUERZA = {"curado": 0, "id": 1, "ean": 1, "registro_sanitario": 2}
 
-    Devuelve (match, resultado, equivalente, resultado_equivalente):
-      - match: ver `_match_boticas`. Con `enr` (pipeline.enriquecer.Enriquecedor),
-        los candidatos con texto >= 60 que no decidió una llave dura se vuelven a
-        comparar con la ficha completa: R.S. de Boticas (QuickView) y hashes de foto.
-      - equivalente: el mejor candidato que cae SOLO por R.S. distinto y que sin el
-        R.S. casaría (mismo activo, concentración, forma y cantidad; otro producto
-        registrado, p.ej. genérico de otro laboratorio). No es un match: se guarda
-        aparte (docs/MATCHING.md).
+
+def _fuerza(r: Resultado) -> int:
+    if r.metodo in _FUERZA:
+        return _FUERZA[r.metodo]
+    return 4 if (r.revisar or not r.es_match) else 3
+
+
+def _orden(c: Producto, r: Resultado):
+    return (_fuerza(r), -round(r.score, 6), str(c.sku))
+
+
+def _con_laboratorio(f, labs_rs):
+    """Ficha con el laboratorio deducido de su R.S. (`labs_rs`: R.S. -> laboratorio,
+    armado con Universal). Boticas no trae laboratorio: si su R.S. es el de un
+    genérico Farmindustria en Universal, ese producto es de Farmindustria."""
+    if not labs_rs or f.laboratorio:
+        return f
+    lab = labs_rs.get(clave_rs(f.registro_sanitario))
+    if not lab:
+        return f
+    return dataclasses.replace(f, laboratorio=lab,
+                               fuentes={**f.fuentes, "laboratorio": "rs_cruzado"})
+
+
+def laboratorios_por_rs(productos) -> Dict[str, str]:
+    """R.S. -> laboratorio conocido, desde ofertas que traen ambos (Universal). Un R.S.
+    con dos laboratorios distintos no se usa."""
+    out: Dict[str, Optional[str]] = {}
+    for p in productos:
+        k = clave_rs(ficha_de(p).registro_sanitario)
+        labs = matcher.laboratorio_canonico(p.laboratorio)
+        if not k or len(labs) != 1:
+            continue
+        lab = next(iter(labs))
+        out[k] = lab if out.get(k, lab) == lab else None
+    return {k: v for k, v in out.items() if v}
+
+
+def _candidatos(ref: Producto, cands, enr=None, labs_rs=None):
+    """Candidatos aceptables (Boticas o Universal) para ESA presentación.
+
+    Devuelve (aceptables, equivalente, resultado_equivalente):
+      - aceptables: [(candidato, resultado)] con score >= UMBRAL_REVISION, del más
+        fuerte al más débil (`_orden`). La asignación uno a uno (`_asignar`) toma el
+        primero que no se haya llevado otra fila. Con `enr`
+        (pipeline.enriquecer.Enriquecedor), los candidatos con texto >= 60 que no
+        decidió una llave dura se vuelven a comparar con la ficha completa: R.S. de
+        Boticas (QuickView), hashes de foto y laboratorio deducido por R.S.
+      - equivalente: el mejor candidato que cae SOLO por R.S. o laboratorio distinto y
+        que sin ellos casaría (mismo activo, concentración, forma y cantidad; otro
+        producto registrado, p.ej. genérico de otro laboratorio). No es un match: se
+        guarda aparte (docs/MATCHING.md).
     Los pares de tests/matches_curados.yaml mandan sobre todo lo anterior.
     """
     if ref.cantidad_envase is None or ref.unidad_envase is None:
-        return None, None, None, None
+        return [], None, None
     ref_id = f"{ref.sku}:{ref.presentacion_kind or 'pack'}"
     curados = _curados()
-    best, best_r, eq, eq_r = None, None, None, None
+    aceptables, eq, eq_r = [], None, None
     for c in cands:
         if c.precio is None:
             continue
@@ -272,7 +317,10 @@ def _mejor_match(ref: Producto, cands, enr=None):
         # Las fichas completas cuestan requests (QuickView, fotos): solo se piden para
         # los curados y para los candidatos que pasan cantidad, precio y texto >= 60.
         def fichas():
-            return {"fa": enr.ficha(ref), "fb": enr.ficha(c)} if enr is not None else {}
+            if enr is None:
+                return {}
+            return {"fa": _con_laboratorio(enr.ficha(ref), labs_rs),
+                    "fb": _con_laboratorio(enr.ficha(c), labs_rs)}
 
         if curado:
             base = comparar(ref, c, **fichas())  # solo para la evidencia
@@ -291,16 +339,16 @@ def _mejor_match(ref: Producto, cands, enr=None):
             veto_rs = (not r.es_match and r.metodo == "registro_sanitario"
                        and matcher.VETO_RS == "salvo_foto")
             if enr is not None and (veto_rs or (
-                    r.metodo not in _CAPA_1 and r.metodo != "regla_dura"
+                    r.metodo not in _CAPA_1 and r.metodo not in ("regla_dura", "laboratorio")
                     and r.score >= UMBRAL_IMAGEN)):
                 r = comparar(ref, c, **fichas())
-            if not r.es_match and r.metodo == "registro_sanitario":
+            if not r.es_match and r.metodo in ("registro_sanitario", "laboratorio"):
                 # El veto ya pidió lo que hacía falta (Boticas: QuickView); Universal
                 # trae el R.S. en la búsqueda y no pide nada.
                 completas = fichas() if enr is not None and c.cadena == "boticasperu" else {}
                 fa = completas.get("fa") or ficha_de(ref)
                 fb = completas.get("fb") or ficha_de(c)
-                r2 = comparar(ref, c, fa=_sin_rs(fa), fb=_sin_rs(fb))
+                r2 = comparar(ref, c, fa=_sin_rs(fa), fb=_sin_rs(fb), laboratorio=False)
                 # Equivalente solo si sin el R.S. casaría de verdad (>= 85 o foto
                 # idéntica), no por zona gris: Supradyn Energy (texto 72) no lo es.
                 if r2.es_match and (not eq_r or r2.score > eq_r.score):
@@ -309,11 +357,89 @@ def _mejor_match(ref: Producto, cands, enr=None):
                                                    fb.fuente("registro_sanitario")])
                     r2.motivo = f"otro producto registrado: {r.motivo}; {r2.motivo}"
                     eq, eq_r = c, r2
-        if r.score >= UMBRAL_REVISION and (not best_r or r.score > best_r.score):
-            best, best_r = c, r
+        if r.score >= UMBRAL_REVISION:
+            aceptables.append((c, r))
+    aceptables.sort(key=lambda cr: _orden(*cr))
+    return aceptables, eq, eq_r
+
+
+def _mejor_match(ref: Producto, cands, enr=None, labs_rs=None):
+    """Mejor candidato para ESA presentación, sin mirar otras filas.
+
+    Devuelve (match, resultado, equivalente, resultado_equivalente). `construir` no
+    lo usa: reparte los SKUs uno a uno entre todas las filas (`_asignar`).
+    """
+    aceptables, eq, eq_r = _candidatos(ref, cands, enr, labs_rs)
+    best, best_r = aceptables[0] if aceptables else (None, None)
     if eq is not None and best is not None and str(eq.sku) == str(best.sku):
         eq, eq_r = None, None
     return best, best_r, eq, eq_r
+
+
+def _grupos_mismo_producto(pendientes) -> List[int]:
+    """Grupo de cada fila: las filas Inkafarma que son el MISMO producto (mismo R.S. o
+    EAN, misma presentación y cantidad) comparten grupo y reciben el mismo cruce. Un
+    R.S. cubre varias presentaciones: sin la cantidad no se agrupa."""
+    padre = list(range(len(pendientes)))
+
+    def raiz(i):
+        while padre[i] != i:
+            padre[i] = padre[padre[i]]
+            i = padre[i]
+        return i
+
+    vista: Dict[Tuple, int] = {}
+    for i, (_, ref, _, _) in enumerate(pendientes):
+        if ref.cantidad_envase is None:
+            continue
+        f = ficha_de(ref)   # R.S./EAN de InRetail vienen en la oferta: sin red ni fotos
+        pres = (ref.presentacion_kind or "pack", float(ref.cantidad_envase), ref.unidad_envase)
+        for llave in (("rs", clave_rs(f.registro_sanitario)), ("ean", f.ean)):
+            if not llave[1]:
+                continue
+            j = vista.setdefault(llave + pres, i)
+            ri, rj = raiz(i), raiz(j)
+            if ri != rj:
+                padre[max(ri, rj)] = min(ri, rj)
+    return [raiz(i) for i in range(len(pendientes))]
+
+
+def _asignar(cadena: str, pendientes, opciones, enr=None) -> None:
+    """Reparto uno a uno (greedy, decisión iC7): todos los pares (grupo, SKU) de
+    mayor a menor fuerza y score; se acepta un par si ni el grupo ni el SKU tienen ya
+    cruce. Un SKU no queda en dos filas salvo filas gemelas del mismo producto.
+    Escribe precio, URL, evidencia y equivalente en cada fila."""
+    grupos = _grupos_mismo_producto(pendientes)
+    pares = []
+    for i, (aceptables, _, _) in enumerate(opciones):
+        fila_id = pendientes[i][0]["id"]
+        for c, r in aceptables:
+            pares.append((_orden(c, r), fila_id, i, c, r))
+    pares.sort(key=lambda t: (t[0], t[1]))
+    tomado_sku, cruce_grupo = set(), {}
+    for _, _, i, c, r in pares:
+        g = grupos[i]
+        if g in cruce_grupo or str(c.sku) in tomado_sku:
+            continue
+        cruce_grupo[g] = (i, c, r)
+        tomado_sku.add(str(c.sku))
+    for i, (fila, ref, _, _) in enumerate(pendientes):
+        _, eq, eq_r = opciones[i]
+        elegido = cruce_grupo.get(grupos[i])
+        if elegido is not None:
+            j, c, r = elegido
+            if j != i:   # fila gemela: solo si el SKU también es aceptable para ELLA
+                r = next((rr for cc, rr in opciones[i][0] if str(cc.sku) == str(c.sku)), None)
+                if r is None:
+                    elegido = None
+        if elegido is not None:
+            fila["evidencia"][cadena] = _evidencia(ref, c, r)
+            fila["precios"][cadena] = c.precio
+            fila["precio_unidad"][cadena] = _ppu_boticas(c.precio, c)
+            fila["promos"][cadena] = bool(c.en_promocion)
+            fila["urls"][cadena] = c.url
+        if eq is not None and not (elegido and str(eq.sku) == str(elegido[1].sku)):
+            fila["equivalentes"][cadena] = _equivalente(ref, eq, eq_r)
 
 
 def _evidencia(ref: Producto, cand: Producto, r: Resultado) -> Dict[str, Any]:
@@ -399,10 +525,10 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
         print(f"  {len(base)} productos base (con semillas de subcategoría).", file=sys.stderr)
 
         # 2) Por cada objectID, expandir a UNA FILA POR PRESENTACIÓN (pack/fracción)
-        #    con precio real de cada cadena (API de detalle) + Boticas (matcher).
+        #    con precio real de cada cadena (API de detalle), y juntar los candidatos
+        #    de Boticas y Universal. El cruce se decide después, entre todas las filas.
         productos = []
-        n_bot = 0
-        n_uni = 0
+        pendientes = []   # (fila, presentación Inka, candidatos Boticas, candidatos Universal)
         for i, (sku, rec) in enumerate(base.items()):
             ip: Producto = rec["inka"]
 
@@ -447,33 +573,7 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     promos["mifarma"] = bool(mpres.en_promocion)
                     urls["mifarma"] = mpres.url
 
-                evidencia, equivalentes = {}, {}
-                best, best_r, eq, eq_r = _mejor_match(ipres, cands, enriquecedor)
-                if eq:
-                    equivalentes["boticasperu"] = _equivalente(ipres, eq, eq_r)
-                if best:
-                    evidencia["boticasperu"] = _evidencia(ipres, best, best_r)
-                    precios["boticasperu"] = best.precio
-                    precio_unidad["boticasperu"] = _ppu_boticas(best.precio, best)
-                    promos["boticasperu"] = bool(best.en_promocion)
-                    urls["boticasperu"] = best.url
-                    n_bot += 1
-
-                # Universal: mismo matcher endurecido (cantidad exacta + reglas
-                # duras). Independiente; "—" donde no vende el producto.
-                best_u, best_ur, eq_u, eq_ur = _mejor_match(ipres, cands_uni, enriquecedor)
-                if eq_u:
-                    equivalentes["universal"] = _equivalente(ipres, eq_u, eq_ur)
-                if best_u:
-                    evidencia["universal"] = _evidencia(ipres, best_u, best_ur)
-                    precios["universal"] = best_u.precio
-                    precio_unidad["universal"] = _ppu_boticas(best_u.precio, best_u)
-                    promos["universal"] = bool(best_u.en_promocion)
-                    urls["universal"] = best_u.url
-                    n_uni += 1
-
-                mb, brecha = _comparacion(precios)
-                productos.append({
+                fila = {
                     "id": f"{sku}:{kind}",
                     "nombre": ipres.nombre_origen,
                     "categoria": rec["categoria"],
@@ -481,19 +581,35 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                     "presentacion": ipres.presentacion,
                     "cantidad": ipres.cantidad_envase,
                     "unidad": ipres.unidad_envase,
-                    "precios": {k: round(v, 2) for k, v in precios.items()},
-                    "precio_unidad": {k: v for k, v in precio_unidad.items() if v is not None},
-                    "promos": {k: promos[k] for k in precios},
-                    "mas_barato": mb,
-                    "brecha_pct": brecha,
-                    "urls": {k: v for k, v in urls.items() if v},
-                    "evidencia": evidencia,
-                    "equivalentes": equivalentes,
-                })
+                    "precios": precios,
+                    "precio_unidad": precio_unidad,
+                    "promos": promos,
+                    "mas_barato": None,
+                    "brecha_pct": None,
+                    "urls": urls,
+                    "evidencia": {},
+                    "equivalentes": {},
+                }
+                productos.append(fila)
+                pendientes.append((fila, ipres, cands, cands_uni))
             time.sleep(pausa)
             if (i + 1) % 25 == 0:
-                print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)}, "
-                      f"Boticas: {n_bot}, Universal: {n_uni})", file=sys.stderr)
+                print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)})", file=sys.stderr)
+
+        # 3) Cruce: candidatos aceptables por fila y reparto uno a uno de los SKUs.
+        #    El laboratorio de un R.S. sale de Universal (trae ambos) y alcanza a Boticas.
+        labs_rs = laboratorios_por_rs(c for _, _, _, cu in pendientes for c in cu)
+        for cadena, idx in (("boticasperu", 2), ("universal", 3)):
+            opciones = [_candidatos(pend[1], pend[idx], enriquecedor, labs_rs)
+                        for pend in pendientes]
+            _asignar(cadena, pendientes, opciones, enriquecedor)
+        for fila in productos:
+            fila["mas_barato"], fila["brecha_pct"] = _comparacion(fila["precios"])
+            fila["precios"] = {k: round(v, 2) for k, v in fila["precios"].items()}
+            fila["precio_unidad"] = {k: v for k, v in fila["precio_unidad"].items()
+                                     if v is not None}
+            fila["promos"] = {k: fila["promos"][k] for k in fila["precios"]}
+            fila["urls"] = {k: v for k, v in fila["urls"].items() if v}
 
     # Dedup de filas GEMELAS: mismo nombre+categoría+presentación+cantidad y
     # precios idénticos en todas las cadenas (p.ej. genéricos con dos objectID

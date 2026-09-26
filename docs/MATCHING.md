@@ -31,7 +31,7 @@ la izquierda (`DE-340`). Fuentes por cadena:
 
 Si un texto trae dos R.S. distintos (packs), no se toma ninguno.
 
-## 3. Capas (`core/matcher.py` + `pipeline/build_snapshot._mejor_match`)
+## 3. Capas (`core/matcher.py` + `pipeline/build_snapshot._candidatos`)
 
 Antes del matcher, dos compuertas: cantidad exacta del envase (10 % de tolerancia,
 misma unidad) y precio plausible (entre 1/3 y 3 veces el de Inkafarma).
@@ -39,11 +39,20 @@ misma unidad) y precio plausible (entre 1/3 y 3 veces el de Inkafarma).
 | Capa | Regla | Resultado |
 |---|---|---|
 | 1 | mismo `objectID` InRetail · mismo EAN | 100, `id` / `ean` |
+| 1b | antes del R.S.: etapa/talla ("recién nacido" en un solo lado; tallas si ambos declaran), variante de fórmula (`dia`/`noche`, `forte`, `advance`, `flex`, `triplesure`…), envase sobre ≠ blíster (sufijo del SKU de Boticas) | 0, `regla_dura` |
 | 1 | mismo R.S. **y** misma cantidad | 100, `registro_sanitario` |
 | 1 | R.S. distinto en ambos lados | 0, veto (`VETO_RS = "estricto"`) |
 | 2 | reglas duras: concentración, forma (`aceite` ≠ `gel`), pediátrico, variante, marca distinta con núcleo genérico ("aspirador nasal", "termómetro digital"…) | 0, `regla_dura` |
-| 3 | score por texto (núcleo pesa más que el nombre): ≥ 85 casa; 70–85 casa con `revisar`; foto idéntica (≤ 6 bits) sube a match | `fuzzy` / `imagen` |
+| 2 | laboratorio distinto, si ambos lados resuelven a un laboratorio conocido (marca/`brand`, nombre, siglas de Universal, o su R.S. en el mapa R.S.→laboratorio de la corrida) | 0, `laboratorio` |
+| 3 | score por texto (núcleo pesa más que el nombre): ≥ 85 casa; 70–85 casa con `revisar` **si el candidato nombra la marca de la referencia**; foto idéntica (≤ 6 bits) sube a match | `fuzzy` / `imagen` |
 | 4 | `tests/matches_curados.yaml`: pares decididos a mano | manda sobre todo, `curado` |
+
+**Uno a uno (`_asignar`).** Cada fila junta sus candidatos aceptables; luego, por
+cadena, todos los pares (fila, SKU) se ordenan por fuerza de evidencia (curado > id/EAN >
+R.S. > texto ≥ 85 o foto > zona gris) y score, y se aceptan en ese orden saltando filas y
+SKUs ya tomados (greedy; no húngaro). Las filas InRetail del mismo producto (mismo R.S. o
+EAN, misma presentación y cantidad) forman un grupo y comparten el cruce. Resultado: un
+SKU nunca queda en dos filas distintas.
 
 Cada cruce guarda su evidencia (R.S. de ambos lados, cantidades y su fuente, score de
 texto, veredicto de imagen, ratio de precio, motivo en una frase) en `matches.parquet`
@@ -66,7 +75,7 @@ encendido Boticas caía de 109 a 74 cruces, casi todos buenos.
 
 ## 5. Equivalentes
 
-Si un candidato cae **solo** por R.S. distinto, se vuelve a comparar sin el R.S. Si así
+Si un candidato cae **solo** por R.S. o laboratorio distinto, se vuelve a comparar sin el R.S. Si así
 casaría con fuerza (≥ 85 o foto idéntica), se guarda como `tipo = "equivalente"` en
 `matches.parquet` y en `data.json → equivalentes`, con su nombre, precio y enlace.
 
@@ -87,22 +96,16 @@ Cada entrada lleva motivo y fecha de revisión. La regresión cubre la ruta real
 
 ## 7. Riesgos conocidos
 
-- **R.S. dudoso en una cadena (sospecha, sin verificar).** Dos URLs de Boticas
-  (Tapsin Plus Día y la de "Noche") devuelven el mismo R.S. EE-05657 en su QuickView, y
-  Tapsin Plus Día de Inkafarma casó con la de "Noche" por R.S. + cantidad. La Capa 1
-  por R.S. corre antes que las reglas duras. Si se confirma: entrada `veto` en el
-  curado, o que la regla de variante (día/noche) corra antes.
-- **El laboratorio no se compara cuando falta el R.S.** El veto por R.S. solo actúa
-  si ambos lados lo traen, e Inkafarma no lo trae en ~120 de 224 detalles. Ninguna
-  regla compara `laboratorio`, así que un genérico de otro laboratorio puede casar por
-  texto. Corrida 2026-09-25: 94 cruces `fuzzy`/`imagen` sin R.S. en algún lado; en 6
-  el nombre o la URL nombra laboratorios distintos (p.ej. Cetirizina jarabe
-  "Portugal" ↔ Universal "FI", S/ 2,90 vs 7,13).
-- **Un SKU de una cadena puede quedar en dos filas.** No hay restricción uno a uno:
-  9 SKUs de Boticas/Universal están cruzados con dos filas de Inkafarma (16 en `main`).
-  Algunos son duplicados de Inkafarma (mismo producto listado dos veces), otros son
-  errores: Eucerin Oil Control y La Roche-Posay Anthelios casan con el mismo Anthelios
-  de Boticas; "Ensure" y "Ensure Advance" con el mismo Ensure Advance.
+- **R.S. cruzado en Boticas.** Tapsin Plus Día y Noche muestran el R.S. de la otra en su
+  QuickView. Desde el 2026-09-26 la variante (día/noche) se compara antes del R.S., así
+  que la Noche ya no casa con la Día; la Día correcta de Boticas queda como equivalente
+  (`docs/revision/F3_final.md` §5).
+- **El laboratorio se deduce, no se lee.** InRetail no trae laboratorio (a veces la
+  `marca` lo es), Boticas tampoco. Si la marca de InRetail está mal (Diclofenaco 268175:
+  marca PORTUGAL, EAN de Farmindustria) el veto deja un "—". El mapa R.S.→laboratorio es
+  por corrida: si la fila que lo aporta no sale ese día, no se conoce.
+- **El uno a uno reparte, no adivina.** Dos filas InRetail del mismo producto sin R.S. ni
+  EAN no se agrupan: compiten y una se queda en "—" o con el SKU de otro envase.
 - **Cambio de SKU cruzado = evento falso.** Si un cruce cambia de SKU entre dos
   corridas, `pipeline/cambios.py` ve una subida o bajada que no pasó. Pasará en la
   primera corrida tras el merge de F3.

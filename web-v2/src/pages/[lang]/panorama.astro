@@ -1,0 +1,118 @@
+---
+// Panorama (brief §5.3): KPIs por cadena, en total y por categoría. Barras en CSS
+// generadas en el build, 0 JS. Los números salen de web/data/kpis.json.
+import Base from '../../layouts/Base.astro';
+import Cabecera from '../../components/Cabecera.astro';
+import Pie from '../../components/Pie.astro';
+import { LogoCadena } from '../../components/LogoCadena';
+import { IDIOMAS, textos, t, fecha, porcentaje, type Idioma, type Clave } from '../../i18n';
+import type { Meta, Producto } from '../../lib/datos';
+import { leerDatos } from '../../lib/contrato';
+
+export function getStaticPaths() {
+  return IDIOMAS.map((lang) => ({ params: { lang } }));
+}
+
+interface Kpi {
+  productos: number;
+  pct_mas_barata: number;
+  brecha_media_vs_lider: number;
+  promos_activas: number;
+}
+type PorCadena = Record<string, Kpi>;
+
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const meta = leerDatos<Meta>('meta.json');
+const kpis = leerDatos<{ global: PorCadena; por_categoria: Record<string, PorCadena> }>('kpis.json');
+const { productos } = leerDatos<{ productos: Producto[] }>('index.json');
+const comparables = productos.filter((p) => Object.keys(p.precios).length >= 2).length;
+const numero = (n: number) => new Intl.NumberFormat(idioma === 'es' ? 'es-PE' : 'en-US').format(n);
+const categorias = [...meta.categorias].sort((a, b) => b.n - a.n).filter((c) => kpis.por_categoria[c.id]);
+---
+
+<Base idioma={idioma} titulo={t(dic, 'panorama.titulo')} descripcion={t(dic, 'panorama.descripcion')}>
+  <Cabecera idioma={idioma} snapshot={meta.snapshot} actual="panorama" />
+  <main class="mx-auto max-w-6xl px-4 py-8">
+    <h1 class="text-2xl font-semibold tracking-tight">{t(dic, 'panorama.titulo')}</h1>
+    <p class="mt-2 text-suave">
+      {t(dic, 'panorama.intro', { fecha: fecha(idioma, meta.snapshot), n: numero(comparables) })}
+    </p>
+    <div class="mt-4 space-y-1 rounded-lg border border-borde bg-superficie p-4 text-sm">
+      <p>{t(dic, 'panorama.brecha')}</p>
+      <p class="text-suave">{t(dic, 'panorama.empates')}</p>
+    </div>
+
+    <section aria-labelledby="por-cadena" class="mt-10">
+      <h2 id="por-cadena" class="text-lg font-semibold tracking-tight">{t(dic, 'panorama.porCadena')}</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {meta.cadenas.map((c) => {
+          const k = kpis.global[c.id];
+          return (
+            <li class="rounded-lg border border-borde bg-superficie p-4">
+              <div class="flex items-center gap-2">
+                <LogoCadena cadena={c} base={base} tam="md" />
+                <span class="font-medium">{c.nombre}</span>
+              </div>
+              {k ? (
+                <>
+                  <p class="mt-4 text-sm text-suave">{t(dic, 'panorama.masBarata')}</p>
+                  <p class="text-3xl font-semibold tabular-nums">{porcentaje(idioma, k.pct_mas_barata)}</p>
+                  <div class="mt-2 h-2 rounded-full bg-superficie-2" aria-hidden="true">
+                    <div class="h-2 rounded-full" style={`width:${k.pct_mas_barata}%;background:var(--cad-${c.id})`}></div>
+                  </div>
+                  <dl class="mt-4 grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 text-sm">
+                    <dt class="text-suave">{t(dic, 'panorama.brechaMedia')}</dt>
+                    <dd class="text-right tabular-nums">{porcentaje(idioma, k.brecha_media_vs_lider)}</dd>
+                    <dt class="text-suave">{t(dic, 'panorama.productos')}</dt>
+                    <dd class="text-right tabular-nums">{numero(k.productos)}</dd>
+                    <dt class="text-suave">{t(dic, 'panorama.promos')}</dt>
+                    <dd class="text-right tabular-nums">{numero(k.promos_activas)}</dd>
+                  </dl>
+                </>
+              ) : (
+                <p class="mt-4 text-sm text-suave">{t(dic, 'panorama.sinDato')}</p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section aria-labelledby="por-categoria" class="mt-12">
+      <h2 id="por-categoria" class="text-lg font-semibold tracking-tight">{t(dic, 'panorama.porCategoria')}</h2>
+      <p class="mt-1 text-sm text-suave">{t(dic, 'panorama.porCategoria.intro')}</p>
+      <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {categorias.map((cat) => (
+          <section class="rounded-lg border border-borde bg-superficie p-4" aria-labelledby={`cat-${cat.id}`}>
+            <h3 id={`cat-${cat.id}`} class="font-medium">{t(dic, `cat.${cat.id}` as Clave)}</h3>
+            <ul class="mt-3 space-y-2 text-sm">
+              {meta.cadenas.map((c) => {
+                const k = kpis.por_categoria[cat.id][c.id];
+                return (
+                  <li class="grid grid-cols-[7.5rem_1fr] items-center gap-2">
+                    <span class="truncate">{c.nombre}</span>
+                    {k ? (
+                      <span class="flex items-center gap-2">
+                        <span class="h-2 flex-1 rounded-full bg-superficie-2" aria-hidden="true">
+                          <span class="block h-2 rounded-full" style={`width:${k.pct_mas_barata}%;background:var(--cad-${c.id})`}></span>
+                        </span>
+                        <span class="w-28 whitespace-nowrap text-right tabular-nums">
+                          {porcentaje(idioma, k.pct_mas_barata)} <span class="text-suave">({numero(k.productos)})</span>
+                        </span>
+                      </span>
+                    ) : (
+                      <span class="text-suave">{t(dic, 'panorama.sinDato')}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Pie idioma={idioma} />
+</Base>

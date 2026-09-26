@@ -1,0 +1,393 @@
+"""pipeline/export_web.py — Genera web/data/ para la UI v2 (contrato F4_UI_BRIEF §4).
+
+    web/data/
+      meta.json         generado, snapshot, cadenas[{id,nombre,grupo,color,logo}], categorias, kpis
+      index.json        lista liviana para buscar (una fila por producto × presentación)
+      cat_<cat>.json    mismo esquema que index, por categoría
+      hist/<slug>.json  serie por producto: [{fecha, precios{cad}, promos{cad}}]
+      kpis.json         por cadena, global y por categoría
+
+Cada archivo lleva `version` (VERSION_ESQUEMA) y `generado`.
+
+Fuentes (todas de solo lectura):
+  - `web/data.json` (snapshot v1) — precios, presentaciones, urls, tendencia.
+  - `data/snapshots/*.json` — historial.
+  - crudo (`RAW_DIR`): fotos, principio activo y laboratorio. El snapshot v1 NO trae
+    imagen (build_snapshot la descarta), así que se reconstruye desde lo que las
+    cadenas respondieron: volcados `catalogo.jsonl` y respuestas grabadas por
+    core.http_cache (`respuestas_*.jsonl.gz`), parseadas con los mismos adaptadores
+    que las produjeron. Nunca se deriva una URL de imagen por patrón.
+    Si el snapshot trae `imagenes{cad:url}` (contrato futuro de F1), eso manda.
+  - `web-v2/public/logos/logos.json` (scripts/bajar_logos.py) — logo y color de cadena.
+
+Uso:
+    py -m pipeline.export_web
+    py -m pipeline.export_web --snapshots ../farmacias/data/snapshots --raw ../farmacias/data/raw
+"""
+
+from __future__ import annotations
+
+import argparse
+import glob
+import gzip
+import json
+import re
+import shutil
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from typing import Any, Dict, Iterator, List, Optional, Tuple
+
+from core.matcher import laboratorio_canonico
+
+ROOT = Path(__file__).resolve().parent.parent
+VERSION_ESQUEMA = 1
+CADENAS_ORDEN = ["inkafarma", "mifarma", "boticasperu", "universal"]
+
+
+# --- crudo: fotos / activo / laboratorio ------------------------------------------
+def _leer_jsonl(ruta: str) -> Iterator[dict]:
+    abrir = gzip.open if ruta.endswith(".gz") else open
+    with abrir(ruta, "rt", encoding="utf-8") as fh:
+        for linea in fh:
+            try:
+                yield json.loads(linea)
+            except ValueError:
+                continue
+
+
+def indice_crudo(raw: Optional[Path]) -> Dict[str, Dict[str, dict]]:
+    """cadena -> {sku|url: {imagen, activo, laboratorio}} desde el crudo grabado."""
+    idx: Dict[str, Dict[str, dict]] = {c: {} for c in CADENAS_ORDEN}
+    if raw is None or not raw.is_dir():
+        return idx
+
+    def poner(cad: str, clave: Optional[str], **campos) -> None:
+        if not clave:
+            return
+        actual = idx[cad].setdefault(clave, {})
+        for k, v in campos.items():
+            if v and not actual.get(k):
+                actual[k] = v
+
+    # 1) volcados de catálogo (Producto.to_row)
+    for f in glob.glob(str(raw / "*" / "*" / "catalogo.jsonl")):
+        for r in _leer_jsonl(f):
+            cad = r.get("cadena")
+            if cad in idx:
+                for clave in (r.get("sku"), r.get("url")):
+                    poner(cad, str(clave) if clave else None, imagen=r.get("imagen"),
+                          activo=r.get("principio_activo"), laboratorio=r.get("laboratorio"))
+
+    # 2) respuestas HTTP grabadas (orden cronológico: lo más nuevo gana al final)
+    from core.adapters.boticasperu import BoticasPeruAdapter
+    from core.adapters.universal import UniversalAdapter
+    bot = BoticasPeruAdapter(delay_range=(0, 0))
+    uni = UniversalAdapter(delay_range=(0, 0))
+    try:
+        from selectolax.parser import HTMLParser
+    except ImportError:  # pragma: no cover
+        HTMLParser = None  # type: ignore
+    for cad in CADENAS_ORDEN:
+        for f in sorted(glob.glob(str(raw / cad / "*" / "respuestas_*.jsonl.gz"))):
+            for r in _leer_jsonl(f):
+                if r.get("status") != 200 or not r.get("cuerpo"):
+                    continue
+                url = r.get("url", "")
+                try:
+                    if cad in ("inkafarma", "mifarma") and url.endswith("/queries"):
+                        for res in json.loads(r["cuerpo"]).get("results", []):
+                            for h in res.get("hits", []):
+                                act = h.get("activePrinciples")
+                                if isinstance(act, list):
+                                    act = ", ".join(a for a in act if a)
+                                poner(cad, str(h.get("objectID")), imagen=h.get("image"),
+                                      activo=act, laboratorio=h.get("laboratory") or h.get("lab"))
+                    elif cad == "boticasperu" and "Search-UpdateGrid" in url and HTMLParser:
+                        for node in HTMLParser(r["cuerpo"]).css("div.product[data-pid]"):
+                            p = bot._parse_tile(node)
+                            if p is not None:
+                                poner(cad, p.url, imagen=p.imagen)
+                    elif cad == "universal" and "/products/search" in url:
+                        for prod in json.loads(r["cuerpo"]):
+                            for p in uni._map_producto(prod):
+                                poner(cad, p.url, imagen=p.imagen)
+                except (ValueError, TypeError, AttributeError, KeyError):
+                    continue
+    bot.close()
+    uni.close()
+    return idx
+
+
+# --- filas ------------------------------------------------------------------------
+def slug(pid: str) -> str:
+    """`108010:pack` -> `108010_pack` (':' no es válido en nombres de archivo Windows)."""
+    return pid.replace(":", "_").replace("/", "_")
+
+
+def ahorro(precios: Dict[str, float]) -> Optional[dict]:
+    """Métrica principal: cuánto ahorras comprando en la más barata vs. la más cara."""
+    if len(precios) < 2:
+        return None
+    lo, hi = min(precios.values()), max(precios.values())
+    return {
+        "soles": round(hi - lo, 2),
+        "pct": round(100 * (hi - lo) / lo, 1) if lo else None,
+        # lista: en un empate hay más de una cadena "más barata"
+        "en": [c for c in CADENAS_ORDEN if precios.get(c) == lo],
+    }
+
+
+def marca_y_laboratorio(marca: Optional[str], lab: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
+    """InRetail a veces trae los campos cruzados: la marca es el laboratorio
+    ("PORTUGAL") y el laboratorio es la marca ("LORATADINA", "DOLO- QUIMAGESICO").
+    Si solo la marca parece un laboratorio (conocido, o "LABORATORIO ..."), se intercambian."""
+    def es_lab(x: Optional[str]) -> bool:
+        return bool(x) and (bool(laboratorio_canonico(x)) or x.strip().lower().startswith(("laboratorio", "lab.")))
+    if es_lab(marca) and not es_lab(lab):
+        return lab, marca
+    return marca, lab
+
+
+def fila(p: dict, idx: Dict[str, Dict[str, dict]]) -> dict:
+    sku = p["id"].split(":")[0]
+    precios = {c: p["precios"][c] for c in CADENAS_ORDEN if c in p.get("precios", {})}
+    urls = p.get("urls", {})
+    imagenes = dict(p.get("imagenes") or {})
+    extra: Dict[str, Any] = {}
+    for cad in precios:
+        clave = sku if cad in ("inkafarma", "mifarma") else urls.get(cad)
+        info = idx.get(cad, {}).get(clave or "", {})
+        if info.get("imagen") and cad not in imagenes:
+            imagenes[cad] = info["imagen"]
+        for k in ("activo", "laboratorio"):
+            if info.get(k) and not extra.get(k):
+                extra[k] = info[k]
+    ah = ahorro(precios)
+    # Miniatura: la foto de la cadena más barata; si no hay, la de cualquier cadena.
+    orden = (ah["en"] if ah else []) + CADENAS_ORDEN
+    imagen = next((imagenes[c] for c in orden if imagenes.get(c)), None)
+    marca, laboratorio = marca_y_laboratorio(p.get("marca"), extra.get("laboratorio"))
+    tend = {c: {"dir": t.get("dir"), "delta_pct": t.get("delta_pct")}
+            for c, t in (p.get("tendencia") or {}).items() if c in precios}
+    return {
+        "id": p["id"],
+        "slug": slug(p["id"]),
+        "nombre": p.get("nombre"),
+        "activo": extra.get("activo"),
+        "laboratorio": laboratorio,
+        "marca": marca,
+        "cat": p.get("categoria"),
+        "pres": p.get("presentacion"),
+        "cantidad": p.get("cantidad"),
+        "unidad": p.get("unidad"),
+        "precios": precios,
+        "ppu": {c: v for c, v in (p.get("precio_unidad") or {}).items() if c in precios},
+        "ahorro": ah,
+        "brecha_pct": p.get("brecha_pct"),
+        "imagen": imagen,
+        "imagenes": imagenes,
+        "promos": [c for c in CADENAS_ORDEN if (p.get("promos") or {}).get(c)],
+        "tendencia": tend,
+        "urls": {c: u for c, u in urls.items() if c in precios},
+        "nuevo": bool(p.get("nuevo")),
+    }
+
+
+# --- historial --------------------------------------------------------------------
+# Cadenas que se cruzan por fuzzy (nombre + cantidad), no por id compartido.
+_FUZZY = ("boticasperu", "universal")
+# Misma guarda que pipeline/build_snapshot._precio_plausible: los snapshots viejos
+# (v1 de junio, y el del 2026-09-25 escrito antes de fix/cruce-fuzzy) no pasaron por
+# ella, y el historial dibujaría como "precio de Boticas" el de otro producto.
+_RATIO_MIN, _RATIO_MAX = 1 / 3, 3.0
+_LIMA = timezone(timedelta(hours=-5))
+
+
+def _plausible(precio: float, ref: Optional[float]) -> bool:
+    return not ref or _RATIO_MIN <= precio / ref <= _RATIO_MAX
+
+
+def historial(snapshots: Optional[Path], ids: set,
+              urls: Optional[Dict[str, Dict[str, str]]] = None) -> Dict[str, List[dict]]:
+    """Serie diaria por producto: [{fecha: 'AAAA-MM-DD' (Lima), precios, promos}].
+
+    Un punto por día y por cadena: el último precio que ESA cadena mostró ese día (no
+    el último snapshot entero: las corridas de prueba parciales harían desaparecer
+    cadenas). Los cruces fuzzy implausibles (>3× vs Inkafarma) se descartan, y con
+    `urls` ({id: {cadena: url}} del cruce ACTUAL) también los de otro SKU: un snapshot
+    viejo pudo cruzar esa fila con otro producto (antes de F3, o antes del uno a uno).
+    """
+    dias: Dict[str, Dict[str, Dict[str, tuple]]] = {i: {} for i in ids}
+    if snapshots is None or not snapshots.is_dir():
+        return {i: [] for i in ids}
+    for f in sorted(snapshots.glob("snapshot_*.json")):
+        d = json.loads(f.read_text(encoding="utf-8"))
+        dia = datetime.fromisoformat(d["generado"]).astimezone(_LIMA).date().isoformat()
+        for p in d.get("productos", []):
+            if p["id"] not in dias:
+                continue
+            ref = p["precios"].get("inkafarma")
+            promos = p.get("promos") or {}
+            por_cadena = dias[p["id"]].setdefault(dia, {})
+            for c in CADENAS_ORDEN:
+                v = p["precios"].get(c)
+                if v is None or (c in _FUZZY and not _plausible(v, ref)):
+                    continue
+                actual = (urls or {}).get(p["id"], {}).get(c)
+                if c in _FUZZY and urls is not None and (p.get("urls") or {}).get(c) != actual:
+                    continue
+                por_cadena[c] = (v, bool(promos.get(c)))  # sorted(): gana el último del día
+    return {i: [{"fecha": dia,
+                 "precios": {c: v for c, (v, _) in sorted(pc.items(), key=lambda x: CADENAS_ORDEN.index(x[0]))},
+                 "promos": {c: pr for c, (_, pr) in pc.items()}}
+                for dia, pc in sorted(por_dia.items()) if pc]
+            for i, por_dia in dias.items()}
+
+
+def snapshot_previo(snapshots: Optional[Path], gen: str) -> Optional[str]:
+    """Fecha (`generado`) de la corrida anterior a `gen`: contra ella se marca "Nuevo"
+    (pipeline/cambios.py) y se calculan las ▲▼."""
+    if snapshots is None or not snapshots.is_dir():
+        return None
+    ahora = datetime.fromisoformat(gen)
+    previas = []
+    for f in snapshots.glob("snapshot_*.json"):
+        g = json.loads(f.read_text(encoding="utf-8")).get("generado")
+        if g and datetime.fromisoformat(g) < ahora:
+            previas.append(g)
+    return max(previas, key=datetime.fromisoformat) if previas else None
+
+
+# --- KPIs -------------------------------------------------------------------------
+def kpis(filas: List[dict]) -> dict:
+    def calcular(grupo: List[dict]) -> Dict[str, dict]:
+        out = {}
+        comparables = [f for f in grupo if len(f["precios"]) >= 2]
+        for cad in CADENAS_ORDEN:
+            con = [f for f in comparables if cad in f["precios"]]
+            if not con:
+                continue
+            brechas = [100 * (f["precios"][cad] / min(f["precios"].values()) - 1) for f in con]
+            out[cad] = {
+                "productos": len(con),
+                "pct_mas_barata": round(100 * sum(cad in f["ahorro"]["en"] for f in con) / len(con), 1),
+                "brecha_media_vs_lider": round(sum(brechas) / len(brechas), 1),
+                "promos_activas": sum(cad in f["promos"] for f in grupo),
+            }
+        return out
+
+    cats = sorted({f["cat"] for f in filas if f["cat"]})
+    return {"global": calcular(filas),
+            "por_categoria": {c: calcular([f for f in filas if f["cat"] == c]) for c in cats}}
+
+
+# --- escritura --------------------------------------------------------------------
+def _escribir(ruta: Path, obj: dict) -> None:
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    ruta.write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def _proporcion(ruta: Path) -> Optional[float]:
+    """Ancho/alto de un logo (SVG por viewBox/width-height, raster por Pillow)."""
+    if not ruta.exists():
+        return None
+    if ruta.suffix.lower() == ".svg":
+        cab = ruta.read_text(encoding="utf-8", errors="replace")[:2000]
+        m = re.search(r'viewBox="\s*[\d.-]+[\s,]+[\d.-]+[\s,]+([\d.]+)[\s,]+([\d.]+)', cab)
+        if m and float(m.group(2)):
+            return round(float(m.group(1)) / float(m.group(2)), 3)
+        return None
+    from PIL import Image
+    with Image.open(ruta) as im:
+        return round(im.width / im.height, 3)
+
+
+def _fondo(ruta: Path) -> Optional[str]:
+    """Color de fondo de un logo raster OPACO (esquina sin transparencia), o None.
+    Boticas sirve su logo en blanco sobre un rectángulo azul: la UI lo muestra como
+    píldora de ese color en vez de ponerle un fondo blanco como a los transparentes."""
+    if not ruta.exists() or ruta.suffix.lower() == ".svg":
+        return None
+    from PIL import Image
+    with Image.open(ruta) as im:
+        r, g, b, a = im.convert("RGBA").getpixel((0, 0))
+    return None if a < 255 else f"#{r:02x}{g:02x}{b:02x}"
+
+
+def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Optional[Path],
+             logos: Optional[Path]) -> Dict[str, Any]:
+    idx = indice_crudo(raw)
+    filas = [fila(p, idx) for p in data["productos"]]
+    gen = data["generado"]
+    base = {"version": VERSION_ESQUEMA, "generado": gen}
+
+    info_logos = json.loads(logos.read_text(encoding="utf-8")) if logos and logos.exists() else {}
+    cadenas = []
+    for c in data["cadenas"]:
+        info = info_logos.get(c["id"]) or {}
+        archivo = info.get("archivo")
+        cadenas.append({
+            "id": c["id"], "nombre": c["nombre"], "grupo": c.get("grupo"),
+            "color": info.get("color"), "logo": archivo,
+            # ancho/alto del logo: la UI reserva el hueco antes de que cargue (sin CLS)
+            "logo_ratio": _proporcion(logos.parent / archivo) if archivo else None,
+            "logo_fondo": _fondo(logos.parent / archivo) if archivo else None,
+        })
+    cats = sorted({f["cat"] for f in filas if f["cat"]})
+    k = kpis(filas)
+
+    if salida.exists():
+        if any(salida.iterdir()) and not (salida / "meta.json").exists():
+            raise SystemExit(f"{salida} no parece un web/data/ generado (sin meta.json): no lo borro")
+        shutil.rmtree(salida)  # generado: se reescribe entero (no quedan cat_/hist_ viejos)
+    _escribir(salida / "meta.json", {**base, "snapshot": gen, "previo": snapshot_previo(snapshots, gen),
+                                     "cadenas": cadenas,
+                                     "grupos": data.get("grupos", []),
+                                     "categorias": [{"id": c, "n": sum(f["cat"] == c for f in filas)}
+                                                    for c in cats],
+                                     "kpis": {"productos": len(filas),
+                                              "con_todas": sum(len(f["precios"]) == len(CADENAS_ORDEN)
+                                                               for f in filas),
+                                              "por_cadena": k["global"]}})
+    _escribir(salida / "index.json", {**base, "productos": filas})
+    for c in cats:
+        _escribir(salida / f"cat_{c}.json", {**base, "categoria": c,
+                                             "productos": [f for f in filas if f["cat"] == c]})
+    series = historial(snapshots, {f["id"] for f in filas}, {f["id"]: f["urls"] for f in filas})
+    for f in filas:
+        _escribir(salida / "hist" / f"{f['slug']}.json",
+                  {**base, "id": f["id"], "serie": series.get(f["id"], [])})
+    _escribir(salida / "kpis.json", {**base, **k})
+    return {
+        "filas": len(filas),
+        "con_imagen": sum(1 for f in filas if f["imagen"]),
+        "con_activo": sum(1 for f in filas if f["activo"]),
+        "puntos_hist": sum(len(s) for s in series.values()),
+        "categorias": len(cats),
+    }
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    ap = argparse.ArgumentParser(description="Genera web/data/ (contrato UI v2).")
+    ap.add_argument("--datos", default=str(ROOT / "web" / "data.json"))
+    ap.add_argument("--snapshots", default=str(ROOT / "data" / "snapshots"))
+    ap.add_argument("--raw", default=str(ROOT / "data" / "raw"))
+    ap.add_argument("--logos", default=str(ROOT / "web-v2" / "public" / "logos" / "logos.json"))
+    ap.add_argument("--salida", default=str(ROOT / "web" / "data"))
+    args = ap.parse_args(argv)
+
+    data = json.loads(Path(args.datos).read_text(encoding="utf-8"))
+    for nombre in ("snapshots", "raw"):
+        if not Path(getattr(args, nombre)).is_dir():
+            print(f"  ! {nombre}: {getattr(args, nombre)} no existe (se exporta sin él)", file=sys.stderr)
+    r = exportar(data, Path(args.salida), snapshots=Path(args.snapshots), raw=Path(args.raw),
+                 logos=Path(args.logos))
+    print(f"web/data/ v{VERSION_ESQUEMA}: {r['filas']} filas · imagen {r['con_imagen']} · "
+          f"activo {r['con_activo']} · {r['puntos_hist']} puntos de historial · "
+          f"{r['categorias']} categorías -> {args.salida}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -24,3 +24,36 @@ Formato: fecha · tarea · qué se eligió · por qué · qué se descartó · c
    `_LABORATORIOS`.
 6. **Git · F4 se actualiza con merge de main, no con rebase.** La rama `v2/f4-ui` ya está en
    el remoto; un rebase obliga a `push --force`, que la corrida prohíbe.
+
+## 2026-09-26 · F2 analgésicos (`v2/f2-analgesicos`, worktree `farmacias-f2`)
+
+Detalle completo en `docs/revision/F2_analgesicos.md`. Resumen:
+
+1. **Universal por PATH, no `fq=C:<id>`.** El id numérico del árbol de categorías VTEX
+   (`46`) da 0 resultados por `fq`; la búsqueda legacy por path sí funciona. Descartado:
+   `fq=C:46` (probado en vivo, sin resultados). Revertir: no aplica, es lo único que
+   funcionó.
+2. **`get_presentaciones()` de Inka/Mifa sí se pide** (1 request/objectID): sin cantidad
+   real, `_cantidad_coincide` rechaza casi todo. Costo asumido (~110 requests para 55
+   productos), dentro del presupuesto de 700. Revertir: quitar la llamada en
+   `pipeline/categoria_browse.construir` y volver a parsear cantidad solo del nombre.
+3. **Sin enriquecimiento F3 (QuickView Boticas/fotos) para esta categoría.** El R.S. de
+   Boticas queda sin dato en esta pasada; el veto por R.S. no actúa de ese lado. Revertir/
+   extender: pasar un `Enriquecedor` real a `_candidatos` en `pipeline/categoria_browse.py`.
+4. **Un solo cgid de Boticas por categoría** (`tra-analgesicosyantiflamatorios`), aunque
+   existe un cgid hermano (`tra-analgesicos`, 7 productos solapados) y rutas de "botica en
+   casa" sin explorar. Causa medida de la brecha de cobertura Boticas (2/77 vs 44/107 de la
+   corrida diaria por búsqueda) — NO es un bug del matcher (ver investigación en el archivo
+   de revisión: solo 1 par adicional quedaba bloqueado por cantidad, y era un rechazo
+   correcto). Revertir/extender: sumar cgids al `config/categorias.yaml` (lista en vez de un
+   solo id) y unir sus candidatos.
+5. **`pipeline/run.py --categoria` es un camino aislado**, no reutiliza
+   `capturar()`/`procesar()`/`validar()`/`exportar()` de la corrida diaria: cero riesgo de
+   tocar el historial/Parquet/`--desde-cache` de la corrida diaria a cambio de más código
+   nuevo (`pipeline/categoria_browse.py`). Revertir/fusionar: cambio de diseño mayor, para
+   sesión aparte con OK explícito.
+6. **Muestra de revisión: 11 pares reales (2 Boticas + 9 Universal), no 30.** No se
+   completaron 15+15 porque el pool de candidatos de esta corrida solo produjo 11 cruces
+   totales. Descartado: rellenar con pares forzados fuera de la categoría o candidatos de
+   baja confianza para llegar a 30 — no diría nada real sobre la calidad del matcher.
+   Resultado de los 11: 11 OK, 0 dudosos, 0 falsos.

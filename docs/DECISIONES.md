@@ -24,3 +24,19 @@ Formato: fecha · tarea · qué se eligió · por qué · qué se descartó · c
    `_LABORATORIOS`.
 6. **Git · F4 se actualiza con merge de main, no con rebase.** La rama `v2/f4-ui` ya está en
    el remoto; un rebase obliga a `push --force`, que la corrida prohíbe.
+7. **F4 · Universal en magenta en el gráfico** (#a8327f claro, #f28ac9 oscuro; contraste
+   6,1:1 y 7,6:1). Su color de marca es azul como el de Boticas. Revertir: `--cad-universal`
+   en `web-v2/src/styles/global.css`.
+8. **F4 · marca y laboratorio de InRetail se intercambian al exportar** cuando solo la marca
+   parece un laboratorio (94 filas mostraban "Laboratorio: DOLO- QUIMAGESICO"). Solo en
+   `export_web`; el matcher no cambia. Revertir: `marca_y_laboratorio`.
+9. **F4 · filtro por laboratorio sí; por forma farmacéutica no**: `web/data` no trae la forma.
+   Añadirla es cambiar el esquema del exportador (pendiente, no urgente).
+10. **Fase C · no se subió la beta.** Sin `PUBLISH_*`, y `publish.py` no sube carpetas.
+    Descartado: escribir un subidor FTP/SFTP de carpetas sin poder probarlo, y el conector de
+    Hostinger (despliega el sitio entero). Queda un zip listo para subir a mano.
+11. **F4 · Lighthouse del inicio 83–88 medido con la CPU al 100 % por procesos ajenos**; no se
+    optimizó a ciegas. Remedir con la CPU libre; si sigue < 90, mirar la hidratación de la isla
+    (el LCP es el primer nombre de producto, ya viene en el HTML).
+12. **F2 · analgésicos en rama propia** (`v2/f2-analgesicos`) con tope de 700 peticiones y detrás
+    de un flag: la corrida de las 02:00 no cambia.

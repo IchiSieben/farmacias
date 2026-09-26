@@ -1,8 +1,9 @@
 # ESTADO DEL PROYECTO — Radar de Precios (para retomar)
 
 > Abre esto al empezar la sesión. Claude Code lo actualiza al cerrar cada fase.
-> Última actualización: 2026-09-25 (F1 y `fix/cruce-fuzzy` mergeadas a `main`; F3 matcher v2
-> en rama `v2/f3-matcher`, worktree `../farmacias-f3`, esperando revisión de la muestra).
+> Última actualización: 2026-09-26 (corrida autónoma: F3 mergeada a `main` (PR #3); F4 lista
+> en rama `v2/f4-ui` sin mergear; beta sin subir por falta de `PUBLISH_*`. Bitácora y
+> resumen en `NOTES_AUTONOMO.md`, decisiones en `docs/DECISIONES.md`).
 
 ---
 
@@ -24,9 +25,9 @@
 | Fase | Qué | Estado |
 |---|---|---|
 | F1 | Data lake: caché local + archivo en Drive (rclone), Parquet, `pipeline/run.py`, tarea diaria, `--desde-cache`, publicación manual | ✅ mergeada (PR #1) |
-| F2 | Cobertura por categoría (browse/facetas/cgid/fq), `config/categorias.yaml`, una categoría por sesión con muestra revisada | ⬜ siguiente |
-| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | 🟨 rama `v2/f3-matcher` (worktree `../farmacias-f3`): hecha, falta revisión de la muestra y PR |
-| F4 | UI v2 bilingüe (Astro): buscador, ficha con historial, panorama por cadena, metodología | 🟨 rama `v2/f4-ui` (worktree `../farmacias-ui`, pusheada): inicio y ficha hechas; espera tu revisión de la ficha y la elección SVG vs Recharts; falta Lighthouse móvil ≥90, panorama, metodología y tutorial |
+| F2 | Cobertura por categoría (browse/facetas/cgid/fq), `config/categorias.yaml`, una categoría por sesión con muestra revisada | 🟨 analgésicos en rama `v2/f2-analgesicos` (worktree `../farmacias-f2`), sin mergear; ver `docs/revision/F2_analgesicos.md` en la rama |
+| F3 | Matcher v2: `core/ficha.py` (atributos > nombre), registro sanitario como llave, imagen en todo candidato, evidencia por match, set curado | ✅ mergeada (PR #3). Laboratorio, variante, envase, etapa, uno a uno. Revisión: `docs/revision/F3_final.md` |
+| F4 | UI v2 bilingüe (Astro): buscador, ficha con historial, panorama por cadena, metodología | 🟨 rama `v2/f4-ui` (worktree `../farmacias-ui`, pusheada, sin PR): inicio, ficha, panorama, metodología, filtro por laboratorio, base configurable. Falta: subir la beta (`PUBLISH_*` o a mano), Lighthouse del inicio ≥ 90 con CPU libre (dio 83–88 con CPU al 100 %), tutorial, promoción |
 | F5 | README final con capturas nuevas, `docs/` (esquema, matching, operación), CITATION 2.0.0 | ⬜ |
 
 **Arranque:** pegar `PROMPT_claude_code.md` en Claude Code desde la raíz del repo.
@@ -123,29 +124,14 @@ Reproceso de la corrida 2026-09-25 contra `main`: Boticas 109 → 98, Universal 
 Universal: 1 nuevo, 4 caen). Los que caen son vetos por R.S. (genéricos de otro
 laboratorio, marcas distintas) o las reglas nuevas. Regresión 66/66.
 
-Pendiente F3 (PR draft abierto; nada mergeado):
-1. Revisión humana (lista con enlaces generada en la sesión del 25-09):
-   - Tapsin Plus Día casó con la URL "Noche" de Boticas: las dos URLs de Boticas
-     devuelven el mismo R.S. EE-05657. Sospecha de error de la cadena, sin verificar.
-   - #4 Huggies Puro y Natural → "recién nacido" (foto idéntica, texto 70).
-   - #10 Tapsin Flu Día: la referencia es SOBRE y Boticas es `49718-BLISTER`.
-   - #15 Cetirizina "Portugal" S/ 2,90 ↔ Universal "FI" S/ 7,13 (otro laboratorio).
-   - #20 Ensure S/ 83 → Boticas Ensure Advance S/ 103,9 (otro producto).
-2. Dos reglas por decidir (cambian el matcher; no se hicieron sin OK):
-   - Laboratorio distinto ⇒ no casa. Hoy el veto por R.S. solo actúa si ambos
-     lados lo traen; 94 cruces aceptados sin R.S. en algún lado, 6 con
-     laboratorios distintos en nombre/URL.
-   - Asignación uno a uno *greedy* con dedup previo: primero agrupar filas de
-     Inkafarma que son el mismo producto (mismo R.S. o EAN), después aceptar pares
-     de mayor a menor score saltando SKUs ya tomados. Hoy 9 SKUs caen en dos filas
-     (Eucerin↔Anthelios, Ensure↔Ensure Advance).
-3. Merge del PR. La primera corrida tras el merge dará ▲▼ falsos en las filas cuyo
-   SKU cruzado cambió.
-4. `match_id` estable (no se hizo).
-5. `data.json` pasa de 334 a 462 KB por la evidencia: F4 debe partirla (ya está
-   planeado `web/data/` particionado).
-6. Equivalentes con ruido (Tapsin Día↔Noche, Bisolvon↔Bisolvon-Linctus): no
-   mostrarlos en la UI todavía.
+Cerrado el 2026-09-26 (PR #3 → 83e4ca5). Las decisiones de iC7 quedaron como reglas
+(laboratorio distinto, Día/Noche, etapa, envase, Advance, uno a uno greedy); detalle, cifras
+y 7 casos dudosos en `docs/revision/F3_final.md`. Misma corrida: Boticas 109 → 87,
+Universal 77 → 71, 4 cadenas 54 → 42, SKUs cruzados a dos filas 17 → 0. Regresión 85/85.
+
+Pendiente F3: `match_id` estable; mapa persistente R.S.→laboratorio entre corridas
+(`config/laboratorios_rs.yaml`, propuesta en F3_final §5.1); la primera corrida nocturna
+tras el merge dará ▲▼ falsos en las filas cuyo SKU cruzado cambió.
 
 ### F2 — por dónde empezar
 

@@ -424,6 +424,17 @@ class AlgoliaInRetailAdapter(AdapterBase):
             out[t] = self.search(t, raw=raw)
         return out
 
+    # --- browse_categoria (V2_PLAN F2): todos los productos de una subcategoría
+    def browse_categoria(self, cat_id: str, *, solo_web: bool = True,
+                         raw: bool = False) -> Iterator[Producto]:
+        """`cat_id` es el nombre EXACTO de la faceta `subCategory` de Algolia
+        (ver `config/categorias.yaml`, bloque `inretail.subcategory`).
+        Pagina con `_query_paged`, así que respeta el tope 1000/query: una
+        subcategoría con más hits necesitaría particionar (no es el caso hoy).
+        """
+        filtros = self._filtros(solo_web, [f"subCategory:{cat_id}"])
+        yield from self._query_paged("", filtros, raw=raw)
+
     # --- VÍA 2a: volcado por cursor (browse) -------------------------------
     def browse(
         self,

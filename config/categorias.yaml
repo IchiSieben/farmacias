@@ -1,0 +1,26 @@
+# config/categorias.yaml — Mapa de categoría canónica -> id por cadena (V2_PLAN F2).
+#
+# Una categoría canónica agrupa el id/nombre que cada cadena usa internamente para
+# navegar por su propio catálogo. Se usa SOLO para `browse_categoria()` (bajar el
+# catálogo completo de esa categoría); el matching entre cadenas sigue siendo por
+# principio activo + specs (core.matcher), no por esta categoría.
+#
+# Cómo se obtuvo cada id (recon del 2026-09-26, ver docs/revision/F2_analgesicos.md):
+#   - inretail (Inkafarma/Mifarma, Algolia): facet `subCategory` (ya en
+#     pipeline/build_snapshot.SUBCATS_SEED, no hizo falta recon nuevo).
+#   - boticasperu (Salesforce Commerce Cloud): `cgid` capturado del HTML de la
+#     página de categoría (atributo href con "?cgid=..." del bloque de filtros).
+#   - universal (VTEX): la ruta de categoría (`category_tree` nivel 3), usada con
+#     la búsqueda legacy por path (`/api/catalog_system/pub/products/search/<path>`,
+#     NO `fq=C:<id>`: probado y el id numérico del árbol no resuelve productos
+#     directamente — ver nota en el archivo de revisión).
+
+categorias:
+  analgesico:
+    nombre: "Analgésicos"
+    inretail:
+      subcategory: "Analgésico y Antipirético"
+    boticasperu:
+      cgid: "tra-analgesicosyantiflamatorios"
+    universal:
+      path: "medicinas/fiebre-y-dolor-general/analgesicos-y-antiinflamatorios"

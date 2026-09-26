@@ -16,7 +16,7 @@ from __future__ import annotations
 import abc
 import random
 import time
-from typing import Dict, Iterator, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 import httpx
 
@@ -109,6 +109,23 @@ class AdapterBase(abc.ABC):
         ultimo.raise_for_status()
         return ultimo.json()
 
+    def _get(self, url: str, *, params: Optional[Dict[str, Any]] = None,
+             intentos: int = 4) -> httpx.Response:
+        """GET con reintentos y backoff exponencial ante 429/503 (espejo de
+        `_post_json`, para adaptadores HTML/REST que no pasan por Algolia)."""
+        ultimo: Optional[httpx.Response] = None
+        for i in range(intentos):
+            resp = self._client.get(url, params=params)
+            ultimo = resp
+            if resp.status_code in (429, 503):
+                if not self._offline:
+                    time.sleep(min(2 ** i, 30))
+                continue
+            self._revisar_credencial(resp)
+            return resp
+        assert ultimo is not None
+        return ultimo
+
     def _revisar_credencial(self, resp: httpx.Response) -> None:
         """Hook: los adaptadores con llave lanzan `CredencialRechazada` en 401/403."""
 
@@ -121,4 +138,16 @@ class AdapterBase(abc.ABC):
         """Recorre el catálogo completo. Solo Nivel A con volcado disponible."""
         raise NotImplementedError(
             f"El adaptador de '{self.cadena}' no soporta browse (volcado completo)."
+        )
+
+    def browse_categoria(self, cat_id: str) -> Iterator[Producto]:
+        """Recorre TODOS los productos de una categoría de la cadena (V2_PLAN F2).
+
+        `cat_id` es el id/nombre que la cadena usa internamente para esa categoría
+        (ver `config/categorias.yaml` y `core.categorias`), no la categoría
+        canónica cross-cadena. Pasa por el mismo transporte que `search`/`browse`
+        (`AdapterBase.__init__(transport=...)`), así que hereda caché/reproceso.
+        """
+        raise NotImplementedError(
+            f"El adaptador de '{self.cadena}' no soporta browse_categoria."
         )

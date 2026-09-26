@@ -182,6 +182,46 @@ class UniversalAdapter(AdapterBase):
             primera = False
         return productos[:limit] if limit else productos
 
+    # --- browse_categoria (V2_PLAN F2): TODOS los productos de una categoría --
+    def browse_categoria(self, cat_id: str, *, limit: Optional[int] = None,
+                         page_size: int = 50) -> Iterator[Producto]:
+        """`cat_id` es el PATH de categoría del árbol VTEX (ver
+        `config/categorias.yaml`, bloque `universal.path`), p.ej.
+        "medicinas/fiebre-y-dolor-general/analgesicos-y-antiinflamatorios".
+
+        Usa la búsqueda legacy por path (`.../products/search/<path>`), NO
+        `fq=C:<id>`: probado en recon (2026-09-26) y el id numérico del árbol
+        de categorías no resuelve productos por esa vía (0 resultados), aunque
+        sí funciona para el `fq` de otras tiendas VTEX — no en esta cuenta.
+        Pagina con `_from`/`_to` como `search()` (tope VTEX: 50 por página).
+        """
+        productos_vistos = set()
+        tope = limit or 10_000
+        frm = 0
+        primera = True
+        path = cat_id.strip("/")
+        url = f"{self.dominio}/api/catalog_system/pub/products/search/{path}"
+        while frm < tope:
+            to = frm + min(page_size, tope - frm) - 1
+            if not primera:
+                self._sleep()
+            resp = self._client.get(url, params={"_from": frm, "_to": to})
+            if resp.status_code not in (200, 206):
+                break
+            data = resp.json()
+            if not data:
+                break
+            for prod in data:
+                for p in self._map_producto(prod):
+                    if p.sku in productos_vistos:
+                        continue
+                    productos_vistos.add(p.sku)
+                    yield p
+            if len(data) < (to - frm + 1):
+                break  # última página
+            frm = to + 1
+            primera = False
+
     # --- árbol de categorías (para mapa de organización) -------------------
     def category_tree(self, niveles: int = 3) -> List[Dict[str, Any]]:
         url = f"{self.dominio}/api/catalog_system/pub/category/tree/{niveles}"

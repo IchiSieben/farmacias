@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 from selectolax.parser import HTMLParser
 
@@ -125,33 +125,50 @@ class BoticasPeruAdapter(AdapterBase):
             precio=precio, precio_regular=precio, url=url, imagen=_clean(imagen),
         )
 
-    def search(self, query: str, *, limit: Optional[int] = None,
-               page_size: int = 24) -> List[Producto]:
-        """Busca un término en la grilla SSR y devuelve los tiles parseados."""
-        productos: List[Producto] = []
+    def _grid(self, params_base: Dict[str, Any], *, limit: Optional[int],
+              page_size: int) -> Iterator[Producto]:
+        """Pagina la grilla SSR (Search-UpdateGrid) con start/sz, sea por texto
+        (`q`) o por categoría (`cgid`). Dedup por pid: la grilla a veces repite
+        un tile al cruzar de página bajo carga."""
         start = 0
         primera = True
-        tope = limit or 96
-        while len(productos) < tope:
-            sz = min(page_size, tope - len(productos))
-            url = f"{self.ctrl}/Search-UpdateGrid"
+        tope = limit or 10_000
+        vistos = set()
+        url = f"{self.ctrl}/Search-UpdateGrid"
+        while start < tope:
+            sz = min(page_size, tope - start) if limit else page_size
             if not primera:
                 self._sleep()
-            resp = self._client.get(url, params={"q": query, "start": start, "sz": sz})
+            resp = self._client.get(url, params={**params_base, "start": start, "sz": sz})
             resp.raise_for_status()
             tree = HTMLParser(resp.text)
             tiles = tree.css("div.product[data-pid]")
             if not tiles:
                 break
+            n_nuevos = 0
             for t in tiles:
                 p = self._parse_tile(t)
-                if p:
-                    productos.append(p)
+                if p and p.sku not in vistos:
+                    vistos.add(p.sku)
+                    n_nuevos += 1
+                    yield p
             if len(tiles) < sz:
                 break  # última página
             start += sz
             primera = False
+
+    def search(self, query: str, *, limit: Optional[int] = None,
+               page_size: int = 24) -> List[Producto]:
+        """Busca un término en la grilla SSR y devuelve los tiles parseados."""
+        productos = list(self._grid({"q": query}, limit=limit or 96, page_size=page_size))
         return productos[:limit] if limit else productos
+
+    def browse_categoria(self, cat_id: str, *, limit: Optional[int] = None,
+                         page_size: int = 24) -> Iterator[Producto]:
+        """Recorre TODA la grilla de una categoría (`cat_id` = `cgid` SFCC, ver
+        `config/categorias.yaml`). Sin `limit`: hasta que la grilla no dé más tiles.
+        """
+        yield from self._grid({"cgid": cat_id}, limit=limit, page_size=page_size)
 
     # --- DETALLE: QuickView JSON (Nivel A) ---------------------------------
     def _map_quickview(self, data: Dict[str, Any], *, raw: bool = False) -> Optional[Producto]:

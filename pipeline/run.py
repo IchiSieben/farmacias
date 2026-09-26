@@ -58,7 +58,7 @@ from core.adapters.algolia_inretail import _load_dotenv
 from core.adapters.boticasperu import BoticasPeruAdapter
 from core.imagen import AlmacenImagenes
 from core.storage import RawStore, StorageError, fecha_de, nuevo_id_corrida, raw_dir_desde_entorno
-from pipeline import build_snapshot, cambios
+from pipeline import build_snapshot, cambios, categoria_browse
 from pipeline.enriquecer import CADENA_QUICKVIEW, Enriquecedor
 from pipeline.parquet import exportar_parquet, processed_dir_desde_entorno
 
@@ -361,6 +361,57 @@ def sincronizar(raw_root: Path, processed_root: Path, nombre_log: str) -> List[s
     return errores
 
 
+def categoria(raw: RawStore, cat_id: str, *, delay: Tuple[float, float],
+              salida: Path) -> Tuple[dict, Dict[str, Any]]:
+    """V2_PLAN F2: snapshot de UNA categoría por `browse_categoria` (pool vs pool,
+    no búsquedas por producto). Camino AISLADO del de `--todo`/`--desde-cache`:
+    no lee ni escribe manifiestos de corrida (`_corridas/`), no toca
+    `data/snapshots`/`data/processed` (historial) ni Parquet, y NUNCA escribe en
+    `OUT_DEFAULT` (siempre exige `--salida`). El crudo SÍ se graba en `RAW_DIR`
+    (transporte compartido, ver `core.http_cache`), en su propio archivo por
+    cadena (`categoria_<id>_<timestamp>.jsonl.gz`) para no chocar con
+    `respuestas_<corrida>.jsonl.gz` de la corrida diaria.
+    """
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
+    fecha = ts[:10]
+    staging = STAGING_DIR / f"categoria-{cat_id}-{ts}"
+    sesion = hc.SesionHttp(hc.GRABAR, staging, delay=delay)
+    try:
+        data = categoria_browse.construir(
+            cat_id, adapter_kw=lambda cad: {"transport": sesion.transporte(cad)})
+    except CredencialRechazada as exc:
+        raise ErrorCorrida(f"{exc} (categoría {cat_id}, {ts})") from exc
+    finally:
+        sesion.cerrar()
+
+    archivos: Dict[str, str] = {}
+    for cad in CADENAS:
+        origen = sesion.archivo_staging(cad)
+        if not origen.exists():
+            continue
+        nombre = f"categoria_{cat_id}_{ts}.jsonl.gz"
+        destino = raw.publicar_archivo(origen, cad, fecha, nombre)
+        archivos[cad] = nombre
+        log(f"  crudo {cad}: {destino} ({destino.stat().st_size // 1024} KB)")
+    shutil.rmtree(staging, ignore_errors=True)
+
+    manifest = {
+        "tipo": "categoria", "categoria": cat_id, "generado": data["generado"],
+        "archivos": archivos, "requests": sesion.estadisticas(), "salida": str(salida),
+    }
+    # Manifiesto propio, fuera de `_corridas/` (ese árbol es de la corrida diaria;
+    # mezclar formatos rompería `resolver_corrida`, que asume fecha en los primeros
+    # 10 caracteres del id).
+    meta_dir = raw.root / "_categorias"
+    meta_dir.mkdir(parents=True, exist_ok=True)
+    (meta_dir / f"{cat_id}_{ts}.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    salida.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    return data, manifest
+
+
 # --- resumen -----------------------------------------------------------------
 def resumen(data: dict, eventos: List[dict], requests: Dict[str, Dict[str, int]],
             duracion: float, errores: List[str],
@@ -417,6 +468,10 @@ def main(argv: Optional[List[str]] = None) -> int:
                       help="F3: baja QuickView/fotos que le faltan a una corrida y reprocesa")
     modo.add_argument("--sincronizar", action="store_true",
                       help="solo copia RAW_DIR y Parquet a Drive (rclone copy)")
+    modo.add_argument("--categoria", metavar="ID",
+                      help="F2: snapshot de UNA categoría (config/categorias.yaml) por "
+                           "browse_categoria, pool vs pool. Camino aislado: no toca "
+                           "historial/Parquet/sync; exige --salida.")
     ap.add_argument("--objetivo", type=int, default=150)
     ap.add_argument("--sin-semillas", action="store_true",
                     help="omite SUBCATS_SEED (captura chica de prueba)")
@@ -430,6 +485,38 @@ def main(argv: Optional[List[str]] = None) -> int:
     _load_dotenv()
     t0 = time.monotonic()
     errores: List[str] = []
+
+    if args.categoria:
+        if args.salida == str(OUT_DEFAULT):
+            print("ERROR: --categoria exige --salida explícito (no pisa "
+                  f"{OUT_DEFAULT}, que es el staging de la corrida diaria).",
+                  file=sys.stderr)
+            return 2
+        try:
+            raw = RawStore(raw_dir_desde_entorno())
+        except StorageError as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            return 2
+        ruta_log, fh = _abrir_log(f"categoria_{args.categoria}_{nuevo_id_corrida()}")
+        try:
+            log(f"Categoría {args.categoria} · RAW_DIR={raw.root} · log={ruta_log}")
+            data, man = categoria(raw, args.categoria, delay=_parse_delay(args.delay),
+                                  salida=Path(args.salida))
+            n_bot, n_uni = data["con_boticas"], data["con_universal"]
+            log(f"Listo: {data['total']} filas -> {args.salida} "
+                f"(Boticas {n_bot}, Universal {n_uni})")
+            log("Requests: " + " · ".join(
+                f"{c} red={s.get('red', 0)} cache={s.get('cache', 0)} "
+                f"404={s.get('http_404', 0)} err={s.get('http_error', 0) + s.get('red_error', 0)}"
+                for c, s in man["requests"].items()))
+            return 0
+        except ErrorCorrida as exc:
+            log(f"ERROR: {exc}")
+            return 2
+        finally:
+            sys.stdout, sys.stderr = sys.__stdout__, sys.__stderr__
+            fh.close()
+
     try:
         raw = RawStore(raw_dir_desde_entorno())
         if args.desde_cache or args.completar:

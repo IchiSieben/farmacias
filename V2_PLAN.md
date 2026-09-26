@@ -328,6 +328,21 @@ Cada fase: rama `v2/f<N>-<nombre>`, PR con checklist de aceptación, merge a `ma
 Nada se despliega a la URL pública hasta que F4 esté completa; mientras tanto la v1
 sigue viva.
 
+### Idea para después (no construir todavía): dermocosmética contra retail no farmacéutico
+
+Anotada el 2026-09-26. Hoy la cosmética queda fuera del cruce entre cadenas
+(`SIN_CROSS_MATCH`): sin principio activo, el matcher no tiene con qué decidir. Pero
+dermocosmética y cuidado personal de marca internacional (La Roche-Posay, CeraVe, Eucerin,
+Isdin, Nivea, Huggies…) se venden también fuera de las farmacias: Oechsle, Saga Falabella,
+supermercados (Plaza Vea, Tottus, Metro/Wong). Ahí el EAN es la llave natural (el retail
+lo expone más que las farmacias), así que el problema de emparejar es más fácil que en
+medicamentos.
+
+Sería una **vertical aparte** ("¿dónde sale más barato tu protector solar?"), con su propia
+ruta y su propio aviso, no filas nuevas en el radar de medicamentos: mezclar ambas cosas
+diluye el mensaje del radar. Prerrequisitos: F2 cerrada, el recon de cadenas
+(`docs/RECON_CADENAS.md`) y medir cuánto solapan las marcas con una muestra de 50 EAN.
+
 ---
 
 ## 4. Riesgos conocidos

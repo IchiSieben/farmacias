@@ -3,6 +3,24 @@
 > Bitácora de la corrida sin supervisión (`docs/PROMPT_AUTONOMO_v2.md`). El resumen para
 > el celular va arriba al terminar; debajo, el registro en orden.
 
+## RESUMEN PARA EL CELULAR (cierre 2026-09-26, ~16:00)
+
+1. **Beta: NO subida.** `.env` sin `PUBLISH_*` y `publish.py` no sube carpetas. Zip listo: `../farmacias-ui/data/beta/radar-precios-beta.zip` (subida manual abajo).
+2. Build beta verificado local: 597 páginas, 0 enlaces rotos, 0 i18n sin traducir, 0 errores de consola (Playwright).
+3. **Mergeado:** PR #3 (F3). **Abiertos sin mergear:** PR #4 borrador (F4 UI), ramas `v2/f2-analgesicos`, `v2/d2-recon-cadenas`, `v2/d3-idea-retail`.
+4. F3, misma corrida: Boticas 109→87, Universal 77→71, 4 cadenas 54→42, SKUs dobles 17→0. Regresión 85/85.
+5. F4: Panorama + Metodología ES/EN, filtro por laboratorio, logos parejos, "Nuevo" real.
+6. Lighthouse móvil: ficha 99, panorama 96, metodología 95, **inicio 83–88** (CPU al 100 % por VS Code/Brave). A11y 100.
+7. F2 analgésicos (browse): 11 cruces, 11 OK; cobertura baja (Boticas 2/77): falta unir árboles de categoría.
+8. Red: 362 de 3 000 peticiones. Incidente: 2 peticiones del recon a `vivanda.com.pe/api/` (robots lo prohíbe), registrado.
+9. **Decide:** credenciales `PUBLISH_*` o subida manual del zip → recomiendo manual ya, credenciales después.
+10. **Decide:** remedir el inicio con la CPU libre antes de promover → recomiendo sí; si < 90, mirar la hidratación.
+11. **Decide:** revisar y mergear PR #4 → recomiendo tras ver la beta en vivo.
+12. **Decide:** F2 sigue (unir cgid de Boticas) o se pausa → recomiendo seguir con analgésicos antes de otra categoría.
+13. **Decide:** mapa persistente R.S.→laboratorio (F3_final §5.1) → recomiendo sí, es barato.
+14. Promoción a `/radar-precios/`: procedimiento al final de este archivo; **no ejecutado**, espera "publicar".
+15. Decisiones tomadas solas: `docs/DECISIONES.md` (12 en main + las de F2 en su rama).
+
 ## Estado real al arrancar (12:47, hora de Lima)
 
 - Worktrees: `farmacias` (main, 1c69537) · `farmacias-f3` (v2/f3-matcher, 7a0d376) ·
@@ -23,6 +41,8 @@
 |---|---|
 | `--completar 2026-09-26T07-00-07Z` (QuickView + fotos) | 164 (138 QuickView + 26 fotos), 0 errores |
 | D.2 recon de cadenas (agente) | 55 (39 a cadenas, 1 google, 9 WebSearch, 6 firecrawl fallidos), 0 403/429 |
+| D.1 F2 analgésicos (agente) | ~143 (recon 15, prueba 9, corrida 119: Inka 56, Mifa 56, Boticas 4, Universal 3), 0 errores |
+| **Total** | **~362 de 3 000** |
 
 ## Registro
 
@@ -81,6 +101,13 @@
   pero no se vio OTC; Metro sin resolver; Tottus 503. **Incidente:** el agente hizo 2
   peticiones a `vivanda.com.pe/api/` que su robots.txt prohíbe. Está registrado en el
   documento; no se repite. 55 peticiones.
+- D.1 F2 analgésicos: rama `v2/f2-analgesicos` (d92aefa, 2ad969d, 69e2191), sin PR.
+  `browse_categoria()` en los 4 adaptadores, `config/categorias.yaml`, `--categoria` aislado
+  de la corrida diaria. Universal `fq=C:46` da 0 → búsqueda por ruta VTEX. Resultado: 77 filas,
+  Boticas 2, Universal 9; muestra = los 11 cruces, 11 OK (no llegó a 30). La baja cobertura
+  de Boticas es de descubrimiento (un solo cgid de varios árboles), no del matcher. Regresión
+  85/85 verificada. Ojo al mergear: la rama tocó `docs/DECISIONES.md` desde el main viejo
+  (conflicto trivial con las entradas 7–12) y añade backoff 429/503 en `AdapterBase._get()`.
 - D.3 idea retail: rama `v2/d3-idea-retail` (252d4a7), subsección en V2_PLAN §3.
 
 ## Promoción a `/radar-precios/` — NO ejecutada (solo cuando iC7 escriba "publicar")

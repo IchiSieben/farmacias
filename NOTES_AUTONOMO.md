@@ -21,6 +21,18 @@
 
 | Paso | Requests |
 |---|---|
-| `--completar 2026-09-26T07-00-07Z` (QuickView + fotos) | en curso |
+| `--completar 2026-09-26T07-00-07Z` (QuickView + fotos) | 164 (138 QuickView + 26 fotos), 0 errores |
 
 ## Registro
+
+### Fase A — F3 cerrada y mergeada (PR #3 → 83e4ca5)
+
+- Reglas de §1 aplicadas; regresión 85/85 (3.12 y 3.9); 4 suites OK; reproceso
+  `--desde-cache 2026-09-26T07-00-07Z` byte a byte determinista; 0 SKUs en dos filas.
+- Cifras (misma corrida): main 109 Boticas / 77 Universal / 54 con 4 cadenas / 17 SKUs
+  dobles → F3 87 / 71 / 42 / 0. Equivalentes 19. Zona gris 10.
+- Añadido por criterio propio (mismo principio "falso positivo peor que —"): zona gris exige
+  la marca; `flex`/`triplesure` modificadores; vetos curados Huggies (3) y Pediasure 10+.
+- Dudosos listados en `docs/revision/F3_final.md` §5 (7 casos).
+- Desvío: el prompt pedía `REVISION_F3.md` de `../farmacias-f3/scratchpad/`; no existía,
+  se usó la lista de HANDOFF.md.

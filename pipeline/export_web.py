@@ -36,7 +36,9 @@ import shutil
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, Iterator, List, Optional, Tuple
+
+from core.matcher import laboratorio_canonico
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION_ESQUEMA = 1
@@ -136,6 +138,17 @@ def ahorro(precios: Dict[str, float]) -> Optional[dict]:
     }
 
 
+def marca_y_laboratorio(marca: Optional[str], lab: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
+    """InRetail a veces trae los campos cruzados: la marca es el laboratorio
+    ("PORTUGAL") y el laboratorio es la marca ("LORATADINA", "DOLO- QUIMAGESICO").
+    Si solo la marca parece un laboratorio (conocido, o "LABORATORIO ..."), se intercambian."""
+    def es_lab(x: Optional[str]) -> bool:
+        return bool(x) and (bool(laboratorio_canonico(x)) or x.strip().lower().startswith(("laboratorio", "lab.")))
+    if es_lab(marca) and not es_lab(lab):
+        return lab, marca
+    return marca, lab
+
+
 def fila(p: dict, idx: Dict[str, Dict[str, dict]]) -> dict:
     sku = p["id"].split(":")[0]
     precios = {c: p["precios"][c] for c in CADENAS_ORDEN if c in p.get("precios", {})}
@@ -154,6 +167,7 @@ def fila(p: dict, idx: Dict[str, Dict[str, dict]]) -> dict:
     # Miniatura: la foto de la cadena más barata; si no hay, la de cualquier cadena.
     orden = (ah["en"] if ah else []) + CADENAS_ORDEN
     imagen = next((imagenes[c] for c in orden if imagenes.get(c)), None)
+    marca, laboratorio = marca_y_laboratorio(p.get("marca"), extra.get("laboratorio"))
     tend = {c: {"dir": t.get("dir"), "delta_pct": t.get("delta_pct")}
             for c, t in (p.get("tendencia") or {}).items() if c in precios}
     return {
@@ -161,8 +175,8 @@ def fila(p: dict, idx: Dict[str, Dict[str, dict]]) -> dict:
         "slug": slug(p["id"]),
         "nombre": p.get("nombre"),
         "activo": extra.get("activo"),
-        "laboratorio": extra.get("laboratorio"),
-        "marca": p.get("marca"),
+        "laboratorio": laboratorio,
+        "marca": marca,
         "cat": p.get("categoria"),
         "pres": p.get("presentacion"),
         "cantidad": p.get("cantidad"),

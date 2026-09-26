@@ -16,6 +16,8 @@ interface Props {
   iniciales: Producto[];
   total: number;
   base: string;
+  /** Tooltip de "Nuevo": contra qué corrida es nuevo. */
+  nuevoDetalle: string;
 }
 
 const PAGINA = 30;
@@ -59,7 +61,7 @@ function descargar(nombre: string, contenido: string, tipo: string) {
   URL.revokeObjectURL(url);
 }
 
-export default function Explorador({ idioma, dic, cadenas, categorias, iniciales, total, base }: Props) {
+export default function Explorador({ idioma, dic, cadenas, categorias, iniciales, total, base, nuevoDetalle }: Props) {
   const ids = cadenas.map((c) => c.id);
   const porId = Object.fromEntries(cadenas.map((c) => [c.id, c]));
   const [productos, setProductos] = useState<Producto[]>(iniciales);
@@ -265,7 +267,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
           {/* Móvil: tarjetas */}
           <ul className="mt-3 grid gap-3 md:hidden">
             {pagina.map((p) => (
-              <li key={p.id}><Tarjeta p={p} activas={activas} idioma={idioma} dic={dic} base={base} /></li>
+              <li key={p.id}><Tarjeta p={p} activas={activas} idioma={idioma} dic={dic} base={base} nuevoDetalle={nuevoDetalle} /></li>
             ))}
           </ul>
 
@@ -292,7 +294,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
                 </tr>
               </thead>
               <tbody>
-                {pagina.map((p) => <Fila key={p.id} p={p} activas={activas} idioma={idioma} dic={dic} base={base} />)}
+                {pagina.map((p) => <Fila key={p.id} p={p} activas={activas} idioma={idioma} dic={dic} base={base} nuevoDetalle={nuevoDetalle} />)}
               </tbody>
             </table>
           </div>
@@ -311,7 +313,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
   );
 }
 
-function Tarjeta({ p, activas, idioma, dic, base }: PiezaProps) {
+function Tarjeta({ p, activas, idioma, dic, base, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
   const ah = ahorroActivo(p, activas.map((c) => c.id));
   const conPrecio = activas.filter((c) => p.precios[c.id] != null);
   return (
@@ -321,7 +323,7 @@ function Tarjeta({ p, activas, idioma, dic, base }: PiezaProps) {
         <div className="min-w-0">
           <h2 className="font-medium leading-snug">
             <a href={enlaceFicha(p, idioma, base)} className="hover:underline">{p.nombre}</a>
-            {p.nuevo && <span className="ml-2 rounded bg-acento px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase text-acento-texto">{t(dic, 'producto.nuevo')}</span>}
+            {p.nuevo && <span title={nuevoDetalle} className="ml-2 rounded bg-acento px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase text-acento-texto">{t(dic, 'producto.nuevo')}</span>}
           </h2>
           <p className="mt-0.5 text-xs text-suave">{[p.pres, p.marca].filter(Boolean).join(' · ')}</p>
         </div>
@@ -346,7 +348,7 @@ function Tarjeta({ p, activas, idioma, dic, base }: PiezaProps) {
   );
 }
 
-function Fila({ p, activas, idioma, dic, base }: PiezaProps) {
+function Fila({ p, activas, idioma, dic, base, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
   const ah = ahorroActivo(p, activas.map((c) => c.id));
   return (
     <tr className="border-t border-borde align-middle hover:bg-superficie-2/60">
@@ -355,7 +357,7 @@ function Fila({ p, activas, idioma, dic, base }: PiezaProps) {
           <Miniatura p={p} dic={dic} tam={48} />
           <div className="min-w-0">
             <a href={enlaceFicha(p, idioma, base)} className="font-medium hover:underline">{p.nombre}</a>
-            {p.nuevo && <span className="ml-2 rounded bg-acento px-1.5 py-0.5 text-[10px] font-semibold uppercase text-acento-texto">{t(dic, 'producto.nuevo')}</span>}
+            {p.nuevo && <span title={nuevoDetalle} className="ml-2 rounded bg-acento px-1.5 py-0.5 text-[10px] font-semibold uppercase text-acento-texto">{t(dic, 'producto.nuevo')}</span>}
             <p className="text-xs text-suave">{[p.pres, p.marca].filter(Boolean).join(' · ')}</p>
           </div>
         </div>

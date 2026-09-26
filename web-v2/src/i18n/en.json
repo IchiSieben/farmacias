@@ -45,6 +45,7 @@
   "producto.porUnidad": "{monto}/{unidad}",
   "producto.verEn": "View at {cadena} (opens in a new tab)",
   "producto.nuevo": "New",
+  "producto.nuevo.detalle": "Not in the previous capture ({fecha})",
   "producto.promo": "Deal",
   "producto.sinFoto": "No photo",
   "tendencia.sube": "Up {pct} since the previous capture",

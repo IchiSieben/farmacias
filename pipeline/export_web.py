@@ -194,12 +194,15 @@ def _plausible(precio: float, ref: Optional[float]) -> bool:
     return not ref or _RATIO_MIN <= precio / ref <= _RATIO_MAX
 
 
-def historial(snapshots: Optional[Path], ids: set) -> Dict[str, List[dict]]:
+def historial(snapshots: Optional[Path], ids: set,
+              urls: Optional[Dict[str, Dict[str, str]]] = None) -> Dict[str, List[dict]]:
     """Serie diaria por producto: [{fecha: 'AAAA-MM-DD' (Lima), precios, promos}].
 
     Un punto por día y por cadena: el último precio que ESA cadena mostró ese día (no
     el último snapshot entero: las corridas de prueba parciales harían desaparecer
-    cadenas). Los cruces fuzzy implausibles (>3× vs Inkafarma) se descartan.
+    cadenas). Los cruces fuzzy implausibles (>3× vs Inkafarma) se descartan, y con
+    `urls` ({id: {cadena: url}} del cruce ACTUAL) también los de otro SKU: un snapshot
+    viejo pudo cruzar esa fila con otro producto (antes de F3, o antes del uno a uno).
     """
     dias: Dict[str, Dict[str, Dict[str, tuple]]] = {i: {} for i in ids}
     if snapshots is None or not snapshots.is_dir():
@@ -217,12 +220,29 @@ def historial(snapshots: Optional[Path], ids: set) -> Dict[str, List[dict]]:
                 v = p["precios"].get(c)
                 if v is None or (c in _FUZZY and not _plausible(v, ref)):
                     continue
+                actual = (urls or {}).get(p["id"], {}).get(c)
+                if c in _FUZZY and urls is not None and (p.get("urls") or {}).get(c) != actual:
+                    continue
                 por_cadena[c] = (v, bool(promos.get(c)))  # sorted(): gana el último del día
     return {i: [{"fecha": dia,
                  "precios": {c: v for c, (v, _) in sorted(pc.items(), key=lambda x: CADENAS_ORDEN.index(x[0]))},
                  "promos": {c: pr for c, (_, pr) in pc.items()}}
                 for dia, pc in sorted(por_dia.items()) if pc]
             for i, por_dia in dias.items()}
+
+
+def snapshot_previo(snapshots: Optional[Path], gen: str) -> Optional[str]:
+    """Fecha (`generado`) de la corrida anterior a `gen`: contra ella se marca "Nuevo"
+    (pipeline/cambios.py) y se calculan las ▲▼."""
+    if snapshots is None or not snapshots.is_dir():
+        return None
+    ahora = datetime.fromisoformat(gen)
+    previas = []
+    for f in snapshots.glob("snapshot_*.json"):
+        g = json.loads(f.read_text(encoding="utf-8")).get("generado")
+        if g and datetime.fromisoformat(g) < ahora:
+            previas.append(g)
+    return max(previas, key=datetime.fromisoformat) if previas else None
 
 
 # --- KPIs -------------------------------------------------------------------------
@@ -269,6 +289,18 @@ def _proporcion(ruta: Path) -> Optional[float]:
         return round(im.width / im.height, 3)
 
 
+def _fondo(ruta: Path) -> Optional[str]:
+    """Color de fondo de un logo raster OPACO (esquina sin transparencia), o None.
+    Boticas sirve su logo en blanco sobre un rectángulo azul: la UI lo muestra como
+    píldora de ese color en vez de ponerle un fondo blanco como a los transparentes."""
+    if not ruta.exists() or ruta.suffix.lower() == ".svg":
+        return None
+    from PIL import Image
+    with Image.open(ruta) as im:
+        r, g, b, a = im.convert("RGBA").getpixel((0, 0))
+    return None if a < 255 else f"#{r:02x}{g:02x}{b:02x}"
+
+
 def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Optional[Path],
              logos: Optional[Path]) -> Dict[str, Any]:
     idx = indice_crudo(raw)
@@ -286,6 +318,7 @@ def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Option
             "color": info.get("color"), "logo": archivo,
             # ancho/alto del logo: la UI reserva el hueco antes de que cargue (sin CLS)
             "logo_ratio": _proporcion(logos.parent / archivo) if archivo else None,
+            "logo_fondo": _fondo(logos.parent / archivo) if archivo else None,
         })
     cats = sorted({f["cat"] for f in filas if f["cat"]})
     k = kpis(filas)
@@ -294,7 +327,8 @@ def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Option
         if any(salida.iterdir()) and not (salida / "meta.json").exists():
             raise SystemExit(f"{salida} no parece un web/data/ generado (sin meta.json): no lo borro")
         shutil.rmtree(salida)  # generado: se reescribe entero (no quedan cat_/hist_ viejos)
-    _escribir(salida / "meta.json", {**base, "snapshot": gen, "cadenas": cadenas,
+    _escribir(salida / "meta.json", {**base, "snapshot": gen, "previo": snapshot_previo(snapshots, gen),
+                                     "cadenas": cadenas,
                                      "grupos": data.get("grupos", []),
                                      "categorias": [{"id": c, "n": sum(f["cat"] == c for f in filas)}
                                                     for c in cats],
@@ -306,7 +340,7 @@ def exportar(data: dict, salida: Path, *, snapshots: Optional[Path], raw: Option
     for c in cats:
         _escribir(salida / f"cat_{c}.json", {**base, "categoria": c,
                                              "productos": [f for f in filas if f["cat"] == c]})
-    series = historial(snapshots, {f["id"] for f in filas})
+    series = historial(snapshots, {f["id"] for f in filas}, {f["id"]: f["urls"] for f in filas})
     for f in filas:
         _escribir(salida / "hist" / f"{f['slug']}.json",
                   {**base, "id": f["id"], "serie": series.get(f["id"], [])})

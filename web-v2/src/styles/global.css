@@ -43,11 +43,11 @@
   --sube: #b42318;
   --baja: #0b6b37;
   /* Gráfico: un color por cadena, distinguibles entre sí (no son los de marca:
-     Boticas y Universal serían dos azules casi iguales), contraste >= 3:1. */
+     Boticas y Universal serían dos azules casi iguales; Universal va en magenta), contraste >= 3:1. */
   --cad-inkafarma: #1b8f43;
   --cad-mifarma: #c8561a;
   --cad-boticasperu: #3346a8;
-  --cad-universal: #0a7ea3;
+  --cad-universal: #a8327f;
   color-scheme: light;
 }
 
@@ -67,7 +67,7 @@
   --cad-inkafarma: #4cc27a;
   --cad-mifarma: #ff9a52;
   --cad-boticasperu: #9aaaff;
-  --cad-universal: #5cc8ee;
+  --cad-universal: #f28ac9;
   color-scheme: dark;
 }
 

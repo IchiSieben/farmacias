@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import Explorador from '../../components/Explorador';
-import { IDIOMAS, textos, t, type Idioma } from '../../i18n';
+import { IDIOMAS, textos, t, fecha, type Idioma } from '../../i18n';
 import { ordenar, type Meta, type Producto } from '../../lib/datos';
 import { leerDatos } from '../../lib/contrato';
 
@@ -34,6 +34,7 @@ const iniciales = ordenar(indice.productos, 'ahorro', meta.cadenas.map((c) => c.
       iniciales={iniciales}
       total={meta.kpis.productos}
       base={base}
+      nuevoDetalle={meta.previo ? t(dic, 'producto.nuevo.detalle', { fecha: fecha(idioma, meta.previo) }) : ''}
     />
   </main>
   <footer class="border-t border-borde">

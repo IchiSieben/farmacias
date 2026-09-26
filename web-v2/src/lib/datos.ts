@@ -8,6 +8,8 @@ export interface Cadena {
   color: string | null;
   logo: string | null;
   logo_ratio?: number | null;
+  /** Fondo del logo si es un raster opaco (Boticas): se muestra como píldora de ese color. */
+  logo_fondo?: string | null;
 }
 
 export interface Ahorro {
@@ -43,6 +45,8 @@ export interface Meta {
   version: number;
   generado: string;
   snapshot: string;
+  /** `generado` de la corrida anterior: "Nuevo" = no estaba en ella. */
+  previo?: string | null;
   cadenas: Cadena[];
   categorias: { id: string; n: number }[];
   kpis: { productos: number; con_todas: number };

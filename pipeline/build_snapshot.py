@@ -274,12 +274,13 @@ def _con_laboratorio(f, labs_rs):
 
 
 def laboratorios_por_rs(productos) -> Dict[str, str]:
-    """R.S. -> laboratorio conocido, desde ofertas que traen ambos (Universal). Un R.S.
-    con dos laboratorios distintos no se usa."""
+    """R.S. -> laboratorio conocido, desde ofertas que traen ambos: Universal (su
+    `brand`) e InRetail cuando la `marca` es un laboratorio (PORTUGAL). Un R.S. con dos
+    laboratorios distintos no se usa."""
     out: Dict[str, Optional[str]] = {}
     for p in productos:
         k = clave_rs(ficha_de(p).registro_sanitario)
-        labs = matcher.laboratorio_canonico(p.laboratorio)
+        labs = matcher.laboratorio_canonico(p.laboratorio or p.marca)
         if not k or len(labs) != 1:
             continue
         lab = next(iter(labs))
@@ -597,8 +598,9 @@ def construir(objetivo: int, pausa: float = 0.15, *, adapter_kw=None,
                 print(f"  {i + 1}/{len(base)} productos (filas: {len(productos)})", file=sys.stderr)
 
         # 3) Cruce: candidatos aceptables por fila y reparto uno a uno de los SKUs.
-        #    El laboratorio de un R.S. sale de Universal (trae ambos) y alcanza a Boticas.
-        labs_rs = laboratorios_por_rs(c for _, _, _, cu in pendientes for c in cu)
+        #    El laboratorio de un R.S. sale de Universal e InRetail y alcanza a Boticas.
+        labs_rs = laboratorios_por_rs([ref for _, ref, _, _ in pendientes]
+                                      + [c for _, _, _, cu in pendientes for c in cu])
         for cadena, idx in (("boticasperu", 2), ("universal", 3)):
             opciones = [_candidatos(pend[1], pend[idx], enriquecedor, labs_rs)
                         for pend in pendientes]

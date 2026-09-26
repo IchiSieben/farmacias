@@ -1,0 +1,21 @@
+---
+import { textos, t, type Idioma } from '../i18n';
+
+interface Props {
+  idioma: Idioma;
+  ancho?: string;
+}
+const { idioma, ancho = 'max-w-6xl' } = Astro.props;
+const dic = textos(idioma);
+---
+
+<footer class="border-t border-borde">
+  <div class:list={['mx-auto space-y-2 px-4 py-6 text-xs text-suave', ancho]}>
+    <p>{t(dic, 'pie.aviso')}</p>
+    <p>
+      <a class="underline underline-offset-2" href={`${import.meta.env.BASE_URL}${idioma}/metodologia/`}>{t(dic, 'nav.metodologia')}</a>
+      · <a class="underline underline-offset-2" href="https://github.com/IchiSieben/farmacias">{t(dic, 'pie.codigo')}</a>
+      · {t(dic, 'pie.licencia')}
+    </p>
+  </div>
+</footer>

@@ -3,10 +3,11 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
-// Se publica en ichisieben.dev/radar-precios/ (misma URL que la v1).
+// Se publica en ichisieben.dev/radar-precios/ (misma URL que la v1). RADAR_BASE permite
+// construir la beta en otra subcarpeta: RADAR_BASE=/radar-precios-beta/ npm run build
 export default defineConfig({
   site: 'https://ichisieben.dev',
-  base: '/radar-precios/',
+  base: process.env.RADAR_BASE ?? '/radar-precios/',
   trailingSlash: 'always',
   integrations: [react()],
   // CSS incrustado: sin petición que bloquee el primer pintado (Lighthouse móvil >= 90).

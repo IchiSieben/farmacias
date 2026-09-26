@@ -59,6 +59,7 @@ export interface Filtros {
   soloTodas: boolean;
   ahorroMin: number;
   posCadena: string | null;
+  lab: string | null; // laboratorio exacto (normalizado con normLab)
   posTipo: 'barata' | 'cara';
   orden: string; // 'ahorro' | 'nombre' | 'precio:<cadena>'
 }
@@ -70,6 +71,7 @@ export const FILTROS_INICIALES = (cadenas: string[]): Filtros => ({
   soloTodas: false,
   ahorroMin: 0,
   posCadena: null,
+  lab: null,
   posTipo: 'barata',
   orden: 'ahorro',
 });
@@ -107,10 +109,17 @@ export function aRevisar(p: Producto, activas: string[]): boolean {
   return lo > 0 && Math.max(...valores) / lo > RATIO_REVISAR;
 }
 
+/** Laboratorio como clave de filtro: sin espacios sobrantes y en mayúsculas. */
+export function normLab(lab: string | null): string | null {
+  const s = lab?.trim().replace(/\s+/g, ' ').toUpperCase();
+  return s || null;
+}
+
 export function filtrar(productos: Producto[], f: Filtros, idsBusqueda: Set<string> | null): Producto[] {
   return productos.filter((p) => {
     if (idsBusqueda && !idsBusqueda.has(p.id)) return false;
     if (f.cat && p.cat !== f.cat) return false;
+    if (f.lab && normLab(p.laboratorio) !== f.lab) return false;
     const precios = preciosActivos(p, f.cadenas);
     const n = Object.keys(precios).length;
     if (n === 0) return false;

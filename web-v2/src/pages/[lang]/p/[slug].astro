@@ -2,6 +2,7 @@
 // Ficha de producto (brief §5.2): una página estática por presentación. Todo sale del
 // contrato web/data/ en el build; el único JS es el botón de compartir.
 import Base from '../../../layouts/Base.astro';
+import Pie from '../../../components/Pie.astro';
 import Cabecera from '../../../components/Cabecera.astro';
 import GraficoHistorial from '../../../components/GraficoHistorial.astro';
 import { LogoCadena } from '../../../components/LogoCadena';
@@ -191,15 +192,7 @@ const datos = [
     </section>
   </main>
 
-  <footer class="border-t border-borde">
-    <div class="mx-auto max-w-4xl space-y-2 px-4 py-6 text-xs text-suave">
-      <p>{t(dic, 'pie.aviso')}</p>
-      <p>
-        <a class="underline underline-offset-2" href="https://github.com/IchiSieben/farmacias">{t(dic, 'pie.codigo')}</a>
-        · {t(dic, 'pie.licencia')}
-      </p>
-    </div>
-  </footer>
+  <Pie idioma={idioma} ancho="max-w-4xl" />
 </Base>
 
 <script is:inline>

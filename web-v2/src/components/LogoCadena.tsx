@@ -19,9 +19,10 @@ export function LogoCadena({ cadena, base, tam = 'sm' }: { cadena: Cadena; base:
   }
   // Los 4 logos van en la misma píldora (mismo alto y padding) para verse parejos en
   // claro y oscuro: blanca para los transparentes; del color de su propio fondo para un
-  // raster opaco (Boticas sirve el logo en blanco sobre azul).
+  // raster opaco (Boticas sirve el logo en blanco sobre azul). Ancho tope 5× el alto: los
+  // logos muy apaisados (Inkafarma, Boticas) no invaden la columna vecina.
   const interior = alto - 6;
-  const ancho = Math.round(interior * Math.min(cadena.logo_ratio ?? 4, 6));
+  const ancho = Math.round(interior * Math.min(cadena.logo_ratio ?? 4, 5));
   return (
     <span style={{ height: alto, background: cadena.logo_fondo ?? '#ffffff' }}
       className="inline-flex shrink-0 items-center rounded-md px-1.5 ring-1 ring-black/10">

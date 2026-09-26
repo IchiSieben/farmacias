@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Pie from '../../components/Pie.astro';
 import Cabecera from '../../components/Cabecera.astro';
 import Explorador from '../../components/Explorador';
 import { IDIOMAS, textos, t, fecha, type Idioma } from '../../i18n';
@@ -22,7 +23,7 @@ const iniciales = ordenar(indice.productos, 'ahorro', meta.cadenas.map((c) => c.
 ---
 
 <Base idioma={idioma}>
-  <Cabecera idioma={idioma} snapshot={meta.snapshot} />
+  <Cabecera idioma={idioma} snapshot={meta.snapshot} actual="inicio" />
   <main>
     <h1 class="sr-only">{t(dic, 'sitio.nombre')}: {t(dic, 'sitio.subtitulo')}</h1>
     <Explorador
@@ -37,13 +38,5 @@ const iniciales = ordenar(indice.productos, 'ahorro', meta.cadenas.map((c) => c.
       nuevoDetalle={meta.previo ? t(dic, 'producto.nuevo.detalle', { fecha: fecha(idioma, meta.previo) }) : ''}
     />
   </main>
-  <footer class="border-t border-borde">
-    <div class="mx-auto max-w-6xl space-y-2 px-4 py-6 text-xs text-suave">
-      <p>{t(dic, 'pie.aviso')}</p>
-      <p>
-        <a class="underline underline-offset-2" href="https://github.com/IchiSieben/farmacias">{t(dic, 'pie.codigo')}</a>
-        · {t(dic, 'pie.licencia')}
-      </p>
-    </div>
-  </footer>
+  <Pie idioma={idioma} />
 </Base>

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Fuse from 'fuse.js';
 import { t, soles, type Idioma, type Textos, type Clave } from '../i18n';
 import {
-  FILTROS_INICIALES, aCsv, aRevisar, ahorroActivo, filtrar, ordenar,
+  FILTROS_INICIALES, aCsv, aRevisar, ahorroActivo, filtrar, normLab, ordenar,
   type Cadena, type Filtros, type Producto,
 } from '../lib/datos';
 import { LogoCadena } from './LogoCadena';
@@ -36,6 +36,7 @@ function leerUrl(todas: string[]): Filtros {
   f.soloTodas = u.get('todas') === '1';
   f.ahorroMin = Number(u.get('min') ?? 0) || 0;
   f.posCadena = u.get('pos');
+  f.lab = u.get('lab');
   f.posTipo = u.get('tipo') === 'cara' ? 'cara' : 'barata';
   f.orden = u.get('orden') ?? 'ahorro';
   return f;
@@ -49,6 +50,7 @@ function escribirUrl(f: Filtros, todas: string[]) {
   if (f.soloTodas) u.set('todas', '1');
   if (f.ahorroMin) u.set('min', String(f.ahorroMin));
   if (f.posCadena) { u.set('pos', f.posCadena); u.set('tipo', f.posTipo); }
+  if (f.lab) u.set('lab', f.lab);
   if (f.orden !== 'ahorro') u.set('orden', f.orden);
   const qs = u.toString();
   history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
@@ -101,6 +103,15 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
     const filtrados = filtrar(productos, f, busqueda ? new Set(busqueda.map((p) => p.id)) : null);
     return ordenar(filtrados, f.orden, f.cadenas, LOCALE[idioma]);
   }, [productos, f, busqueda, idioma]);
+  // Laboratorios presentes en los datos, con su conteo (el filtro solo ofrece lo que existe).
+  const laboratorios = useMemo(() => {
+    const n = new Map<string, number>();
+    for (const p of productos) {
+      const l = normLab(p.laboratorio);
+      if (l) n.set(l, (n.get(l) ?? 0) + 1);
+    }
+    return [...n.entries()].sort((a, b) => a[0].localeCompare(b[0], LOCALE[idioma]));
+  }, [productos, idioma]);
   const sugerencias = useMemo(() => {
     const vistos = new Set<string>();
     return (busqueda ?? []).filter((p) => !vistos.has(p.nombre) && vistos.add(p.nombre)).slice(0, 6);
@@ -109,7 +120,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
   const cambiar = (parcial: Partial<Filtros>) => setF((prev) => ({ ...prev, ...parcial }));
   const tx = (clave: Clave, vars?: Record<string, string | number>) => t(dic, clave, vars);
   const nombreCat = (id: string) => (dic[`cat.${id}` as Clave] as string | undefined) ?? id;
-  const hayFiltros = f.q || f.cat || f.soloTodas || f.ahorroMin || f.posCadena || f.cadenas.length !== ids.length;
+  const hayFiltros = f.q || f.cat || f.lab || f.soloTodas || f.ahorroMin || f.posCadena || f.cadenas.length !== ids.length;
   const activas = cadenas.filter((c) => f.cadenas.includes(c.id));
   const pagina = resultado.slice(0, visibles);
   const conteo = completo || hayFiltros ? resultado.length : total;
@@ -189,7 +200,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
       </div>
 
       {/* Más filtros */}
-      <details className="group mt-3 rounded-xl border border-borde bg-superficie" open={Boolean(f.ahorroMin || f.posCadena) || undefined}>
+      <details className="group mt-3 rounded-xl border border-borde bg-superficie" open={Boolean(f.ahorroMin || f.posCadena || f.lab) || undefined}>
         <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-2.5 text-sm font-medium">
           <svg className="size-4 transition-transform group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
           {tx('filtros.mas')}
@@ -200,6 +211,15 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
             <input type="number" min={0} step={0.5} value={f.ahorroMin || ''} inputMode="decimal"
               onChange={(e) => cambiar({ ahorroMin: Number(e.target.value) || 0 })}
               className="num w-28 rounded-md border border-borde bg-superficie px-2 py-1.5" />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-suave">{tx('filtros.laboratorio')}</span>
+            <select value={f.lab ?? ''} onChange={(e) => cambiar({ lab: e.target.value || null })}
+              className="max-w-64 rounded-md border border-borde bg-superficie px-2 py-1.5">
+              <option value="">{tx('filtros.laboratorio.todos')}</option>
+              {f.lab && !laboratorios.some(([l]) => l === f.lab) && <option value={f.lab}>{f.lab}</option>}
+              {laboratorios.map(([l, n]) => <option key={l} value={l}>{`${l} (${n})`}</option>)}
+            </select>
           </label>
           <fieldset className="flex flex-col gap-1">
             <legend className="mb-1 text-suave">{tx('filtros.posicion')}</legend>

@@ -55,6 +55,13 @@ function metricas(p) {
 const params = new URLSearchParams(location.search);
 const DATA_FILE = params.has("demo") ? "data.demo.json" : "data.json";
 
+// Para quien abre la consola: la regla que gobierna todo el emparejado.
+console.info(
+  "%c—%c es una respuesta válida. Un cruce equivocado no.\n" +
+  "Cómo se decide cada par: https://github.com/IchiSieben/farmacias/blob/main/docs/MATCHING.md",
+  "font-weight:bold;font-size:1.4em", "font-weight:normal"
+);
+
 fetch(DATA_FILE)
   .then((r) => {
     if (!r.ok) throw new Error("HTTP " + r.status);

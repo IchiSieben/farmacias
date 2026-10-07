@@ -1,19 +1,14 @@
-# Radar de Precios — Farmacias Perú (demo)
+# docs/ — índice
 
-Comparador de precios entre cadenas de farmacias peruanas — *"un Trivago de farmacias"*.
-
-**[`comparativa-demo.html`](comparativa-demo.html)** — muestra estática de la tabla
-comparativa: una canasta de 34 productos de alta rotación, con el precio de cada
-cadena, el más barato resaltado y la brecha porcentual. Generada automáticamente
-por `pipeline/build_comparativa.py` (snapshot de captura, sin datos sensibles).
-
-Fuentes en la demo: **Inkafarma**, **Mifarma** (API JSON sobre Algolia) y
-**Boticas Perú** (Salesforce Commerce Cloud — listado HTML + detalle JSON). El
-motor es modular (un adaptador por cadena) y replicable a otros rubros.
-
-Las cadenas se emparejan así: Inkafarma↔Mifarma por SKU compartido (grupo
-InRetail); Boticas Perú por nombre + principio activo + concentración, con un
-matcher fuzzy y **verificación de presentación** (no se compara 220 ml contra
-850 g). Donde no hay equivalente comparable, la celda queda en "—".
-
-> Para regenerar: `py -m pipeline.build_comparativa`
+| Archivo | Qué es |
+|---|---|
+| [`MATCHING.md`](MATCHING.md) | Cómo se decide que dos ofertas son el mismo producto: ficha canónica, capas, curados, riesgos |
+| [`ESQUEMA_DATOS.md`](ESQUEMA_DATOS.md) | Esquema del crudo, del Parquet (`ofertas`, `eventos`, `matches`) y del JSON del demo |
+| [`ESTUDIO.md`](ESTUDIO.md) | Cuatro conceptos que enseña el proyecto, en formato de ficha |
+| [`CAPTURAS.md`](CAPTURAS.md) | Qué imágenes hay en `img/`, cómo se regeneran y cuáles faltan |
+| [`PUBLICAR.md`](PUBLICAR.md) | Estado, auditoría de publicación y checklist final (2026-10-07) |
+| [`FICHA-LANDING.md`](FICHA-LANDING.md) | Contenido exacto de la tarjeta del proyecto en ichisieben.dev |
+| [`DECISIONES.md`](DECISIONES.md) | Decisiones tomadas en sesiones desatendidas, con cómo revertirlas |
+| [`F4_UI_BRIEF.md`](F4_UI_BRIEF.md) | Brief de la interfaz v2 (rama `v2/f4-ui`) |
+| [`revision/F3_final.md`](revision/F3_final.md) | Revisión manual del matcher v2 con muestra de 30 |
+| [`comparativa-demo.html`](comparativa-demo.html) | Muestra estática de junio de 2026 (3 cadenas, 34 productos); histórica, la reemplaza `web/` |

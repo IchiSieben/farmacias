@@ -6,8 +6,8 @@ authors:
   - family-names: Palacios Tanaka
     given-names: Yoichi
     alias: IchiSieben
-    orcid: ""
     website: "https://ichisieben.dev"
+url: "https://ichisieben.dev/radar-precios/"
 repository-code: "https://github.com/IchiSieben/farmacias"
 license: Apache-2.0
 version: 1.0.0

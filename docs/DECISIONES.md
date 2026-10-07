@@ -40,3 +40,27 @@ Formato: fecha · tarea · qué se eligió · por qué · qué se descartó · c
     (el LCP es el primer nombre de producto, ya viene en el HTML).
 12. **F2 · analgésicos en rama propia** (`v2/f2-analgesicos`) con tope de 700 peticiones y detrás
     de un flag: la corrida de las 02:00 no cambia.
+
+## 2026-10-07 · publicar (`../docs/PROMPT-publicar.md`)
+
+13. **`web/data.json` = staging del 2026-10-06.** Es el artefacto que escribe el pipeline (copiado
+    de `data/publicar/data.json`, verificado byte a byte con `tests.verificar_desde_cache`), no una
+    edición a mano. El de junio mostraba cruces v1 absurdos (+563 %). Revertir:
+    `git checkout main -- web/data.json`. El sitio en vivo no cambia hasta que el owner publique.
+14. **Se documenta la v1, no la v2.** La v2 (PR #4) espera revisión; no se mergeó a esta rama.
+    README y ficha dicen "v2 en revisión" con enlace al PR.
+15. **CSP `default-src 'self'` por `<meta>` en la v1**; el script inline del tutorial pasó a
+    `web/tutorial-init.js`. Revertir: quitar el `<meta http-equiv>` de `web/index.html`.
+16. **README en dos archivos** (`README.md` ES, `README.en.md` EN) en vez de uno con dos
+    secciones, como pide la plantilla de publicación.
+17. **Sin licencia de datos declarada.** Precios = hechos de las cadenas; código Apache 2.0. Si se
+    quiere CC0 para el JSON derivado, lo decide el owner.
+18. **Sin push.** El repo ya es público y la plantilla solo permite push a repos privados. La rama
+    queda local.
+19. **`docs/seed/`, `docs/handoffs/`, `HANDOFF.md` y `docs/PROMPT_AUTONOMO_v2.md` fuera del commit.**
+    El seed nombra un repo privado de un ex cliente que este repo no debe mencionar; los otros son
+    operativos. Siguen en el disco, sin versionar.
+20. **Contraste AA y CLS en la v1.** `--suave` #6b7686 → #5a6474, `--verde` #0a9a52 → #087a41,
+    `.ppu` del más barato #2e8b57 → #1f7a4a, sin `opacity` en `.pie .fino`; `main.wrap` con
+    `min-height: 100vh` (el pie saltaba al llegar la tabla). Lighthouse a11y 100; CLS móvil
+    0,317 → 0,004. Revertir: `git checkout main -- web/styles.css`.

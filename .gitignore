@@ -23,3 +23,6 @@ venv/
 Thumbs.db
 .idea/
 .vscode/
+
+# Notas privadas del owner (easter egg, etc.): nunca al repo público
+docs/private/

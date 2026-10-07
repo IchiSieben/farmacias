@@ -1,0 +1,2 @@
+# Falso positivo: la palabra 'credentials' seguida de una ruta entre backticks en AGENTS.md (ya reescrita).
+f725279f45072cb51ef0de06023ac6567809c1d1:AGENTS.md:generic-api-key:9

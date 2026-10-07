@@ -64,3 +64,16 @@ Formato: fecha · tarea · qué se eligió · por qué · qué se descartó · c
     `.ppu` del más barato #2e8b57 → #1f7a4a, sin `opacity` en `.pie .fino`; `main.wrap` con
     `min-height: 100vh` (el pie saltaba al llegar la tabla). Lighthouse a11y 100; CLS móvil
     0,317 → 0,004. Revertir: `git checkout main -- web/styles.css`.
+21. **Contrato de enjambre en la rama `publicar/2026-10-07`, no en `main`.** Commitear en `main`
+    rompería el merge ff y cambiaría la rama desde la que corre la tarea de las 02:00. Para el
+    dry-run se copió `AGENTS.md` sin trackear al checkout de `main` (`run` lo busca ahí) y luego se
+    movió, junto con el `docs/DELEGAR.md` suelto de la sesión anterior, a
+    `../_papelera_claude/farmacias-2026-10-07/`. Revertir: nada que revertir; tras el merge ya
+    está en `main`.
+22. **Tests por enjambre: solo `--dry-run`** (decisión del owner). El worker `claude` no puede
+    ejecutar python y la Mac no tiene el entorno del repo; la corrida real habría gastado un
+    `claude -p` para un `failed` seguro y empujado una rama `mac/<id>` inútil al repo público.
+    Huecos anotados en `enjambre/NEEDS-OWNER.md` §17.
+23. **Tests-cmd de `AGENTS.md` con `py` (Windows).** En la Mac no existe `py`; `DELEGAR.md` y el
+    TASK usan `python3`. Si enjambre llega a leer `Verify:` para la allowlist, habrá que decidir
+    un comando por nodo.

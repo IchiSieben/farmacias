@@ -95,6 +95,18 @@ Adaptado de `enjambre/docs/PUBLISH-CHECKLIST.md` y del criterio por demo del bri
       `SECURITY.md`, `LICENSE` Apache 2.0, `CITATION.cff` válido (se quitó `orcid: ""`)
 - [x] Sin nombres de terceros prohibidos en el árbol — grep arriba
 - [x] gitleaks sin hallazgos en archivos versionados — los 10 están en rutas ignoradas
+- [x] Contrato de enjambre: `AGENTS.md` en la raíz y `docs/DELEGAR.md` desde las plantillas, sin
+      `ssh mac` a pelo — Grep `ssh mac|<[a-z-]+>` → solo la nota del hook y `TASK-<id>`
+- [x] Repo clonado en la Mac (2026-10-07, una vez, `ENJAMBRE_RAW_SSH=1` + `tmux-run.sh`) —
+      `git log --oneline -1` en la Mac → `1a721ff`, `## main...origin/main`
+- [x] Suite por enjambre: **dry-run, sin corrida real** (decisión del owner: el worker no puede
+      correr python y la Mac no tiene el entorno; la corrida daría `failed` y empujaría `mac/<id>`
+      al repo público). Salida: `{"action": "run", "node": "mac", "routed_by": "rule", "reason":
+      "tests -> mac: first free node of prefer ['mac', 'win']", ..., "id": "farmacias-tests-mac",
+      "kind": "tests"}` (completa en `docs/DELEGAR.md`). El dry-run no escribe en `jobs.jsonl`.
+- [ ] **Owner:** entorno en la Mac (`uv`, ver NEEDS-OWNER de enjambre) y allowlist del worker para
+      el tests-cmd; luego la primera corrida real con `docs/tasks/TASK-farmacias-tests-mac.md`
+- [ ] **Owner:** copiar `.env` a `~/Documents/Portfolio/farmacias` en la Mac
 - [ ] **Owner:** subir `web/data.json` (2026-10-06) y `web/` al sitio (ver abajo)
 - [ ] **Owner:** revisar y mergear esta rama (y decidir el push: el repo es público)
 - [ ] **Owner:** activar *Private vulnerability reporting* (Settings → Security). Hoy

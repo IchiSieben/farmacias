@@ -346,6 +346,7 @@ def sincronizar(raw_root: Path, processed_root: Path, nombre_log: str) -> List[s
     for origen, destino in pares:
         if not destino or not origen.is_dir():
             continue
+        LOG_DIR.mkdir(parents=True, exist_ok=True)  # clon limpio: data/ no se versiona
         log_rclone = LOG_DIR / f"rclone_{nombre_log}.log"
         cmd = [exe, "copy", str(origen), destino, "--transfers", "4",
                "--exclude", "*.tmp", "--log-file", str(log_rclone), "--log-level", "INFO"]

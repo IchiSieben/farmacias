@@ -5,6 +5,7 @@ import Base from '../../../layouts/Base.astro';
 import Pie from '../../../components/Pie.astro';
 import Cabecera from '../../../components/Cabecera.astro';
 import GraficoHistorial from '../../../components/GraficoHistorial.astro';
+import Imagen from '../../../components/Imagen.astro';
 import { LogoCadena } from '../../../components/LogoCadena';
 import { Miniatura, Precio, ResumenAhorro } from '../../../components/Producto';
 import { IDIOMAS, textos, t, soles, porcentaje, fechaCorta, type Idioma, type Clave } from '../../../i18n';
@@ -78,7 +79,9 @@ const datos = [
 
     <!-- Encabezado -->
     <section class="flex flex-col gap-4 sm:flex-row sm:items-start">
-      <Miniatura p={p} dic={dic} tam={128} prioritaria />
+      {p.imagen
+        ? <Imagen src={p.imagen} sizes="128px" lcp tam={128} class="shrink-0 rounded-lg border border-borde bg-white object-contain" style="width:128px;height:128px" />
+        : <Miniatura p={p} dic={dic} tam={128} base={base} />}
       <div class="min-w-0 flex-1">
         <h1 class="text-2xl font-semibold leading-tight tracking-tight">{p.nombre}</h1>
         <p class="mt-1 text-suave">{[p.pres, p.marca].filter(Boolean).join(' · ')}</p>

@@ -1,0 +1,54 @@
+---
+// Foto de producto optimizada: <picture> AVIF > WebP > <img>, con width/height del manifiesto
+// (sin CLS), lazy por defecto y fetchpriority="high" solo con `lcp`.
+// Si la URL no está en el manifiesto, cae a la <img> original (misma caja, sin romper).
+import { atributosImagen } from '../lib/imagenes';
+import { infoImagen } from '../lib/manifiesto';
+
+interface Props {
+  /** URL original de la foto (la misma que `Producto.imagen`). */
+  src: string;
+  alt?: string;
+  /** Atributo `sizes` del <img>/<source>, p. ej. "128px". */
+  sizes: string;
+  class?: string;
+  style?: string;
+  /** Foto candidata a LCP: eager + fetchpriority="high". */
+  lcp?: boolean;
+  /** Tamaño de la caja cuando no hay manifiesto (la <img> original lo necesita igual). */
+  tam?: number;
+}
+const { src, alt = '', sizes, class: clase, style, lcp = false, tam } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const info = infoImagen(src);
+const a = info ? atributosImagen(info, base) : null;
+const comun = {
+  alt,
+  class: clase,
+  loading: lcp ? 'eager' : 'lazy',
+  decoding: 'async',
+  fetchpriority: lcp ? 'high' : undefined,
+  referrerpolicy: 'no-referrer',
+} as const;
+// El color de carga se quita al cargar la foto (la caja vuelve a su fondo de clase).
+const alCargar = "this.style.backgroundColor=''";
+---
+
+{a ? (
+  <picture>
+    <source type="image/avif" srcset={a.srcAvif} sizes={sizes} />
+    <source type="image/webp" srcset={a.srcWebp} sizes={sizes} />
+    <img
+      {...comun}
+      src={a.src}
+      srcset={a.srcWebp}
+      sizes={sizes}
+      width={a.width}
+      height={a.height}
+      style={`background-color:${a.placeholder};${style ?? ''}`}
+      onload={alCargar}
+    />
+  </picture>
+) : (
+  <img {...comun} src={src} width={tam} height={tam} style={style} />
+)}

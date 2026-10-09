@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { t, soles, porcentaje, type Idioma, type Textos, type Clave } from '../i18n';
 import { aRevisar, ahorroActivo, preciosActivos, type Cadena, type Producto } from '../lib/datos';
+import { atributosImagen, type InfoImagen, type Manifiesto } from '../lib/imagenes';
 
 // --- piezas por producto --------------------------------------------------------
 export interface PiezaProps {
@@ -10,11 +11,19 @@ export interface PiezaProps {
   idioma: Idioma;
   dic: Textos;
   base: string;
+  /** Variantes de foto por URL original (manifiesto); lo que falte cae a la <img> original. */
+  imagenes: Manifiesto;
+  /** Primera fila visible: su foto es candidata a LCP. */
+  prioritaria?: boolean;
 }
 
-// `prioritaria`: foto principal de la ficha, sobre el pliegue (candidata a LCP): sin lazy.
-export function Miniatura({ p, dic, tam, prioritaria = false }: { p: Producto; dic: Textos; tam: number; prioritaria?: boolean }) {
+// `prioritaria`: foto sobre el pliegue (candidata a LCP): sin lazy y con fetchpriority alta.
+// `info`: variantes AVIF/WebP del manifiesto (Imagen.astro hace lo mismo en la ficha); sin ella, la <img> original.
+export function Miniatura({ p, dic, tam, base, info = null, prioritaria = false }: {
+  p: Producto; dic: Textos; tam: number; base: string; info?: InfoImagen | null; prioritaria?: boolean;
+}) {
   const [roto, setRoto] = useState(false);
+  const [cargada, setCargada] = useState(false);
   const clase = 'shrink-0 rounded-lg border border-borde bg-white object-contain';
   if (!p.imagen || roto) {
     return (
@@ -23,9 +32,27 @@ export function Miniatura({ p, dic, tam, prioritaria = false }: { p: Producto; d
       </div>
     );
   }
+  const comun = {
+    alt: '', decoding: 'async' as const, referrerPolicy: 'no-referrer' as const,
+    loading: prioritaria ? 'eager' as const : 'lazy' as const,
+    fetchPriority: prioritaria ? 'high' as const : undefined,
+    onError: () => setRoto(true), className: clase,
+  };
+  if (!info) {
+    return <img {...comun} src={p.imagen} width={tam} height={tam} style={{ width: tam, height: tam }} />;
+  }
+  const a = atributosImagen(info, base);
+  const sizes = `${tam}px`;
+  // `complete`: si cargó antes de hidratar, el evento load ya pasó y el color de carga no se quitaría nunca.
+  const alMontar = (img: HTMLImageElement | null) => { if (img?.complete) setCargada(true); };
   return (
-    <img src={p.imagen} alt="" width={tam} height={tam} loading={prioritaria ? 'eager' : 'lazy'} decoding="async" fetchPriority={prioritaria ? 'high' : undefined}
-      referrerPolicy="no-referrer" onError={() => setRoto(true)} style={{ width: tam, height: tam }} className={clase} />
+    <picture>
+      <source type="image/avif" srcSet={a.srcAvif} sizes={sizes} />
+      <source type="image/webp" srcSet={a.srcWebp} sizes={sizes} />
+      <img {...comun} ref={alMontar} src={a.src} srcSet={a.srcWebp} sizes={sizes} width={a.width} height={a.height}
+        onLoad={() => setCargada(true)}
+        style={{ width: tam, height: tam, backgroundColor: cargada ? undefined : a.placeholder }} />
+    </picture>
   );
 }
 
@@ -42,7 +69,7 @@ export function Tendencia({ p, cadena, idioma, dic }: { p: Producto; cadena: str
   );
 }
 
-export function ResumenAhorro({ p, activas, idioma, dic, compacto }: Omit<PiezaProps, 'base'> & { compacto?: boolean }) {
+export function ResumenAhorro({ p, activas, idioma, dic, compacto }: Omit<PiezaProps, 'base' | 'imagenes' | 'prioritaria'> & { compacto?: boolean }) {
   const ah = ahorroActivo(p, activas.map((c) => c.id));
   const nombres = (ids: string[]) => ids.map((id) => activas.find((c) => c.id === id)?.nombre ?? id).join(', ');
   if (!ah) {

@@ -5,6 +5,7 @@ import {
   FILTROS_INICIALES, aCsv, aRevisar, ahorroActivo, filtrar, normLab, ordenar,
   type Cadena, type Filtros, type Producto,
 } from '../lib/datos';
+import type { Manifiesto } from '../lib/imagenes';
 import { LogoCadena } from './LogoCadena';
 import { Miniatura, Precio, ResumenAhorro, enlaceFicha, type PiezaProps } from './Producto';
 
@@ -14,6 +15,8 @@ interface Props {
   cadenas: Cadena[];
   categorias: { id: string; n: number }[];
   iniciales: Producto[];
+  /** Variantes de foto de las `iniciales`; el resto del manifiesto llega con el catálogo completo. */
+  imagenesIniciales: Manifiesto;
   total: number;
   base: string;
   /** Tooltip de "Nuevo": contra qué corrida es nuevo. */
@@ -63,27 +66,43 @@ function descargar(nombre: string, contenido: string, tipo: string) {
   URL.revokeObjectURL(url);
 }
 
-export default function Explorador({ idioma, dic, cadenas, categorias, iniciales, total, base, nuevoDetalle }: Props) {
+export default function Explorador({ idioma, dic, cadenas, categorias, iniciales, imagenesIniciales, total, base, nuevoDetalle }: Props) {
   const ids = cadenas.map((c) => c.id);
   const porId = Object.fromEntries(cadenas.map((c) => [c.id, c]));
   const [productos, setProductos] = useState<Producto[]>(iniciales);
+  const [imagenes, setImagenes] = useState<Manifiesto>(imagenesIniciales);
   const [completo, setCompleto] = useState(false);
   const [f, setF] = useState<Filtros>(() => FILTROS_INICIALES(ids));
   const [visibles, setVisibles] = useState(PAGINA);
   const [sugerir, setSugerir] = useState(false);
   const montado = useRef(false);
 
-  // Estado desde la URL al montar; catálogo completo en segundo plano.
+  // Estado desde la URL al montar. El catálogo completo (index.json + manifiesto de fotos) se trae
+  // bajo demanda: a la primera interacción (tocar, teclear, desplazar, enfocar), o enseguida si la URL
+  // ya trae filtros. Quien solo mira el inicio no descarga ~300 KB que no va a usar.
   useEffect(() => {
     setF(leerUrl(ids));
     montado.current = true;
-    // Catálogo completo cuando el hilo está libre: no compite con el primer pintado.
-    const cargar = () => fetch(`${base}data/index.json`)
-      .then((r) => r.json())
-      .then((d) => { setProductos(d.productos); setCompleto(true); })
-      .catch(() => setCompleto(true));
-    if ('requestIdleCallback' in window) requestIdleCallback(cargar, { timeout: 2000 });
-    else setTimeout(cargar, 200);
+    const eventos = ['pointerdown', 'keydown', 'touchstart', 'scroll', 'focusin'] as const;
+    const quitar = () => eventos.forEach((e) => window.removeEventListener(e, cargar));
+    let pedido = false;
+    function cargar() {
+      if (pedido) return;
+      pedido = true;
+      quitar();
+      Promise.all([
+        fetch(`${base}data/index.json`).then((r) => r.json()),
+        fetch(`${base}data/imagenes.manifest.json`).then((r) => r.json()).catch(() => ({})),
+      ])
+        .then(([d, m]) => { setImagenes((prev) => ({ ...prev, ...m })); setProductos(d.productos); setCompleto(true); })
+        .catch(() => setCompleto(true));
+    }
+    eventos.forEach((e) => window.addEventListener(e, cargar, { passive: true }));
+    if (window.location.search) {
+      if ('requestIdleCallback' in window) requestIdleCallback(cargar, { timeout: 2000 });
+      else setTimeout(cargar, 200);
+    }
+    return quitar;
   }, []);
   useEffect(() => { if (montado.current) escribirUrl(f, ids); }, [f]);
   useEffect(() => setVisibles(PAGINA), [f]);
@@ -286,8 +305,8 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
         <>
           {/* Móvil: tarjetas */}
           <ul className="mt-3 grid gap-3 md:hidden">
-            {pagina.map((p) => (
-              <li key={p.id}><Tarjeta p={p} activas={activas} idioma={idioma} dic={dic} base={base} nuevoDetalle={nuevoDetalle} /></li>
+            {pagina.map((p, i) => (
+              <li key={p.id}><Tarjeta p={p} activas={activas} idioma={idioma} dic={dic} base={base} imagenes={imagenes} prioritaria={i === 0} nuevoDetalle={nuevoDetalle} /></li>
             ))}
           </ul>
 
@@ -314,7 +333,7 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
                 </tr>
               </thead>
               <tbody>
-                {pagina.map((p) => <Fila key={p.id} p={p} activas={activas} idioma={idioma} dic={dic} base={base} nuevoDetalle={nuevoDetalle} />)}
+                {pagina.map((p, i) => <Fila key={p.id} p={p} activas={activas} idioma={idioma} dic={dic} base={base} imagenes={imagenes} prioritaria={i === 0} nuevoDetalle={nuevoDetalle} />)}
               </tbody>
             </table>
           </div>
@@ -333,13 +352,13 @@ export default function Explorador({ idioma, dic, cadenas, categorias, iniciales
   );
 }
 
-function Tarjeta({ p, activas, idioma, dic, base, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
+function Tarjeta({ p, activas, idioma, dic, base, imagenes, prioritaria, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
   const ah = ahorroActivo(p, activas.map((c) => c.id));
   const conPrecio = activas.filter((c) => p.precios[c.id] != null);
   return (
     <article className="rounded-xl border border-borde bg-superficie p-3.5">
       <div className="flex gap-3">
-        <Miniatura p={p} dic={dic} tam={64} />
+        <Miniatura p={p} dic={dic} tam={64} base={base} info={p.imagen ? imagenes[p.imagen] : null} prioritaria={prioritaria} />
         <div className="min-w-0">
           <h2 className="font-medium leading-snug">
             <a href={enlaceFicha(p, idioma, base)} className="hover:underline">{p.nombre}</a>
@@ -368,13 +387,13 @@ function Tarjeta({ p, activas, idioma, dic, base, nuevoDetalle }: PiezaProps & {
   );
 }
 
-function Fila({ p, activas, idioma, dic, base, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
+function Fila({ p, activas, idioma, dic, base, imagenes, prioritaria, nuevoDetalle }: PiezaProps & { nuevoDetalle: string }) {
   const ah = ahorroActivo(p, activas.map((c) => c.id));
   return (
     <tr className="border-t border-borde align-middle hover:bg-superficie-2/60">
       <th scope="row" className="px-4 py-2.5 text-left font-normal">
         <div className="flex items-center gap-3">
-          <Miniatura p={p} dic={dic} tam={48} />
+          <Miniatura p={p} dic={dic} tam={48} base={base} info={p.imagen ? imagenes[p.imagen] : null} prioritaria={prioritaria} />
           <div className="min-w-0">
             <a href={enlaceFicha(p, idioma, base)} className="font-medium hover:underline">{p.nombre}</a>
             {p.nuevo && <span title={nuevoDetalle} className="ml-2 rounded bg-acento px-1.5 py-0.5 text-[10px] font-semibold uppercase text-acento-texto">{t(dic, 'producto.nuevo')}</span>}

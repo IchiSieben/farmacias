@@ -1,0 +1,322 @@
+/* Laboratorio C2 (interacción). Reglas de movimiento:
+   - solo `transform` y `opacity` se animan (nunca width/height/top/left);
+   - todo lo que se mueve vive en `prefers-reduced-motion: no-preference`;
+   - con `reduce` se queda el estado final, sin transición ni animación;
+   - duraciones <= 250 ms, salvo el crossfade de fotos (<= 400 ms) y el shimmer
+     de los skeletons (bucle continuo de carga, no una transición de estado). */
+
+.lab-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+  background: var(--superficie);
+}
+.lab-card__foto {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #fff;
+}
+.lab-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+.lab-card__nombre {
+  min-height: 2.75rem; /* dos líneas: la geometría no depende del texto */
+  font-weight: 500;
+  line-height: 1.35;
+}
+.lab-card__meta {
+  min-height: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--suave);
+}
+.lab-card__barras {
+  min-height: 7.5rem; /* 4 filas de 1.875rem: igual con 1-4 cadenas activas */
+}
+.lab-card__pie {
+  min-height: 1.75rem;
+}
+
+/* --- fotos: dos capas superpuestas, solo cambia la opacidad ------------------ */
+.lab-foto-capa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.lab-foto-capa[data-frente='true'] {
+  opacity: 1;
+}
+
+/* --- carrusel móvil ------------------------------------------------------------ */
+.lab-carrusel {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.lab-carrusel::-webkit-scrollbar {
+  display: none;
+}
+.lab-carrusel > img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  scroll-snap-align: center;
+}
+.lab-puntos {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.lab-punto {
+  /* área táctil de 24px con un punto visible de 8px */
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.lab-punto::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.28);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.7);
+}
+.lab-punto[aria-current='true']::before {
+  background: var(--acento);
+}
+
+/* --- insignias ------------------------------------------------------------------ */
+.lab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.4rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.lab-badge--promo {
+  background: var(--superficie-2);
+  color: var(--texto);
+  box-shadow: inset 0 0 0 1px var(--borde);
+}
+.lab-badge--barato {
+  background: var(--acento-barato, #f59e0b);
+  color: #1b1f24;
+}
+.lab-card__insignias {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* --- barras de precio a escala ------------------------------------------------------ */
+.lab-barra-fila {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.875rem;
+}
+.lab-barra-pista {
+  height: 0.625rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--superficie-2);
+}
+.lab-barra {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--cad, var(--acento));
+  transform-origin: left center;
+  transform: scaleX(var(--r, 1)); /* el largo es una escala, no un width animado */
+}
+.lab-barra[data-barato='true'] {
+  background: var(--acento-barato, #f59e0b);
+}
+.lab-precio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.lab-precio__ppu {
+  font-size: 0.6875rem;
+  color: var(--suave);
+}
+
+/* --- skeleton: misma geometría que la tarjeta ---------------------------------------- */
+.lab-sk {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  background: var(--superficie-2);
+}
+.lab-sk::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.45), transparent);
+  transform: translateX(-100%);
+}
+.dark .lab-sk::after {
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.08), transparent);
+}
+.lab-sk--foto {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+/* --- filtros ------------------------------------------------------------------------------ */
+.lab-chip {
+  flex-shrink: 0;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+}
+.lab-chip[aria-pressed='true'] {
+  border-color: var(--acento);
+  background: var(--acento);
+  color: var(--acento-texto);
+}
+.lab-cadena {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--texto) 30%, transparent);
+  border-radius: 0.5rem;
+  background: var(--superficie);
+  padding: 0.25rem 0.75rem 0.25rem 0.375rem;
+  font-size: 0.875rem;
+}
+.lab-cadena[aria-pressed='false'] {
+  border-style: dashed;
+  border-color: var(--borde);
+  background: transparent;
+  opacity: 0.55;
+}
+.lab-brecha {
+  width: 12rem;
+  accent-color: var(--acento);
+}
+.lab-buscador mark {
+  border-radius: 0.125rem;
+  background: color-mix(in srgb, var(--acento-barato, #f59e0b) 45%, transparent);
+  color: inherit;
+}
+.lab-opcion[aria-selected='true'] {
+  background: var(--superficie-2);
+  box-shadow: inset 3px 0 0 var(--acento);
+}
+
+/* --- movimiento: solo con preferencia "sin reducir" --------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .lab-foto-capa {
+    transition: opacity 350ms ease;
+  }
+  .lab-card {
+    transition: transform 200ms ease;
+  }
+  .lab-card:hover,
+  .lab-card:focus-within {
+    transform: translateY(-2px);
+  }
+  .lab-card {
+    animation: lab-entra 220ms ease-out backwards; /* sin forwards: el hover (transform) manda al terminar */
+  }
+  .lab-barra {
+    animation: lab-barra-in 250ms ease-out both;
+  }
+  .lab-sk::after {
+    animation: lab-shimmer 1200ms ease-in-out infinite;
+  }
+  .lab-cadena,
+  .lab-chip {
+    transition: opacity 150ms ease;
+  }
+  ::view-transition-group(*) {
+    animation-duration: 250ms;
+  }
+}
+
+@keyframes lab-entra {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes lab-barra-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(var(--r, 1));
+  }
+}
+@keyframes lab-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* --- reduce: estados finales, sin animación ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .lab-card,
+  .lab-barra,
+  .lab-sk::after,
+  .lab-foto-capa,
+  .lab-chip,
+  .lab-cadena {
+    animation: none;
+    transition: none;
+  }
+  .lab-sk::after {
+    display: none; /* el skeleton queda como bloque quieto */
+  }
+  .lab-carrusel {
+    scroll-behavior: auto;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

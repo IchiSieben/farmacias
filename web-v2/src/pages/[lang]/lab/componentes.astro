@@ -1,0 +1,43 @@
+---
+// Laboratorio C2: interacción con 12 productos reales. No enlazada desde el sitio ni publicada;
+// el dueño la revisa en capturas y video.
+import Lab from '../../../layouts/Lab.astro';
+import GaleriaLab from '../../../components/lab/GaleriaLab';
+import { IDIOMAS, textos, t, type Idioma } from '../../../i18n';
+import type { Meta, Producto } from '../../../lib/datos';
+import { leerDatos } from '../../../lib/contrato';
+
+export function getStaticPaths() {
+  return IDIOMAS.map((lang) => ({ params: { lang } }));
+}
+
+// Elegidos a mano (ver docs/lab/C2-REPORTE.md): 4 cadenas en todos, promos, historial, 2 fracciones.
+const IDS = [
+  '011251:pack', '072373:pack', '025104:pack', '072767:pack',
+  '230451:fraccion', '203068:fraccion', '420207:pack', '428332:pack',
+  '420618:pack', '421011:pack', '425311:pack', '085338:pack',
+];
+
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const meta = leerDatos<Meta>('meta.json');
+const { productos } = leerDatos<{ productos: Producto[] }>('index.json');
+const doce = IDS.map((id) => {
+  const p = productos.find((x) => x.id === id);
+  if (!p) throw new Error(`Laboratorio C2: el producto ${id} ya no está en web/data/index.json`);
+  return p;
+});
+const otro = idioma === 'es' ? 'en' : 'es';
+---
+
+<Lab idioma={idioma} titulo={t(dic, 'lab.titulo')}>
+  <header class="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+    <h1 class="text-2xl font-semibold tracking-tight">{t(dic, 'lab.titulo')}</h1>
+    <p class="text-sm text-suave">{t(dic, 'lab.intro')}</p>
+    <a href={`${base}${otro}/lab/componentes/`} class="ml-auto text-sm text-acento underline underline-offset-2" hreflang={otro}>
+      {otro === 'es' ? 'Español' : 'English'}
+    </a>
+  </header>
+  <GaleriaLab client:visible idioma={idioma} dic={dic} cadenas={meta.cadenas} productos={doce} base={base} />
+</Lab>

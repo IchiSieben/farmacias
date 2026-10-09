@@ -1,0 +1,117 @@
+---
+// Portada B · tarjetas con foto grande y barras de precio a escala (cada barra, proporcional
+// al precio máximo de su fila; color y logo fijos por cadena).
+import Lab from '../../../layouts/Lab.astro';
+import { IDIOMAS, textos, t, soles, type Idioma } from '../../../i18n';
+import { aRevisar, ahorroActivo, ordenar, textoSobre, type Cadena, type Meta, type Producto } from '../../../lib/datos';
+import { leerDatos } from '../../../lib/contrato';
+
+export function getStaticPaths() {
+  return IDIOMAS.map((lang) => ({ params: { lang } }));
+}
+
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const meta = leerDatos<Meta>('meta.json');
+const indice = leerDatos<{ productos: Producto[] }>('index.json');
+const ids = meta.cadenas.map((c) => c.id);
+
+// Con foto y con al menos 3 cadenas, para que las barras comparen de verdad.
+const productos = ordenar(indice.productos, 'ahorro', ids, idioma === 'es' ? 'es-PE' : 'en-US')
+  .filter((p) => p.imagen && !aRevisar(p, ids) && Object.keys(p.precios).length >= 3 && (ahorroActivo(p, ids)?.soles ?? 0) > 0)
+  .slice(0, 12);
+
+const ALTO = 22;
+const logo = (c: Cadena) => ({
+  estilo: `height:${ALTO}px;background:${c.logo_fondo ?? '#ffffff'}`,
+  h: ALTO - 6,
+  w: Math.round((ALTO - 6) * Math.min(c.logo_ratio ?? 4, 5)),
+});
+---
+
+<Lab idioma={idioma} titulo={t(dic, 'lab.nav.b')}>
+  <main class="lab-main">
+    <section class="hero">
+      <h1>{t(dic, 'lab.b.titulo')}</h1>
+      <p>{t(dic, 'lab.b.lead')}</p>
+    </section>
+
+    <ul class="rejilla">
+      {productos.map((p) => {
+        const ah = ahorroActivo(p, ids)!;
+        const max = Math.max(...Object.values(p.precios));
+        return (
+          <li class="tarjeta">
+            <div class="foto">
+              <span class="sin-foto" aria-hidden="true">{t(dic, 'producto.sinFoto')}</span>
+              <img src={p.imagen!} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()" />
+              <span class="badge corona">{t(dic, 'lab.ahorras', { monto: soles(idioma, ah.soles) })}</span>
+            </div>
+            <div class="info">
+              <h2>{p.nombre}</h2>
+              <p class="pres">{[p.pres, p.laboratorio].filter(Boolean).join(' · ')}</p>
+              <ul class="barras">
+                {meta.cadenas.map((c) => {
+                  const v = p.precios[c.id];
+                  const min = ah.en.includes(c.id);
+                  return (
+                    <li class={min ? 'min' : ''}>
+                      <span class="quien">
+                        {c.logo
+                          ? <span class="logo" style={logo(c).estilo}><img src={`${base}logos/${c.logo}`} alt={c.nombre} height={logo(c).h} width={logo(c).w} /></span>
+                          : <span class="logo-mono" style={`width:${ALTO}px;height:${ALTO}px;background:${c.color ?? '#5a626c'};color:${textoSobre(c.color)}`}>{c.nombre.charAt(0)}</span>}
+                      </span>
+                      <span class="pista" aria-hidden="true">
+                        {v != null && <span class="barra" style={`width:${((v / max) * 100).toFixed(1)}%;background:var(--cad-${c.id})`}></span>}
+                      </span>
+                      <span class="mono monto">{v != null ? soles(idioma, v) : t(dic, 'lab.sinPrecio')}</span>
+                      {min && <span class="sr-only">{t(dic, 'lab.masBarato')}</span>}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+    <p class="nota">{t(dic, 'lab.escala')}</p>
+  </main>
+</Lab>
+
+<style>
+  .hero { padding: var(--sp-12) 0 var(--sp-8); }
+  h1 { margin: 0; font-size: var(--text-3xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); font-weight: var(--weight-bold); }
+  .hero p { margin: var(--sp-3) 0 0; color: rgb(var(--muted)); }
+  .rejilla { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-6); grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
+  .tarjeta {
+    display: flex; flex-direction: column;
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--border));
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .tarjeta:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .foto { position: relative; aspect-ratio: 4 / 3; background: #fff; display: grid; place-items: center; }
+  .foto img { position: absolute; inset: var(--sp-4); width: calc(100% - 2 * var(--sp-4)); height: calc(100% - 2 * var(--sp-4)); object-fit: contain; }
+  .sin-foto { font-size: var(--text-xs); color: #59636e; }
+  .corona { position: absolute; top: var(--sp-3); left: var(--sp-3); box-shadow: var(--shadow-md); }
+  .info { padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-1); flex: 1; }
+  h2 { margin: 0; font-size: var(--text-base); font-weight: var(--weight-semibold); line-height: var(--leading-snug); }
+  .pres { margin: 0; font-size: var(--text-sm); color: rgb(var(--muted)); }
+  .barras { list-style: none; margin: var(--sp-4) 0 0; padding: 0; display: grid; gap: var(--sp-2); }
+  .barras li { display: grid; grid-template-columns: 6rem 1fr 5rem; align-items: center; gap: var(--sp-3); }
+  .quien { display: flex; }
+  .pista { height: 0.75rem; border-radius: var(--radius-full); background: rgb(var(--border) / 0.45); overflow: hidden; }
+  .barra { display: block; height: 100%; border-radius: var(--radius-full); transition: width var(--dur-slow) var(--ease-out); }
+  .monto { text-align: right; font-size: var(--text-sm); color: rgb(var(--muted)); }
+  .min .monto { color: rgb(var(--saving)); font-weight: var(--weight-bold); }
+  .min .pista { box-shadow: 0 0 0 2px rgb(var(--saving)); }
+  .nota { margin-top: var(--sp-8); font-size: var(--text-xs); color: rgb(var(--muted)); }
+  @media (max-width: 30rem) {
+    .barras li { grid-template-columns: 5.75rem 1fr 4.5rem; gap: var(--sp-2); }
+  }
+</style>

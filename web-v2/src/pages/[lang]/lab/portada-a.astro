@@ -1,0 +1,110 @@
+---
+// Portada A · editorial y sobria: una columna, tipografía grande, aire, cifras en mono, sin tarjetas.
+import Lab from '../../../layouts/Lab.astro';
+import { IDIOMAS, textos, t, soles, porcentaje, type Idioma } from '../../../i18n';
+import { aRevisar, ahorroActivo, ordenar, type Cadena, type Meta, type Producto } from '../../../lib/datos';
+import { leerDatos } from '../../../lib/contrato';
+
+export function getStaticPaths() {
+  return IDIOMAS.map((lang) => ({ params: { lang } }));
+}
+
+const idioma = Astro.params.lang as Idioma;
+const dic = textos(idioma);
+const base = import.meta.env.BASE_URL;
+const meta = leerDatos<Meta>('meta.json');
+const indice = leerDatos<{ productos: Producto[] }>('index.json');
+const ids = meta.cadenas.map((c) => c.id);
+const cadena = (id: string) => meta.cadenas.find((c) => c.id === id) as Cadena;
+
+const productos = ordenar(indice.productos, 'ahorro', ids, idioma === 'es' ? 'es-PE' : 'en-US')
+  .filter((p) => !aRevisar(p, ids) && (ahorroActivo(p, ids)?.soles ?? 0) > 0)
+  .slice(0, 12);
+
+const ALTO = 24;
+const logo = (c: Cadena) => ({
+  estilo: `height:${ALTO}px;background:${c.logo_fondo ?? '#ffffff'}`,
+  h: ALTO - 6,
+  w: Math.round((ALTO - 6) * Math.min(c.logo_ratio ?? 4, 5)),
+});
+---
+
+<Lab idioma={idioma} titulo={t(dic, 'lab.nav.a')}>
+  <main class="lab-main a">
+    <section class="hero">
+      <h1>{t(dic, 'lab.a.titulo')}</h1>
+      <p class="lead">{t(dic, 'lab.a.lead', { n: meta.kpis.productos })}</p>
+    </section>
+
+    <ol class="lista">
+      {productos.map((p, i) => {
+        const ah = ahorroActivo(p, ids)!;
+        const mejor = cadena(ah.en[0]);
+        const orden = Object.entries(p.precios).sort((x, y) => x[1] - y[1]);
+        return (
+          <li class="item">
+            <span class="n mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="cuerpo">
+              <h2>{p.nombre}</h2>
+              <p class="pres">{[p.pres, p.laboratorio].filter(Boolean).join(' · ')}</p>
+              <p class="mejor">
+                {t(dic, 'lab.a.mejorEn', { cadena: '' })}
+                {mejor.logo
+                  ? <span class="logo" style={logo(mejor).estilo}><img src={`${base}logos/${mejor.logo}`} alt={mejor.nombre} height={logo(mejor).h} width={logo(mejor).w} /></span>
+                  : <strong>{mejor.nombre}</strong>}
+                <span class="mono precio-min">{soles(idioma, Math.min(...orden.map(([, v]) => v)))}</span>
+              </p>
+              <ul class="precios mono">
+                {orden.map(([id, v]) => (
+                  <li class={ah.en.includes(id) ? 'es-min' : ''}><span>{cadena(id).nombre}</span> {soles(idioma, v)}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="cifra">
+              <span class="monto mono">{soles(idioma, ah.soles)}</span>
+              <span class="etq">{t(dic, 'lab.masBarato')}{ah.pct != null ? ` · −${porcentaje(idioma, ah.pct)}` : ''}</span>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </main>
+</Lab>
+
+<style>
+  .a { max-width: 52rem; }
+  .hero { padding: var(--sp-24) 0 var(--sp-16); }
+  h1 {
+    margin: 0;
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: var(--weight-semibold);
+  }
+  .lead { margin: var(--sp-6) 0 0; max-width: 34rem; font-size: var(--text-lg); color: rgb(var(--muted)); line-height: var(--leading-relaxed); }
+  .lista { list-style: none; margin: 0; padding: 0; counter-reset: x; }
+  .item {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: var(--sp-6);
+    padding: var(--sp-12) 0;
+    border-top: 1px solid rgb(var(--border));
+  }
+  .n { color: rgb(var(--muted)); font-size: var(--text-sm); padding-top: var(--sp-2); }
+  h2 { margin: 0; font-size: var(--text-xl); line-height: var(--leading-snug); font-weight: var(--weight-medium); }
+  .pres { margin: var(--sp-1) 0 0; color: rgb(var(--muted)); font-size: var(--text-sm); }
+  .mejor { margin: var(--sp-5) 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--text-base); }
+  .precio-min { font-weight: var(--weight-semibold); }
+  .precios { list-style: none; margin: var(--sp-3) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-5); font-size: var(--text-sm); color: rgb(var(--muted)); }
+  .precios span { font-family: var(--font-display); }
+  .precios .es-min { color: rgb(var(--saving)); }
+  .cifra { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+  .monto { font-size: var(--text-4xl); line-height: var(--leading-tight); font-weight: var(--weight-medium); color: rgb(var(--saving)); letter-spacing: -0.04em; }
+  .etq { margin-top: var(--sp-2); font-size: var(--text-xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: rgb(var(--muted)); }
+  @media (max-width: 40rem) {
+    .hero { padding: var(--sp-12) 0 var(--sp-8); }
+    .item { grid-template-columns: 1fr; gap: var(--sp-3); padding: var(--sp-8) 0; }
+    .n { display: none; }
+    .cifra { order: -1; align-items: flex-start; text-align: left; }
+  }
+</style>

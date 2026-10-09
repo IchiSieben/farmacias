@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="196" height="32" viewBox="0 0 196 32" fill="none" role="img" aria-label="Radar de Precios">
+  <title>Radar de Precios</title>
+  <style>
+    :root { --fg: #E6EDF3; --accent: #2DD4BF; --saving: #E879F9; }
+    @media (prefers-color-scheme: light) { :root { --fg: #1F2328; --accent: #0D9488; --saving: #A21CAF; } }
+  </style>
+  <circle cx="16" cy="16" r="13" stroke="var(--fg)" stroke-width="2"/>
+  <path d="M16 9.5a6.5 6.5 0 0 1 6.5 6.5" stroke="var(--fg)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 16 25 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="10.5" cy="21" r="2.4" fill="var(--saving)"/>
+  <text x="40" y="22.5" fill="var(--fg)" font-family="'Space Grotesk Variable','Space Grotesk','Inter Variable',system-ui,sans-serif" font-size="19" font-weight="600" letter-spacing="-0.3" textLength="154" lengthAdjust="spacingAndGlyphs">Radar de Precios</text>
+</svg>

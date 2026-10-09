@@ -1,0 +1,172 @@
+/* Tokens de identidad del Radar de Precios (laboratorio C1).
+   Hereda los del Landing de ichisieben.dev: tripletas RGB para usar rgb(var(--bg) / α).
+   Oscuro por defecto; claro con `:root.light` (misma convención que el Landing).
+   Los colores de cadena (--cad-*) son hex porque se usan tal cual en barras y trazos. */
+
+:root {
+  /* --- color: superficies y texto (oscuro) --- */
+  --bg: 13 17 23; /* #0D1117 */
+  --surface: 22 27 34; /* #161B22 */
+  --border: 48 54 61; /* #30363D */
+  --fg: 230 237 243; /* #E6EDF3 */
+  --muted: 139 148 158; /* #8B949E */
+  --accent: 45 212 191; /* #2DD4BF  teal de la marca (enlaces, foco, chrome) */
+  --accent-strong: 45 212 191; /* #2DD4BF */
+
+  /* --- acento de "más barato": fucsia. Inkafarma es verde y el teal de marca se parece:
+     el ahorro no puede ser verde. Contrastes medidos a mano en docs/lab/C1-REPORTE.md. --- */
+  --saving: 232 121 249; /* #E879F9  7.69:1 sobre --bg, 7.03:1 sobre --surface */
+  --on-saving: 13 17 23; /* texto sobre relleno --saving: 7.69:1 */
+
+  /* --- color: una identidad fija por cadena (oscuro: tonos aclarados para >= 3:1) --- */
+  --cad-inkafarma: #4cc27a;
+  --cad-mifarma: #ff9a52;
+  --cad-boticasperu: #7b8ce0;
+  --cad-universal: #4da3ff;
+
+  /* --- tipografía --- */
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Escala modular 1.25 sobre 16 px */
+  --text-xs: 0.8rem; /* 12.8 */
+  --text-sm: 0.875rem; /* 14 */
+  --text-base: 1rem; /* 16 */
+  --text-lg: 1.25rem; /* 20 */
+  --text-xl: 1.5625rem; /* 25 */
+  --text-2xl: 1.953rem; /* 31.25 */
+  --text-3xl: 2.441rem; /* 39 */
+  --text-4xl: clamp(2.441rem, 1.6rem + 3.6vw, 3.815rem); /* 39 → 61 */
+  --text-5xl: clamp(3.052rem, 1.8rem + 5.4vw, 4.768rem); /* 49 → 76 (cifra héroe) */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.08em;
+
+  /* --- espaciado: escala de 4 px --- */
+  --sp-1: 0.25rem; /* 4 */
+  --sp-2: 0.5rem; /* 8 */
+  --sp-3: 0.75rem; /* 12 */
+  --sp-4: 1rem; /* 16 */
+  --sp-5: 1.25rem; /* 20 */
+  --sp-6: 1.5rem; /* 24 */
+  --sp-8: 2rem; /* 32 */
+  --sp-10: 2.5rem; /* 40 */
+  --sp-12: 3rem; /* 48 */
+  --sp-16: 4rem; /* 64 */
+  --sp-24: 6rem; /* 96 */
+
+  /* --- radios --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* --- sombras (en oscuro casi no se ven: el borde hace el trabajo) --- */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
+
+  /* --- animación --- */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 400ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  color-scheme: dark;
+}
+
+:root.light {
+  --bg: 255 255 255; /* #FFFFFF */
+  --surface: 246 248 250; /* #F6F8FA */
+  --border: 208 215 222; /* #D0D7DE */
+  --fg: 31 35 40; /* #1F2328 */
+  --muted: 89 99 110; /* #59636E */
+  --accent: 13 148 136; /* #0D9488 */
+  --accent-strong: 15 118 110; /* #0F766E */
+
+  --saving: 162 28 175; /* #A21CAF  6.33:1 sobre --bg, 5.95:1 sobre --surface */
+  --on-saving: 255 255 255; /* 6.33:1 */
+
+  /* Colores de los logos (logos.json); Mifarma oscurecido: #ff7929 daba 2.62:1 sobre blanco. */
+  --cad-inkafarma: #1b8f43;
+  --cad-mifarma: #c8561a;
+  --cad-boticasperu: #334499;
+  --cad-universal: #004499;
+
+  --shadow-sm: 0 1px 2px rgb(31 35 40 / 0.08);
+  --shadow-md: 0 4px 12px rgb(31 35 40 / 0.1);
+  --shadow-lg: 0 12px 32px rgb(31 35 40 / 0.14);
+
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+  }
+}
+
+/* Base mínima del laboratorio (no depende de Tailwind). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: var(--font-display);
+  font-size: 100%;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+a {
+  color: rgb(var(--accent-strong));
+  text-underline-offset: 3px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'zero' 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

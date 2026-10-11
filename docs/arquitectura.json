@@ -8,7 +8,7 @@
   },
   "machines": ["PC Windows", "Hostinger", "Navegador del usuario"],
   "containers": 14,
-  "calls": 14,
+  "calls": 16,
   "flows": 4,
   "views": ["c4", "flows", "deploy", "decisions"],
   "hasCore": false,

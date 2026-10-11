@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "slug": "radar-precios",
+  "name": {"es": "Radar de Precios", "en": "Price Radar"},
+  "oneLiner": {
+    "es": "Comparador de precios de medicamentos: una corrida diaria graba cuatro catálogos públicos, cruza productos equivalentes y publica un JSON a una web estática.",
+    "en": "Medicine price comparator: a daily run records four public catalogs, matches equivalent products and publishes a JSON to a static site."
+  },
+  "machines": ["PC Windows", "Hostinger", "Navegador del usuario"],
+  "containers": 14,
+  "calls": 14,
+  "flows": 4,
+  "views": ["c4", "flows", "deploy", "decisions"],
+  "hasCore": false,
+  "updated": "2026-10-10",
+  "status": "done",
+  "landing": {"projectSlug": "radar-precios", "order": 30}
+}

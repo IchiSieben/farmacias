@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arquitectura Radar de Precios</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a drafting-table page. One sticky tab bar; each tab is a view of the same system
+   (C4 containers → hexagonal components → data → UML flows → deployment → user stories → repository).
+   Dark-first (control room / blueprint); light theme mirrors it. */
+:root{
+  --bg:#0a1020; --paper:#111a2e; --paper2:#162238; --ink:#e7edf8; --ink2:#9fb0cc; --line:#263654; --grid:rgba(127,166,234,.07);
+  --blue:#7fa6ea; --cyan:#4cc9f0; --amber:#f0b545; --green:#5fcf8f; --red:#f08a7c; --violet:#b58cf5;
+  --blue-soft:#18284a; --cyan-soft:#0f2b3a; --amber-soft:#3a2d0f; --green-soft:#12301f; --red-soft:#3b1a16; --violet-soft:#2a1f45;
+  --font-display:"Archivo","Archivo Narrow","Arial Narrow",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#eef2f8; --paper:#ffffff; --paper2:#f5f8fd; --ink:#15213a; --ink2:#4b5873; --line:#d3dbea; --grid:rgba(31,78,156,.06);
+  --blue:#1f4e9c; --cyan:#0a7ea4; --amber:#b56f00; --green:#1d7a4b; --red:#b8382c; --violet:#6b3fc2;
+  --blue-soft:#e3ebfa; --cyan-soft:#dff3fa; --amber-soft:#fff3d6; --green-soft:#dff3e7; --red-soft:#fbe3df; --violet-soft:#ece3fb;
+  color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#eef2f8; --paper:#ffffff; --paper2:#f5f8fd; --ink:#15213a; --ink2:#4b5873; --line:#d3dbea; --grid:rgba(31,78,156,.06);
+  --blue:#1f4e9c; --cyan:#0a7ea4; --amber:#b56f00; --green:#1d7a4b; --red:#b8382c; --violet:#6b3fc2;
+  --blue-soft:#e3ebfa; --cyan-soft:#dff3fa; --amber-soft:#fff3d6; --green-soft:#dff3e7; --red-soft:#fbe3df; --violet-soft:#ece3fb;
+  color-scheme:light}
+
+*{box-sizing:border-box}
+body{background:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font-family:var(--font-body);font-size:14.5px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:18px 70px}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(26px,3.6vw,42px);font-weight:800;font-stretch:85%;letter-spacing:-.01em}
+h2{font-size:clamp(19px,2.2vw,25px);font-weight:700;font-stretch:90%}
+h3{font-size:15.5px;font-weight:700;font-stretch:90%}
+h4{font-size:13.5px;font-weight:700;font-stretch:90%;color:var(--ink2)}
+p{margin:0}
+a{color:var(--cyan)}
+code,pre{font-family:var(--font-mono)}
+code{font-size:12.5px;background:var(--paper2);border:1px solid var(--line);padding:1px 5px;border-radius:4px}
+pre{font-size:12px;line-height:1.5;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;display:grid;gap:22px}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px 30px}
+.head .sub{color:var(--ink2);max-width:66ch;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink2)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:4px;overflow-x:auto;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:8px 0;scrollbar-width:thin}
+.tab{appearance:none;border:1px solid transparent;background:none;color:var(--ink2);padding:7px 12px;border-radius:8px;white-space:nowrap;font-weight:500;display:flex;gap:8px;align-items:center}
+.tab .k{font-family:var(--font-mono);font-size:10.5px;color:var(--cyan);opacity:.9}
+.tab[aria-selected="true"]{background:var(--paper);border-color:var(--line);color:var(--ink)}
+.view{display:none;gap:18px}
+.view.active{display:grid}
+
+/* panels */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:10px;min-width:0;align-content:start}
+.panel.flush{padding:0;overflow:hidden}
+.two{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11.5px;padding:2px 8px;border-radius:99px;background:var(--blue-soft);color:var(--blue);font-weight:500;border:1px solid transparent}
+.chip.cyan{background:var(--cyan-soft);color:var(--cyan)}.chip.amber{background:var(--amber-soft);color:var(--amber)}.chip.green{background:var(--green-soft);color:var(--green)}.chip.violet{background:var(--violet-soft);color:var(--violet)}.chip.red{background:var(--red-soft);color:var(--red)}.chip.ghost{background:transparent;border-color:var(--line);color:var(--ink2)}
+.btn{border:1px solid var(--line);background:var(--paper2);color:var(--ink);border-radius:8px;padding:7px 12px;font-weight:500;font-size:13px}
+.btn[aria-pressed="true"]{border-color:var(--cyan);box-shadow:inset 0 0 0 1px var(--cyan);color:var(--cyan)}
+.btn.sm{padding:4px 9px;font-size:12px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);font-weight:500}
+.tbl{overflow-x:auto}
+td .m{font-family:var(--font-mono);font-size:12px}
+.ok{color:var(--green)}.warn{color:var(--amber)}.bad{color:var(--red)}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:13px}
+.kv dt{color:var(--ink2);font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+.kv dd{margin:0;min-width:0}
+.note{border-left:3px solid var(--cyan);padding:8px 12px;background:var(--cyan-soft);border-radius:0 8px 8px 0;font-size:13.5px}
+.note.amber{border-color:var(--amber);background:var(--amber-soft)}
+.note.green{border-color:var(--green);background:var(--green-soft)}
+.verdict{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;font-weight:600;font-family:var(--font-display);font-stretch:90%;font-size:15px}
+.verdict.ok{background:var(--green-soft);color:var(--green)}.verdict.warn{background:var(--amber-soft);color:var(--amber)}.verdict.bad{background:var(--red-soft);color:var(--red)}
+
+/* diagram */
+.dia{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dia svg{width:100%;height:auto;display:block;font-family:var(--font-body)}
+.dia text{fill:var(--ink)}
+.dia .mono{font-family:var(--font-mono)}
+.dia .muted{fill:var(--ink2)}
+.node{cursor:pointer}
+.node rect.box{fill:var(--paper2);stroke:var(--line);stroke-width:1.2;transition:stroke .2s,filter .2s}
+.node:hover rect.box,.node.sel rect.box{stroke:var(--cyan);stroke-width:1.8;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--cyan) 45%,transparent))}
+.node.ext rect.box{stroke-dasharray:5 4}
+.node .kind{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink2)}
+.node .ttl{font-family:var(--font-display);font-weight:700;font-stretch:90%;font-size:14px}
+.node .tech{font-size:10.5px;fill:var(--ink2)}
+.node .tag{font-family:var(--font-mono);font-size:9.5px}
+.edge{fill:none;stroke:var(--line);stroke-width:1.6;transition:stroke .3s,stroke-width .3s}
+.edge.hot{stroke:var(--cyan);stroke-width:2.6;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--cyan) 60%,transparent))}
+.edge.dim{opacity:.25}
+.elabel{font-family:var(--font-mono);font-size:9.5px;fill:var(--ink2);paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round}
+.pk{fill:var(--cyan);opacity:.55}
+.pk.one{opacity:1;fill:var(--amber)}
+.dia .toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:12px 12px 4px;border-bottom:1px dashed var(--line);align-items:center}
+.steps{display:grid;gap:6px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:13px;opacity:.45;transition:opacity .3s}
+.steps li.on{opacity:1}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--font-mono);font-size:11px;color:var(--cyan);border:1px solid var(--line);border-radius:50%;width:20px;height:20px;display:grid;place-items:center}
+.steps li.on::before{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+
+/* hexagonal view */
+.hex{display:grid;grid-template-columns:1fr 1fr 1.1fr 1fr 1fr;gap:10px;align-items:start}
+.col{display:grid;gap:8px}
+.col h4{text-align:center;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.cell{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12.5px;display:grid;gap:3px;transition:border-color .2s,box-shadow .2s}
+.cell b{font-family:var(--font-display);font-stretch:90%;font-size:13.5px;font-weight:700}
+.cell small{color:var(--ink2);font-size:11.5px}
+.cell.core{border-color:var(--blue);background:var(--blue-soft)}
+.cell.port{border-style:dashed}
+.cell.lit{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 0 14px color-mix(in srgb,var(--cyan) 35%,transparent)}
+.cell.off{opacity:.35}
+.routes{display:flex;flex-wrap:wrap;gap:6px}
+
+/* deploy */
+.deploy{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start}
+.deploy .arrow{align-self:center;font-family:var(--font-mono);color:var(--ink2);padding-top:40px}
+.svc{display:grid;gap:6px}
+.svc div{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px}
+.svc div .m{font-family:var(--font-mono);font-size:11px;color:var(--ink2);white-space:nowrap}
+.svc div.k{border-color:var(--cyan)}
+.svc div.x{border-color:var(--violet)}
+.hu{display:grid;gap:10px}
+.hu .card{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;font-size:13px}
+.hu .card .id{font-family:var(--font-mono);font-size:11px;color:var(--cyan)}
+.hu .card ul{margin:0;padding-left:18px;color:var(--ink2);font-size:12.5px}
+.mermaid{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:10px;overflow-x:auto;font-family:var(--font-mono);font-size:12px;color:var(--ink2);white-space:pre}
+.foot{color:var(--ink2);font-size:12.5px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+@media (max-width:980px){.two{grid-template-columns:1fr}.hex{grid-template-columns:1fr 1fr}.deploy{grid-template-columns:1fr}.deploy .arrow{display:none}}
+@media (max-width:560px){.hex{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.edge,.node rect.box,.cell{transition:none}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="eyebrow">Radar de Precios · comparador de farmacias · Python + web estática</div>
+      <h1>Arquitectura del Radar de Precios</h1>
+      <p class="sub">Una corrida diaria graba las respuestas públicas de cuatro catálogos, las reprocesa sin red para cruzar productos equivalentes y deja un único data.json. Publicarlo es un acto manual con comparación previa. El visitante recibe una página estática. Cuatro vistas: contenedores, flujos, despliegue y decisiones. Haz clic en cualquier caja; reproduce un flujo para ver el recorrido.</p>
+    </div>
+    <div class="legend">
+      <span style="--c:var(--blue)">este repo</span>
+      <span style="--c:var(--violet)">máquina o persona fuera del repo</span>
+      <span style="--c:var(--amber)">servicio externo</span>
+      <span style="--c:var(--cyan)">tráfico</span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" id="tabs">
+    <button class="tab" role="tab" data-v="c4" aria-selected="true"><span class="k">C4·2</span>Contenedores</button>
+    <button class="tab" role="tab" data-v="flows"><span class="k">UML</span>Flujos</button>
+    <button class="tab" role="tab" data-v="deploy"><span class="k">OPS</span>Despliegue</button>
+    <button class="tab" role="tab" data-v="decisions"><span class="k">ADR</span>Decisiones</button>
+  </nav>
+
+  <section class="view active" data-v="c4">
+    <div class="two">
+      <div class="dia" id="c4dia">
+        <div class="toolbar" id="flowbar"></div>
+        <svg viewBox="0 0 1200 690" id="c4svg" aria-label="Diagrama de contenedores"></svg>
+      </div>
+      <div class="panel" id="c4panel">
+        <div class="eyebrow">Detalle</div>
+        <h3 id="pn-t">Haz clic en un contenedor</h3>
+        <p id="pn-r" style="color:var(--ink2)">Cada caja es una pieza que corre por separado: la tarea programada, el orquestador, un catálogo externo, una carpeta de archivos o el navegador de quien visita. Las líneas son llamadas reales: protocolo y qué viaja.</p>
+        <dl class="kv" id="pn-kv"></dl>
+        <div class="chips" id="pn-chips"></div>
+        <div id="pn-steps-wrap" hidden>
+          <div class="eyebrow" style="margin-top:6px">Flujo en curso</div>
+          <ol class="steps" id="pn-steps"></ol>
+        </div>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="panel"><h3>Por qué grabar primero</h3><p style="color:var(--ink2);font-size:13.5px">Cada respuesta HTTP se guarda comprimida antes de que nadie la interprete. El procesado lee ese archivo, no el sitio: se puede depurar un cruce equivocado sin volver a pedir nada a las cadenas, y la misma corrida produce los mismos bytes en otra máquina.</p></div>
+      <div class="panel"><h3>Por qué dos pasos para publicar</h3><p style="color:var(--ink2);font-size:13.5px">La corrida solo escribe en una carpeta de staging. Lo que ve el público cambia cuando alguien ejecuta el publicador, lee el resumen y escribe la palabra de confirmación. Si desaparece más de una quinta parte de los productos, el publicador se niega.</p></div>
+      <div class="panel"><h3>Por qué una web sin servidor</h3><p style="color:var(--ink2);font-size:13.5px">Los precios son un archivo JSON y el navegador hace los cálculos. No hay API que mantener ni costo variable. La política de contenido solo permite recursos propios, así que la página no puede llamar a terceros.</p></div>
+    </div>
+  </section>
+
+  <section class="view" data-v="flows">
+    <div class="grid2">
+      <div class="panel">
+        <div class="eyebrow">Secuencia · la corrida diaria</div>
+        <pre class="mermaid">sequenceDiagram
+    autonumber
+    participant T as Tarea programada
+    participant R as pipeline.run
+    participant A as Adaptadores (4 cadenas)
+    participant C as Crudo comprimido
+    participant M as Matcher
+    participant O as Staging y histórico
+    participant N as Almacén en la nube
+    T->>R: corrida_diaria.cmd (run --todo)
+    R->>A: capturar(): construir() con transporte que graba
+    A->>A: pausa por dominio, backoff ante 429 y 503
+    A->>C: cada respuesta HTTP, comprimida
+    R->>C: procesar(): reproduce el crudo sin red
+    C->>M: respuestas de las cuatro cadenas
+    M->>M: id o EAN, texto con reglas duras, foto en zona gris
+    M->>R: filas y cruces
+    R->>R: validar(): 401 o 403, o sin filas de la cadena base, aborta
+    R->>O: exportar(): data.json, snapshot, eventos, Parquet
+    R->>N: rclone copy del crudo y del Parquet
+    Note over R,N: si la nube falla, la corrida ya está completa</pre>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">Secuencia · publicar a mano y una visita</div>
+        <pre class="mermaid">sequenceDiagram
+    autonumber
+    actor P as Responsable
+    participant B as publish.py
+    participant H as Hosting estático
+    actor V as Visitante
+    participant W as Navegador
+    P->>B: py -m pipeline.publish
+    B->>H: lee el data.json público (si falla, usa el espejo local)
+    B->>B: compara: nuevos, desaparecidos, suben y bajan
+    B->>P: resumen; rechaza si desaparece más del 20 %
+    P->>B: escribe publicar
+    B->>H: respalda lo actual, sube a un temporal y renombra
+    B->>H: lee de nuevo y verifica byte a byte
+    V->>W: abre la página
+    W->>H: GET index.html, app.js, styles.css
+    W->>H: fetch data.json
+    H-->>W: precios del último snapshot
+    W->>W: tabla, búsqueda, más barato y brecha en el cliente</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" data-v="deploy">
+    <div class="panel">
+      <div class="eyebrow">Despliegue · lo que hay y lo que cambiaría</div>
+      <h2>Hoy una máquina de escritorio produce los datos y un hosting estático los sirve. Mañana, una máquina siempre encendida.</h2>
+      <p style="color:var(--ink2);max-width:80ch">La parte pública es solo archivos, así que se puede mover sin tocar código. La parte frágil es la tarea diaria: depende de que el PC esté encendido y con la sesión abierta.</p>
+      <div class="deploy">
+        <div class="panel" style="background:var(--paper2)">
+          <h3>Hoy · PC Windows + hosting estático</h3>
+          <div class="svc">
+            <div class="k"><span>tarea diaria a las 02:00 con la sesión iniciada</span><span class="m">schtasks</span></div>
+            <div class="k"><span>captura, procesado y exportación, en torno a una hora</span><span class="m">py -m pipeline.run</span></div>
+            <div class="k"><span>copia del crudo y del Parquet a la nube</span><span class="m">rclone copy</span></div>
+            <div class="k"><span>publicación manual de data.json con respaldo</span><span class="m">FTPS o SFTP</span></div>
+            <div><span>web/ sin build: HTML, CSS y JS tal cual</span><span class="m">hosting estático</span></div>
+            <div><span>política de contenido: solo recursos propios</span><span class="m">meta CSP</span></div>
+          </div>
+          <p style="font-size:12.5px;color:var(--ink2)">Si el PC está apagado o la sesión cerrada a esa hora, ese día no hay corrida. No hay integración continua en el repo.</p>
+        </div>
+        <div class="arrow">→ mismos archivos →</div>
+        <div class="panel" style="background:var(--paper2)">
+          <h3>Al escalar · propuesta, no es código</h3>
+          <div class="svc">
+            <div class="k"><span>la parte pública no cambia: sigue siendo un directorio</span><span class="m">sin cambios</span></div>
+            <div class="x"><span>corrida en una máquina siempre encendida</span><span class="m">propuesta</span></div>
+            <div class="x"><span>pruebas del matcher y verificación sin red en CI</span><span class="m">propuesta</span></div>
+            <div class="x"><span>alerta cuando una corrida falla o no se hizo</span><span class="m">propuesta</span></div>
+          </div>
+          <p style="font-size:12.5px;color:var(--ink2)">Qué gana: corridas que no dependen de una sesión abierta. Qué no cambia: la publicación seguiría siendo manual, por diseño.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" data-v="decisions">
+    <div class="panel">
+      <div class="eyebrow">Decisiones · con la alternativa descartada</div>
+      <h2>Cada decisión dice qué se eligió, qué se dejó y por qué</h2>
+      <div class="tbl"><table>
+        <tr><th>Decisión</th><th>Por qué</th><th>Descartado</th></tr>
+        <tr><td>Grabar el crudo y procesar siempre desde él</td><td>Depurar contra el archivo y no contra el sitio; la misma corrida da los mismos bytes en otra máquina. La prueba de reproceso lo verifica sin red</td><td>Parsear en vivo mientras se descarga: cualquier cambio del matcher obligaría a volver a pedir todo</td></tr>
+        <tr><td>Staging separado y publicación manual</td><td>La corrida nunca toca lo que ve el público. Alguien lee el resumen y confirma por escrito</td><td>Publicar al terminar cada corrida: una corrida rota llegaría al público sin que nadie la viera</td></tr>
+        <tr><td>Tope de desaparecidos del 20 %</td><td>Si de golpe falta una quinta parte del catálogo, casi seguro falló la captura, no el mercado</td><td>Publicar siempre; sin tope, un fallo de una cadena vacía la página</td></tr>
+        <tr><td>Validar antes de exportar</td><td>Un 401 o 403, o un snapshot sin filas de la cadena base, aborta sin pisar el histórico; si no, mañana todo saldría como nuevo y se perderían las flechas de cambio</td><td>Exportar lo que haya y marcarlo: el histórico quedaría contaminado</td></tr>
+        <tr><td>rclone copy, nunca sync</td><td>La copia en la nube es un archivo histórico: no debe borrar nada allí. Si falla, la copia de mañana sube lo que falte</td><td>Sincronizar en espejo: un error local se propagaría al archivo</td></tr>
+        <tr><td>Un falso positivo pesa más que un guion</td><td>Mostrar dos productos distintos como iguales es peor que no cruzarlos. Reglas duras, marca exigida en la zona gris y reparto uno a uno por fuerza de evidencia</td><td>Bajar el umbral de texto para cruzar más: más cobertura con cruces dudosos</td></tr>
+        <tr><td>Foto como tercera señal</td><td>Una huella de imagen confirma coincidencias dudosas y puede vetar un texto casi idéntico con foto claramente distinta</td><td>Decidir solo por texto: variantes de una misma línea se confunden</td></tr>
+        <tr><td>Web estática, cálculo en el cliente y CSP estricta</td><td>Cero costo variable y nada que mantener encendido. El script del tutorial pasó a un archivo propio para permitir la política sin excepciones</td><td>Una API propia o scripts en línea: una pieza más que vigilar y una CSP más débil</td></tr>
+        <tr><td>Solo datos públicos de catálogo</td><td>Pausas por dominio, reintentos con espera ante 429 y 503, sin sesión, sin carrito. La captura debe ser cortés con los sitios</td><td>Capturar más rápido o con sesión: más datos a cambio de riesgo para los sitios y para el proyecto</td></tr>
+      </table></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Arquitectura v1 · 2026-10-10 · Radar de Precios</span>
+    <span>C4 · UML (secuencia) · despliegue · decisiones</span>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- tabs ---------- */
+const tabs = [...document.querySelectorAll(".tab")], views = [...document.querySelectorAll(".view")];
+function showTab(v){
+  tabs.forEach(t=>t.setAttribute("aria-selected", String(t.dataset.v===v)));
+  views.forEach(s=>s.classList.toggle("active", s.dataset.v===v));
+  try{ localStorage.setItem("arq-tab", v); }catch(e){}
+}
+tabs.forEach(t=>t.addEventListener("click", ()=>showTab(t.dataset.v)));
+let initial = "c4"; try{ initial = localStorage.getItem("arq-tab") || "c4"; }catch(e){}
+if(location.hash && tabs.some(t=>t.dataset.v===location.hash.slice(1))) initial = location.hash.slice(1);
+if(!tabs.some(t=>t.dataset.v===initial)) initial = tabs[0].dataset.v; // stored tab may belong to another page on this origin
+showTab(initial);
+
+/* ---------- C4 containers ---------- */
+const N = {
+  sched: {x:20,y:40,w:180,h:100,kind:"pc windows · tarea diaria",ttl:"Tarea programada",tech:"schtasks · 02:00 · corrida_diaria.cmd",color:"violet",ext:true,
+         resp:"Lanza la corrida todos los días a las 02:00. Se registra con la sesión iniciada para no guardar contraseñas en la tarea; con la sesión cerrada o el PC apagado, ese día no hay corrida.",
+         kv:{"Corre en":"PC Windows","Comando":"py -m pipeline.run --todo","Registro":"scripts/instalar_tarea_windows.ps1"}},
+  run:   {x:280,y:40,w:180,h:130,kind:"python · orquestador",ttl:"pipeline.run",tech:"capturar · procesar · validar · exportar · sincronizar",color:"blue",
+         resp:"Ordena los pasos de la corrida y escribe un log por corrida. La salida oficial sale siempre del crudo, también en --todo. Un fallo de la nube no invalida la corrida.",
+         kv:{"Entrada":"modos --todo, --desde-cache, --reanudar, --completar, --sincronizar","Salida":"data.json de staging, histórico, Parquet, resumen","Código":"pipeline/run.py"}},
+  eng:   {x:560,y:40,w:200,h:300,kind:"python · motor genérico",ttl:"Adaptadores y sesión HTTP",tech:"httpx · pausas por dominio · backoff ante 429 y 503 · SesionHttp graba, reanuda o reproduce",color:"blue",
+         resp:"Un adaptador por plataforma sobre una base común. La sesión HTTP intercepta cada petición: en captura la graba, en reproceso la responde desde el archivo sin tocar la red.",
+         kv:{"Adaptadores":"Algolia (dos cadenas), SFCC, VTEX","Pausas":"2 a 6 s por dominio (configurable)","Código":"core/adapter_base.py, core/http_cache.py, core/adapters/"}},
+  ca:    {x:940,y:40,w:240,h:76,kind:"externo · catálogo público",ttl:"Cadena A (Algolia)",tech:"búsqueda y detalle por presentación",color:"amber",ext:true,
+         resp:"Catálogo web de la cadena A sobre Algolia. Se usa la llave pública de solo búsqueda del propio frontend, leída del entorno. Es la cadena base: de aquí salen los productos de la lista.",
+         kv:{"Llave":"variable de entorno, nunca en el repo","Trae":"nombre, marca, precio por presentación, promoción"}},
+  cb:    {x:940,y:125,w:240,h:76,kind:"externo · catálogo público",ttl:"Cadena B (Algolia)",tech:"mismo esquema que la cadena A",color:"amber",ext:true,
+         resp:"Catálogo de la cadena B, con el mismo esquema de documento y el mismo identificador de producto que la A. Los precios son independientes, así que la comparación es real.",
+         kv:{"Cruce con A":"por identificador, puntaje 100","Llave":"variable de entorno"}},
+  cc:    {x:940,y:210,w:240,h:76,kind:"externo · catálogo público",ttl:"Cadena C (SFCC)",tech:"HTML de listado + QuickView JSON",color:"amber",ext:true,
+         resp:"Sin identificador común ni EAN: el listado se lee como HTML y el precio limpio sale del QuickView en JSON. El cruce con A y B es por nombre y especificaciones.",
+         kv:{"Cruce":"texto difuso con reglas duras, foto en zona gris","Extra":"registro sanitario desde QuickView"}},
+  cd:    {x:940,y:295,w:240,h:76,kind:"externo · catálogo público",ttl:"Cadena D (VTEX)",tech:"catalog search legacy · trae EAN",color:"amber",ext:true,
+         resp:"Cadena independiente sobre VTEX. Muchos productos traen EAN real, lo que permite el cruce más fuerte (id duro) contra las cadenas A y B.",
+         kv:{"Cruce":"EAN primero, luego texto","Trae":"precio, lista, laboratorio, EAN"}},
+  raw:   {x:280,y:230,w:180,h:110,kind:"archivos · disco del pc",ttl:"Crudo comprimido",tech:"respuestas por cadena y corrida · manifiesto · fotos",color:"blue",
+         resp:"Cada respuesta HTTP, comprimida, por cadena y fecha, más un manifiesto de la corrida y el snapshot previo congelado. Es la fuente de verdad del procesado.",
+         kv:{"Formato":"jsonl.gz por cadena y corrida","Código":"core/storage.py (RawStore)","Ubicación":"RAW_DIR del entorno"}},
+  mat:   {x:560,y:365,w:200,h:100,kind:"python · núcleo de cruce",ttl:"Normalizador y matcher",tech:"id/EAN · texto difuso + reglas duras · pHash",color:"blue",
+         resp:"Extrae concentración, tamaño y laboratorio del nombre y decide qué productos de las cadenas son el mismo. Reparte los candidatos uno a uno por fuerza de evidencia y deriva los cambios entre corridas.",
+         kv:{"Umbrales":"85 coincide · 70 a 85 revisar · menos de 70 descarta","Pruebas":"regresión de pares curados","Código":"core/matcher.py, core/normalizer.py, pipeline/build_snapshot.py"}},
+  out:   {x:280,y:365,w:180,h:100,kind:"archivos · disco del pc",ttl:"Staging e histórico",tech:"data.json · snapshots · eventos CSV · Parquet",color:"blue",
+         resp:"Lo que deja la corrida. El data.json de staging es lo que el publicador compara contra lo publicado; los snapshots y eventos alimentan las flechas de subida y bajada.",
+         kv:{"Staging":"data/publicar/data.json","Histórico":"data/snapshots/ y eventos CSV","Parquet":"esquema en docs/ESQUEMA_DATOS.md"}},
+  cloud: {x:20,y:365,w:180,h:100,kind:"externo · almacén en la nube",ttl:"Almacén en la nube",tech:"rclone copy · crudo y Parquet",color:"amber",ext:true,
+         resp:"Archivo del crudo y del Parquet. Se escribe solo con rclone copy: nunca borra ni sincroniza en espejo. Los destinos salen del entorno.",
+         kv:{"Escritura":"copy incremental","Si falla":"la corrida queda completa; la próxima sube lo que falte"}},
+  pub:   {x:280,y:510,w:180,h:76,kind:"python · a mano",ttl:"Publicador",tech:"comparar · confirmar · subir",color:"blue",
+         resp:"Compara el staging contra lo publicado, rechaza si desaparece más del 20 %, pide escribir la palabra de confirmación, respalda lo remoto, sube a un temporal, renombra y verifica. Nunca corre sin consola.",
+         kv:{"Credenciales":"PUBLISH_* solo en el entorno","Código":"pipeline/publish.py"}},
+  host:  {x:560,y:510,w:200,h:76,kind:"hostinger · archivos estáticos",ttl:"Hosting estático",tech:"web/ · data.json",color:"blue",
+         resp:"Sirve la web tal cual, sin build. data.json es el único archivo que cambia en cada publicación; con el parámetro demo se carga un data.demo.json con cambios simulados.",
+         kv:{"Ruta final":"por confirmar (subcarpeta o subdominio)","Cabecera":"CSP por meta: default-src self"}},
+  vis:   {x:940,y:510,w:240,h:76,kind:"persona · navegador",ttl:"Visitante",tech:"cálculo en el cliente",color:"violet",ext:true,
+         resp:"Abre la página, busca un producto y ve el precio por cadena, el más barato y la brecha. Todo se calcula en el navegador a partir del JSON.",
+         kv:{"Recibe":"HTML, CSS, JS y un data.json","Código":"web/app.js, web/tutorial-init.js"}},
+};
+const E = [
+  {id:"e1",a:"sched",as:"r",b:"run",bs:"l",l:"run --todo",ay:0,by:-30},
+  {id:"e2",a:"run",as:"r",b:"eng",bs:"l",l:"capturar()",ay:-30,by:-90},
+  {id:"e3",a:"eng",as:"r",b:"ca",bs:"l",l:"Algolia + detalle",ay:-115,by:0},
+  {id:"e4",a:"eng",as:"r",b:"cb",bs:"l",l:"Algolia + detalle",ay:-35,by:0},
+  {id:"e5",a:"eng",as:"r",b:"cc",bs:"l",l:"HTML + QuickView",ay:45,by:0},
+  {id:"e6",a:"eng",as:"r",b:"cd",bs:"l",l:"catalog search JSON",ay:125,by:0},
+  {id:"e7",a:"eng",as:"l",b:"raw",bs:"r",l:"graba respuestas",ay:95,by:0},
+  {id:"e8",a:"raw",as:"b",b:"mat",bs:"t",l:"reproduce sin red",ay:0,by:0},
+  {id:"e9",a:"mat",as:"l",b:"out",bs:"r",l:"exportar()",ay:0,by:0},
+  {id:"e10",a:"out",as:"l",b:"cloud",bs:"r",l:"rclone copy",ay:0,by:0},
+  {id:"e11",a:"raw",as:"b",b:"cloud",bs:"t",l:"rclone copy",ay:-60,by:0},
+  {id:"e12",a:"out",as:"b",b:"pub",bs:"t",l:"staging",ay:0,by:0},
+  {id:"e13",a:"pub",as:"r",b:"host",bs:"l",l:"FTPS / SFTP",ay:0,by:0},
+  {id:"e14",a:"vis",as:"l",b:"host",bs:"r",l:"HTTPS GET data.json",ay:0,by:0},
+];
+const FLOWS = [
+  {id:"corrida",t:"Corrida diaria",steps:[["e1","La tarea de las 02:00 ejecuta corrida_diaria.cmd, que llama a pipeline.run con --todo"],["e2","capturar(): se llama a construir() con un transporte que graba cada respuesta"],["e3","La cadena A, base del catálogo, se consulta por búsqueda y por detalle de cada presentación"],["e4","La cadena B se consulta con el mismo identificador de producto"],["e5","La cadena C se lee como HTML y se completa con el QuickView en JSON"],["e6","La cadena D responde con precio, laboratorio y EAN"],["e7","Cada respuesta queda comprimida en el crudo, junto al manifiesto de la corrida"],["e8","procesar(): se reproduce el crudo sin red; el matcher decide los cruces y validar() descarta una corrida rota"],["e9","exportar(): data.json de staging, snapshot, eventos y Parquet"],["e11","rclone copy sube el crudo a la nube sin borrar nada"],["e10","rclone copy sube el Parquet; si falla, la corrida ya está completa"]]},
+  {id:"reproceso",t:"Reproceso sin red",steps:[["e8","--desde-cache reproduce una corrida grabada; todo lo que falte en el crudo es un error, no una consulta a la red"],["e9","Se exporta de nuevo con las mismas flechas de cambio, porque el snapshot previo viaja con el crudo"]]},
+  {id:"publicar",t:"Publicar a mano",steps:[["e12","El publicador lee el data.json de staging y lo compara contra lo publicado"],["e13","Con el resumen a la vista y la confirmación escrita, respalda lo remoto, sube a un temporal, renombra y verifica"],["e14","El siguiente visitante ya recibe el nuevo data.json"]]},
+  {id:"visita",t:"Una visita",steps:[["e14","El navegador pide la página y su data.json; la tabla, la búsqueda y la comparación se calculan en el cliente"]]},
+];
+const svg = $("#c4svg"), NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs={}, parent=svg){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+function anchor(n, side, off=0){ const c=N[n]; const m={l:[c.x,c.y+c.h/2+off],r:[c.x+c.w,c.y+c.h/2+off],t:[c.x+c.w/2+off,c.y],b:[c.x+c.w/2+off,c.y+c.h]}; return m[side]; }
+function pathFor(e){
+  const [x1,y1]=anchor(e.a,e.as,e.ay), [x2,y2]=anchor(e.b,e.bs,e.by);
+  const h = (e.as==="l"||e.as==="r"), k = Math.max(40, Math.abs(h?x2-x1:y2-y1)/2);
+  const c1 = h ? [x1+(e.as==="r"?k:-k), y1] : [x1, y1+(e.as==="b"?k:-k)];
+  const c2 = (e.bs==="l"||e.bs==="r") ? [x2+(e.bs==="l"?-k:k), y2] : [x2, y2+(e.bs==="t"?-k:k)];
+  return {d:`M${x1},${y1} C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${x2},${y2}`, mid:[(x1+x2)/2,(y1+y2)/2]};
+}
+const defs = el("defs");
+const mk = el("marker",{id:"arr",viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);
+el("path",{d:"M0,0 L10,5 L0,10 z",fill:"var(--line)"},mk);
+const gE = el("g"), gL = el("g"), gN = el("g"), gP = el("g");
+E.forEach(e=>{
+  const p = pathFor(e);
+  const path = el("path",{id:"p-"+e.id,d:p.d,class:"edge","marker-end":"url(#arr)"},gE);
+  if(e.dash) path.setAttribute("stroke-dasharray","4 4");
+  e.path = path;
+  if(e.l){ el("text",{x:p.mid[0],y:p.mid[1]-6,class:"elabel","text-anchor":"middle"},gL).textContent = e.l; }
+  if(!reduce && !e.dash){ // ambient traffic
+    const c = el("circle",{r:"3.2",class:"pk"},gP);
+    const am = el("animateMotion",{dur:(2.8+Math.random()*1.6).toFixed(1)+"s",repeatCount:"indefinite",begin:(Math.random()*3).toFixed(1)+"s"},c);
+    const mp = el("mpath",{},am); mp.setAttribute("href","#p-"+e.id); mp.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","#p-"+e.id);
+  }
+});
+const COL = {blue:"var(--blue)",violet:"var(--violet)",amber:"var(--amber)"};
+Object.entries(N).forEach(([id,n])=>{
+  const g = el("g",{class:"node"+(n.ext?" ext":""),"data-id":id,tabindex:"0",role:"button"},gN);
+  el("rect",{class:"box",x:n.x,y:n.y,width:n.w,height:n.h,rx:"10"},g);
+  el("rect",{x:n.x,y:n.y,width:"5",height:n.h,rx:"2.5",fill:COL[n.color]},g);
+  el("text",{x:n.x+16,y:n.y+18,class:"kind"},g).textContent = n.kind;
+  el("text",{x:n.x+16,y:n.y+38,class:"ttl"},g).textContent = n.ttl;
+  // wrap tech line
+  const words = n.tech.split(" "); let line="", ly=n.y+56, lines=[];
+  words.forEach(w=>{ if((line+" "+w).length>Math.max(18,Math.floor(n.w/6.2))){lines.push(line);line=w;} else line=(line?line+" ":"")+w; }); lines.push(line);
+  lines.slice(0, Math.floor((n.h-60)/14)).forEach((t,i)=>{ el("text",{x:n.x+16,y:ly+i*14,class:"tech"},g).textContent=t; });
+  if(id==="usr"){ ["Operador","Revisor","Validador ×4","Analista","Auditor","Admin plantillas"].forEach((r,i)=>{ const y=n.y+90+i*19; el("rect",{x:n.x+16,y:y-11,width:"110",height:"16",rx:"8",fill:"var(--violet-soft)"},g); el("text",{x:n.x+24,y:y+1,class:"tag",fill:"var(--violet)"},g).textContent=r; }); }
+  if(id==="wrk"){ ["normalizar","clasificar","extraer"].forEach((r,i)=>{ const x=n.x+16+i*64; el("rect",{x:x,y:n.y+118,width:"58",height:"18",rx:"9",fill:"var(--blue-soft)"},g); el("text",{x:x+29,y:n.y+130,class:"tag","text-anchor":"middle",fill:"var(--blue)"},g).textContent=r; }); }
+  if(id==="api"){ ["dominio","reglas","puertos"].forEach((r,i)=>{ const x=n.x+16+i*64; el("rect",{x:x,y:n.y+100,width:"58",height:"18",rx:"9",fill:"var(--blue-soft)"},g); el("text",{x:x+29,y:n.y+112,class:"tag","text-anchor":"middle",fill:"var(--blue)"},g).textContent=r; }); }
+  g.addEventListener("click", ()=>selectNode(id));
+  g.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();selectNode(id);} });
+});
+// frame labels
+el("text",{x:20,y:640,class:"mono muted","font-size":"10"}).textContent = "C4 · nivel 2 (contenedores) · tráfico ambiente = llamadas reales · clic en una caja para el detalle";
+el("text",{x:20,y:660,class:"mono muted","font-size":"10"}).textContent = "línea continua = HTTP/SQL · punteada = adaptador elegido por configuración · caja punteada = existe fuera del proyecto";
+
+function selectNode(id){
+  document.querySelectorAll(".node").forEach(n=>n.classList.toggle("sel", n.dataset.id===id));
+  const n = N[id];
+  $("#pn-t").textContent = n.ttl; $("#pn-r").textContent = n.resp;
+  $("#pn-kv").innerHTML = Object.entries(n.kv||{}).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("#pn-chips").innerHTML = `<span class="chip ${n.color==='violet'?'violet':n.color==='amber'?'amber':''}">${n.kind}</span>` + n.tech.split("·").map(t=>`<span class="chip ghost">${t.trim()}</span>`).join("");
+  $("#pn-steps-wrap").hidden = true;
+  // dim unrelated edges
+  E.forEach(e=>{ e.path.classList.toggle("dim", !(e.a===id||e.b===id)); e.path.classList.remove("hot"); });
+}
+let flowTimers = [];
+function runFlow(f){
+  flowTimers.forEach(clearTimeout); flowTimers=[];
+  document.querySelectorAll(".node").forEach(n=>n.classList.remove("sel"));
+  document.querySelectorAll("#flowbar .btn").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.f===f.id)));
+  E.forEach(e=>{ e.path.classList.remove("hot"); e.path.classList.toggle("dim", true); });
+  $("#pn-t").textContent = f.t; $("#pn-r").textContent = "Mira el recorrido en el diagrama. Cada paso enciende la llamada real que lo cumple.";
+  $("#pn-kv").innerHTML = ""; $("#pn-chips").innerHTML = "";
+  const ol = $("#pn-steps"); ol.innerHTML = f.steps.map(s=>`<li>${s[1]}</li>`).join(""); $("#pn-steps-wrap").hidden = false;
+  const gap = reduce ? 150 : 1100;
+  f.steps.forEach((s,i)=>{
+    flowTimers.push(setTimeout(()=>{
+      const e = E.find(x=>x.id===s[0]); e.path.classList.remove("dim"); e.path.classList.add("hot");
+      [...ol.children].forEach((li,k)=>li.classList.toggle("on", k===i));
+      [e.a,e.b].forEach(id=>document.querySelector(`.node[data-id="${id}"]`).classList.add("sel"));
+      if(!reduce){
+        const c = el("circle",{r:"5",class:"pk one"},gP);
+        const am = el("animateMotion",{dur:"1s",begin:"indefinite",fill:"freeze"},c);
+        const mp = el("mpath",{},am); mp.setAttribute("href","#p-"+e.id); mp.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","#p-"+e.id);
+        am.beginElement(); setTimeout(()=>c.remove(), 1200);
+      }
+    }, i*gap));
+  });
+  flowTimers.push(setTimeout(()=>{ E.forEach(e=>e.path.classList.remove("dim")); }, f.steps.length*gap+800));
+}
+$("#flowbar").innerHTML = `<span class="chip cyan" style="align-self:center">reproducir flujo</span>` + FLOWS.map(f=>`<button class="btn sm" data-f="${f.id}" aria-pressed="false">${f.t}</button>`).join("");
+$("#flowbar").addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; runFlow(FLOWS.find(f=>f.id===b.dataset.f)); });
+if(reduce && svg.pauseAnimations) svg.pauseAnimations();
+
+/* ---------- hexagonal ---------- */
+const HEX = {cols:[],cells:[],routes:[]};
+if($("#hex")){ // the hex view is optional (manual §1.5): its section may be deleted
+$("#hex").innerHTML = HEX.cols.map((c,i)=>`<div class="col"><h4>${c}</h4>${HEX.cells[i].map(x=>`<div class="cell ${x.core?'core':''} ${x.port?'port':''}" data-id="${x.id}"><b>${x.b}</b><small>${x.s}</small></div>`).join("")}</div>`).join("");
+$("#routes").innerHTML = HEX.routes.map(r=>`<button class="btn sm" data-r="${r.id}" aria-pressed="false">${r.t}</button>`).join("");
+$("#routes").addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const r = HEX.routes.find(x=>x.id===b.dataset.r);
+  const same = b.getAttribute("aria-pressed")==="true";
+  document.querySelectorAll("#routes .btn").forEach(x=>x.setAttribute("aria-pressed","false"));
+  document.querySelectorAll("#hex .cell").forEach(c=>{ c.classList.remove("lit","off"); });
+  if(same) return;
+  b.setAttribute("aria-pressed","true");
+  document.querySelectorAll("#hex .cell").forEach(c=>{ c.classList.toggle("lit", r.on.includes(c.dataset.id)); c.classList.toggle("off", !r.on.includes(c.dataset.id)); });
+});
+}
+
+/* ---------- user stories ---------- */
+const HU = [];
+if($("#hulist")) $("#hulist").innerHTML = HU.map(h=>`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span class="id">${h.id} · semana ${h.w.slice(1)}</span><span class="chips">${h.comp.map(c=>`<span class="chip ghost">${c}</span>`).join("")}</span></div><div><b>Como</b> ${h.como}, <b>quiero</b> ${h.quiero}, <b>para</b> ${h.para}.</div><ul>${h.crit.map(c=>`<li>${c}</li>`).join("")}</ul></div>`).join("");
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script>
+(function(){
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({startOnLoad:false, theme: dark?'dark':'default', securityLevel:'loose'});
+  function render(){ const v=document.querySelector('.view.active'); if(!v) return;
+    const n=[...v.querySelectorAll('pre.mermaid:not([data-processed])')]; if(n.length) mermaid.run({nodes:n}); }
+  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setTimeout(render,30)));
+  window.addEventListener('load',render);
+})();
+</script>
+</body></html>

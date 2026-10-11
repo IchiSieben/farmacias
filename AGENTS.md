@@ -7,6 +7,12 @@ Verify: `PYTHONIOENCODING=utf-8 py -m tests.test_matcher_regresion` (Windows) ·
 
 - tests-cmd: `.venv/bin/python -m tests.test_matcher_regresion`
 
+## enjambre priorities (prompt 20 — docs/conceptos/prioridades.md in enjambre)
+
+- Default class is `normal`; use `--priority alta` only for what the owner is waiting on now: it pauses `baja` work on the node (and evicts it if memory is short and it has a checkpoint).
+- Long, deferrable jobs (builds of every page, media, scraping batches) go as `--priority baja` (`--resumable` only with a real checkpoint); `nocturna` waits for 00:00–07:00 Lima.
+- Never pause or kill another job's processes by hand: `enjambre pausar|reanudar|desalojar <id>` (logged in state/scheduler.jsonl).
+
 ## Rules for any agent working in this repo
 
 - Edit only the paths the task file lists under "Files you may touch". Nothing else.
